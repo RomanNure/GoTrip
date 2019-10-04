@@ -19,7 +19,7 @@ create table company
       references registered_user,
   name       varchar(40) not null unique,
   email      varchar(40) not null
-);
+);а
 
 CREATE TABLE administrators
 (
