@@ -18,16 +18,20 @@ using System.Linq;
 [assembly: ExportRenderer(typeof(Img), typeof(ImgRenderer))]
 namespace CustomControls.Droid
 {
-    public class ImgRenderer : BoxRenderer
+    public class ImgRenderer : ClickableViewRenderer
     {
-        public Img TargetImage { get; private set; }
-        public Bitmap BitmapData { get; private set; }
+        private Img TargetImage;
+        private Bitmap BitmapData;
 
-        private bool Clicked = false;
+        private static readonly int[,] CORNER_PNT_TRANS_COEFS = new int[4, 4]
+        {
+            { 0,  1, 0,  1 },
+            { 1, -1, 0,  1 },
+            { 1, -1, 1, -1 },
+            { 0,  1, 1, -1 }
+        };
+
         private List<List<float>> Borders = new List<List<float>>();
-
-        public float Density => Resources.DisplayMetrics.Density;
-
         private static readonly Paint TransperentPaint = new Paint();
 
         public ImgRenderer(Context context) : base(context)
@@ -36,22 +40,18 @@ namespace CustomControls.Droid
             TransperentPaint.Color = Android.Graphics.Color.Transparent;
         }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<Xamarin.Forms.BoxView> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<BoxView> e)
         {
             base.OnElementChanged(e);
 
-            TargetImage = e.NewElement as Img;
+            TargetImage = Target as Img;
 
-            TargetImage.OnSourceChanged += () => UpdateBitmapData();
-            TargetImage.OnBorderRadiusChanged += () => UpdateBitmapData();
+            TargetImage.OnSourceChanged += () => { UpdateBitmapData(); PostInvalidate(); };
+            TargetImage.OnBorderRadiusChanged += () => { UpdateBitmapData(); PostInvalidate(); };
             TargetImage.OnBorderColorChanged += () => PostInvalidate();
 
             UpdateBitmapData();
-        }
-
-        private Android.Graphics.Color ColorConvert(Xamarin.Forms.Color C)
-        {
-            return new Android.Graphics.Color((byte)(C.R * 255), (byte)(C.G * 255), (byte)(C.B * 255), (byte)C.A * 255);
+            PostInvalidate();
         }
 
         private void UpdateBitmapData()
@@ -83,17 +83,7 @@ namespace CustomControls.Droid
                 AddBorderRadiusMask();
             }
             catch { BitmapData = null; }
-
-            PostInvalidate();
         }
-
-        private static readonly int[,] CORNER_PNT_TRANS_COEFS = new int[4, 4]
-        {
-            { 0,  1, 0,  1 },
-            { 1, -1, 0,  1 },
-            { 1, -1, 1, -1 },
-            { 0,  1, 1, -1 }
-        };
 
         private void AddBorderRadiusMask()
         {
@@ -180,7 +170,7 @@ namespace CustomControls.Droid
 
             tempBitmap.Dispose();
 
-            if (TargetImage.BorderAlways || TargetImage.ClickAnimation && Clicked)
+            if ((TargetImage.BorderAlways || TargetImage.ClickAnimation && Clicked) && TargetImage.ClickedBorderWidth != 0)
             {
                 for (int i = 0; i < Borders.Count; i++)
                 {
@@ -222,12 +212,8 @@ namespace CustomControls.Droid
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            if (TargetImage.Click(e))
-                return true;
-
-            Clicked = e.Action != MotionEventActions.Up;
+            base.OnTouchEvent(e);
             PostInvalidate();
-
             return true;
         }
     }

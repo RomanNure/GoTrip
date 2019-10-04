@@ -7,17 +7,11 @@ using Xamarin.Forms;
 
 namespace CustomControls
 {
-    public class Img : BoxView
+    public class Img : ClickableView
     {
-        public delegate void Changed();
-
         public event Changed OnSourceChanged;
         public event Changed OnBorderRadiusChanged;
         public event Changed OnBorderColorChanged;
-
-        public delegate bool MEClicked(MotionEvent ME);
-
-        public event MEClicked MEClick;
 
         public const int CORNERS_COUNT = 4;
         private int[] BorderRadiuses = new int[CORNERS_COUNT];
@@ -126,14 +120,6 @@ namespace CustomControls
         {
             get { return source; }
             set { source = value; OnSourceChanged?.Invoke(); }
-        }
-
-        public bool Click(MotionEvent ME)
-        {
-            if (MEClick == null)
-                return false;
-
-            return MEClick(ME);
         }
     }
 }

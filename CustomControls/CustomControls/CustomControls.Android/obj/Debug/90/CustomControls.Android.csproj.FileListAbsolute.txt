@@ -504,3 +504,6 @@ C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Andr
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ImgRenderer.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\TapTrackRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableViewRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\RadioButtonRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md5c9fde2581fee36adac9c1e60472f1973\CheckBoxRenderer.java

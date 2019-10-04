@@ -2,7 +2,7 @@ package md535f2532df83c8c224379554c3f7581c9;
 
 
 public class ImgRenderer
-	extends md51558244f76c53b6aeda52c8a337f2c37.BoxRenderer
+	extends md535f2532df83c8c224379554c3f7581c9.ClickableViewRenderer
 	implements
 		mono.android.IGCUserPeer
 {
