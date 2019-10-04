@@ -1,0 +1,16 @@
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\GoNTrip.deps.json
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\GoNTrip.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\ref\GoNTrip.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\GoNTrip.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\CustomControls.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.csprojAssemblyReference.cache
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\App.xaml.g.cs
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\MainPage.xaml.g.cs
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.csproj.CoreCompileInputs.cache
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.AssemblyInfoInputs.cache
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.AssemblyInfo.cs
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.csproj.CopyComplete
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\ref\GoNTrip.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.pdb
