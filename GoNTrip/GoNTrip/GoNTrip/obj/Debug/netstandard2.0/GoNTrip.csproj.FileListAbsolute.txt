@@ -14,3 +14,7 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\ref\GoNTrip.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\GoNTrip.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\Pages\SignUpPage.xaml.g.cs
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\Mono.Android.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\Mono.Android.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\Mono.Android.xml

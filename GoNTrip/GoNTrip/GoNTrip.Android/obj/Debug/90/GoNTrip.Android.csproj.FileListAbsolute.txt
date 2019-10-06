@@ -1,7 +1,5 @@
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.Android.pdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\com.companyname.apk
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\com.companyname-Signed.apk
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\FormsViewGroup.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Mono.Android.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\mscorlib.pdb
@@ -27,7 +25,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Mono.Se
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.dll.mdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Xamarin.Essentials.dll.mdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\CustomControls.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\MonoAndroid,Version=v9.0.AssemblyAttributes.cs
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\build.props
@@ -41,7 +38,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\Xaml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\GoNTrip.Android.csproj.CopyComplete
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\GoNTrip.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\GoNTrip.Android.pdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\bin\com.companyname.apk
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\layout\tabbar.xml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\layout\toolbar.xml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\values\styles.xml
@@ -524,8 +520,17 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\stam
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\CustomControls.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\linksrc\CustomControls.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\CustomControls.Android.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md5c9fde2581fee36adac9c1e60472f1973\CheckBoxRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableViewRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ImgRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\RadioButtonRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\TapTrackRenderer.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\CustomControls.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\CheckBoxRenderer.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableContentViewRenderer.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableStackLayoutRenderer.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\SelectBoxRenderer.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Runtime.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.GoNTrip.apk
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.GoNTrip-Signed.apk
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\bin\GoNTrip.GoNTrip.apk
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\gontrip\gontrip\R.java

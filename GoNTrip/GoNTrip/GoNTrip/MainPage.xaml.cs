@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
+using GoNTrip.Pages;
+
 using Xamarin.Forms;
 
 namespace GoNTrip
@@ -16,6 +15,12 @@ namespace GoNTrip
         public MainPage()
         {
             InitializeComponent();
+            this.Appearing += MainPage_Appearing;
+        }
+
+        private void MainPage_Appearing(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new SignUpPage();
         }
     }
 }

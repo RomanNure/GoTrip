@@ -1,4 +1,6 @@
+CustomControls.Android
 FormsViewGroup
+GoNTrip
 System.Runtime
 Xamarin.Android.Arch.Core.Common
 Xamarin.Android.Arch.Core.Runtime
@@ -44,7 +46,3 @@ Xamarin.Forms.Core
 Xamarin.Forms.Platform.Android
 Xamarin.Forms.Platform
 Xamarin.Forms.Xaml
-GoNTrip
-netstandard
-CustomControls
-CustomControls.Android

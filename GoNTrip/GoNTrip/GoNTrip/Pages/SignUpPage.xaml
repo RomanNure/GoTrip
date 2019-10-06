@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:CustomControls;assembly=CustomControls"
+             mc:Ignorable="d"
+             x:Class="GoNTrip.Pages.SignUpPage">
+
+    <ContentPage.Resources>
+
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
+            
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="{StaticResource ContentBackColor}">
+                    <Grid VerticalOptions="FillAndExpand">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="10*"/>
+                            <RowDefinition Height="80*"/>
+                            <RowDefinition Height="10*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <BoxView Style="{StaticResource BoxViewBar}" x:Name="Header" Grid.Row="0"/>
+
+                        <StackLayout VerticalOptions="CenterAndExpand" Margin="10,0,10,0" Grid.Row="1">
+                            <Button Style="{StaticResource CommonButton}" x:Name="SignUpButton" Clicked="SignUpButton_Clicked" VerticalOptions="Center" Text="Sign Up"/>
+                            <Button Style="{StaticResource CommonButton}" x:Name="LogInButton" Clicked="LogInButton_Clicked" VerticalOptions="Center" Text="Log In"/>
+                        </StackLayout>
+
+                        <BoxView Style="{StaticResource BoxViewBar}" x:Name="Footer" Grid.Row="2"/>
+                    </Grid>
+                </StackLayout>
+            </StackLayout>
+
+            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="SignUpPopup" OnClick="SignUpPopup_OnClick" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableStackLayout Style="{StaticResource PopupOuterStackLayout}" x:Name="SignUpPopupOuterLayout" OnClick="SignUpPopupOuterLayout_OnClick" BackgroundColor="{StaticResource BarBackColor}">
+                    <StackLayout Style="{StaticResource PopupInnerStackLayout}" HeightRequest="250" WidthRequest="200">
+
+                        <Label Style="{StaticResource LabelBar}" Text="Signing Up" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpLoginEntry" Placeholder="Login"/>
+                        <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordEntry" Placeholder="Password"/>
+                        <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordConfirmEntry" Placeholder="Confirm Password"/>
+                        <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpEmailEntry" Placeholder="Email"/>
+                        <Button Style="{StaticResource PopupButton}" x:Name="SignUpPopupConfirm" VerticalOptions="End" Text="Sign Up" Clicked="SignUpPopupConfirm_Clicked"/>
+                        
+                    </StackLayout>
+                </local:ClickableStackLayout>
+            </local:ClickableContentView>
+
+            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="LogInPopup" OnClick="LogInPopup_OnClick" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableStackLayout Style="{StaticResource PopupOuterStackLayout}" x:Name="LogInPopupOuterLayout" OnClick="LogInPopupOuterLayout_OnClick" BackgroundColor="{StaticResource BarBackColor}">
+                    <StackLayout Style="{StaticResource PopupInnerStackLayout}" HeightRequest="200" WidthRequest="200">
+
+                        <Label Style="{StaticResource LabelBar}" Text="Logging In" HorizontalTextAlignment="Center" FontSize="20"/>
+                        <Entry Style="{StaticResource PopupEntry}" x:Name="LogInLoginEntry" Placeholder="Login"/>
+                        <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Placeholder="Password"/>
+                        <Button Style="{StaticResource PopupButton}" x:Name="LogInPopupConfirm" VerticalOptions="End" Text="Log In" Clicked="LogInPopupConfirm_Clicked"/>
+
+                    </StackLayout>
+                </local:ClickableStackLayout>
+            </local:ClickableContentView>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+    
+</ContentPage>
