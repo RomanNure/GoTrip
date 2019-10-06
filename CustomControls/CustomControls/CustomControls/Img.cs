@@ -41,34 +41,39 @@ namespace CustomControls
         public Color TopColor
         {
             get { return BorderColors[(int)Sides.TOP]; }
-            set { BorderColors[(int)Sides.TOP] = value; OnBorderColorChanged?.Invoke(); }
+            set { Color old = BorderColors[(int)Sides.TOP]; BorderColors[(int)Sides.TOP] = value; IfChangedCall(old, BorderColors[(int)Sides.TOP], OnBorderColorChanged); }
         }
 
         public Color RightColor
         {
             get { return BorderColors[(int)Sides.RIGHT]; }
-            set { BorderColors[(int)Sides.RIGHT] = value; OnBorderColorChanged?.Invoke(); }
+            set { Color old = BorderColors[(int)Sides.RIGHT]; BorderColors[(int)Sides.RIGHT] = value; IfChangedCall(old, BorderColors[(int)Sides.RIGHT], OnBorderColorChanged); }
         }
 
         public Color BotColor
         {
             get { return BorderColors[(int)Sides.BOT]; }
-            set { BorderColors[(int)Sides.BOT] = value; OnBorderColorChanged?.Invoke(); }
+            set { Color old = BorderColors[(int)Sides.BOT]; BorderColors[(int)Sides.BOT] = value; IfChangedCall(old, BorderColors[(int)Sides.BOT], OnBorderColorChanged); }
         }
 
         public Color LeftColor
         {
             get { return BorderColors[(int)Sides.LEFT]; }
-            set { BorderColors[(int)Sides.LEFT] = value; OnBorderColorChanged?.Invoke(); }
+            set { Color old = BorderColors[(int)Sides.LEFT]; BorderColors[(int)Sides.LEFT] = value; IfChangedCall(old, BorderColors[(int)Sides.LEFT], OnBorderColorChanged); }
         }
 
         public Color ClickedBorderColor
         {
             set
             {
+                bool call = false;
                 for (int i = 0; i < SIDES_COUNT; i++)
+                {
+                    call |= BorderColors[i] != value;
                     BorderColors[i] = value;
-                OnBorderColorChanged?.Invoke();
+                }
+
+                if(call) OnBorderColorChanged?.Invoke(this);
             }
         }
 
@@ -84,34 +89,38 @@ namespace CustomControls
         public int TopLeftBorderRadius
         {
             get { return BorderRadiuses[(int)Corners.TOP_LEFT]; }
-            set { BorderRadiuses[(int)Corners.TOP_LEFT] = value; OnBorderRadiusChanged?.Invoke(); }
+            set { int old = BorderRadiuses[(int)Corners.TOP_LEFT]; BorderRadiuses[(int)Corners.TOP_LEFT] = value; IfChangedCall(old, BorderRadiuses[(int)Corners.TOP_LEFT], OnBorderRadiusChanged); }
         }
 
         public int TopRightBorderRadius
         {
             get { return BorderRadiuses[(int)Corners.TOP_RIGHT]; }
-            set { BorderRadiuses[(int)Corners.TOP_RIGHT] = value; OnBorderRadiusChanged?.Invoke(); }
+            set { int old = BorderRadiuses[(int)Corners.TOP_RIGHT]; BorderRadiuses[(int)Corners.TOP_RIGHT] = value; IfChangedCall(old, BorderRadiuses[(int)Corners.TOP_RIGHT], OnBorderRadiusChanged); }
         }
 
         public int BotRightBorderRadius
         {
             get { return BorderRadiuses[(int)Corners.BOT_RIGHT]; }
-            set { BorderRadiuses[(int)Corners.BOT_RIGHT] = value; OnBorderRadiusChanged?.Invoke(); }
+            set { int old = BorderRadiuses[(int)Corners.BOT_RIGHT]; BorderRadiuses[(int)Corners.BOT_RIGHT] = value; IfChangedCall(old, BorderRadiuses[(int)Corners.BOT_RIGHT], OnBorderRadiusChanged); }
         }
 
         public int BotLeftBorderRadius
         {
             get { return BorderRadiuses[(int)Corners.BOT_LEFT]; }
-            set { BorderRadiuses[(int)Corners.BOT_LEFT] = value; OnBorderRadiusChanged?.Invoke(); }
+            set { int old = BorderRadiuses[(int)Corners.BOT_LEFT]; BorderRadiuses[(int)Corners.BOT_LEFT] = value; IfChangedCall(old, BorderRadiuses[(int)Corners.BOT_LEFT], OnBorderRadiusChanged); }
         }
 
         public int BorderRadius
         {
             set
             {
+                bool call = false;
                 for (int i = 0; i < BorderRadiuses.Length; i++)
+                {
+                    call |= BorderRadiuses[i] != value;
                     BorderRadiuses[i] = value;
-                OnBorderRadiusChanged?.Invoke();
+                }
+                if(call) OnBorderRadiusChanged?.Invoke(this);
             }
         }
 
@@ -119,7 +128,7 @@ namespace CustomControls
         public string Source
         {
             get { return source; }
-            set { source = value; OnSourceChanged?.Invoke(); }
+            set { source = value; OnSourceChanged?.Invoke(this); }
         }
     }
 }

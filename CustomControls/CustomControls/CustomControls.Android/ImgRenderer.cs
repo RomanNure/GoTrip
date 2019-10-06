@@ -46,9 +46,9 @@ namespace CustomControls.Droid
 
             TargetImage = Target as Img;
 
-            TargetImage.OnSourceChanged += () => { UpdateBitmapData(); PostInvalidate(); };
-            TargetImage.OnBorderRadiusChanged += () => { UpdateBitmapData(); PostInvalidate(); };
-            TargetImage.OnBorderColorChanged += () => PostInvalidate();
+            TargetImage.OnSourceChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
+            TargetImage.OnBorderRadiusChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
+            TargetImage.OnBorderColorChanged += sender => PostInvalidate();
 
             UpdateBitmapData();
             PostInvalidate();
@@ -92,7 +92,7 @@ namespace CustomControls.Droid
 
             Borders.Clear();
 
-            for (int i = 0; i <= Img.SIDES_COUNT; i++)
+            for(int i = 0; i <= Img.SIDES_COUNT; i++)
                 Borders.Add(new List<float>());
             int side = 0;
 
@@ -124,7 +124,7 @@ namespace CustomControls.Droid
                     Borders[side].Add(x);
                     Borders[side].Add(by);
 
-                    if (i > dColor != isColorChanged)
+                    if(i > dColor != isColorChanged)
                     {
                         Borders[++side].Add(x);
                         Borders[side].Add(by);
@@ -133,7 +133,7 @@ namespace CustomControls.Droid
                     }
                 }
 
-                if (borderRadius == 0)
+                if(borderRadius == 0)
                 {
                     int x = (int)(TargetImage.WidthRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 0]);
                     int y = (int)(TargetImage.HeightRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 2]);
@@ -212,7 +212,9 @@ namespace CustomControls.Droid
 
         public override bool OnTouchEvent(MotionEvent e)
         {
-            base.OnTouchEvent(e);
+            if (base.OnTouchEvent(e))
+                return true;
+
             PostInvalidate();
             return true;
         }

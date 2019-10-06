@@ -11,9 +11,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(CheckBox), typeof(CheckBoxRenderer))]
-namespace CustomControls
+namespace CustomControls.Droid
 {
-    public class CheckBoxRenderer : ClickableViewRenderer
+    public class CheckBoxRenderer : SelectBoxRenderer
     {
         private CheckBox TargetCheckBox;
         private Paint OuterP = new Paint();
@@ -36,7 +36,7 @@ namespace CustomControls
             UpdatePaints();
         }
 
-        private void UpdatePaints()
+        private void UpdatePaints(ClickableView sender = null)
         {
             OuterP.StrokeWidth = TargetCheckBox.OuterWidth * Density;
             OuterP.Color = ColorConvert(TargetCheckBox.OuterColor);
@@ -70,11 +70,6 @@ namespace CustomControls
         public override bool OnTouchEvent(MotionEvent e)
         {
             base.OnTouchEvent(e);
-
-            if (e.Action == MotionEventActions.Down)
-                TargetCheckBox.Checked = !TargetCheckBox.Checked;
-            PostInvalidate();
-
             return true;
         }
     }

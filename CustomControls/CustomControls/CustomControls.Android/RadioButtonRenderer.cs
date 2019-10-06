@@ -14,7 +14,7 @@ using Xamarin.Forms.Platform.Android;
 [assembly: ExportRenderer(typeof(RadioButton), typeof(RadioButtonRenderer))]
 namespace CustomControls.Droid
 {
-    public class RadioButtonRenderer : ClickableViewRenderer
+    public class RadioButtonRenderer : SelectBoxRenderer
     {
         private RadioButton TargetRadioButton;
         private Paint OuterP = new Paint();
@@ -37,7 +37,7 @@ namespace CustomControls.Droid
             UpdatePaints();
         }
 
-        private void UpdatePaints()
+        private void UpdatePaints(ClickableView sender = null)
         {
             OuterP.StrokeWidth = TargetRadioButton.OuterWidth * Density;
             OuterP.Color = ColorConvert(TargetRadioButton.OuterColor);
@@ -69,11 +69,6 @@ namespace CustomControls.Droid
         public override bool OnTouchEvent(MotionEvent e)
         {
             base.OnTouchEvent(e);
-
-            if (e.Action == MotionEventActions.Down)
-                TargetRadioButton.Checked = !TargetRadioButton.Checked;
-            PostInvalidate();
-
             return true;
         }
     }

@@ -33,7 +33,7 @@ namespace CustomControls.Droid
                 return true;
 
             Clicked = e.Action != MotionEventActions.Up;
-            return true;
+            return false;
         }
     }
 }

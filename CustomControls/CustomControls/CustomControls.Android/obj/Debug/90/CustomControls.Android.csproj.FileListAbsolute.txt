@@ -302,7 +302,6 @@ C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Andr
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\SwitchRenderer.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\TabbedPageRenderer.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md58432a647068b097f9637064b8985a5e0\ViewRenderer_2.java
-C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md57d95683b71d2dc420b18b8676098a740\TapTrackRenderer.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\mono\android\support\design\widget\AppBarLayout_OnOffsetChangedListenerImplementor.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\mono\android\support\design\widget\BottomNavigationView_OnNavigationItemReselectedListenerImplementor.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\mono\android\support\design\widget\BottomNavigationView_OnNavigationItemSelectedListenerImplementor.java
@@ -506,4 +505,7 @@ C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Andr
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\TapTrackRenderer.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableViewRenderer.java
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\RadioButtonRenderer.java
-C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md5c9fde2581fee36adac9c1e60472f1973\CheckBoxRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\CheckBoxRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableContentViewRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableStackLayoutRenderer.java
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\SelectBoxRenderer.java

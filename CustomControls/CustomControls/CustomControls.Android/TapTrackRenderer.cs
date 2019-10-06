@@ -1,5 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+
+using Android.App;
 using Android.Content;
 using Android.Graphics;
 using Android.Views;
@@ -12,7 +16,7 @@ using Xamarin.Forms.Platform.Android;
 
 [assembly: ExportRenderer(typeof(TapTrackView), typeof(TapTrackRenderer))]
 namespace CustomControls.Droid
-{
+{ 
     public class TapTrackRenderer : ViewRenderer
     {
         private Paint P = new Paint();
@@ -39,7 +43,7 @@ namespace CustomControls.Droid
         protected override void OnDraw(Canvas canvas)
         {
             canvas.DrawColor(Android.Graphics.Color.Red);
-            foreach (List<Xamarin.Forms.Point> PG in TTV.PointGroups)
+            foreach(List<Xamarin.Forms.Point> PG in TTV.PointGroups)
             {
                 for (int i = 0; i < PG.Count - 1; i++)
                 {

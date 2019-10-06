@@ -2,7 +2,6 @@ C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\Debug\netstandard2.0\CustomControls.dll
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\Debug\netstandard2.0\ref\CustomControls.dll
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\Debug\netstandard2.0\CustomControls.pdb
-C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\obj\Debug\netstandard2.0\CustomControls.csprojAssemblyReference.cache
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\obj\Debug\netstandard2.0\CustomControls.csproj.CoreCompileInputs.cache
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\obj\Debug\netstandard2.0\CustomControls.AssemblyInfoInputs.cache
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\obj\Debug\netstandard2.0\CustomControls.AssemblyInfo.cs

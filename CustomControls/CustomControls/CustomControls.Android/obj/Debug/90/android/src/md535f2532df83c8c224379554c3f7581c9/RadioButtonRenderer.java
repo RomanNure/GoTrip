@@ -2,7 +2,7 @@ package md535f2532df83c8c224379554c3f7581c9;
 
 
 public class RadioButtonRenderer
-	extends md535f2532df83c8c224379554c3f7581c9.ClickableViewRenderer
+	extends md535f2532df83c8c224379554c3f7581c9.SelectBoxRenderer
 	implements
 		mono.android.IGCUserPeer
 {

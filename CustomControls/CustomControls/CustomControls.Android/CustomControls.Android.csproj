@@ -64,10 +64,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CheckBoxRenderer.cs" />
+    <Compile Include="ClickableContentViewRenderer.cs" />
+    <Compile Include="ClickableStackLayoutRenderer.cs" />
     <Compile Include="ClickableViewRenderer.cs" />
     <Compile Include="ImgRenderer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RadioButtonRenderer.cs" />
+    <Compile Include="SelectBoxRenderer.cs" />
     <Compile Include="TapTrackRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
