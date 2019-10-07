@@ -3,7 +3,7 @@ CREATE TABLE registered_user
   registered_user_id     bigserial   NOT NULL UNIQUE PRIMARY KEY,
   login                  varchar(20) NOT NULL UNIQUE,
   password               varchar(30) NOT NULL,
-  email                  varchar(40) NOT NULL,
+  email                  varchar(50) NOT NULL,
   full_name              varchar(40),
   phone                  varchar(15),
   registration_date_time timestamp   NOT NULL,

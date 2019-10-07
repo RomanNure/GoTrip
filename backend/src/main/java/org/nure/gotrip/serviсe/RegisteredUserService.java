@@ -4,7 +4,9 @@ import org.nure.gotrip.model.RegisteredUser;
 
 public interface RegisteredUserService {
 
-    void save(RegisteredUser user);
+    RegisteredUser add(RegisteredUser user);
+
+    RegisteredUser update(RegisteredUser user);
 
     RegisteredUser findById(long id);
 
