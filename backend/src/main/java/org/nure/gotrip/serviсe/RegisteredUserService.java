@@ -4,11 +4,11 @@ import org.nure.gotrip.model.RegisteredUser;
 
 public interface RegisteredUserService {
 
-    RegisteredUser add(RegisteredUser user);
+	void add(RegisteredUser user);
 
-    RegisteredUser update(RegisteredUser user);
+	RegisteredUser update(RegisteredUser user);
 
-    RegisteredUser findById(long id);
+	RegisteredUser findById(long id);
 
-    Iterable<RegisteredUser> findAll();
+	Iterable<RegisteredUser> findAll();
 }
