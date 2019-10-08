@@ -29,6 +29,14 @@ namespace CustomControls.Droid
 
         public override bool OnTouchEvent(MotionEvent e)
         {
+            if (Target.ClickAnimation && Target.ScaleOnClicked != 1)
+            {
+                if (e.Action == MotionEventActions.Down)
+                    Target.ScaleTo(Target.ScaleOnClicked, Target.ClickAnimationDuration);
+                else if (e.Action == MotionEventActions.Up)
+                    Target.ScaleTo(1.0f / Target.ScaleOnClicked, Target.ClickAnimationDuration);
+            }
+
             if (Target.Click(e))
                 return true;
 
