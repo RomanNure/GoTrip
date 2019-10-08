@@ -23,14 +23,14 @@
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "monoandroid90"
+          "monoandroid81"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://www.nuget.org/api/v2/": {}
         },
         "frameworks": {
-          "monoandroid90": {
+          "monoandroid81": {
             "projectReferences": {
               "C:\\Users\\Олег\\source\\repos\\GoNTrip\\GoNTrip\\GoNTrip\\GoNTrip.csproj": {
                 "projectPath": "C:\\Users\\Олег\\source\\repos\\GoNTrip\\GoNTrip\\GoNTrip\\GoNTrip.csproj"
@@ -40,7 +40,7 @@
         }
       },
       "frameworks": {
-        "monoandroid90": {
+        "monoandroid81": {
           "dependencies": {
             "Xamarin.Android.Support.Core.Utils": {
               "target": "Package",

@@ -5503,6 +5503,7 @@ containing a value of this type.
         public static int CardView_Light=0x7f0d000e;
         public static int MainTheme=0x7f0d01ff;
         /**  Base theme applied no matter what API 
+<item name="android:windowBackground">@mipmap/launcher_foreground</item>
          */
         public static int MainTheme_Base=0x7f0d0200;
         public static int Platform_AppCompat=0x7f0d007e;

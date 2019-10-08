@@ -45,15 +45,10 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-anydpi-v26\icon.xml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-anydpi-v26\icon_round.xml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-hdpi\icon.png
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-hdpi\launcher_foreground.png
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-mdpi\icon.png
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-mdpi\launcher_foreground.png
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xhdpi\icon.png
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xhdpi\launcher_foreground.png
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xxhdpi\icon.png
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xxhdpi\launcher_foreground.png
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xxxhdpi\icon.png
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xxxhdpi\launcher_foreground.png
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\R.cs.flag
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\R.txt
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\uploadflags.txt
@@ -534,3 +529,8 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.GoNTrip-Signed.apk
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\bin\GoNTrip.GoNTrip.apk
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\gontrip\gontrip\R.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-hdpi\launcher_foreground.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-mdpi\launcher_foreground.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xhdpi\launcher_foreground.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xxhdpi\launcher_foreground.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\res\mipmap-xxxhdpi\launcher_foreground.jpg

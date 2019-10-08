@@ -36,14 +36,18 @@
             <Setter Property="AbsoluteLayout.LayoutFlags" Value="All"/>
         </Style>
 
-        <Style x:Key="PopupOuterStackLayout" TargetType="StackLayout" ApplyToDerivedTypes="True">
+        <Style x:Key="PopupOuterFrame" TargetType="Frame" ApplyToDerivedTypes="True">
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
+            <Setter Property="BackgroundColor" Value="Transparent"/>
+            <Setter Property="Padding" Value="10"/>
         </Style>
 
-        <Style x:Key="PopupInnerStackLayout" TargetType="StackLayout">
-            <Setter Property="Orientation" Value="Vertical"/>
+        <Style x:Key="PopupInnerFrame" TargetType="Frame" ApplyToDerivedTypes="True">
+            <Setter Property="Padding" Value="10"/>
         </Style>
+        
+        
 
         <Style x:Key="CommonButton" TargetType="Button">
             <Setter Property="BackgroundColor" Value="{StaticResource AdditionalColor}"/>
@@ -62,14 +66,23 @@
             <Setter Property="TextColor" Value="{StaticResource BarFontColor}"/>
         </Style>
 
-        <Style x:Key="PopupEntry" TargetType="Entry">
+        
+        <Style x:Key="PopupInnerView" TargetType="View" ApplyToDerivedTypes="True">
+            <Setter Property="Margin" Value="-10,0,-10,0"/>
+        </Style>
+
+        <Style x:Key="PopupLabel" TargetType="Label" BasedOn="{StaticResource LabelBar}">
+            <Setter Property="Margin" Value="-10,0,-10,0"/>
+        </Style>
+
+        <Style x:Key="PopupEntry" TargetType="Entry" BasedOn="{StaticResource PopupInnerView}">
             <Setter Property="HorizontalTextAlignment" Value="Center"/>
             <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
             <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
             <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
         </Style>
 
-        <Style x:Key="PopupButton" TargetType="Button">
+        <Style x:Key="PopupButton" TargetType="Button" BasedOn="{StaticResource PopupInnerView}">
             <Setter Property="BackgroundColor" Value="{StaticResource AdditionalColor}"/>
             <Setter Property="TextColor" Value="{StaticResource BarFontColor}"/>
             <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
