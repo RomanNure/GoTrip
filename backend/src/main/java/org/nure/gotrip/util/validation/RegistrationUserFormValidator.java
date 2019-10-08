@@ -1,7 +1,7 @@
 package org.nure.gotrip.util.validation;
 
 import org.nure.gotrip.exception.ValidationException;
-import org.nure.gotrip.model.dto.UserRegistrationFormDto;
+import org.nure.gotrip.dto.UserRegistrationFormDto;
 import org.springframework.stereotype.Component;
 
 @Component

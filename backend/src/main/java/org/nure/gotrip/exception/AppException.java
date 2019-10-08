@@ -1,8 +1,8 @@
 package org.nure.gotrip.exception;
 
-public class AppException extends RuntimeException {
+class AppException extends Exception {
 
-	public AppException(String message) {
+	AppException(String message) {
 		super(message);
 	}
 }

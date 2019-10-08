@@ -1,4 +1,4 @@
-package org.nure.gotrip.model.dto;
+package org.nure.gotrip.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

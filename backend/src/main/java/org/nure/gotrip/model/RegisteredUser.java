@@ -1,5 +1,7 @@
 package org.nure.gotrip.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,6 +24,7 @@ public class RegisteredUser {
 	@Column(name = "login")
 	private String login;
 
+	@JsonIgnore
 	@Column(name = "password")
 	private String password;
 

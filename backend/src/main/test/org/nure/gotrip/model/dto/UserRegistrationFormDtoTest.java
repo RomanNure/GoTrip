@@ -1,4 +1,4 @@
-package org.nure.gotrip.model.dto;
+package org.nure.gotrip.dto;
 
 import org.junit.Assert;
 import org.junit.Test;

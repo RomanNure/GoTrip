@@ -1,13 +1,13 @@
-package org.nure.gotrip.serviсe.impl;
+package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueUserException;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.repository.RegisteredUserRepository;
-import org.nure.gotrip.serviсe.RegisteredUserService;
+import org.nure.gotrip.service.RegisteredUserService;
 import org.nure.gotrip.util.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,12 +25,12 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		this.encoder = encoder;
 	}
 
-	public void add(RegisteredUser user) {
+	public void add(RegisteredUser user) throws NotUniqueUserException{
 		try {
 			user.setPassword(encoder.encode(user.getPassword()));
 			user.setRegistrationDatetime(new Date(System.currentTimeMillis()));
 			registeredUserRepository.save(user);
-		} catch (DuplicateKeyException ex) {
+		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueUserException("The database contains a user with this login");
 		}
 	}
@@ -39,7 +39,7 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		return registeredUserRepository.save(user);
 	}
 
-	public RegisteredUser findById(long id) {
+	public RegisteredUser findById(long id) throws NotFoundUserException{
 		return registeredUserRepository.findById(id).orElseThrow(() -> new NotFoundUserException("User did not find by id"));
 	}
 
