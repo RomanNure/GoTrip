@@ -4,19 +4,17 @@ using Xamarin.Forms;
 
 namespace CustomControls
 {
-    public class ClickableView : BoxView
+    public class ClickableView : BoxView, IClickable
     {
         public delegate void Changed(ClickableView sender);
-        public delegate bool MEClicked(MotionEvent ME, ClickableView sender);
-
-        public event MEClicked MEClick;
+        public event Clicked OnClick;
 
         public bool Click(MotionEvent ME)
         {
-            if (MEClick == null)
+            if (OnClick == null)
                 return false;
 
-            return MEClick(ME, this);
+            return OnClick(ME, this);
         }
 
         protected void IfChangedCall(Object oldV, Object newV, Changed eventToCall)

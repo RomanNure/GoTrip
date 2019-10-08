@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="CheckBoxRenderer.cs" />
     <Compile Include="ClickableContentViewRenderer.cs" />
+    <Compile Include="ClickableFrameRenderer.cs" />
     <Compile Include="ClickableStackLayoutRenderer.cs" />
     <Compile Include="ClickableViewRenderer.cs" />
     <Compile Include="ImgRenderer.cs" />

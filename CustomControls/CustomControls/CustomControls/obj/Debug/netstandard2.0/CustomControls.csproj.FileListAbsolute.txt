@@ -13,3 +13,4 @@ C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\Debug\netstandard2.0\Mono.Android.pdb
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\bin\Debug\netstandard2.0\Mono.Android.xml
 C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\obj\Debug\netstandard2.0\CustomControls.csproj.CopyComplete
+C:\Users\Олег\source\repos\CustomControls\CustomControls\CustomControls\obj\Debug\netstandard2.0\CustomControls.csprojAssemblyReference.cache

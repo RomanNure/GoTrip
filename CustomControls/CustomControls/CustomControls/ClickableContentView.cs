@@ -3,9 +3,8 @@ using Xamarin.Forms;
 
 namespace CustomControls
 {
-    public class ClickableContentView : ContentView
+    public class ClickableContentView : ContentView, IClickable
     {
-        public delegate bool Clicked(MotionEvent ME, ClickableContentView sender);
         public event Clicked OnClick;
 
         public bool Click(MotionEvent ME)
