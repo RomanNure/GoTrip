@@ -42,7 +42,7 @@ export default class Header extends Component {
                         aria-labelledby="modal-title"
                         aria-describedby="modal-description"
                         open={this.state.openRegistr}
-                        onBackdropClick={() => this.setState({ openLogin: false })}
+                        onBackdropClick={() => this.setState({ openRegistr: false })}
                     >
                         <SignUp />
                     </Modal>
