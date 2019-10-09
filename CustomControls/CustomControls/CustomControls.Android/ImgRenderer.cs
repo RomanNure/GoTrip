@@ -63,13 +63,9 @@ namespace CustomControls.Droid
                 return;
             }
 
-            Uri url = new Uri(TargetImage.Source);
-            HttpWebRequest request = new HttpWebRequest(url);
-
             try
             {
-                Stream response = request.GetResponse().GetResponseStream();
-                Bitmap temp = BitmapFactory.DecodeStream(response);
+                Bitmap temp = LoadBitmap(TargetImage.Source);
 
                 TargetImage.WidthRequest = TargetImage.WidthRequest == -1 ? temp.Width / Density : TargetImage.WidthRequest;
                 TargetImage.HeightRequest = TargetImage.HeightRequest == -1 ? temp.Height / Density : TargetImage.HeightRequest;
@@ -83,6 +79,23 @@ namespace CustomControls.Droid
                 AddBorderRadiusMask();
             }
             catch { BitmapData = null; }
+        }
+
+        private Bitmap LoadBitmap(string path)
+        {
+            try
+            {
+                Stream str = Android.App.Application.Context.Assets.Open(path);
+                return BitmapFactory.DecodeStream(str);
+            }
+            catch
+            {
+                Uri url = new Uri(TargetImage.Source);
+                HttpWebRequest request = new HttpWebRequest(url);
+
+                Stream response = request.GetResponse().GetResponseStream();
+                return BitmapFactory.DecodeStream(response);
+            }
         }
 
         private void AddBorderRadiusMask()
