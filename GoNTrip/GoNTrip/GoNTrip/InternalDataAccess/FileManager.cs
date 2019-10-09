@@ -8,7 +8,7 @@ namespace GoNTrip.InternalDataAccess
         public string FilePath { get; private set; }
 
         public FileManager(Environment.SpecialFolder folder, string filename) =>
-            this.FilePath = $"{Environment.GetFolderPath(folder)}/{filename}";
+            FilePath = $"{Environment.GetFolderPath(folder)}/{filename}";
 
         public void CreateFile()
         {

@@ -1,4 +1,6 @@
-﻿using GoNTrip.Model;
+﻿using System;
+
+using GoNTrip.Model;
 using GoNTrip.ServerAccess;
 
 using Newtonsoft.Json;
@@ -9,7 +11,17 @@ namespace GoNTrip.ServerInteraction.ResponseParsers.Auth
     {
         public ModelElement Parse(IServerResponse modelElementJSON)
         {
-            return JsonConvert.DeserializeObject<User>(modelElementJSON.Data);
+            ResponseException ex = null;
+            try
+            {
+                ex = JsonConvert.DeserializeObject<ResponseException>(modelElementJSON.Data);
+            }
+            catch
+            {
+                return JsonConvert.DeserializeObject<User>(modelElementJSON.Data);
+            }
+
+            throw ex;
         }
     }
 }

@@ -1,15 +1,16 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Net;
+using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Linq;
 
 namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
     {
-        public const string SERVER_URL = "http://93.76.235.211:5000";
+        public const string SERVER_URL = "https://go-trip.herokuapp.com";
 
         private string serverUrl = "";
         public string ServerURL { get { return serverUrl; } set { serverUrl = LastSlash.Replace(value, ""); } }
@@ -57,15 +58,29 @@ namespace GoNTrip.ServerAccess
 
         private (string, Dictionary<string, string>) GetResponse(HttpWebRequest request, IList<string> neededHeadersNames)
         {
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-            using (StreamReader str = new StreamReader(response.GetResponseStream()))
+            Dictionary<string, string> Headers = new Dictionary<string, string>();
+            try
             {
-                Dictionary<string, string> Headers = new Dictionary<string, string>();
-                foreach (string neededHeaderName in neededHeadersNames)
-                    if(response.Headers.AllKeys.ToList().Contains(neededHeaderName))
-                        Headers.Add(neededHeaderName, response.Headers[neededHeaderName]);
+                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+                using (StreamReader str = new StreamReader(response.GetResponseStream()))
+                {
+                    foreach (string neededHeaderName in neededHeadersNames)
+                        if (response.Headers.AllKeys.ToList().Contains(neededHeaderName))
+                            Headers.Add(neededHeaderName, response.Headers[neededHeaderName]);
 
-                return (str.ReadToEnd(), Headers);
+                    return (str.ReadToEnd(), Headers);
+                }
+            }
+            catch(WebException ex)
+            {
+                string error = "";
+                using (StreamReader str = new StreamReader(ex.Response.GetResponseStream()))
+                    error = str.ReadToEnd();
+                return (error, Headers);
+            }
+            catch(Exception ex)
+            {
+                return (ex.Message, Headers);
             }
         }
     }

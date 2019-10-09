@@ -524,3 +524,13 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\System.Threading.Tasks.Extensions.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Newtonsoft.Json.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Newtonsoft.Json.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Microsoft.CSharp.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Microsoft.CSharp.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Microsoft.CSharp.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.CSharp.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.CSharp.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable\preload.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-hdpi\preload.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-xhdpi\preload.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-xxhdpi\preload.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-xxxhdpi\preload.jpg

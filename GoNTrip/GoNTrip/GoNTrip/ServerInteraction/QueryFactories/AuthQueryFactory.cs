@@ -5,7 +5,7 @@ namespace GoNTrip.ServerInteraction.QueryFactories
     public class AuthQueryFactory
     {
         protected const string LOGIN_KEY = "login";
-        protected const string PASSWORD_KEY = "passsword";
+        protected const string PASSWORD_KEY = "password";
         protected const string EMAIL_KEY = "email";
 
         private const string SIGN_UP_SERVER_METHOD_NAME = "register";

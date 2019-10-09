@@ -59,6 +59,27 @@ namespace GoNTrip.Pages {
         private global::Xamarin.Forms.Button LogInPopupConfirm;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::CustomControls.ClickableContentView ActivityPopup;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::CustomControls.ClickableFrame ActivityPopupOuterLayout;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Xamarin.Forms.ActivityIndicator AuthActivityIndicator;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::CustomControls.ClickableContentView ErrorPopup;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::CustomControls.ClickableFrame ErrorPopupOuterLayout;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Xamarin.Forms.Label AuthErrorMessage;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
+        private global::Xamarin.Forms.Button AuthErrorClose;
+        
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "0.0.0.0")]
         private void InitializeComponent() {
             global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
             SignUpButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "SignUpButton");
@@ -75,6 +96,13 @@ namespace GoNTrip.Pages {
             LogInLoginEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "LogInLoginEntry");
             LogInPasswordEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "LogInPasswordEntry");
             LogInPopupConfirm = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "LogInPopupConfirm");
+            ActivityPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableContentView>(this, "ActivityPopup");
+            ActivityPopupOuterLayout = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableFrame>(this, "ActivityPopupOuterLayout");
+            AuthActivityIndicator = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ActivityIndicator>(this, "AuthActivityIndicator");
+            ErrorPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableContentView>(this, "ErrorPopup");
+            ErrorPopupOuterLayout = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableFrame>(this, "ErrorPopupOuterLayout");
+            AuthErrorMessage = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "AuthErrorMessage");
+            AuthErrorClose = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "AuthErrorClose");
         }
     }
 }

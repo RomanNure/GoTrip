@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETStandard,Version=v2.0/",
-    "signature": "c7302333b63c3e8712d8424719e9deac51987b0b"
+    "signature": "9b062f00147bf4c330e668db0916057f9d68f75b"
   },
   "compilationOptions": {},
   "targets": {
@@ -9,6 +9,7 @@
     ".NETStandard,Version=v2.0/": {
       "GoNTrip/1.0.0": {
         "dependencies": {
+          "Microsoft.CSharp": "4.6.0",
           "Microsoft.Extensions.Configuration.Json": "3.0.0",
           "NETStandard.Library": "2.0.3",
           "Newtonsoft.Json": "12.0.2",
@@ -28,6 +29,14 @@
         "runtime": {
           "lib/netstandard2.0/Microsoft.Bcl.AsyncInterfaces.dll": {
             "assemblyVersion": "1.0.0.0",
+            "fileVersion": "4.700.19.46214"
+          }
+        }
+      },
+      "Microsoft.CSharp/4.6.0": {
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.CSharp.dll": {
+            "assemblyVersion": "4.0.4.0",
             "fileVersion": "4.700.19.46214"
           }
         }
@@ -270,6 +279,13 @@
       "sha512": "sha512-K63Y4hORbBcKLWH5wnKgzyn7TOfYzevIEwIedQHBIkmkEBA9SCqgvom+XTuE+fAFGvINGkhFItaZ2dvMGdT5iw==",
       "path": "microsoft.bcl.asyncinterfaces/1.0.0",
       "hashPath": "microsoft.bcl.asyncinterfaces.1.0.0.nupkg.sha512"
+    },
+    "Microsoft.CSharp/4.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-kxn3M2rnAGy5N5DgcIwcE8QTePWU/XiYcQVzn9HqTls2NKluVzVSmVWRjK7OUPWbljCXuZxHyhEz9kPRIQeXow==",
+      "path": "microsoft.csharp/4.6.0",
+      "hashPath": "microsoft.csharp.4.6.0.nupkg.sha512"
     },
     "Microsoft.Extensions.Configuration/3.0.0": {
       "type": "package",

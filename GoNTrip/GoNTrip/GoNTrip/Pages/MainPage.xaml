@@ -14,7 +14,7 @@
     <ContentPage.Content>
         <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
 
-            <local:Img HeightRequest="800" WidthRequest="800" BorderAlways="False" ClickAnimation="False" HorizontalOptions="FillAndExpand" Source="https://s.yimg.com/ny/api/res/1.2/pBQt0jmi6VkhSVTSkXcZWg--/YXBwaWQ9aGlnaGxhbmRlcjt3PTEyNDI7aD05MzAuODc3NzU1NTExMDIyMQ--/https://s.yimg.com/uu/api/res/1.2/VjGLBHJ_1la2DQVKjoQyTw--~B/aD0yOTkyO3c9Mzk5MjtzbT0xO2FwcGlkPXl0YWNoeW9u/https://media-mbst-pub-ue1.s3.amazonaws.com/creatr-uploaded-images/2019-07/7ece9530-9cf1-11e9-bf3c-4fe6e6438142"/>
+            <!--<local:Img HeightRequest="310" WidthRequest="176" BorderAlways="False" ClickAnimation="False" HorizontalOptions="FillAndExpand" Source="preload.jpg"/>-->
 
             <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
                 <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
@@ -37,33 +37,58 @@
                 </StackLayout>
             </StackLayout>
 
-            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="SignUpPopup" OnClick="SignUpPopup_OnClick" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SignUpPopupOuterLayout" OnClick="SignUpPopupOuterLayout_OnClick" HeightRequest="330" WidthRequest="250" CornerRadius="10">
+            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="SignUpPopup" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SignUpPopupOuterLayout" HeightRequest="330" WidthRequest="250" CornerRadius="10">
                     <local:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="330" WidthRequest="250" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Signing Up" HorizontalTextAlignment="Center" FontSize="20"/>
                             <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpLoginEntry" Placeholder="Login"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordEntry" Placeholder="Password"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordConfirmEntry" Placeholder="Confirm Password"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordEntry" Placeholder="Password" IsPassword="True"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordConfirmEntry" Placeholder="Confirm Password" IsPassword="True"/>
                             <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpEmailEntry" Placeholder="Email"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="SignUpPopupConfirm" VerticalOptions="End" Text="Sign Up" Clicked="SignUpPopupConfirm_Clicked"/>
-
+                            
                         </StackLayout>
 
                     </local:ClickableFrame>
                 </local:ClickableFrame>
             </local:ClickableContentView>
 
-            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="LogInPopup" OnClick="LogInPopup_OnClick" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="LogInPopupOuterLayout" OnClick="LogInPopupOuterLayout_OnClick" HeightRequest="220" WidthRequest="200" CornerRadius="10" >
+            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="LogInPopup" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="LogInPopupOuterLayout" HeightRequest="220" WidthRequest="200" CornerRadius="10" >
                     <local:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="220" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
                             
                             <Label Style="{StaticResource PopupLabel}" Text="Logging In" HorizontalTextAlignment="Center" FontSize="20"/>
                             <Entry Style="{StaticResource PopupEntry}" x:Name="LogInLoginEntry" Placeholder="Login"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Placeholder="Password"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Placeholder="Password" IsPassword="True"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="LogInPopupConfirm" VerticalOptions="End" Text="Log In" Clicked="LogInPopupConfirm_Clicked"/>
+
+                        </StackLayout>
+                    </local:ClickableFrame>
+                </local:ClickableFrame>
+            </local:ClickableContentView>
+
+            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="ActivityPopup" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="ActivityPopupOuterLayout" HeightRequest="100" WidthRequest="100">
+                    <local:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="100" WidthRequest="100">
+                        <StackLayout>
+
+                            <ActivityIndicator Color="{StaticResource AdditionalColor}" x:Name="AuthActivityIndicator" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" IsRunning="True"/>
+
+                        </StackLayout>
+                    </local:ClickableFrame>
+                </local:ClickableFrame>
+            </local:ClickableContentView>
+
+            <local:ClickableContentView Style="{StaticResource PopupBackgroud}" x:Name="ErrorPopup" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="ErrorPopupOuterLayout" HeightRequest="150" WidthRequest="300" CornerRadius="10">
+                    <local:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="150" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" x:Name="AuthErrorMessage" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" HorizontalTextAlignment="Center" VerticalTextAlignment="Center"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="AuthErrorClose" Clicked="AuthErrorClose_Clicked" Text="OK"/>
 
                         </StackLayout>
                     </local:ClickableFrame>

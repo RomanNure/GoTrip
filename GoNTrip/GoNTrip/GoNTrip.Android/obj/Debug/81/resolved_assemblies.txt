@@ -4,6 +4,7 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\GoNTrip.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Java.Interop.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.Bcl.AsyncInterfaces.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.CSharp.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.Extensions.Configuration.Abstractions.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.Extensions.Configuration.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.Extensions.Configuration.FileExtensions.dll
