@@ -7,19 +7,7 @@ export default class Header extends Component {
         this.state = {
         }
     }
-    /*
-        _login = (e) => {
-            console.log('- login')
-            e.preventDefault();
-            this.setState({ openLogin: true })
-        }
-    
-        _registration = (e) => {
-            console.log('- refistration')
-            e.preventDefault();
-            this.setState({ openRegistr: true })
-        }
-    */
+
     render() {
         return (
             <div>

@@ -57,7 +57,9 @@ const useStyles = makeStyles(theme => ({
 export default class SignIn extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            tab: true
+        }
     }
     render() {
 
@@ -67,8 +69,8 @@ export default class SignIn extends Component {
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
-                open={true}
-               // onBackdropClick={() => this.setState({ openLogin: false })}
+                open={this.state.tab}
+                onBackdropClick={() => this.setState({ tab: false })}
             >
 
                 <Container component="main" maxWidth="xs" style={{ backgroundColor: "white", borderRadius: 30 }}>
@@ -135,6 +137,7 @@ export default class SignIn extends Component {
                     </Box>
                 </Container>
             </Modal>
+    
         )
     }
 

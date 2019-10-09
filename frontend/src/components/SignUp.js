@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,7 +20,8 @@ function Copyright() {
             {'Copyright © '}
             <Link color="inherit" href="https://material-ui.com/">
                 Go&Trips
-      </Link>{' '}
+            </Link>
+            {' '}
             {new Date().getFullYear()}
             {'.'}
         </Typography>
@@ -53,7 +54,13 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default class SignUp extends Component {
-    render(){
+    constructor(props) {
+        super(props);
+        this.state = {
+            tab: true
+        }
+    }
+    render() {
 
         const classes = false//useStyles();
 
@@ -61,8 +68,8 @@ export default class SignUp extends Component {
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
-                open={true}
-              //  onBackdropClick={() => this.setState({ openLogin: false })}
+                open={this.state.tab}
+                onBackdropClick={() => this.setState({ tab: false })}
             >
 
                 <Container component="main" maxWidth="xs" style={{ backgroundColor: "white", borderRadius: 30, }}>
