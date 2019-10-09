@@ -1,7 +1,22 @@
 CustomControls.Android
 FormsViewGroup
 GoNTrip
+Microsoft.Bcl.AsyncInterfaces
+Microsoft.Extensions.Configuration.Abstractions
+Microsoft.Extensions.Configuration
+Microsoft.Extensions.Configuration.FileExtensions
+Microsoft.Extensions.Configuration.Json
+Microsoft.Extensions.FileProviders.Abstractions
+Microsoft.Extensions.FileProviders.Physical
+Microsoft.Extensions.FileSystemGlobbing
+Microsoft.Extensions.Primitives
+Newtonsoft.Json
+System.Buffers
+System.Memory
+System.Runtime.CompilerServices.Unsafe
 System.Runtime
+System.Text.Encodings.Web
+System.Text.Json
 Xamarin.Android.Arch.Core.Common
 Xamarin.Android.Arch.Lifecycle.Common
 Xamarin.Android.Arch.Lifecycle.Runtime
@@ -27,3 +42,4 @@ Xamarin.Forms.Core
 Xamarin.Forms.Platform.Android
 Xamarin.Forms.Platform
 Xamarin.Forms.Xaml
+System.Threading.Tasks.Extensions
