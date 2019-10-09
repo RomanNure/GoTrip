@@ -46,4 +46,15 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 	public Iterable<RegisteredUser> findAll() {
 		return registeredUserRepository.findAll();
 	}
+
+    @Override
+    public boolean checkPassword(RegisteredUser user, String password) {
+        String encodedPassword = encoder.encode(password);
+        return user.getPassword().equals(encodedPassword);
+    }
+
+    @Override
+    public RegisteredUser findByLogin(String login) throws NotFoundUserException {
+        return registeredUserRepository.findByLogin(login).orElseThrow(()->new NotFoundUserException("User with such login doesn't exist"));
+    }
 }

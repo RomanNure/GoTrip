@@ -13,4 +13,8 @@ public interface RegisteredUserService {
 	RegisteredUser findById(long id) throws NotFoundUserException;
 
 	Iterable<RegisteredUser> findAll();
+
+	boolean checkPassword(RegisteredUser user, String password);
+
+	RegisteredUser findByLogin(String login) throws NotFoundUserException;
 }
