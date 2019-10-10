@@ -29,18 +29,18 @@ public class RegistrationUserFormValidator {
     public boolean registrationUserFormValid(UserRegistrationFormDto userRegistrationFormDto) throws ValidationException {
 		isRegistrationDataCorrect(
 		        userRegistrationFormDto.getLogin(),
-                userRegistrationFormDto.getPassword(),
                 userRegistrationFormDto.getEmail()
         );
+
+        if (!userRegistrationFormDto.getPassword().matches(PASS_PATTERN)) {
+            throw new ValidationException("Invalid password");
+        }
 		return true;
 	}
 
 	public void validateUser(RegisteredUser user) throws ValidationException{
-        final String validPassExample = "Password1234";
-
         isRegistrationDataCorrect(
                 user.getLogin(),
-                validPassExample,
                 user.getEmail()
         );
 
@@ -50,12 +50,9 @@ public class RegistrationUserFormValidator {
         );
     }
 
-    private void isRegistrationDataCorrect(String login, String password, String email) throws ValidationException{
+    private void isRegistrationDataCorrect(String login, String email) throws ValidationException{
         if (!login.matches(LOGIN_PATTERN)) {
             throw new ValidationException("Invalid login");
-        }
-        if (!password.matches(PASS_PATTERN)) {
-            throw new ValidationException("Invalid password");
         }
         if (!email.matches(EMAIL_PATTERN)) {
             throw new ValidationException("Invalid email");
