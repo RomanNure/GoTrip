@@ -1,7 +1,5 @@
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.Android.pdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.GoNTrip.apk
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.GoNTrip-Signed.apk
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\FormsViewGroup.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Mono.Android.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\mscorlib.pdb
@@ -25,7 +23,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\System.
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\System.Web.Services.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Mono.Security.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.dll.mdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Xamarin.Essentials.dll.mdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\CustomControls.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\GoNTrip.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\CustomControls.dll
@@ -42,7 +39,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\Xaml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\GoNTrip.Android.csproj.CopyComplete
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\GoNTrip.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\GoNTrip.Android.pdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\bin\GoNTrip.GoNTrip.apk
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\layout\tabbar.xml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\layout\toolbar.xml
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\values\styles.xml
@@ -137,7 +133,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\link
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\System.Web.Services.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Mono.Security.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\GoNTrip.dll.mdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Xamarin.Essentials.dll.mdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\link.flag
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\CustomControls.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\CustomControls.dll
@@ -206,7 +201,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Android.Support.v7.RecyclerView.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Android.Support.Vector.Drawable.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Essentials.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Essentials.dll.mdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Forms.Core.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Forms.Core.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Forms.Platform.Android.dll
@@ -221,7 +215,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\static.flag
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\mono\MonoRuntimeProvider.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\buildid.txt
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\xamarin\essentials\fileProvider.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\mono\android\support\v7\widget\ActionMenuView_OnMenuItemClickListenerImplementor.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\mono\android\support\v7\widget\ContentFrameLayout_OnAttachListenerImplementor.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\mono\android\support\v7\widget\FitWindowsViewGroup_OnFitSystemWindowsListenerImplementor.java
@@ -330,7 +323,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EditorRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EditorRendererBase_1.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EmptyViewAdapter.java
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EmptyViewAdapter_EmptyViewHolder.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EndSingleSnapHelper.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EndSnapHelper.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EntryCellEditText.java
@@ -397,7 +389,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\SelectableItemsViewRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\SelectableViewHolder.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellContentFragment.java
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutContentRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutRecyclerAdapter.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutRecyclerAdapter_ElementViewHolder.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutRecyclerAdapter_LinearLayoutWithFocus.java
@@ -478,7 +469,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md5dcb6eccdc824e0677ffae8ccdde42930\KeepAliveService.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\android\support\compat\R.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\bin\packaged_resources
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\gontrip\gontrip\R.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\bin\classes.dex
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\stamp\_BuildAdditionalResourcesCache.stamp
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\stamp\_CleanIntermediateIfNuGetsChange.stamp
@@ -524,13 +514,18 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\System.Threading.Tasks.Extensions.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Newtonsoft.Json.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Newtonsoft.Json.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Microsoft.CSharp.pdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Microsoft.CSharp.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Microsoft.CSharp.pdb
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.CSharp.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Microsoft.CSharp.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable\preload.jpg
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-hdpi\preload.jpg
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-xhdpi\preload.jpg
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-xxhdpi\preload.jpg
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\res\drawable-xxxhdpi\preload.jpg
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\com.GoNTrip.apk
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\com.GoNTrip-Signed.apk
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\bin\com.GoNTrip.apk
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\com\gontrip\R.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Xamarin.Essentials.dll.mdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\linksrc\Xamarin.Essentials.dll.mdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\assets\Xamarin.Essentials.dll.mdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\xamarin\essentials\fileProvider.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\EmptyViewAdapter_EmptyViewHolder.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\81\android\src\md51558244f76c53b6aeda52c8a337f2c37\ShellFlyoutContentRenderer.java

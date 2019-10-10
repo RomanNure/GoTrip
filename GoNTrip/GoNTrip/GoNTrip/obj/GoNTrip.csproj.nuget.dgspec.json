@@ -43,13 +43,17 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
-            "Microsoft.CSharp": {
+            "Microsoft.Extensions.Configuration": {
               "target": "Package",
-              "version": "[4.6.0, )"
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.Extensions.Configuration.Abstractions": {
+              "target": "Package",
+              "version": "[2.2.0, )"
             },
             "Microsoft.Extensions.Configuration.Json": {
               "target": "Package",
-              "version": "[3.0.0, )"
+              "version": "[2.2.0, )"
             },
             "NETStandard.Library": {
               "suppressParent": "All",
@@ -61,13 +65,9 @@
               "target": "Package",
               "version": "[12.0.2, )"
             },
-            "Xamarin.Essentials": {
-              "target": "Package",
-              "version": "[1.1.0, )"
-            },
             "Xamarin.Forms": {
               "target": "Package",
-              "version": "[4.0.0.425677, )"
+              "version": "[4.0.0.497661, )"
             }
           },
           "imports": [

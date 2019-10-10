@@ -1,8 +1,12 @@
 ﻿using System;
+
+using Android.Runtime;
+
 using Newtonsoft.Json;
 
 namespace GoNTrip.ServerInteraction.ResponseParsers
 {
+    [Preserve(AllMembers = true)]
     [JsonObject(MemberSerialization.OptOut)]
     public class ResponseException : Exception
     {
@@ -20,10 +24,5 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
 
         [JsonRequired]
         public string path { get; set; }
-
-        public static bool IsObjectResponseException(dynamic obj)
-        {
-            return obj.timestamp != null && obj.status != null && obj.error != null && obj.message != null && obj.path != null;
-        }
     }
 }

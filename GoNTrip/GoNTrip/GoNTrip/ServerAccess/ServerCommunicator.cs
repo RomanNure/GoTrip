@@ -71,12 +71,19 @@ namespace GoNTrip.ServerAccess
                     return (str.ReadToEnd(), Headers);
                 }
             }
-            catch(WebException ex)
+            catch(WebException wex)
             {
-                string error = "";
-                using (StreamReader str = new StreamReader(ex.Response.GetResponseStream()))
-                    error = str.ReadToEnd();
-                return (error, Headers);
+                try
+                {
+                    string error = "";
+                    using (StreamReader str = new StreamReader(wex.Response.GetResponseStream()))
+                        error = str.ReadToEnd();
+                    return (error, Headers);
+                }
+                catch(Exception ex)
+                {
+                    return (ex.Message, Headers);
+                }
             }
             catch(Exception ex)
             {

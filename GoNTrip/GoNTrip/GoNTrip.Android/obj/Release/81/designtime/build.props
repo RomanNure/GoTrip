@@ -1,12 +1,12 @@
-BundleAssemblies=False
-AotAssemblies=False
+BundleAssemblies=false
+AotAssemblies=false
 AndroidAotMode=
 ExplicitCrunch=False
 AndroidDexTool=dx
 AndroidLinkTool=
 UseSharedRuntime=false
 EmbedAssembliesIntoApk=True
-AndroidLinkMode=SdkOnly
+AndroidLinkMode=Full
 AndroidLinkSkip=
 AndroidSdkBuildToolsVersion=28.0.3
 AndroidSdkPath=C:\Program Files (x86)\Android\android-sdk\
