@@ -1,6 +1,5 @@
 package org.nure.gotrip.controller;
 
-import org.modelmapper.ModelMapper;
 import org.nure.gotrip.controller.response.BadRequestException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.exception.NotFoundUserException;
