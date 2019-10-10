@@ -24,7 +24,7 @@ public class RegistrationUserFormValidator {
 
 	private static final String FULL_NAME_PATTERN = "[a-zA-Z]{2,47} [a-zA-Z]{2,47}";
 
-    private static final String PHONE_PATTERN = "\\+[0-9]{15}";
+    private static final String PHONE_PATTERN = "\\+[0-9]{7,15}";
 
     public boolean registrationUserFormValid(UserRegistrationFormDto userRegistrationFormDto) throws ValidationException {
 		isRegistrationDataCorrect(
@@ -36,9 +36,11 @@ public class RegistrationUserFormValidator {
 	}
 
 	public void validateUser(RegisteredUser user) throws ValidationException{
+        final String validPassExample = "Password1234";
+
         isRegistrationDataCorrect(
                 user.getLogin(),
-                user.getPassword(),
+                validPassExample,
                 user.getEmail()
         );
 
@@ -61,11 +63,11 @@ public class RegistrationUserFormValidator {
     }
 
     private void isAdditionalDataCorrect(String fullname, String phone) throws ValidationException{
-        if (!fullname.matches(FULL_NAME_PATTERN) && fullname.length() > MAX_FULLNAME_SIZE) {
-            throw new ValidationException("Invalid login");
+        if (fullname != null && !fullname.matches(FULL_NAME_PATTERN) && fullname.length() > MAX_FULLNAME_SIZE) {
+            throw new ValidationException("Invalid full name");
         }
-        if (!phone.matches(PHONE_PATTERN)) {
-            throw new ValidationException("Invalid password");
+        if (phone != null && !phone.matches(PHONE_PATTERN)) {
+            throw new ValidationException("Invalid phone");
         }
     }
 }
