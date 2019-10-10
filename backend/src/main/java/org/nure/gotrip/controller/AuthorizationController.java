@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthorizationController {
 
-    private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
     private RegisteredUserService registeredUserService;
 

@@ -5,6 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.repository.RegisteredUserRepository;
+import org.nure.gotrip.util.contstant.UserConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 public class RegistrationControllerTest {
 
+	private static final String REGISTER = "/register";
+
 	@MockBean
 	RegisteredUserRepository registeredUserRepository;
 	@Autowired
@@ -32,10 +35,10 @@ public class RegistrationControllerTest {
 		String password = "1234567891011";
 		String email = "trololo@gmail.com";
 
-		mvc.perform(post("/register")
-				.param("login", login)
-				.param("password", password)
-				.param("email", email))
+		mvc.perform(post(REGISTER)
+				.param(UserConstants.LOGIN, login)
+				.param(UserConstants.PASSWORD, password)
+				.param(UserConstants.EMAIL, email))
 				.andExpect(status().isOk());
 	}
 
@@ -45,10 +48,10 @@ public class RegistrationControllerTest {
 		String password = "12345";
 		String email = "trololo";
 
-		mvc.perform(post("/register")
-				.param("login", login)
-				.param("password", password)
-				.param("email", email))
+		mvc.perform(post(REGISTER)
+				.param(UserConstants.LOGIN, login)
+				.param(UserConstants.PASSWORD, password)
+				.param(UserConstants.EMAIL, email))
 				.andExpect(status().isBadRequest());
 	}
 
@@ -66,10 +69,10 @@ public class RegistrationControllerTest {
 		Mockito.when(registeredUserRepository.save(Mockito.any(RegisteredUser.class)))
 				.thenThrow(new DataIntegrityViolationException("The database contains a user with this login"));
 
-		mvc.perform(post("/register")
-				.param("login", login)
-				.param("password", password)
-				.param("email", email))
+		mvc.perform(post(REGISTER)
+				.param(UserConstants.LOGIN, login)
+				.param(UserConstants.PASSWORD, password)
+				.param(UserConstants.EMAIL, email))
 				.andExpect(status().isConflict());
 	}
 

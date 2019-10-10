@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class RegisteredUserUpdateController {
 
-    private final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
+    private final Logger logger = LoggerFactory.getLogger(RegisteredUserUpdateController.class);
 
     private RegisteredUserService registeredUserService;
     private RegistrationUserFormValidator registrationUserFormValidator;
