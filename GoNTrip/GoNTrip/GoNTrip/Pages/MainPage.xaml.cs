@@ -3,6 +3,8 @@ using System.Threading.Tasks;
 
 using CustomControls;
 
+using Autofac;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -20,34 +22,27 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private FormValidator Validator = new FormValidator();
+        private FormValidator SignUpValidator = new FormValidator();
+        private FormValidator LogInValidator = new FormValidator();
 
-        private PopupControlSystem popupControlSystem = null;
+        private PopupControlSystem PopupControl = null;
 
-        private Popup SignUpPopupModel = null;
-        private Popup LogInPopupModel = null;
-        private Popup ErrorPopupModel = null;
-        private Popup ActivityPopupModel = null;
+        Clicked OnPopupBodyClicked = (e, sender) => true;
 
         public MainPage()
         {
             InitializeComponent();
 
-            popupControlSystem = new PopupControlSystem(OnBackButtonPressed);
+            PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
-            Clicked OnPopupWrapperClicked = null; //(e, sender) => { popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded(); return true; };
-            Clicked OnPopupBodyClicked = (e, sender) => true;
+            //Clicked OnPopupWrapperClicked = (e, sender) => { popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded(); return true; };
 
-            SignUpPopupModel = new Popup(SignUpPopup, OnPopupWrapperClicked, SignUpPopupOuterLayout, OnPopupBodyClicked, true, null, null,
-                                             SignUpLoginEntry, SignUpPasswordEntry, SignUpPasswordConfirmEntry, SignUpEmailEntry);
+            SignUpPopup.OnPopupBodyClicked += OnPopupBodyClicked;
+            LogInPopup.OnPopupBodyClicked += OnPopupBodyClicked;
+            ActivityPopup.OnPopupBodyClicked += OnPopupBodyClicked;
+            ErrorPopup.OnPopupBodyClicked += OnPopupBodyClicked;
 
-            LogInPopupModel = new Popup(LogInPopup, OnPopupWrapperClicked, LogInPopupOuterLayout, OnPopupBodyClicked, true, null, null,
-                                        LogInLoginEntry, LogInPasswordEntry);
-
-            ErrorPopupModel = new Popup(ErrorPopup, OnPopupBodyClicked, ErrorPopupOuterLayout, OnPopupBodyClicked, true);
-            ActivityPopupModel = new Popup(ActivityPopup, OnPopupBodyClicked, ActivityPopupOuterLayout, OnPopupBodyClicked, false);
-
-            ValidationHandler<InputView> InvalidHandler = Input => Input.BackgroundColor = Color.IndianRed;
+            ValidationHandler<InputView> InvalidHandler = Input => Input.BackgroundColor = (Color)Application.Current.Resources["InvalidColor"];
             ValidationHandler<InputView> ValidHandler = Input => Input.BackgroundColor = (Color)Application.Current.Resources["ContentBackColor"];
 
             FieldValidationHandler<Entry> LoginValidation = new FieldValidationHandler<Entry>(
@@ -66,24 +61,31 @@ namespace GoNTrip.Pages
                 Email => Email.Text != null && UserFieldsPatterns.EMAIL_PATTERN.IsMatch(Email.Text),
                 InvalidHandler, ValidHandler);
 
-            Validator.Add<Entry>(LoginValidation, SignUpLoginEntry);
-            Validator.Add<Entry>(PasswordValidation, SignUpPasswordEntry);
-            Validator.Add<Entry>(PasswordConfirmValidation, SignUpPasswordConfirmEntry);
-            Validator.Add<Entry>(EmailValidation, SignUpEmailEntry);
+            SignUpValidator.Add<Entry>(LoginValidation, SignUpLoginEntry);
+            SignUpValidator.Add<Entry>(PasswordValidation, SignUpPasswordEntry);
+            SignUpValidator.Add<Entry>(PasswordConfirmValidation, SignUpPasswordConfirmEntry);
+            SignUpValidator.Add<Entry>(EmailValidation, SignUpEmailEntry);
 
-            SignUpLoginEntry.Unfocused += OnValidatedFieldUnfocused;
-            SignUpPasswordEntry.Unfocused += OnValidatedFieldUnfocused;
-            SignUpPasswordConfirmEntry.Unfocused += OnValidatedFieldUnfocused;
-            SignUpEmailEntry.Unfocused += OnValidatedFieldUnfocused;
+            SignUpLoginEntry.Unfocused += OnValidatedSignUpFieldUnfocused;
+            SignUpPasswordEntry.Unfocused += OnValidatedSignUpFieldUnfocused;
+            SignUpPasswordConfirmEntry.Unfocused += OnValidatedSignUpFieldUnfocused;
+            SignUpEmailEntry.Unfocused += OnValidatedSignUpFieldUnfocused;
+
+            LogInValidator.Add<Entry>(LoginValidation, LogInLoginEntry);
+            LogInValidator.Add<Entry>(PasswordValidation, LogInPasswordEntry);
+
+            LogInLoginEntry.Unfocused += OnValidatedLogInFieldUnfocused;
+            LogInPasswordEntry.Unfocused += OnValidatedLogInFieldUnfocused;
         }
 
-        private void OnValidatedFieldUnfocused(object sender, FocusEventArgs e) => Validator.ValidateId(Validator.GetId(sender));
+        private void OnValidatedSignUpFieldUnfocused(object sender, FocusEventArgs e) => SignUpValidator.ValidateId(SignUpValidator.GetId(sender));
+        private void OnValidatedLogInFieldUnfocused(object sender, FocusEventArgs e) => LogInValidator.ValidateId(LogInValidator.GetId(sender));
 
-        private void SignUpButton_Clicked(object sender, EventArgs e) => popupControlSystem.OpenPopup(SignUpPopupModel);
+        private void SignUpButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(SignUpPopup);
 
         private void SignUpPopupConfirm_Clicked(object sender, EventArgs e)
         {
-            if (!Validator.ValidateAll())
+            if (!SignUpValidator.ValidateAll())
                 return;
 
             SignUpAsync(SignUpLoginEntry.Text, SignUpPasswordEntry.Text, SignUpEmailEntry.Text);
@@ -91,53 +93,88 @@ namespace GoNTrip.Pages
 
         private async void SignUpAsync(string login, string password, string email)
         {
-            popupControlSystem.OpenPopup(ActivityPopupModel);
+            PopupControl.OpenPopup(ActivityPopup);
 
             try
             {
+                User user = null;
                 await Task.Run(() =>
                 {
-                    IServerCommunicator server = new ServerCommunicator(); //Should use DI
-                    AuthQueryFactory authQueryFactory = new AuthQueryFactory();
+                    IServerCommunicator server = App.DI.ResolveOptional<IServerCommunicator>();
+                    AuthQueryFactory authQueryFactory = App.DI.Resolve<AuthQueryFactory>();
                     IQuery signUpQuery = authQueryFactory.SignUp(login, password, email);
-                    IResponseParser signUpParser = new SignUpResponseParser();
+                    IResponseParser signUpParser = App.DI.Resolve<SignUpResponseParser>();
                     IServerResponse response = server.SendQuery(signUpQuery);
-                    ModelElement user = signUpParser.Parse(response);
+                    user = signUpParser.Parse(response) as User;
                 });
 
-                popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded(true);
-
-                App.Current.MainPage = new Page(); // Profile Page
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                App.Current.MainPage = new ProfilePage(user);
             }
             catch (ResponseException ex)
             {
-                popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
                 AuthErrorMessage.Text = ex.message;
-                popupControlSystem.OpenPopup(ErrorPopupModel);
+                PopupControl.OpenPopup(ErrorPopup);
             }
+            /*catch(Exception ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                AuthErrorMessage.Text = ex.InnerException.Message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }*/
         }
 
-        private void LogInButton_Clicked(object sender, EventArgs e) => popupControlSystem.OpenPopup(LogInPopupModel);
+        private void LogInButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(LogInPopup);
 
         private void LogInPopupConfirm_Clicked(object sender, EventArgs e)
         {
-            //Validate
+            if (!LogInValidator.ValidateAll())
+                return;
+
+            LogInAsync(LogInLoginEntry.Text, LogInPasswordEntry.Text);
         }
 
-        private async void LogInAsync()
+        private async void LogInAsync(string login, string password)
         {
+            PopupControl.OpenPopup(ActivityPopup);
 
+            try
+            {
+                User user = null;
+                await Task.Run(() =>
+                {
+                    IServerCommunicator server = App.DI.Resolve<IServerCommunicator>();
+                    AuthQueryFactory authQueryFactory = App.DI.Resolve<AuthQueryFactory>();
+                    IQuery logInQuery = authQueryFactory.LogIn(login, password);
+                    IResponseParser logInParser = App.DI.Resolve<LogInResponseParser>();
+                    IServerResponse response = server.SendQuery(logInQuery);
+                    user = logInParser.Parse(response) as User;
+                });
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                App.Current.MainPage = new ProfilePage(user);
+            }
+            catch (ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                AuthErrorMessage.Text = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
         }
 
-        private void AuthErrorClose_Clicked(object sender, EventArgs e) => popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded();
+        private void AuthErrorClose_Clicked(object sender, EventArgs e) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
         protected override bool OnBackButtonPressed()
         {
-            if (popupControlSystem.OpenedPopupsCount == 0 || popupControlSystem.IsKeyboardVisible())
+            if (PopupControl.OpenedPopupsCount == 0 || PopupControl.IsKeyboardVisible())
                 return false;
 
-            popupControlSystem.CloseTopPopup();
+            PopupControl.CloseTopPopup();
             return true;
         }
     }

@@ -6,6 +6,8 @@ using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
+using GoNTrip.ServerInteraction.ResponseParsers;
+
 namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
@@ -22,15 +24,38 @@ namespace GoNTrip.ServerAccess
 
         public IServerResponse SendQuery(IQuery query)
         {
-            string queryUrl = ServerURL + "/" + LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "") + (query.ParametersString == "" ? "" : "?" + query.ParametersString);
+            IDictionary<string, string> Headers = new Dictionary<string, string>();
 
-            (string data, IDictionary<string, string> headers) response;
-            if (query.Method == QueryMethod.GET)
-                response = QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
-            else
-                response = QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
+            try
+            {
+                string queryUrl = ServerURL + "/" + LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "") + (query.ParametersString == "" ? "" : "?" + query.ParametersString);
 
-            return new ServerResponse(response.data, response.headers);
+                (string data, IDictionary<string, string> headers) response;
+                if (query.Method == QueryMethod.GET)
+                    response = QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
+                else
+                    response = QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
+
+                return new ServerResponse(response.data, response.headers);
+            }
+            catch(WebException wex)
+            {
+                try
+                {
+                    string error = "";
+                    using (StreamReader str = new StreamReader(wex.Response.GetResponseStream()))
+                        error = str.ReadToEnd();
+                    return new ServerResponse(error, Headers);
+                }
+                catch(Exception ex)
+                {
+                    return new ServerResponse(ResponseException.GenerateJson("No Internet connection"), Headers);
+                }
+            }
+            catch(Exception ex)
+            {
+                return new ServerResponse(ex.Message, Headers);
+            }
         }
 
         private (string data, Dictionary<string, string> headers) QueryGET(string url, string parametersString, IList<string> neededHeadersNames)
@@ -58,36 +83,15 @@ namespace GoNTrip.ServerAccess
 
         private (string, Dictionary<string, string>) GetResponse(HttpWebRequest request, IList<string> neededHeadersNames)
         {
-            Dictionary<string, string> Headers = new Dictionary<string, string>();
-            try
+            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            using (StreamReader str = new StreamReader(response.GetResponseStream()))
             {
-                using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
-                using (StreamReader str = new StreamReader(response.GetResponseStream()))
-                {
-                    foreach (string neededHeaderName in neededHeadersNames)
-                        if (response.Headers.AllKeys.ToList().Contains(neededHeaderName))
-                            Headers.Add(neededHeaderName, response.Headers[neededHeaderName]);
+                Dictionary<string, string> Headers = new Dictionary<string, string>();
+                foreach (string neededHeaderName in neededHeadersNames)
+                    if (response.Headers.AllKeys.ToList().Contains(neededHeaderName))
+                        Headers.Add(neededHeaderName, response.Headers[neededHeaderName]);
 
-                    return (str.ReadToEnd(), Headers);
-                }
-            }
-            catch(WebException wex)
-            {
-                try
-                {
-                    string error = "";
-                    using (StreamReader str = new StreamReader(wex.Response.GetResponseStream()))
-                        error = str.ReadToEnd();
-                    return (error, Headers);
-                }
-                catch(Exception ex)
-                {
-                    return (ex.Message, Headers);
-                }
-            }
-            catch(Exception ex)
-            {
-                return (ex.Message, Headers);
+                return (str.ReadToEnd(), Headers);
             }
         }
     }

@@ -562,3 +562,8 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Runtime.CompilerServices.Unsafe.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\md535f2532df83c8c224379554c3f7581c9\ClickableFrameRenderer.java
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\src\com\gontrip\R.java
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\bin\Debug\Autofac.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\linksrc\Autofac.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\linksrc\Autofac.pdb
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Autofac.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Autofac.pdb

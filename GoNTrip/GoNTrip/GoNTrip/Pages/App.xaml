@@ -14,6 +14,7 @@
         <Color x:Key="BarFontColor">#F1F1F1</Color>
         <Color x:Key="AdditionalColor">#4D7E29</Color>
         <Color x:Key="InactiveTransperentColor">#C0808080</Color>
+        <Color x:Key="InvalidColor">#CD5C5C</Color>
 
         <Style x:Key="PopupPageAbsoluteLayout" TargetType="AbsoluteLayout">
             <Setter Property="Padding" Value="0"/>

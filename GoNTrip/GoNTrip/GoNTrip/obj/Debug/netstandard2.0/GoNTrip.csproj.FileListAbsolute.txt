@@ -17,3 +17,4 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\bin\Debug\netstandard2.0\
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\Pages\App.xaml.g.cs
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\Pages\MainPage.xaml.g.cs
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Debug\netstandard2.0\Pages\ProfilePage.xaml.g.cs

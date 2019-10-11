@@ -1,4 +1,5 @@
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\GoNTrip.Android.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Autofac.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\CustomControls.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\FormsViewGroup.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\GoNTrip.dll
@@ -65,7 +66,6 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Xamarin.Forms.Platform.Android.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Xamarin.Forms.Platform.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Xamarin.Forms.Xaml.dll
-C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\CustomControls.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\netstandard.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Data.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Transactions.dll
@@ -76,6 +76,7 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\andr
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Runtime.Serialization.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.ServiceModel.Internals.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Web.Services.dll
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\CustomControls.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Memory.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\Mono.Security.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip.Android\obj\Debug\90\android\assets\System.Runtime.dll

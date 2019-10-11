@@ -23,7 +23,7 @@ namespace GoNTrip.Pages {
         private global::Xamarin.Forms.Button LogInButton;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::CustomControls.ClickableContentView SignUpPopup;
+        private global::GoNTrip.Pages.Additional.Popups.Popup SignUpPopup;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::CustomControls.ClickableFrame SignUpPopupOuterLayout;
@@ -44,7 +44,7 @@ namespace GoNTrip.Pages {
         private global::Xamarin.Forms.Button SignUpPopupConfirm;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::CustomControls.ClickableContentView LogInPopup;
+        private global::GoNTrip.Pages.Additional.Popups.Popup LogInPopup;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::CustomControls.ClickableFrame LogInPopupOuterLayout;
@@ -59,7 +59,7 @@ namespace GoNTrip.Pages {
         private global::Xamarin.Forms.Button LogInPopupConfirm;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::CustomControls.ClickableContentView ActivityPopup;
+        private global::GoNTrip.Pages.Additional.Popups.Popup ActivityPopup;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::CustomControls.ClickableFrame ActivityPopupOuterLayout;
@@ -68,7 +68,7 @@ namespace GoNTrip.Pages {
         private global::Xamarin.Forms.ActivityIndicator AuthActivityIndicator;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
-        private global::CustomControls.ClickableContentView ErrorPopup;
+        private global::GoNTrip.Pages.Additional.Popups.Popup ErrorPopup;
         
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Xamarin.Forms.Build.Tasks.XamlG", "2.0.0.0")]
         private global::CustomControls.ClickableFrame ErrorPopupOuterLayout;
@@ -84,22 +84,22 @@ namespace GoNTrip.Pages {
             global::Xamarin.Forms.Xaml.Extensions.LoadFromXaml(this, typeof(MainPage));
             SignUpButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "SignUpButton");
             LogInButton = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "LogInButton");
-            SignUpPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableContentView>(this, "SignUpPopup");
+            SignUpPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::GoNTrip.Pages.Additional.Popups.Popup>(this, "SignUpPopup");
             SignUpPopupOuterLayout = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableFrame>(this, "SignUpPopupOuterLayout");
             SignUpLoginEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "SignUpLoginEntry");
             SignUpPasswordEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "SignUpPasswordEntry");
             SignUpPasswordConfirmEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "SignUpPasswordConfirmEntry");
             SignUpEmailEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "SignUpEmailEntry");
             SignUpPopupConfirm = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "SignUpPopupConfirm");
-            LogInPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableContentView>(this, "LogInPopup");
+            LogInPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::GoNTrip.Pages.Additional.Popups.Popup>(this, "LogInPopup");
             LogInPopupOuterLayout = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableFrame>(this, "LogInPopupOuterLayout");
             LogInLoginEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "LogInLoginEntry");
             LogInPasswordEntry = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Entry>(this, "LogInPasswordEntry");
             LogInPopupConfirm = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "LogInPopupConfirm");
-            ActivityPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableContentView>(this, "ActivityPopup");
+            ActivityPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::GoNTrip.Pages.Additional.Popups.Popup>(this, "ActivityPopup");
             ActivityPopupOuterLayout = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableFrame>(this, "ActivityPopupOuterLayout");
             AuthActivityIndicator = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.ActivityIndicator>(this, "AuthActivityIndicator");
-            ErrorPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableContentView>(this, "ErrorPopup");
+            ErrorPopup = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::GoNTrip.Pages.Additional.Popups.Popup>(this, "ErrorPopup");
             ErrorPopupOuterLayout = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::CustomControls.ClickableFrame>(this, "ErrorPopupOuterLayout");
             AuthErrorMessage = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Label>(this, "AuthErrorMessage");
             AuthErrorClose = global::Xamarin.Forms.NameScopeExtensions.FindByName<global::Xamarin.Forms.Button>(this, "AuthErrorClose");

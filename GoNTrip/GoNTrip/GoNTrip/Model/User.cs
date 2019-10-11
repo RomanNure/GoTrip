@@ -8,7 +8,7 @@ namespace GoNTrip.Model
     [JsonObject(MemberSerialization.OptOut)]
     public class User : ModelElement
     {
-
+        //TODO
         public User() { }
     }
 }

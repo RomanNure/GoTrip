@@ -24,5 +24,10 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
 
         [JsonRequired]
         public string path { get; set; }
+
+        public static string GenerateJson(string message)
+        {
+            return "{ \"timestamp\" : \"" + DateTime.Now.ToShortDateString() + "\", \"status\" : \"error\", \"error\" : \"no connection\", \"message\" : \"" + message + "\", \"path\" : \"\" }";
+        }
     }
 }

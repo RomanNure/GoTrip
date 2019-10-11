@@ -17,3 +17,4 @@ C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Release\netstandard2.
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Release\netstandard2.0\ref\GoNTrip.dll
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Release\netstandard2.0\GoNTrip.pdb
 C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Release\netstandard2.0\XamlC.stamp
+C:\Users\Олег\source\repos\GoNTrip\GoNTrip\GoNTrip\obj\Release\netstandard2.0\Pages\ProfilePage.xaml.g.cs

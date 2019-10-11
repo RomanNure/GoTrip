@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Linq;
+using System.ComponentModel;
 using System.Collections.Generic;
 
 using CustomControls;
@@ -8,40 +8,58 @@ using Xamarin.Forms;
 
 namespace GoNTrip.Pages.Additional.Popups
 {
-    public class Popup
+    public class IllegalPoupStructureException : Exception { }
+
+    public class Popup : ClickableContentView
     {
-        public ClickableContentView PopupWrapper { get; private set; }
-        public ClickableFrame PopupOuterFrame { get; private set; }
-        public List<InputView> Inputs { get; private set; }
+        public bool Closable { get; set; }
+
+        public Clicked OnPopupWrapperClicked { get; set; }
+        public Clicked OnPopupBodyClicked { get; set; }
+
+        public Action OnShow { get; set; }
+        public Action OnHide { get; set; }
+
         public int TotalFocuses { get; private set; }
-        public bool Closable { get; private set; }
-        public Action OnShow { get; private set; }
-        public Action OnHide { get; private set; }
+        private List<InputView> Inputs = new List<InputView>();
 
-        public Popup(ClickableContentView popupWrapper, Clicked onWrapperClicked, 
-                     ClickableFrame popupOuterFrame, Clicked onOuterFrameClicked,
-                     bool closable = true, Action OnShow = null, Action OnHide = null,
-                     params InputView[] inputs)
+        public Popup()
         {
-            PopupWrapper = popupWrapper;
-            PopupOuterFrame = popupOuterFrame;
-            Inputs = inputs.ToList();
-            Closable = closable;
+            this.ChildAdded += (sender, e) => UpdateEvents();
+            this.ChildRemoved += (sender, e) => UpdateEvents();
+        }
 
-            foreach(InputView input in Inputs)
+        private void UpdateEvents()
+        {
+            try
             {
-                input.Focused += (object sender, FocusEventArgs e) => TotalFocuses++;
-                input.Unfocused += (object sender, FocusEventArgs e) => TotalFocuses--;
-            }
+                Inputs.Clear();
+                this.OnClick += OnPopupWrapperClicked;
 
-            PopupWrapper.OnClick += onWrapperClicked;
-            PopupOuterFrame.OnClick += onOuterFrameClicked;
+                ClickableFrame OuterFrame = this.Content as ClickableFrame;
+                OuterFrame.OnClick += OnPopupBodyClicked;
+
+                ClickableFrame InnerFrame = OuterFrame.Content as ClickableFrame;
+                StackLayout ContentWrapper = InnerFrame.Content as StackLayout;
+
+                foreach (View input in ContentWrapper.Children)
+                    if (typeof(InputView).IsInstanceOfType(input))
+                    {
+                        Inputs.Add(input as InputView);
+                        input.Focused += (object sender, FocusEventArgs e) => TotalFocuses++;
+                        input.Unfocused += (object sender, FocusEventArgs e) => TotalFocuses--;
+                    }
+            }
+            catch
+            {
+                throw new IllegalPoupStructureException();
+            }
         }
 
         public void Show()
         {
             OnShow?.Invoke();
-            PopupWrapper.IsVisible = true;
+            this.IsVisible = true;
         }
 
         public bool ForceHide()
@@ -51,7 +69,7 @@ namespace GoNTrip.Pages.Additional.Popups
             foreach (InputView input in Inputs)
                 input.Unfocus();
 
-            PopupWrapper.IsVisible = false;
+            this.IsVisible = false;
             return true;
         }
 

@@ -111,6 +111,7 @@ class MonoPackageManager_Resources {
 	public static final String[] Assemblies = new String[]{
 		/* We need to ensure that "GoNTrip.Android.dll" comes first in this list. */
 		"GoNTrip.Android.dll",
+		"Autofac.dll",
 		"CustomControls.Android.dll",
 		"FormsViewGroup.dll",
 		"GoNTrip.dll",
