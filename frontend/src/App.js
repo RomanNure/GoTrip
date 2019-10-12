@@ -18,20 +18,25 @@ export default class App extends Component {
 
     }
   }
-
+  /* eslint-disable */
   render() {
+
     console.log('router', this.props)
     return (
-      <>
+      <div className="container-fluid" style={{backgroundColor:"#eee"}}>
         <Header />
 
-          {/* A <Switch> looks through its children <Route>s and
-            renders the first one that matches the current URL. */}
-            <Route path="/" component={Home} />
-            <Route path="/login" component={SignIn} />
-            <Route path="/registration" component={SignUp} />
+        <Switch>
+          <Route path="/" exact component={Home} />
+          <Route path="/login" exact component={SignIn} />
 
-      </>
+          <Route path="/registration" exact component={SignUp} />
+          <Route path="/urer/:id" />
+          <Route component={NotFound} />
+        </Switch>
+
+
+      </div>
     )
   }
 }

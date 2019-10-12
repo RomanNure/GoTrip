@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -29,30 +29,32 @@ function Copyright() {
     );
 }
 
-const useStyles = makeStyles(theme => ({
+const useStyles = {//makeStyles(theme => ({
     '@global': {
         body: {
-            backgroundColor: theme.palette.common.white,
+            backgroundColor: "red"
+            //    backgroundColor: theme.palette.common.white,
         },
     },
     paper: {
-        marginTop: theme.spacing(8),
+        //    marginTop: theme.spacing(8),
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
     },
     avatar: {
-        margin: theme.spacing(1),
-        backgroundColor: theme.palette.secondary.main,
+        justifyContent: "center"
+        //    margin: theme.spacing(1),
+        //    backgroundColor: theme.palette.secondary.main,
     },
     form: {
         width: '100%', // Fix IE 11 issue.
-        marginTop: theme.spacing(1),
+        //    marginTop: theme.spacing(1),
     },
     submit: {
-        margin: theme.spacing(3, 0, 2),
+        //    margin: theme.spacing(3, 0, 2),
     },
-}));
+};
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -63,25 +65,24 @@ export default class SignIn extends Component {
     }
     render() {
 
-        const classes = false //= useStyles();
+        const classes = useStyles;
         console.log(' - SignIn')
         return (
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 open={this.state.tab}
-                onBackdropClick={() => this.setState({ tab: false })}
+                onBackdropClick={() => this.props.history.push('/')}
             >
-
                 <Container component="main" maxWidth="xs" style={{ backgroundColor: "white", borderRadius: 30 }}>
                     <CssBaseline />
                     <div className={classes.paper}>
-                        <Avatar className={classes.avatar}>
+                        <Avatar style={classes.avatar}>
                             <LockOutlinedIcon />
                         </Avatar>
                         <Typography component="h1" variant="h5">
                             Sign in
-                </Typography>
+                        </Typography>
                         <form className={classes.form} noValidate>
                             <TextField
                                 variant="outlined"
@@ -137,8 +138,87 @@ export default class SignIn extends Component {
                     </Box>
                 </Container>
             </Modal>
-    
         )
     }
 
+}
+*/
+
+import React, { Component } from 'react';
+import axios from 'axios';
+
+const display = {
+    display: 'block',
+    top: 70,
+    width: 450,
+    height: 550,
+    borderRadius: 50
+};
+const hide = {
+    display: 'none'
+};
+export default class SignIn extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            toggle: true,
+            checked: false
+        }
+    }
+    _onSubmit = () => {
+        let { login, pass } = this.refs;
+        console.log('post', login.value, pass.value)
+        axios.post("https://go-trip.herokuapp.com/authorize/", { login: login.value, password: pass.value })
+            .then(data => console.log('data => ', data))
+            .catch(e => console.log('error => ', e))
+    }
+
+    render() {
+        const modal = [];
+        modal.push(
+            <div className="modal" style={this.state.toggle ? display : hide}>
+                <div className="modal-content" style={{ paddingTop: 50, justifyContent: "center" }}>
+                    <div className="row" style={{ justifyContent: "center" }}>
+                        <i className="material-icons ">lock</i>
+                        <h4>Sign In</h4>
+                    </div>
+                    <div className="row" style={{ margin: 5 }}>
+                        <div class="input-field col s6">
+                            <input ref='login' placeholder="Login" id="login" type="text" class="validate" />
+                        </div>
+                    </div>
+                    <div className="row" style={{ margin: 5 }}>
+                        <div class="input-field col s6">
+                            <input ref='pass' placeholder="Password" id="password" type="password" class="validate" />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginLeft: 7 }}>
+                        <label>
+                            <input type="checkbox" class="filled-in" checked={this.state.checked} onClick={() => this.setState({ checked: !this.state.checked })} />
+                            <span>Rememder me</span>
+                        </label>
+                    </div>
+                    <div className="row" style={{ justifyContent: "center" }}>
+                        <a className="btn waves-effect waves-light #e1f5fe light-blue lighten-5"
+                            onClick={this._onSubmit} style={{ width: "90%", alignContent: "center" }}>Sign In</a>
+                    </div>
+                    <div className="row">
+                        <a className="col s6" href="/registration"> Forgot password</a>
+                        <a href="/registration"> Don't have an account? Sign Up</a>
+                    </div>
+                </div>
+                <div className="modal-footer" style={{ justifyContent: "center" }}>
+                    <div>Copyright @ Go&Trip 2019.</div>
+                </div>
+            </div>
+        );
+        return (
+            <div class="container">
+                <div>
+                    {modal}
+                </div>
+            </div>
+
+        );
+    }
 }

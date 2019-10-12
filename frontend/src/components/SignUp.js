@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
+/*import React, { Component } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import { Link } from 'react-router-dom';
+
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -18,9 +19,7 @@ function Copyright() {
     return (
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
-            <Link color="inherit" href="https://material-ui.com/">
-                Go&Trips
-            </Link>
+            Go&Trips
             {' '}
             {new Date().getFullYear()}
             {'.'}
@@ -60,18 +59,30 @@ export default class SignUp extends Component {
             tab: true
         }
     }
+    shouldComponentUpdate(p,s){
+        console.log('p= >', p, this.props)
+        console.log('s= >', s, this.state)
+        return false
+    
+    }
+
+    _onConfirm = () => (e) => {
+        console.log('e', e)
+        e.preventDefault()
+     //   console.log('confirmed');
+    }
+
     render() {
 
         const classes = false//useStyles();
-
+        console.log('render SignUp')
         return (
             <Modal
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
                 open={this.state.tab}
-                onBackdropClick={() => this.setState({ tab: false })}
+                onBackdropClick={() => this.props.history.push('/')}
             >
-
                 <Container component="main" maxWidth="xs" style={{ backgroundColor: "white", borderRadius: 30, }}>
                     <CssBaseline />
                     <div className={classes.paper}>
@@ -140,15 +151,16 @@ export default class SignUp extends Component {
                                 fullWidth
                                 variant="contained"
                                 color="primary"
-                                className={classes.submit}
+                                //className={classes.submit}
+                                onClick={() => {console.log("clicked")}}
                             >
                                 Sign Up
-                    </Button>
+                            </Button>
                             <Grid container justify="flex-end">
                                 <Grid item>
-                                    <Link href="#" variant="body2">
+                                    <Link to="/login">
                                         Already have an account? Sign in
-                            </Link>
+                                    </Link>
                                 </Grid>
                             </Grid>
                         </form>
@@ -158,6 +170,92 @@ export default class SignUp extends Component {
                     </Box>
                 </Container>
             </Modal>
+        );
+    }
+}
+*/
+import React, { Component } from 'react';
+
+
+const display = {
+    display: 'block',
+    top: 70,
+    width: 500,
+    borderRadius: 50
+};
+const hide = {
+    display: 'none'
+};
+export default class SignUp extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            toggle: true,
+            checked: false
+        }
+    }
+
+    _onSubmit = () => {
+        let {email, p1, p2, login} = this.refs
+        console.log(' - onSubmit()')
+        const EMAIL = /[\w\.-]+@\w{3,5}\.{1}\w{2,3}([\w]{2,3})?/ig
+        const LOGIN = /(\w{5,})/ig 
+    }
+    render() {
+        const modal = [];
+        modal.push(
+            <div className="modal" style={this.state.toggle ? display : hide}>
+                <div className="modal-content" style={{ paddingTop: 50, justifyContent: "center" }}>
+                    <div className="row" style={{ justifyContent: "center" }}>
+                        <i className="material-icons ">lock</i>
+                        <h4>Sign Up</h4>
+                    </div>
+                    <div className="row" style={{ marginLeft: 5, marginRight: 5, height: 50 }}>
+                        <div class="input-field col s6">
+                            <input ref="login" placeholder="Login" id="login" type="text" class="validate" />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginLeft: 5, marginRight: 5, height: 50 }}>
+                        <div class="input-field col s6">
+                            <input ref="email" placeholder="Email " id="email" type="email" class="validate" />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginLeft: 5, marginRight: 5, height: 50 }}>
+                        <div class="input-field col s6">
+                            <input ref="p1" placeholder="Password" id="password1" type="password" class="validate" />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginLeft: 5, marginRight: 5, height: 50 }}>
+                        <div class="input-field col s6">
+                            <input ref="p2" placeholder="Confirm password" id="password2" type="password" class="validate" />
+                        </div>
+                    </div>
+                    <div className="row" style={{ marginTop: 5, marginLeft: 7 }}>
+                        <label>
+                            <input type="checkbox" class="filled-in" checked={this.state.checked} onChange={() => this.setState({ checked: !this.state.checked })} />
+                            <span>I want receive message and updates via email</span>
+                        </label>
+                    </div>
+                    <div className="row" style={{ justifyContent: "center" }}>
+                        <a className="btn waves-effect waves-light #e1f5fe light-blue lighten-5"
+                            onClick={this._onSubmit} style={{ width: "90%", alignContent: "center" }}>Sign Up</a>
+                    </div>
+                    <div className="row">
+                        <a href="/login"> Already have an account? Sign In</a>
+                    </div>
+                </div>
+                <div className="modal-footer" style={{ justifyContent: "center" }}>
+                    <div>Copyright @ Go&Trip 2019.</div>
+                </div>
+            </div>
+        );
+        return (
+            <div class="container">
+                <div>
+                    {modal}
+                </div>
+            </div>
+
         );
     }
 }

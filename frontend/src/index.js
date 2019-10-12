@@ -4,10 +4,11 @@ import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
-
-
+/*eslint-disable */
 ReactDOM.render(
     <BrowserRouter>
         <App />
-    </BrowserRouter>, document.getElementById('root'));
+    </BrowserRouter>,
+    document.getElementById('root'));
+/*eslint-enable */
 
