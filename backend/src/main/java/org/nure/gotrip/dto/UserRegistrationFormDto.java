@@ -20,4 +20,11 @@ public class UserRegistrationFormDto {
 	@NotNull
 	private String email;
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }
