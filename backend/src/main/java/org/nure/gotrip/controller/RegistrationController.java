@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,13 +35,9 @@ public class RegistrationController {
 		this.registrationUserFormValidator = registrationUserFormValidator;
 	}
 
-	@PostMapping(value = "/register")
-	public ResponseEntity signUp(
-			@RequestParam String login,
-			@RequestParam String password,
-			@RequestParam String email) {
+	@PostMapping(value = "/register", produces = "application/json")
+	public ResponseEntity signUp(@RequestBody UserRegistrationFormDto userRegistrationFormDto) {
 		try {
-			UserRegistrationFormDto userRegistrationFormDto = new UserRegistrationFormDto(login, password, email);
 			registrationUserFormValidator.registrationUserFormValid(userRegistrationFormDto);
 			RegisteredUser user = modelMapper.map(userRegistrationFormDto, RegisteredUser.class);
 			registeredUserService.add(user);
