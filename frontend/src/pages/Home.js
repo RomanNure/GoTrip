@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import SignIn from '../components/SignIn.js';
+//import SignIn from '../components/SignIn.js';
 
 export default class Home extends Component {
   constructor(props) {

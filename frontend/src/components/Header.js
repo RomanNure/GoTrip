@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import { CardMedia } from '@material-ui/core';
 export default class Header extends Component {
     constructor(props) {
         super(props);
@@ -15,7 +14,7 @@ export default class Header extends Component {
                     <div className="nav-wrapper #81c784 green lighten-2">
                         <a href="/" className="brand-logo"><img src="./gotrip.svg" height="125" width="125" /></a>
                         <ul className="right hide-on-med-and-down">
-                            <li><a href="sass.html"><i class="material-icons">search</i></a></li>
+                            <li><a href="sass.html"><i className="material-icons">search</i></a></li>
                             <li className="active"><Link to="/registration">Sign Up</Link></li>
                             <li><Link to="/login">Sign In</Link></li>
                         </ul>

@@ -23,18 +23,18 @@ export default class App extends Component {
 
     console.log('router', this.props)
     return (
-      <div className="container-fluid" style={{backgroundColor:"#eee"}}>
+      <div className="container-fluid" style={{ backgroundColor: "#eee" }}>
         <Header />
+        <div className="container-fluid" style={{ marginTop: 125 }}>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/login" exact component={SignIn} />
 
-        <Switch>
-          <Route path="/" exact component={Home} />
-          <Route path="/login" exact component={SignIn} />
-
-          <Route path="/registration" exact component={SignUp} />
-          <Route path="/urer/:id" />
-          <Route component={NotFound} />
-        </Switch>
-
+            <Route path="/registration" exact component={SignUp} />
+            <Route path="/urer/:id" />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
 
       </div>
     )
