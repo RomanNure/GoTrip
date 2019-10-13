@@ -19,7 +19,7 @@ namespace GoNTrip.Pages.Additional.Validators
             ValidHandler = validHandler;
         }
 
-        public bool Valiadte(T validated)
+        public bool Validate(T validated)
         {
             if (Validator == null)
                 return true;

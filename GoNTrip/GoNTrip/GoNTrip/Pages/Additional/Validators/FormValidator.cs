@@ -20,7 +20,10 @@ namespace GoNTrip.Pages.Additional.Validators
 
         public int Add<T>(FieldValidationHandler<T> validationHandler, T validated)
         {
-            Validation.Add(++id, () => validationHandler.Valiadte(validated));
+            if (Registry.ContainsKey(validated))
+                return -1;
+
+            Validation.Add(++id, () => validationHandler.Validate(validated));
             Registry.Add(validated, id);
 
             return id;
