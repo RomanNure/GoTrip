@@ -100,7 +100,26 @@ export default class SignUp extends Component {
             email: 'roman.kameneiv@gmail.com',//email.value,
             password: '2000Test'//p1.value
         }
-        api.post('/register', user)
+        axios({
+            method: "post",
+            url: 'https://go-trip.herokuapp.com/register',
+            headers: {
+                'Content-Type': 'application/json',//Content-Type': 'appication/json',
+            },
+            data: {
+                login: 'RomanTest123',//login.value,
+                password: '2000Testa',//p1.value
+                email: 'roman.kameneiv@nure.ua',//email.value,
+            },
+        })
+        /*axios.post('https://go-trip.herokuapp.com/register',
+            {
+                login: 'RomanTest',//login.value,
+                password: '2000Testa',//p1.value
+                email: 'roman.kameneiv@gmail.com',
+            }, {
+            
+        })*/
             .then(response => {
                 const addedUser = response.data;
                 console.log(`POST: user is added`, addedUser);
