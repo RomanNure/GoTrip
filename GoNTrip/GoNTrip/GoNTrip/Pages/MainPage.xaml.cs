@@ -14,7 +14,6 @@ using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.Validators;
 using GoNTrip.ServerInteraction.QueryFactories;
 using GoNTrip.ServerInteraction.ResponseParsers;
-using GoNTrip.ServerInteraction.ResponseParsers.Auth;
 using GoNTrip.Pages.Additional.Validators.ModelFieldsPatterns;
 
 namespace GoNTrip.Pages
@@ -27,7 +26,9 @@ namespace GoNTrip.Pages
 
         private PopupControlSystem PopupControl = null;
 
-        Clicked OnPopupBodyClicked = (e, sender) => true;
+        public static readonly Clicked OnPopupBodyClickedIgnore = (e, sender) => true;
+
+        public void act() { }
 
         public MainPage()
         {
@@ -37,10 +38,10 @@ namespace GoNTrip.Pages
 
             //Clicked OnPopupWrapperClicked = (e, sender) => { popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded(); return true; };
 
-            SignUpPopup.OnPopupBodyClicked += OnPopupBodyClicked;
-            LogInPopup.OnPopupBodyClicked += OnPopupBodyClicked;
-            ActivityPopup.OnPopupBodyClicked += OnPopupBodyClicked;
-            ErrorPopup.OnPopupBodyClicked += OnPopupBodyClicked;
+            SignUpPopup.OnPopupBodyClicked += OnPopupBodyClickedIgnore;
+            LogInPopup.OnPopupBodyClicked += OnPopupBodyClickedIgnore;
+
+            ErrorPopup.OnFirstButtonClicked = AuthErrorClose_Clicked;
 
             ValidationHandler<InputView> InvalidHandler = Input => Input.BackgroundColor = (Color)Application.Current.Resources["InvalidColor"];
             ValidationHandler<InputView> ValidHandler = Input => Input.BackgroundColor = (Color)Application.Current.Resources["ContentBackColor"];
@@ -100,22 +101,20 @@ namespace GoNTrip.Pages
                 User user = null;
                 await Task.Run(() =>
                 {
-                    IServerCommunicator server = App.DI.ResolveOptional<IServerCommunicator>();
-                    AuthQueryFactory authQueryFactory = App.DI.Resolve<AuthQueryFactory>();
-                    IQuery signUpQuery = authQueryFactory.SignUp(login, password, email);
-                    IResponseParser signUpParser = App.DI.Resolve<SignUpResponseParser>();
-                    IServerResponse response = server.SendQuery(signUpQuery);
-                    user = signUpParser.Parse(response) as User;
+                    IQuery signUpQuery = App.DI.Resolve<AuthQueryFactory>().SignUp(login, password, email);
+                    IServerResponse response = App.DI.ResolveOptional<IServerCommunicator>().SendQuery(signUpQuery);
+                    user = App.DI.Resolve<JsonResponseParser>().Parse<User>(response);
                 });
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-                App.Current.MainPage = new ProfilePage(user);
+                App.Current.MainPage = new ProfilePage(user.id);
             }
             catch (ResponseException ex)
             {
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-                AuthErrorMessage.Text = ex.message;
+                ErrorPopup.MessageText = ex.message;
+                //AuthErrorMessage.Text = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
             /*catch(Exception ex)
@@ -146,23 +145,21 @@ namespace GoNTrip.Pages
                 User user = null;
                 await Task.Run(() =>
                 {
-                    IServerCommunicator server = App.DI.Resolve<IServerCommunicator>();
-                    AuthQueryFactory authQueryFactory = App.DI.Resolve<AuthQueryFactory>();
-                    IQuery logInQuery = authQueryFactory.LogIn(login, password);
-                    IResponseParser logInParser = App.DI.Resolve<LogInResponseParser>();
-                    IServerResponse response = server.SendQuery(logInQuery);
-                    user = logInParser.Parse(response) as User;
+                    IQuery logInQuery = App.DI.Resolve<AuthQueryFactory>().LogIn(login, password);
+                    IServerResponse response = App.DI.ResolveOptional<IServerCommunicator>().SendQuery(logInQuery);
+                    user = App.DI.Resolve<JsonResponseParser>().Parse<User>(response);
                 });
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-                App.Current.MainPage = new ProfilePage(user);
+                App.Current.MainPage = new ProfilePage(user.id);
             }
             catch (ResponseException ex)
             {
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-                AuthErrorMessage.Text = ex.message;
+                ErrorPopup.MessageText = ex.message;
+                //AuthErrorMessage.Text = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
         }

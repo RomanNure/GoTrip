@@ -34,7 +34,7 @@ namespace GoNTrip.ServerAccess
                 if (query.Method == QueryMethod.GET)
                     response = QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
                 else
-                    response = QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
+                    response = QueryPOST(queryUrl, query.ContentType, query.QueryBody, query.NeededHeaders);
 
                 return new ServerResponse(response.data, response.headers);
             }
@@ -66,11 +66,11 @@ namespace GoNTrip.ServerAccess
             return GetResponse(request, neededHeadersNames);
         }
 
-        private (string data, Dictionary<string, string> headers) QueryPOST(string url, string queryBody, IList<string> neededHeadersNames)
+        private (string data, Dictionary<string, string> headers) QueryPOST(string url, string contentType, string queryBody, IList<string> neededHeadersNames)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = WebRequestMethods.Http.Post;
-            request.ContentType = "application/x-www-form-urlencoded";
+            request.ContentType = contentType;
 
             byte[] queryBodyData = Encoding.UTF8.GetBytes(queryBody);
             request.ContentLength = queryBodyData.Length;

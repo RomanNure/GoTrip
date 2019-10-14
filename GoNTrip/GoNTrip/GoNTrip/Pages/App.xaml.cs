@@ -7,7 +7,6 @@ using GoNTrip.ServerAccess;
 using GoNTrip.InternalDataAccess;
 using GoNTrip.ServerInteraction.QueryFactories;
 using GoNTrip.ServerInteraction.ResponseParsers;
-using GoNTrip.ServerInteraction.ResponseParsers.Auth;
 
 using System;
 
@@ -27,9 +26,7 @@ namespace GoNTrip.Pages
             builder.RegisterType<ServerCommunicator>().SingleInstance().As<IServerCommunicator>();
 
             builder.RegisterType<AuthQueryFactory>().SingleInstance().AsSelf();
-
-            builder.RegisterType<SignUpResponseParser>().SingleInstance().AsSelf();
-            builder.RegisterType<LogInResponseParser>().SingleInstance().AsSelf();
+            builder.RegisterType<JsonResponseParser>().SingleInstance().AsSelf();
 
             DI = builder.Build();
         }

@@ -5,6 +5,6 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
 {
     public interface IResponseParser
     {
-        ModelElement Parse(IServerResponse modelElementJSON);
+        T Parse<T>(IServerResponse modelElementJSON) where T : ModelElement;
     }
 }
