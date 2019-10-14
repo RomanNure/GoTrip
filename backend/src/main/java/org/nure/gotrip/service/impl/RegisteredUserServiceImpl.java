@@ -25,11 +25,11 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		this.encoder = encoder;
 	}
 
-	public void add(RegisteredUser user) throws NotUniqueUserException{
+	public RegisteredUser add(RegisteredUser user) throws NotUniqueUserException{
 		try {
 			user.setPassword(encoder.encode(user.getPassword()));
 			user.setRegistrationDatetime(new Date(System.currentTimeMillis()));
-			registeredUserRepository.save(user);
+			return registeredUserRepository.save(user);
 		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueUserException("The database contains a user with this login");
 		}

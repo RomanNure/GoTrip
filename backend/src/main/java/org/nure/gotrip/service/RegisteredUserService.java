@@ -6,7 +6,7 @@ import org.nure.gotrip.model.RegisteredUser;
 
 public interface RegisteredUserService {
 
-	void add(RegisteredUser user) throws NotUniqueUserException;
+	RegisteredUser add(RegisteredUser user) throws NotUniqueUserException;
 
 	RegisteredUser update(RegisteredUser user);
 

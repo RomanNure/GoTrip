@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mail</title>
+    <style>
+        form{
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .main{
+            background: url("https://ua.igotoworld.com/frontend/webcontent/images/tours/1928658_800x600_1435844574-254054__vuchatyj-kamin.jpg");
+            position: fixed;
+            width: 800px;
+            height: 480px;
+        }
+
+        .confirmation{
+            box-shadow: 0px 10px 14px -7px #3e7327;
+            background: #77b55a linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
+            border-radius:4px;
+            border:1px solid #4b8f29;
+            display:inline-block;
+            cursor:pointer;
+            color:#ffffff;
+            font-size:40pt;
+            font-weight:bold;
+            padding:6px 12px;
+            text-decoration:none;
+            text-shadow: 0px 1px 0px #5b8a3c;
+
+            margin-top: 20px;
+            margin-left: 230px;
+        }
+
+        .main-text{
+            width: 720px;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-top: 40px;
+            background: rgba(255, 255, 255, 0.3);
+            font-size: 28pt;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <span class="main-text">Hello, ?. Please, confirm your Go&Trip email by clicking on the button below.</span>
+        <form action="mailaddress" method="post">
+            <input type="hidden" name="userId" value="?">
+            <br/>
+            <input type="submit" class="confirmation" value="Confirm email">
+        </form>
+    </div>
+</body>
+</html>
