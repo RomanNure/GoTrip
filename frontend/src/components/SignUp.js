@@ -89,7 +89,7 @@ export default class SignUp extends Component {
             }
         }
         console.log('values =>', login.value, email.value, p1.value)
-        
+
         let user = {
             login: login.value,
             email: email.value,
