@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization.Formatters.Binary;
 
 using GoNTrip.ServerInteraction.ResponseParsers;
 
@@ -12,6 +13,9 @@ namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
     {
+        public const string APP_JSON = "application/json";
+        public const string APP_URLENCODED = "application/x-www-form-urlencoded";
+
         public const string SERVER_URL = "https://go-trip.herokuapp.com";
 
         private string serverUrl = "";
@@ -28,13 +32,13 @@ namespace GoNTrip.ServerAccess
 
             try
             {
-                string queryUrl = ServerURL + "/" + LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "") + (query.ParametersString == "" ? "" : "?" + query.ParametersString);
+                string queryUrl = ServerURL + "/" + LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "");
+                (string data, IDictionary<string, string> headers) response = (null, null);
 
-                (string data, IDictionary<string, string> headers) response;
                 if (query.Method == QueryMethod.GET)
                     response = QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
-                else
-                    response = QueryPOST(queryUrl, query.ContentType, query.QueryBody, query.NeededHeaders);
+                else if (query.Method == QueryMethod.POST)
+                    response = QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
 
                 return new ServerResponse(response.data, response.headers);
             }
@@ -58,19 +62,30 @@ namespace GoNTrip.ServerAccess
             }
         }
 
-        private (string data, Dictionary<string, string> headers) QueryGET(string url, string parametersString, IList<string> neededHeadersNames)
+        private byte[] Serialize<T>(T obj)
         {
-            HttpWebRequest request = WebRequest.CreateHttp(url);
+            using (MemoryStream memStream = new MemoryStream())
+            {
+                BinaryFormatter binSerializer = new BinaryFormatter();
+                binSerializer.Serialize(memStream, obj);
+                return memStream.ToArray();
+            }
+        }
+
+        private (string data, Dictionary<string, string> headers) QueryGET(string url, string parameterString, IList<string> neededHeadersNames)
+        {
+            HttpWebRequest request = WebRequest.CreateHttp(url + (parameterString == "" ? "" : "?" + parameterString));
             request.Method = WebRequestMethods.Http.Get;
+            request.ContentType = APP_URLENCODED;
 
             return GetResponse(request, neededHeadersNames);
         }
 
-        private (string data, Dictionary<string, string> headers) QueryPOST(string url, string contentType, string queryBody, IList<string> neededHeadersNames)
+        private (string data, Dictionary<string, string> headers) QueryPOST(string url, string queryBody, IList<string> neededHeadersNames)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = WebRequestMethods.Http.Post;
-            request.ContentType = contentType;
+            request.ContentType = APP_JSON;
 
             byte[] queryBodyData = Encoding.UTF8.GetBytes(queryBody);
             request.ContentLength = queryBodyData.Length;

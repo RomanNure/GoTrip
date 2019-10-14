@@ -9,7 +9,6 @@ namespace GoNTrip.ServerAccess
         IDictionary<string, string> Parameters { get; }
         string ParametersString { get; }
         string QueryBody { get; }
-        string ContentType { get; }
         IList<string> NeededHeaders { get; }
     }
 }

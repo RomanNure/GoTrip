@@ -27,7 +27,7 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
 
         public static string GenerateJson(string message)
         {
-            return "{ \"timestamp\" : \"" + DateTime.Now.ToShortDateString() + "\", \"status\" : \"error\", \"error\" : \"no connection\", \"message\" : \"" + message + "\", \"path\" : \"\" }";
+            return "{ \"timestamp\" : " + JsonConvert.SerializeObject(DateTime.Now) + ", \"status\" : \"error\", \"error\" : \"" + message + "\", \"message\" : \"" + message + "\", \"path\" : \"\" }";
         }
     }
 }

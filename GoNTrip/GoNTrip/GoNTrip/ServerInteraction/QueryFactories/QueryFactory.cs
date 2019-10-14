@@ -34,8 +34,8 @@ namespace GoNTrip.ServerInteraction.QueryFactories
             foreach (PropertyInfo PI in item.GetType().GetProperties())
                 if (PI.CustomAttributes.Select(A => A.AttributeType).Contains(typeof(R)))
                 {
-                    string propertyValue = JsonConvert.SerializeObject(PI.GetValue(item));
-                    data.Add(PI.Name, propertyValue.Substring(1, propertyValue.Length - 2));
+                    string propertyValue = JsonConvert.SerializeObject(PI.GetValue(item)).Trim('\"');
+                    data.Add(PI.Name, propertyValue);
                 }
 
             return data;

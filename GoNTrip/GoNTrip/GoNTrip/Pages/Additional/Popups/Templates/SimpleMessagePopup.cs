@@ -58,11 +58,6 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
         private Label MessageLabel { get; set; }
 
-        private Button FirstButton { get; set; }
-        private Button SecondButton { get; set; }
-        private Button ThirdButton { get; set; }
-
-
         public SimpleMessagePopup()
         {
             StackLayout layout = new StackLayout();

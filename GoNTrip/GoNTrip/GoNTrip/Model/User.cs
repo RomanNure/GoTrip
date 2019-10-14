@@ -15,6 +15,8 @@ namespace GoNTrip.Model
         [JsonRequired]
         public long id { get; set; }
 
+        [GetProfileFiled]
+        public long userId { get; set; }
         
         [LogInField]
         [SignUpField]
@@ -41,6 +43,7 @@ namespace GoNTrip.Model
         public string avatarUrl { get; set; }
 
         public User() { }
+        public User(long id) { userId = id; this.id = id; }
         public User(string login, string password, string email = "")
         {
             this.login = login;

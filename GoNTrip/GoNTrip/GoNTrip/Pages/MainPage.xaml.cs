@@ -9,10 +9,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using GoNTrip.Model;
-using GoNTrip.ServerAccess;
+using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.Validators;
-using GoNTrip.ServerInteraction.QueryFactories;
 using GoNTrip.ServerInteraction.ResponseParsers;
 using GoNTrip.Pages.Additional.Validators.ModelFieldsPatterns;
 
@@ -99,12 +98,7 @@ namespace GoNTrip.Pages
             try
             {
                 User user = null;
-                await Task.Run(() =>
-                {
-                    IQuery signUpQuery = App.DI.Resolve<AuthQueryFactory>().SignUp(login, password, email);
-                    IServerResponse response = App.DI.ResolveOptional<IServerCommunicator>().SendQuery(signUpQuery);
-                    user = App.DI.Resolve<JsonResponseParser>().Parse<User>(response);
-                });
+                await Task.Run(() => user = App.DI.Resolve<SignUpController>().SignUp(login, password, email));
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
                 App.Current.MainPage = new ProfilePage(user.id);
@@ -114,7 +108,6 @@ namespace GoNTrip.Pages
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
                 ErrorPopup.MessageText = ex.message;
-                //AuthErrorMessage.Text = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
             /*catch(Exception ex)
@@ -143,15 +136,9 @@ namespace GoNTrip.Pages
             try
             {
                 User user = null;
-                await Task.Run(() =>
-                {
-                    IQuery logInQuery = App.DI.Resolve<AuthQueryFactory>().LogIn(login, password);
-                    IServerResponse response = App.DI.ResolveOptional<IServerCommunicator>().SendQuery(logInQuery);
-                    user = App.DI.Resolve<JsonResponseParser>().Parse<User>(response);
-                });
+                await Task.Run(() => user = App.DI.Resolve<LogInController>().LogIn(login, password));
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-
                 App.Current.MainPage = new ProfilePage(user.id);
             }
             catch (ResponseException ex)
@@ -159,7 +146,6 @@ namespace GoNTrip.Pages
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
                 ErrorPopup.MessageText = ex.message;
-                //AuthErrorMessage.Text = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
         }

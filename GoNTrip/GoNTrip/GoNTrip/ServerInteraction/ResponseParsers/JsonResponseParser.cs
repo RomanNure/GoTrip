@@ -2,6 +2,7 @@
 using GoNTrip.ServerAccess;
 
 using Newtonsoft.Json;
+using System;
 
 namespace GoNTrip.ServerInteraction.ResponseParsers
 {

@@ -1,14 +1,14 @@
-﻿using Autofac;
+﻿using System;
+
+using Autofac;
 
 using Xamarin.Forms;
-using Xamarin.Forms.Internals;
 
+using GoNTrip.Controllers;
 using GoNTrip.ServerAccess;
 using GoNTrip.InternalDataAccess;
 using GoNTrip.ServerInteraction.QueryFactories;
 using GoNTrip.ServerInteraction.ResponseParsers;
-
-using System;
 
 namespace GoNTrip.Pages
 {
@@ -25,8 +25,16 @@ namespace GoNTrip.Pages
 
             builder.RegisterType<ServerCommunicator>().SingleInstance().As<IServerCommunicator>();
 
-            builder.RegisterType<AuthQueryFactory>().SingleInstance().AsSelf();
-            builder.RegisterType<JsonResponseParser>().SingleInstance().AsSelf();
+            builder.RegisterType<SignUpController>().SingleInstance().AsSelf();
+            builder.RegisterType<SignUpQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<LogInController>().SingleInstance().AsSelf();
+            builder.RegisterType<LogInQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<GetProfileController>().SingleInstance().AsSelf();
+            builder.RegisterType<GetProfileQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<JsonResponseParser>().SingleInstance().As<IResponseParser>();
 
             DI = builder.Build();
         }
