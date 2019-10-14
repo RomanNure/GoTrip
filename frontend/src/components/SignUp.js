@@ -15,11 +15,16 @@ const hide = {
 };
 
 const api = axios.create({
-    baseURL: "https://go-trip.herokuapp.com",
+    baseURL: "https://go-trip.herokuapp.com/",
     timeout: 10000,
     headers: {
         "Content-Type": "application/json",
-        'Content-Length': '0'
+        'Accept-Encoding': 'gzip',
+        'Accept-Language': 'en-US',
+        'Allow': 'GET, POST, HEAD, PUT',
+        "Access-Control-Allow-Origin": "https://go-trip.herokuapp.com",
+        'X-Requested-With': 'XMLHttpRequest',
+        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/12.0'
     }
 })
 export default class SignUp extends Component {
@@ -37,7 +42,7 @@ export default class SignUp extends Component {
         const EMAIL = /[\w\.-]+@\w{3,5}\.{1}\w{2,3}([\w]{2,3})?/ig
         const LOGIN = /(\w{8,20})/ig
         const PASSWORD = /\w{8,30}/ig
-        if(!login.value){
+        /*if(!login.value){
             toast.error(" No Login !", {
                 position: toast.POSITION.TOP_RIGHT
             });
@@ -87,13 +92,13 @@ export default class SignUp extends Component {
             if(PASSWORD.test(p1)){
                 console.log('- password matched')
             }
-        }
+        }*/
         console.log('values =>', login.value, email.value, p1.value)
-        
+
         let user = {
-            login: login.value,
-            email: email.value,
-            password: p1.value
+            login: 'RomanTest',//login.value,
+            email: 'roman.kameneiv@gmail.com',//email.value,
+            password: '2000Test'//p1.value
         }
         api.post('/register', user)
             .then(response => {
@@ -103,18 +108,12 @@ export default class SignUp extends Component {
             })
             .catch(error => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     console.log('data=>', error.response.data);
                     console.log("status=>", error.response.status);
                     console.log('headers =>', error.response.headers);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // error.request is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
                     console.log('request err', error.request);
                 } else {
-                    // Something happened in setting up the request that triggered an Error
                     console.log('Error', error.message);
                 }
                 console.log('config', error.config)
