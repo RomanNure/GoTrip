@@ -26,6 +26,7 @@ public class RegistrationControllerTest {
 
 	@MockBean
 	RegisteredUserRepository registeredUserRepository;
+
 	@Autowired
 	private MockMvc mvc;
 
@@ -60,11 +61,6 @@ public class RegistrationControllerTest {
 		String login = "trololoshka";
 		String password = "1234567891011";
 		String email = "trololo@gmail.com";
-		RegisteredUser registeredUser = new RegisteredUser();
-
-		registeredUser.setLogin(login);
-		registeredUser.setPassword(password);
-		registeredUser.setEmail(email);
 
 		Mockito.when(registeredUserRepository.save(Mockito.any(RegisteredUser.class)))
 				.thenThrow(new DataIntegrityViolationException("The database contains a user with this login"));
