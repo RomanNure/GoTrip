@@ -114,16 +114,29 @@ namespace GoNTrip.Pages
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
             PopupControl.OpenPopup(ActivityPopup);
 
-            StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions();
-            MediaFile file = await CrossMedia.Current.TakePhotoAsync(cameraOptions);
-
-            if (file != null)
+            try
             {
-                await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(UserId, file.GetStream());
-                //load to server
-            }
+                StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions();
+                cameraOptions.MaxWidthHeight = Constants.MaxPhotoWidthHeight;
 
-            PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                MediaFile file = await CrossMedia.Current.TakePhotoAsync(cameraOptions);
+
+                if (file != null)
+                {
+                    FilePath url = await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(UserId, file.GetStream());
+                    UserAvatar.Source = ServerAccess.ServerCommunicator.MULTIPART_SERVER_URL + "/" + url.path;
+                    //load to server
+                }
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
         }
 
         private void LoadAvatarFromURL()

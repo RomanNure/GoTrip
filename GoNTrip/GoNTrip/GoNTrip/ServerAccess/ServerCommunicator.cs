@@ -15,7 +15,7 @@ namespace GoNTrip.ServerAccess
     public class ServerCommunicator : IServerCommunicator
     {
         public const string SERVER_URL = "https://go-trip.herokuapp.com";
-        public const string MULTIPART_SERVER_URL = "http://jewelfilter.zzz.com.ua/GoTrip"; //"http://gotrips.dcxv.com:80/GoTrip";
+        public const string MULTIPART_SERVER_URL = "http://185.255.96.249:5000";
 
         public const string APP_JSON = "application/json";
         public const string APP_URLENCODED = "application/x-www-form-urlencoded";
@@ -60,7 +60,7 @@ namespace GoNTrip.ServerAccess
                 }
                 catch (Exception ex)
                 {
-                    return new ServerResponse(ResponseException.GenerateJson("No Internet connection"), Headers);
+                    return new ServerResponse(new ResponseException("No Internet connection").ToString(), Headers);
                 }
             }
             catch (Exception ex)

@@ -7,5 +7,6 @@ namespace GoNTrip
     public static class Constants
     {
         public static Random R = new Random();
+        public const int MaxPhotoWidthHeight = 768;
     }
 }

@@ -15,7 +15,7 @@ namespace GoNTrip.Controllers
         public async Task<User> GetUserById(long id)
         {
             IQuery getUserQuery = await App.DI.Resolve<GetProfileQueryFactory>().GetUserById(id);
-            IServerResponse response = await App.DI.ResolveOptional<IServerCommunicator>().SendQuery(getUserQuery);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getUserQuery);
             return App.DI.Resolve<IResponseParser>().Parse<User>(response);
         }
     }

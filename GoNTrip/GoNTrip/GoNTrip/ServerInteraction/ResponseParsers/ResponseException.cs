@@ -25,9 +25,20 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
         [JsonRequired]
         public string path { get; set; }
 
-        public static string GenerateJson(string message)
+        public ResponseException() { }
+
+        public ResponseException(string message)
         {
-            return "{ \"timestamp\" : " + JsonConvert.SerializeObject(DateTime.Now) + ", \"status\" : \"error\", \"error\" : \"" + message + "\", \"message\" : \"" + message + "\", \"path\" : \"\" }";
+            timestamp = DateTime.Now;
+            status = "error";
+            error = "error";
+            this.message = message;
+            path = "";
+        }
+
+        public override string ToString()
+        {
+            return "{ \"timestamp\" : " + JsonConvert.SerializeObject(DateTime.Now) + ", \"status\" : \"err\", \"error\" : \"" + message + "\", \"message\" : \"" + message + "\", \"path\" : \"\" }";
         }
     }
 }
