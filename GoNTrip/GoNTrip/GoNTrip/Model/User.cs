@@ -15,7 +15,7 @@ namespace GoNTrip.Model
         [JsonRequired]
         public long id { get; set; }
 
-        [GetProfileFiled]
+        [GetProfileField]
         public long userId { get; set; }
         
         [LogInField]

@@ -4,6 +4,7 @@ using Autofac;
 
 using Xamarin.Forms;
 
+using GoNTrip.Util;
 using GoNTrip.Controllers;
 using GoNTrip.ServerAccess;
 using GoNTrip.InternalDataAccess;
@@ -23,7 +24,11 @@ namespace GoNTrip.Pages
             builder.RegisterType<FileManager>().AsSelf();
             builder.RegisterType<JsonConfigurationManager>().As<IConfigManager>();
 
+            builder.RegisterType<Camera>().SingleInstance().AsSelf();
+            builder.RegisterType<Gallery>().SingleInstance().AsSelf();
+
             builder.RegisterType<ServerCommunicator>().SingleInstance().As<IServerCommunicator>();
+            builder.RegisterType<JsonResponseParser>().SingleInstance().As<IResponseParser>();
 
             builder.RegisterType<SignUpController>().SingleInstance().AsSelf();
             builder.RegisterType<SignUpQueryFactory>().SingleInstance().AsSelf();
@@ -37,7 +42,8 @@ namespace GoNTrip.Pages
             builder.RegisterType<ChangeAvatarController>().SingleInstance().AsSelf();
             builder.RegisterType<ChangeAvatarQueryFactory>().SingleInstance().AsSelf();
 
-            builder.RegisterType<JsonResponseParser>().SingleInstance().As<IResponseParser>();
+            builder.RegisterType<UpdateProfileController>().SingleInstance().AsSelf();
+            builder.RegisterType<UpdateProfileQueryFactory>().SingleInstance().AsSelf();
 
             DI = builder.Build();
         }

@@ -18,6 +18,7 @@ namespace GoNTrip.Controllers
             IQuery changeAvatarQuery = await App.DI.Resolve<ChangeAvatarQueryFactory>().ChangeAvatar(id, avatar);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(changeAvatarQuery);
             return App.DI.Resolve<IResponseParser>().Parse<FilePath>(response);
+            //TODO: POST user update
         }
     }
 }

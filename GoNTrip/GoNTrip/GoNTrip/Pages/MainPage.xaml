@@ -60,7 +60,7 @@
             </popups:Popup>
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
-            <templates:SimpleMessagePopup PopupWidth="300" PopupHeight="150" x:Name="ErrorPopup" FirstButtonText="OK" />
+            <templates:SimpleMessagePopup PopupWidth="250" PopupHeight="100" x:Name="ErrorPopup" FirstButtonText="OK" />
             
         </AbsoluteLayout>
     </ContentPage.Content>

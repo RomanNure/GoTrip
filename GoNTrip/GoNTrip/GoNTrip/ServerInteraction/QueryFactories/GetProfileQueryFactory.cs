@@ -10,6 +10,6 @@ namespace GoNTrip.ServerInteraction.QueryFactories
     {
         private const string GET_USER_SERVER_METHOD_NAME = "user/get";
         public async Task<IQuery> GetUserById(long id) =>
-            new Query(QueryMethod.GET, GET_USER_SERVER_METHOD_NAME, parameters: await ExtractQueryParameters<User, GetProfileFiled>(new User(id)));
+            new Query(QueryMethod.GET, GET_USER_SERVER_METHOD_NAME, parameters: await ExtractQueryParameters<User, GetProfileField>(new User(id)));
     }
 }

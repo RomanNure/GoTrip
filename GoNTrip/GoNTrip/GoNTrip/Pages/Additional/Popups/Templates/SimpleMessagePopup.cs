@@ -132,12 +132,16 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
             buttonGrid.HorizontalOptions = LayoutOptions.FillAndExpand;
             buttonGrid.VerticalOptions = LayoutOptions.FillAndExpand;
 
+            List<(string, EventHandler)> popupButtons = buttons.Where(B => B.Item1 != "" || B.Item2 != null).ToList();
+
             int i = 0;
-            foreach((string, EventHandler) buttonInfo in buttons.Where(B => B.Item1 != "" || B.Item2 != null))
+            foreach((string, EventHandler) buttonInfo in popupButtons)
             {
                 Button button = new Button();
+
                 button.Text = buttonInfo.Item1;
-                button.Style = (Style)Application.Current.Resources[POPUP_BUTTON_CLASS];
+                button.Style = (Style)Application.Current.Resources[POPUP_BUTTON_CLASS]; ;
+
                 button.Clicked += (sender, e) => buttonInfo.Item2?.Invoke(sender, e);
                 buttonGrid.Children.Add(button, i++, 0);
             }

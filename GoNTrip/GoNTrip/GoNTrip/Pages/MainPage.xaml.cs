@@ -99,7 +99,7 @@ namespace GoNTrip.Pages
             {
                 User user = await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
 
-                App.Current.MainPage = new ProfilePage(user.id);
+                App.Current.MainPage = new CurrentUserProfilePage(user.id);
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)
@@ -136,7 +136,7 @@ namespace GoNTrip.Pages
             {
                 User user = await App.DI.Resolve<LogInController>().LogIn(login, password);
                 
-                App.Current.MainPage = new ProfilePage(user.id);
+                App.Current.MainPage = new CurrentUserProfilePage(user.id);
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)
