@@ -1,8 +1,10 @@
-﻿namespace GoNTrip.ServerAccess
+﻿using System.Threading.Tasks;
+
+namespace GoNTrip.ServerAccess
 {
     public interface IServerCommunicator
     {
         string ServerURL { get; set; }
-        IServerResponse SendQuery(IQuery query);
+        Task<IServerResponse> SendQuery(IQuery query);
     }
 }

@@ -97,11 +97,10 @@ namespace GoNTrip.Pages
 
             try
             {
-                User user = null;
-                await Task.Run(() => user = App.DI.Resolve<SignUpController>().SignUp(login, password, email));
+                User user = await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
 
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
                 App.Current.MainPage = new ProfilePage(user.id);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)
             {
@@ -135,11 +134,10 @@ namespace GoNTrip.Pages
 
             try
             {
-                User user = null;
-                await Task.Run(() => user = App.DI.Resolve<LogInController>().LogIn(login, password));
-
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                User user = await App.DI.Resolve<LogInController>().LogIn(login, password);
+                
                 App.Current.MainPage = new ProfilePage(user.id);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)
             {

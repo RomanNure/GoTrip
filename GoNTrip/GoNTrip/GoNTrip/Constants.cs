@@ -6,6 +6,6 @@ namespace GoNTrip
 {
     public static class Constants
     {
-
+        public static Random R = new Random();
     }
 }

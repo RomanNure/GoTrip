@@ -34,6 +34,9 @@ namespace GoNTrip.Pages
             builder.RegisterType<GetProfileController>().SingleInstance().AsSelf();
             builder.RegisterType<GetProfileQueryFactory>().SingleInstance().AsSelf();
 
+            builder.RegisterType<ChangeAvatarController>().SingleInstance().AsSelf();
+            builder.RegisterType<ChangeAvatarQueryFactory>().SingleInstance().AsSelf();
+
             builder.RegisterType<JsonResponseParser>().SingleInstance().As<IResponseParser>();
 
             DI = builder.Build();

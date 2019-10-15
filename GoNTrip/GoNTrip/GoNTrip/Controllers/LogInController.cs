@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+
+using Autofac;
 
 using GoNTrip.Model;
 using GoNTrip.Pages;
@@ -10,10 +12,10 @@ namespace GoNTrip.Controllers
 {
     public class LogInController
     {
-        public User LogIn(string login, string password)
+        public async Task<User> LogIn(string login, string password)
         {
-            IQuery logInQuery = App.DI.Resolve<LogInQueryFactory>().LogIn(login, password);
-            IServerResponse response = App.DI.Resolve<IServerCommunicator>().SendQuery(logInQuery);
+            IQuery logInQuery = await App.DI.Resolve<LogInQueryFactory>().LogIn(login, password);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(logInQuery);
             return App.DI.Resolve<IResponseParser>().Parse<User>(response);
         }
     }

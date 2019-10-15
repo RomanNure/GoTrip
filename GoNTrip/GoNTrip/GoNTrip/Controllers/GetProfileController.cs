@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Threading.Tasks;
+
+using Autofac;
 
 using GoNTrip.Model;
 using GoNTrip.Pages;
@@ -10,10 +12,10 @@ namespace GoNTrip.Controllers
 {
     public class GetProfileController
     {
-        public User GetUserById(long id)
+        public async Task<User> GetUserById(long id)
         {
-            IQuery getUserQuery = App.DI.Resolve<GetProfileQueryFactory>().GetUserById(id);
-            IServerResponse response = App.DI.ResolveOptional<IServerCommunicator>().SendQuery(getUserQuery);
+            IQuery getUserQuery = await App.DI.Resolve<GetProfileQueryFactory>().GetUserById(id);
+            IServerResponse response = await App.DI.ResolveOptional<IServerCommunicator>().SendQuery(getUserQuery);
             return App.DI.Resolve<IResponseParser>().Parse<User>(response);
         }
     }

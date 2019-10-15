@@ -3,9 +3,10 @@ using System.IO;
 using System.Net;
 using System.Linq;
 using System.Text;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using System.Runtime.Serialization.Formatters.Binary;
 
 using GoNTrip.ServerInteraction.ResponseParsers;
 
@@ -13,10 +14,12 @@ namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
     {
+        public const string SERVER_URL = "https://go-trip.herokuapp.com";
+        public const string MULTIPART_SERVER_URL = "http://jewelfilter.zzz.com.ua/GoTrip"; //"http://gotrips.dcxv.com:80/GoTrip";
+
         public const string APP_JSON = "application/json";
         public const string APP_URLENCODED = "application/x-www-form-urlencoded";
-
-        public const string SERVER_URL = "https://go-trip.herokuapp.com";
+        public const string MULTIPART_FORM = "multipart/form-data";
 
         private string serverUrl = "";
         public string ServerURL { get { return serverUrl; } set { serverUrl = LastSlash.Replace(value, ""); } }
@@ -26,23 +29,27 @@ namespace GoNTrip.ServerAccess
 
         public ServerCommunicator(string serverUrl = SERVER_URL) => ServerURL = serverUrl;
 
-        public IServerResponse SendQuery(IQuery query)
+        public async Task<IServerResponse> SendQuery(IQuery query)
         {
             IDictionary<string, string> Headers = new Dictionary<string, string>();
 
             try
             {
-                string queryUrl = ServerURL + "/" + LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "");
+                string queryUrl = (query.Method == QueryMethod.POST_MULTIPART ? MULTIPART_SERVER_URL : ServerURL) + "/" + 
+                    LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "");
+
                 (string data, IDictionary<string, string> headers) response = (null, null);
 
                 if (query.Method == QueryMethod.GET)
-                    response = QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
+                    response = await QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
                 else if (query.Method == QueryMethod.POST)
-                    response = QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
+                    response = await QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
+                else if (query.Method == QueryMethod.POST_MULTIPART)
+                    response = await QueryPostMultipart(queryUrl, query.MultipartData.ToList(), query.NeededHeaders);
 
                 return new ServerResponse(response.data, response.headers);
             }
-            catch(WebException wex)
+            catch (WebException wex)
             {
                 try
                 {
@@ -51,37 +58,27 @@ namespace GoNTrip.ServerAccess
                         error = str.ReadToEnd();
                     return new ServerResponse(error, Headers);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return new ServerResponse(ResponseException.GenerateJson("No Internet connection"), Headers);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return new ServerResponse(ex.Message, Headers);
             }
         }
 
-        private byte[] Serialize<T>(T obj)
-        {
-            using (MemoryStream memStream = new MemoryStream())
-            {
-                BinaryFormatter binSerializer = new BinaryFormatter();
-                binSerializer.Serialize(memStream, obj);
-                return memStream.ToArray();
-            }
-        }
-
-        private (string data, Dictionary<string, string> headers) QueryGET(string url, string parameterString, IList<string> neededHeadersNames)
+        private async Task<(string data, Dictionary<string, string> headers)> QueryGET(string url, string parameterString, IList<string> neededHeadersNames)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url + (parameterString == "" ? "" : "?" + parameterString));
             request.Method = WebRequestMethods.Http.Get;
             request.ContentType = APP_URLENCODED;
 
-            return GetResponse(request, neededHeadersNames);
+            return await GetResponse(request, neededHeadersNames);
         }
 
-        private (string data, Dictionary<string, string> headers) QueryPOST(string url, string queryBody, IList<string> neededHeadersNames)
+        private async Task<(string data, Dictionary<string, string> headers)> QueryPOST(string url, string queryBody, IList<string> neededHeadersNames)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = WebRequestMethods.Http.Post;
@@ -90,15 +87,38 @@ namespace GoNTrip.ServerAccess
             byte[] queryBodyData = Encoding.UTF8.GetBytes(queryBody);
             request.ContentLength = queryBodyData.Length;
 
-            using (Stream strw = request.GetRequestStream())
+            using (Stream strw = await request.GetRequestStreamAsync())
                 strw.Write(queryBodyData, 0, queryBodyData.Length);
 
-            return GetResponse(request, neededHeadersNames);
+            return await GetResponse(request, neededHeadersNames);
         }
 
-        private (string, Dictionary<string, string>) GetResponse(HttpWebRequest request, IList<string> neededHeadersNames)
+        private async Task<(string, Dictionary<string, string>)> QueryPostMultipart(string url, List<MultipartDataItem> data, IList<string> neededHeadersNames)
         {
-            using (HttpWebResponse response = request.GetResponse() as HttpWebResponse)
+            MultipartFormDataContent form = new MultipartFormDataContent("-----");
+
+            foreach (MultipartDataItem dataItem in data)
+                if (dataItem.File == "")
+                    form.Add(dataItem.Data, dataItem.Name);
+                else
+                    form.Add(dataItem.Data, dataItem.Name, dataItem.File);
+
+            byte[] bytes = await form.ReadAsByteArrayAsync();
+
+            HttpWebRequest request = WebRequest.CreateHttp(url);
+            request.Method = WebRequestMethods.Http.Post;
+            request.ContentType = MULTIPART_FORM + ";boundary=-----";
+            request.ContentLength = bytes.Length;
+
+            using (Stream strw = await request.GetRequestStreamAsync())
+                strw.Write(bytes, 0, bytes.Length);
+
+            return await GetResponse(request, neededHeadersNames);
+        }
+
+        protected async Task<(string, Dictionary<string, string>)> GetResponse(HttpWebRequest request, IList<string> neededHeadersNames)
+        {
+            using (HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse)
             using (StreamReader str = new StreamReader(response.GetResponseStream()))
             {
                 Dictionary<string, string> Headers = new Dictionary<string, string>();

@@ -10,5 +10,6 @@ namespace GoNTrip.ServerAccess
         string ParametersString { get; }
         string QueryBody { get; }
         IList<string> NeededHeaders { get; }
+        IList<MultipartDataItem> MultipartData { get; }
     }
 }

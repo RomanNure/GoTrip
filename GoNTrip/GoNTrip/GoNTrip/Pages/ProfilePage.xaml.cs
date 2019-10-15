@@ -36,6 +36,7 @@ namespace GoNTrip.Pages
 
         private void ProfilePage_Appearing(object sender, System.EventArgs e)
         {
+            PopupControl.OpenPopup(ActivityPopup);
             LoadUserProfile();
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
@@ -47,12 +48,9 @@ namespace GoNTrip.Pages
 
         private async void LoadUserProfile()
         {
-            PopupControl.OpenPopup(ActivityPopup);
-
             try
             {
-                User user = null;
-                await Task.Run(() => user = App.DI.Resolve<GetProfileController>().GetUserById(UserId));
+                User user = await App.DI.Resolve<GetProfileController>().GetUserById(UserId);
 
                 if (user != null)
                 {
@@ -121,7 +119,7 @@ namespace GoNTrip.Pages
 
             if (file != null)
             {
-                Bitmap newAvatar = BitmapFactory.DecodeStream(file.GetStream());
+                await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(UserId, file.GetStream());
                 //load to server
             }
 
