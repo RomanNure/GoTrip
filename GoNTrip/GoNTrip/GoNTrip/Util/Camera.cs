@@ -15,13 +15,15 @@ namespace GoNTrip.Util
             REAR
         };
 
-        public async Task<Stream> TakePhoto(CameraLocation cameraLocation, int maxSize, int quality = 100)
+        public async Task<Stream> TakePhoto(CameraLocation cameraLocation, int maxSize, int quality = 50)
         {
             StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions();
 
-            cameraOptions.DefaultCamera = cameraLocation == CameraLocation.FRONT ? CameraDevice.Front : CameraDevice.Rear;
+            cameraOptions.AllowCropping = true;
+            cameraOptions.PhotoSize = PhotoSize.MaxWidthHeight;
             cameraOptions.MaxWidthHeight = Math.Max(0, maxSize);
             cameraOptions.CompressionQuality = Math.Min(Math.Max(quality, 0), 100);
+            cameraOptions.DefaultCamera = cameraLocation == CameraLocation.FRONT ? CameraDevice.Front : CameraDevice.Rear;
 
             MediaFile file = await CrossMedia.Current.TakePhotoAsync(cameraOptions);
 

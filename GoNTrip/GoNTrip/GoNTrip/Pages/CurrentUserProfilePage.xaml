@@ -12,6 +12,12 @@
     <ContentPage.Resources>
         <ResourceDictionary>
 
+            <x:Double x:Key="AvatarWidth">130</x:Double>
+            <x:Double x:Key="AvatarHeight">130</x:Double>
+
+            <x:Double x:Key="AvatarChangeButtonWidth">36</x:Double>
+            <x:Double x:Key="AvatarChangeButtonHeight">36</x:Double>
+
             <Style x:Key="HeaderLabel" TargetType="Label" BasedOn="{StaticResource LabelBar}">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="40"/>
@@ -21,16 +27,44 @@
             </Style>
 
             <Style x:Key="Avatar" TargetType="local:Img">
-                <Setter Property="WidthRequest" Value="170"/>
-                <Setter Property="HeightRequest" Value="170"/>
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
             </Style>
 
             <Style x:Key="AvatarChangeButton" TargetType="local:Img">
-                <Setter Property="WidthRequest" Value="36"/>
-                <Setter Property="HeightRequest" Value="36"/>
-                <Setter Property="AbsoluteLayout.LayoutBounds" Value="132,2,36,36"/>
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarChangeButtonWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarChangeButtonHeight}"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="92,2,36,36"/>
             </Style>
-            
+
+            <Style x:Key="AvatarWrapper" TargetType="AbsoluteLayout">
+                <Setter Property="Grid.Column" Value="0"/>
+                <Setter Property="Grid.Row" Value="0"/>
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="InfoGrid" TargetType="Grid">
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Grid.Row" Value="0"/>
+                
+                <Setter Property="ColumnSpacing" Value="1"/>
+                <Setter Property="RowSpacing" Value="1"/>
+
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+
+                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+                <Setter Property="Padding" Value="2"/>
+            </Style>
+
+            <Style x:Key="InfoCell" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+                <Setter Property="FontSize" Value="13"/>
+            </Style>
+
         </ResourceDictionary>
     </ContentPage.Resources>
     
@@ -43,22 +77,38 @@
                         
                         <Label x:Name="UserNameLabel" Style="{StaticResource HeaderLabel}" Text="One's Profile"/>
 
-                        <AbsoluteLayout Margin="10,10,10,10" HeightRequest="170" HorizontalOptions="FillAndExpand" VerticalOptions="Start">
-                            <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
-                            <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="0.9" OnClick="UserAvatarChange_OnClick" BorderRadius="0" TopRightBorderRadius="14" BotLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="ChangeAvatarButton.png"/>
-                            <Grid AbsoluteLayout.LayoutBounds="180,0" HorizontalOptions="EndAndExpand" BackgroundColor="Red">
+                        <Grid Margin="5,5,5,5" ColumnSpacing="5">
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <AbsoluteLayout Style="{StaticResource AvatarWrapper}" >
+                                <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
+                                <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="0.9" OnClick="UserAvatarChange_OnClick" BorderRadius="0" 
+                                           TopRightBorderRadius="14" BotLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="ChangeAvatarButton.png"/>
+                            </AbsoluteLayout>
+
+                            <Grid Style="{StaticResource InfoGrid}">
+
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="25*"/>
-                                    <ColumnDefinition Width="75*"/>
+                                    <ColumnDefinition Width="22*"/>
+                                    <ColumnDefinition Width="78*"/>
                                 </Grid.ColumnDefinitions>
+                                
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="1" Text="Cesar181020000000000"/>
 
-                                <Label Grid.Row="0" Grid.Column="0" BackgroundColor="Gray" Text="Login: "/>
-                                <Label Grid.Row="0" Grid.Column="1" Text="Cesar18102"/>
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Name:"/>
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="1" Text="Kyrychenko Oleh"/>
 
-                                <Label Grid.Row="1" Grid.Column="0" Text="Full name: "/>
-                                <Label Grid.Row="1" Grid.Column="1" BackgroundColor="Gray" Text="Kyrychenko Oleh"/>
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Phone:"/>
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="1" Text="+380978017973"/>
+
                             </Grid>
-                        </AbsoluteLayout>
+                        </Grid>
+                        
 
                         <ScrollView x:Name="UserVisitedTours"></ScrollView>
 
