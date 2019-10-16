@@ -12,43 +12,52 @@ namespace GoNTrip.Model
     [Preserve(AllMembers = true)]
     public class User : ModelElement
     {
+        [UpdateProfileField]
+        [GetProfileField]
         [JsonRequired]
         public long id { get; set; }
 
-        [GetProfileField]
-        public long userId { get; set; }
-        
+        [UpdateProfileField]
         [LogInField]
         [SignUpField]
         [JsonRequired]
         public string login { get; set; }
 
+        [UpdateProfileField]
         [LogInField]
         [SignUpField]
         [JsonIgnore]
         public string password { get; set; }
 
+        [UpdateProfileField]
         [SignUpField]
         [JsonRequired]
         public string email { get; set; }
 
+        [UpdateProfileField]
         public string fullName { get; set; }
 
-        public string phone { get; set; }
+        [UpdateProfileField]
+        public string phone { get; private set; }
 
+        [UpdateProfileField]
         public DateTime registrationDatetime { get; set; }
 
+        [UpdateProfileField]
         public bool emailConfirmed { get; set; }
 
+        [UpdateProfileField]
         public string avatarUrl { get; set; }
 
         public User() { }
-        public User(long id) { userId = id; this.id = id; }
+        public User(long id) { this.id = id; }
         public User(string login, string password, string email = "")
         {
             this.login = login;
             this.password = password;
             this.email = email;
         }
+
+        public void UpdateAvatarUrl(string path) => avatarUrl = path == null ? avatarUrl : path;
     }
 }

@@ -8,6 +8,8 @@ namespace GoNTrip
     {
         public static Random R = new Random();
         public const int MaxPhotoWidthHeight = 768;
+
         public const string FILE_SELECTION_ERROR = "File selection error";
+        public const string UNKNOWN_FILED_VALUE = "unknown";
     }
 }

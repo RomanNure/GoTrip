@@ -62,6 +62,10 @@
             <Style x:Key="InfoCell" TargetType="Label">
                 <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
                 <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+
                 <Setter Property="FontSize" Value="13"/>
             </Style>
 
@@ -98,13 +102,16 @@
                                 </Grid.ColumnDefinitions>
                                 
                                 <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
-                                <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="1" Text="Cesar181020000000000"/>
+                                <Label Style="{StaticResource InfoCell}"  x:Name="LoginInfoLabel" Grid.Row="0" Grid.Column="1"/>
 
                                 <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Name:"/>
-                                <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="1" Text="Kyrychenko Oleh"/>
+                                <Label Style="{StaticResource InfoCell}"  x:Name="NameInfoLabel" Grid.Row="1" Grid.Column="1"/>
 
-                                <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Phone:"/>
-                                <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="1" Text="+380978017973"/>
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Email:"/>
+                                <Label Style="{StaticResource InfoCell}" x:Name="EmailInfoLabel" Grid.Row="2" Grid.Column="1"/>
+
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="3" Grid.Column="0" Text="Phone:"/>
+                                <Label Style="{StaticResource InfoCell}" x:Name="PhoneInfoLabel" Grid.Row="3" Grid.Column="1"/>
 
                             </Grid>
                         </Grid>

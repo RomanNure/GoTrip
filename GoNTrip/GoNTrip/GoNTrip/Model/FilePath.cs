@@ -9,6 +9,9 @@ namespace GoNTrip.Model
     public class FilePath : ModelElement
     {
         [JsonRequired]
-        public string path { get; set; }
+        public string path { get; private set; }
+
+        public FilePath() { }
+        public FilePath(string path) => this.path = path;
     }
 }

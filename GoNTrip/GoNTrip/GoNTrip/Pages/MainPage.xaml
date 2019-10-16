@@ -51,7 +51,7 @@
 
                             <Label Style="{StaticResource PopupLabel}" Text="Logging In" HorizontalTextAlignment="Center" FontSize="20"/>
                             <Entry Style="{StaticResource PopupEntry}" x:Name="LogInLoginEntry" Text="cesar18102" Placeholder="Login"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Text="12345678" Placeholder="Password" IsPassword="True"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Text="11111111" Placeholder="Password" IsPassword="True"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="LogInPopupConfirm" VerticalOptions="End" Text="Log In" Clicked="LogInPopupConfirm_Clicked"/>
 
                         </StackLayout>

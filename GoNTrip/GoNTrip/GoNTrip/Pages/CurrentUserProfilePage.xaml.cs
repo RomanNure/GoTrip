@@ -19,14 +19,17 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CurrentUserProfilePage : ContentPage
     {
-        private delegate Task<Stream> Load();
+        private const string CONFIRMED_EMAIL_BACK_COLOR = "ContentBackColor";
+        private const string NON_CONFIRMED_EMAIL_BACK_COLOR = "InvalidColor";
 
-        private long UserId { get; set; }
+        private User CurrentUser { get; set; }
+
+        private delegate Task<Stream> Load();
         private PopupControlSystem PopupControl = null;
 
-        public CurrentUserProfilePage(long userId)
+        public CurrentUserProfilePage(User user)
         {
-            UserId = userId;
+            CurrentUser = user;
 
             InitializeComponent();
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
@@ -47,20 +50,27 @@ namespace GoNTrip.Pages
         {
             try
             {
-                User user = await App.DI.Resolve<GetProfileController>().GetUserById(UserId);
+                User user = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentUser.id);
 
                 if (user != null)
                 {
                     if (user.avatarUrl != null)
                         UserAvatar.Source = user.avatarUrl;
 
-                    if (user.login != null)
-                        UserNameLabel.Text = user.login[0].ToString().ToUpper() + user.login.Substring(1) + "'s Profile";
+                    string login = user.login == null ? Constants.UNKNOWN_FILED_VALUE : user.login;
+
+                    UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile";
+                    LoginInfoLabel.Text = login;
+
+                    NameInfoLabel.Text = user.fullName == null ? Constants.UNKNOWN_FILED_VALUE : user.fullName;
+
+                    EmailInfoLabel.Text = user.email == null ? Constants.UNKNOWN_FILED_VALUE : user.email;
+                    EmailInfoLabel.BackgroundColor = (Color)App.Current.Resources[user.email == null || !user.emailConfirmed ? NON_CONFIRMED_EMAIL_BACK_COLOR : CONFIRMED_EMAIL_BACK_COLOR];
+
+                    PhoneInfoLabel.Text = user.phone == null ? Constants.UNKNOWN_FILED_VALUE : user.phone;
                 }
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-                
-                //FILL PAGE
             }
             catch (ResponseException ex)
             {
@@ -107,9 +117,9 @@ namespace GoNTrip.Pages
                     return;
                 }
 
-                FilePath url = await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(UserId, stream);
-                UserAvatar.Source = ServerAccess.ServerCommunicator.MULTIPART_SERVER_URL + "/" + url.path;
-                //send to db server
+                CurrentUser = await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(CurrentUser, stream);
+                CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(CurrentUser);
+                LoadUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }

@@ -13,12 +13,12 @@ namespace GoNTrip.Controllers
 {
     public class ChangeAvatarController
     {
-        public async Task<FilePath> ChangeAvatar(long id, Stream avatar)
+        public async Task<User> ChangeAvatar(User user, Stream avatar)
         {
-            IQuery changeAvatarQuery = await App.DI.Resolve<ChangeAvatarQueryFactory>().ChangeAvatar(id, avatar);
+            IQuery changeAvatarQuery = await App.DI.Resolve<ChangeAvatarQueryFactory>().ChangeAvatar(user.id, avatar);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(changeAvatarQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<FilePath>(response);
-            //TODO: POST user update
+            user.UpdateAvatarUrl(ServerCommunicator.MULTIPART_SERVER_URL + "/" + App.DI.Resolve<IResponseParser>().Parse<FilePath>(response).path);
+            return user;
         }
     }
 }
