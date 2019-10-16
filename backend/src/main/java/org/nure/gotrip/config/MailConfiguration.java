@@ -10,11 +10,11 @@ import java.util.Properties;
 @Configuration
 public class MailConfiguration {
 
-    private static final String MAIL_PROPERTIES_FILENAME = "mail.properties";
+    private static final String MAIL_PROPERTIES_FILEPATH = "src/main/resources/mail.properties";
 
     @Bean
     public Properties mailProperties() throws IOException {
-        InputStream stream = getClass().getClassLoader().getResourceAsStream(MAIL_PROPERTIES_FILENAME);
+        InputStream stream = new FileInputStream(MAIL_PROPERTIES_FILEPATH);
         Properties properties = new Properties();
         properties.load(stream);
         return properties;
