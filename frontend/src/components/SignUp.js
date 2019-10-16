@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 const display = {
@@ -42,25 +41,25 @@ export default class SignUp extends Component {
         const EMAIL = /[\w\.-]+@\w{3,5}\.{1}\w{2,3}([\w]{2,3})?/ig
         const LOGIN = /(\w{8,20})/ig
         const PASSWORD = /\w{8,30}/ig
-        /*if(!login.value){
+        if (!login.value) {
             toast.error(" No Login !", {
                 position: toast.POSITION.TOP_RIGHT
             });
             return
         }
-        if(!email.value){
+        if (!email.value) {
             toast.error(" No Email !", {
                 position: toast.POSITION.TOP_RIGHT
             });
             return
         }
-        if(!p1.value){
+        if (!p1.value) {
             toast.error(" No Password !", {
                 position: toast.POSITION.TOP_RIGHT
             });
             return
         }
-        if(!p2.value){
+        if (!p2.value) {
             toast.error("No confirmed password !", {
                 position: toast.POSITION.TOP_RIGHT
             });
@@ -75,61 +74,67 @@ export default class SignUp extends Component {
             });
             return
         }
-        if(EMAIL.test(email.value)){
+        if (EMAIL.test(email.value)) {
             console.log(' email matched')
-        }else{
+        } else {
             toast.error("Incorrect email !", {
                 position: toast.POSITION.TOP_RIGHT
             });
             return
         }
-        if(p1.value !== p2.value){
+        if (p1.value !== p2.value) {
             toast.error("Password mismatch !", {
                 position: toast.POSITION.TOP_RIGHT
             });
             return
-        }else{
-            if(PASSWORD.test(p1)){
+        } else {
+            if (PASSWORD.test(p1)) {
                 console.log('- password matched')
+            }else{
+                toast.error("Password must contain A-Z, a-z, 1-9 !", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
             }
-        }*/
+        }
         console.log('values =>', login.value, email.value, p1.value)
 
         let user = {
-            login: 'RomanTest',//login.value,
-            email: 'roman.kameneiv@gmail.com',//email.value,
-            password: '2000Test'//p1.value
+            login: login.value,
+            email: email.value,
+            password: p1.value
         }
         axios({
             method: "post",
             url: 'https://go-trip.herokuapp.com/register',
+            //url: 'http://93.76.235.211:5000/register',
             headers: {
+                //"Content-Type": "text/plain",
                 'Content-Type': 'application/json',//Content-Type': 'appication/json',
+
             },
-            data: {
-                login: 'RomanTest123',//login.value,
-                password: '2000Testa',//p1.value
-                email: 'roman.kameneiv@nure.ua',//email.value,
-            },
+            data: user,
         })
-        /*axios.post('https://go-trip.herokuapp.com/register',
-            {
-                login: 'RomanTest',//login.value,
-                password: '2000Testa',//p1.value
-                email: 'roman.kameneiv@gmail.com',
-            }, {
-            
-        })*/
             .then(response => {
                 const addedUser = response.data;
                 console.log(`POST: user is added`, addedUser);
+                toast.success("Registered", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                console.log('response', response);
+                this.props.history.push('/user/')
+                
                 // append to DOM
             })
             .catch(error => {
-                if (error.response) {
+
+               if (error.response) {
                     console.log('data=>', error.response.data);
                     console.log("status=>", error.response.status);
                     console.log('headers =>', error.response.headers);
+                    toast.error(error.response.data.message, {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+
                 } else if (error.request) {
                     console.log('request err', error.request);
                 } else {
@@ -139,29 +144,7 @@ export default class SignUp extends Component {
                 console.log('Error', error);
 
             });
-        /*
-                axios({
-                    method: 'post',
-                    url: 'https://go-trip.herokuapp.com/register',
-                    data: { login: login.value, password: p1.value, email: email.value },
-                    config: {
-                        headers: {
-                            'Content-Type': 'multipart/form-data',
-                            "Access-Control-Allow-Origin": "*",
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                            'Accept': 'application/json'
-                        }
-                    }
-                })
-                    .then(function (response) {
-                        //handle success
-                        console.log('res suc =.', response);
-                    })
-                    .catch(function (response) {
-                        //handle error
-                        console.log("err =", response);
-                    });
-                    */
+
     }
 
     render() {
