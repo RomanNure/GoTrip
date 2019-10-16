@@ -29,7 +29,6 @@ public class RegisteredUserUpdateController {
 
     @PostMapping(value = "/update/user", produces = "application/json")
     public RegisteredUser updateUserData(@RequestBody RegisteredUser updatedUser){
-
         try {
             registrationUserFormValidator.validateUser(updatedUser);
         } catch (ValidationException e) {
@@ -49,6 +48,7 @@ public class RegisteredUserUpdateController {
         oldUser.setEmail(updatedUser.getEmail());
         oldUser.setPhone(updatedUser.getPhone());
         oldUser.setFullName(updatedUser.getFullName());
+        oldUser.setAvatarUrl(updatedUser.getAvatarUrl());
 
         registeredUserService.update(oldUser);
         return oldUser;

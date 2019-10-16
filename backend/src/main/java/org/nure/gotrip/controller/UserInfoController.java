@@ -24,9 +24,9 @@ public class UserInfoController {
     }
 
     @GetMapping("/user/get")
-    public RegisteredUser getUserInfo(@RequestParam long userId){
+    public RegisteredUser getUserInfo(@RequestParam long id){
         try {
-            return registeredUserService.findById(userId);
+            return registeredUserService.findById(id);
         } catch (NotFoundUserException e) {
             logger.info(e.getMessage());
             throw new NotFoundException(e.getMessage());

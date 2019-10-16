@@ -16,19 +16,15 @@ import org.springframework.stereotype.Service;
 public class CompanyServiceImpl implements CompanyService {
 
 	private CompanyRepository companyRepository;
-	private RegisteredUserRepository registeredUserRepository;
 
 	@Autowired
-	public CompanyServiceImpl(CompanyRepository companyRepository, RegisteredUserRepository registeredUserRepository) {
+	public CompanyServiceImpl(CompanyRepository companyRepository) {
 		this.companyRepository = companyRepository;
-		this.registeredUserRepository = registeredUserRepository;
 	}
 
 	@Override
-	public Company add(Company company) throws NotUniqueCompanyException, NotFoundUserException {
-		try {
-			RegisteredUser registeredUser = registeredUserRepository.findById(company.getOwner().getId()).orElseThrow(() -> new NotFoundUserException("User did not find by id"));
-			company.setOwner(registeredUser);
+	public Company add(Company company) throws NotUniqueCompanyException {
+        try{
 			return companyRepository.save(company);
 		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueCompanyException("The database contains a company with this name");

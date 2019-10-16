@@ -31,7 +31,7 @@
             text-decoration:none;
             text-shadow: 0px 1px 0px #5b8a3c;
 
-            margin-top: 20px;
+            margin-top: 50px;
             margin-left: 230px;
         }
 
@@ -48,12 +48,10 @@
 </head>
 <body>
     <div class="main">
-        <span class="main-text">Hello, ?. Please, confirm your Go&Trip email by clicking on the button below.</span>
-        <form action="mailaddress" method="post">
-            <input type="hidden" name="userId" value="?">
-            <br/>
-            <input type="submit" class="confirmation" value="Confirm email">
-        </form>
+        <span class="main-text">Hello, {{injection}}. Please, confirm your Go&Trip email by clicking the button below.</span>
+        <a href="mailAddress?userId={{injection}}">
+            <button class="confirmation">Confirm email</button>
+        </a>
     </div>
 </body>
 </html>

@@ -20,8 +20,9 @@ public class MailService {
 
     private static final Logger logger = LoggerFactory.getLogger(MailService.class);
 
-    private Properties mailProperties;
+    private static final String KEY_WORD = "{{injection}}";
 
+    private Properties mailProperties;
     private String mailTemplate;
 
     public void sendThroughRemote(String recipient, String ... placeholders) throws MessagingException {
@@ -47,13 +48,13 @@ public class MailService {
     private String formContent(String ... placeholders){
         StringBuilder mailBuilder = new StringBuilder(mailTemplate);
         int arrayIndex = 0;
-        while(mailBuilder.indexOf("?") != -1){
+        while(mailBuilder.indexOf(KEY_WORD) != -1){
             if(placeholders.length < arrayIndex+1){
                 throw new IllegalArgumentException("Not enough placeholders");
             }
-            int i = mailBuilder.indexOf("?");
+            int i = mailBuilder.indexOf(KEY_WORD);
             String replaceString = placeholders[arrayIndex++];
-            mailBuilder.replace(i, i+1, replaceString);
+            mailBuilder.replace(i, KEY_WORD.length()+i, replaceString);
         }
         return mailBuilder.toString();
     }

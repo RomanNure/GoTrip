@@ -26,7 +26,7 @@ public class AuthorizationController {
     }
 
     @PostMapping(value = "/authorize", produces = "application/json")
-    public RegisteredUser authorize(@RequestBody UserRegistrationFormDto userRegistrationFormDto){
+    public RegisteredUser authorize(@RequestBody UserRegistrationFormDto userRegistrationFormDto) {
         RegisteredUser user;
 
         try {
@@ -36,7 +36,7 @@ public class AuthorizationController {
             throw new NotFoundException(e.getMessage());
         }
 
-        if(!registeredUserService.checkPassword(user, userRegistrationFormDto.getPassword())){
+        if (!registeredUserService.checkPassword(user, userRegistrationFormDto.getPassword())) {
             String logMessage = String.format("Invalid password entered for user %s", userRegistrationFormDto.getLogin());
             logger.info(logMessage);
             throw new BadRequestException("Invalid password");

@@ -35,10 +35,11 @@ public class MailConfiguration {
     }
 
     private String replaceLink(StringBuilder builder) throws IOException {
+        final String mailAddress = "mailAddress";
         Properties properties = mailProperties();
 
-        int addressPosition = builder.indexOf("mailaddress");
-        builder.replace(addressPosition, addressPosition + "mailaddress".length(), properties.getProperty("mailaddress"));
+        int addressPosition = builder.indexOf(mailAddress);
+        builder.replace(addressPosition, addressPosition + mailAddress.length(), properties.getProperty(mailAddress));
         return builder.toString();
     }
 }

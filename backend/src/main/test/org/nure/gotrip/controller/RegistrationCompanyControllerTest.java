@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.nure.gotrip.dto.CompanyDto;
 import org.nure.gotrip.model.Company;
+import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,7 +35,7 @@ public class RegistrationCompanyControllerTest {
 
 	@Test
 	public void shouldGetPositiveResponse() throws Exception {
-		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", 1);
+		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", new RegisteredUser());
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
 		mvc.perform(MockMvcRequestBuilders.post(COMPANY_REGISTRATION)
@@ -46,7 +47,7 @@ public class RegistrationCompanyControllerTest {
 
 	@Test
 	public void shouldGetBadRequestResponse() throws Exception {
-		CompanyDto companyDto = new CompanyDto("name", "fiasko", 1);
+		CompanyDto companyDto = new CompanyDto("name", "fiasko", new RegisteredUser());
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
 		mvc.perform(MockMvcRequestBuilders.post(COMPANY_REGISTRATION)
@@ -58,7 +59,7 @@ public class RegistrationCompanyControllerTest {
 
 	@Test
 	public void shouldGetConflictResponse() throws Exception {
-		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", 1);
+		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", new RegisteredUser());
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
 		Mockito.when(companyRepository.save(Mockito.any(Company.class)))
