@@ -3,12 +3,20 @@ import React, { Component } from 'react';
 export default class UserPage extends Component {
     constructor(props) {
         super(props);
-        this.state = {
+        /*this.state = {
         }
+        */
+        this.state = {
+
+        }
+        let { state } = this.props.location
+        this.state = state
+        console.log('state= >', state)
     }
 
     render() {
-        console.log( 'props in userPage', this.props.state)
+        let { login, email } = this.state
+        console.log('userPage', this.state)
         return (
             <div className="container bootstrap snippet">
 
@@ -17,10 +25,10 @@ export default class UserPage extends Component {
                         <div className="panel panel-default">
                             <div className="panel-body text-center">
                                 <div className="pv-lg mr-3 ml-3"><img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src="images/Avatar.png" alt="Contact" /></div>
-                                <h3 className="m0 text-bold">Audrey Hunt</h3>
+                                <h3 className="m0 text-bold">{login ? login : "empty user"}</h3>
                                 <div className="row justify-content-center">
                                     <div className="col-11">
-                                        <textarea class="form-control" id="exampleTextarea" placeholder="User description" row="4"></textarea>
+                                        <textarea className="form-control" id="exampleTextarea" placeholder="User description" row="4"></textarea>
                                     </div>
                                 </div>
                                 <div className="text-center"><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
@@ -46,7 +54,7 @@ export default class UserPage extends Component {
                                             <div className="form-group">
                                                 <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
                                                 <div className="col-md-10">
-                                                    <input id="inputContact2" type="email" placeholder="Email Address" defaultValue="" />
+                                                    <input id="inputContact2" type="email" placeholder="Email Address" defaultValue={email ? email : "default email"} />
                                                 </div>
                                             </div>
                                             <div className="form-group">
@@ -58,7 +66,7 @@ export default class UserPage extends Component {
                                             <div className="form-group">
                                                 <label className="col-sm-2 control-label" htmlFor="inputContact6">Address</label>
                                                 <div className="col-md-10">
-                                                    <textarea className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue=""row="4"/>
+                                                    <textarea className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue="" row="4" />
                                                 </div>
                                             </div>
                                             <div className="form-group">

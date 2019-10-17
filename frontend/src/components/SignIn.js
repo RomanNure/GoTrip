@@ -53,7 +53,7 @@ export default class SignIn extends Component {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 console.log('data', data)
-                this.props.history.push('/user:' + data.id, data)//, {props: data})
+                this.props.history.push({pathname:'/user:' + data.id, state: data })//, {props: data})
             })
             .catch(err => {
                 console.log(' - error in signIn', err)
