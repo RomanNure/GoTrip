@@ -30,10 +30,10 @@ export default class App extends Component {
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={SignIn} />
-            <Route path="/userpage" exact component={UserPage} />
 
             <Route path="/registration" exact component={SignUp} />
-            <Route path="/urer/:id" />
+            
+            <Route path="/user:id"   component={(data) => <UserPage {...data} />}/>
             <Route component={NotFound} />
           </Switch>
         </div>

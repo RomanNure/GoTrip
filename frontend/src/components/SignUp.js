@@ -121,7 +121,7 @@ export default class SignUp extends Component {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 console.log('response', response);
-                this.props.history.push('/user/')
+                this.props.history.push('/user/'+addedUser.id)
                 
                 // append to DOM
             })

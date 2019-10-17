@@ -48,11 +48,12 @@ export default class SignIn extends Component {
                 password: pass.value
             },
         })
-            .then(data => {
+            .then(({ data }) => {
                 toast.success("Weclome back!", {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                this.props.history.push('/userpage')//, {props: data})
+                console.log('data', data)
+                this.props.history.push('/user:' + data.id, data)//, {props: data})
             })
             .catch(err => {
                 console.log(' - error in signIn', err)
