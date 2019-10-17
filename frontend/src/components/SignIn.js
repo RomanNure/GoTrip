@@ -92,7 +92,7 @@ export default class SignIn extends Component {
                             </label>
                         </div>
                         <div className="row" style={{ justifyContent: "center" }}>
-                            <a className="btn waves-effect waves-light #e1f5fe light-blue lighten-5"
+                            <a className="btn waves-effect waves-light #81c784 green lighten-2"
                                 onClick={this._onSubmit} style={{ width: "90%", alignContent: "center" }}>Sign In</a>
                         </div>
                         <div className="row">
