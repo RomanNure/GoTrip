@@ -17,17 +17,21 @@ namespace GoNTrip.Util
 
         public async Task<Stream> TakePhoto(CameraLocation cameraLocation, int maxSize, int quality = 50)
         {
-            StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions();
+            try
+            {
+                StoreCameraMediaOptions cameraOptions = new StoreCameraMediaOptions();
 
-            cameraOptions.AllowCropping = true;
-            cameraOptions.PhotoSize = PhotoSize.MaxWidthHeight;
-            cameraOptions.MaxWidthHeight = Math.Max(0, maxSize);
-            cameraOptions.CompressionQuality = Math.Min(Math.Max(quality, 0), 100);
-            cameraOptions.DefaultCamera = cameraLocation == CameraLocation.FRONT ? CameraDevice.Front : CameraDevice.Rear;
+                cameraOptions.AllowCropping = true;
+                cameraOptions.PhotoSize = PhotoSize.MaxWidthHeight;
+                cameraOptions.MaxWidthHeight = Math.Max(0, maxSize);
+                cameraOptions.CompressionQuality = Math.Min(Math.Max(quality, 0), 100);
+                cameraOptions.DefaultCamera = cameraLocation == CameraLocation.FRONT ? CameraDevice.Front : CameraDevice.Rear;
 
-            MediaFile file = await CrossMedia.Current.TakePhotoAsync(cameraOptions);
+                MediaFile file = await CrossMedia.Current.TakePhotoAsync(cameraOptions);
 
-            return file == null ? null : file.GetStream();
+                return file == null ? null : file.GetStream();
+            }
+            catch(MediaPermissionException ex) { return null; }
         }
     }
 }

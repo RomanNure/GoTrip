@@ -11,14 +11,19 @@ namespace GoNTrip.Util
     {
         public async Task<Stream> PickPhoto(int maxSize, int quality = 100)
         {
-            PickMediaOptions pickOptions = new PickMediaOptions();
+            try
+            {
 
-            pickOptions.MaxWidthHeight = Math.Max(0, maxSize);
-            pickOptions.CompressionQuality = Math.Min(Math.Max(quality, 0), 100);
+                PickMediaOptions pickOptions = new PickMediaOptions();
 
-            MediaFile file = await CrossMedia.Current.PickPhotoAsync(pickOptions);
+                pickOptions.MaxWidthHeight = Math.Max(0, maxSize);
+                pickOptions.CompressionQuality = Math.Min(Math.Max(quality, 0), 100);
 
-            return file == null ? null : file.GetStream();
+                MediaFile file = await CrossMedia.Current.PickPhotoAsync(pickOptions);
+
+                return file == null ? null : file.GetStream();
+            }
+            catch (MediaPermissionException ex) { return null; }
         }
     }
 }
