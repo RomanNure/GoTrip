@@ -110,7 +110,6 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
                 InnerFrame.HeightRequest = PopupHeight;
             }
 
-
             if (OuterFrame != null)
             {
                 OuterFrame.WidthRequest = PopupWidth;

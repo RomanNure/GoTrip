@@ -18,12 +18,27 @@
             <x:Double x:Key="AvatarChangeButtonWidth">36</x:Double>
             <x:Double x:Key="AvatarChangeButtonHeight">36</x:Double>
 
+            <Style x:Key="HeaderBar" TargetType="Grid">
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+                <Setter Property="ColumnSpacing" Value="0"/>
+                <Setter Property="RowSpacing" Value="0"/>
+            </Style>
+
             <Style x:Key="HeaderLabel" TargetType="Label" BasedOn="{StaticResource LabelBar}">
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="FontSize" Value="20"/>
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
                 <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="EditProfileButton" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="32"/>
+                <Setter Property="HeightRequest" Value="32"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
             </Style>
 
             <Style x:Key="Avatar" TargetType="local:Img">
@@ -78,8 +93,18 @@
             <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
                 <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
                     <StackLayout VerticalOptions="StartAndExpand" Margin="0,0,0,0">
-                        
-                        <Label x:Name="UserNameLabel" Style="{StaticResource HeaderLabel}" Text="One's Profile"/>
+
+                        <Grid Style="{StaticResource HeaderBar}">
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" Grid.Row="0" Grid.Column="1" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+
+                        </Grid>
 
                         <Grid Margin="5,5,5,5" ColumnSpacing="5">
                             
@@ -89,7 +114,7 @@
                             </Grid.ColumnDefinitions>
 
                             <AbsoluteLayout Style="{StaticResource AvatarWrapper}" >
-                                <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
+                                <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
                                 <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="0.9" OnClick="UserAvatarChange_OnClick" BorderRadius="0" 
                                            TopRightBorderRadius="14" BotLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="ChangeAvatarButton.png"/>
                             </AbsoluteLayout>
@@ -115,7 +140,8 @@
 
                             </Grid>
                         </Grid>
-                        
+
+                        <Label x:Name="AdditionalUserInfo"/>
 
                         <ScrollView x:Name="UserVisitedTours"></ScrollView>
 
@@ -126,6 +152,7 @@
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
             <templates:SimpleMessagePopup x:Name="SelectAvatarSourcePopup" PopupWidth="250" PopupHeight="100" MessageText="Select avatar source" FirstButtonText="Camera" SecondButtonText="Gallery"/>
+            <templates:PhotoPopup x:Name="AvatarView" ImageSource="ChangeAvatarButton.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

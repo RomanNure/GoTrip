@@ -55,7 +55,10 @@ namespace GoNTrip.Pages
                 if (user != null)
                 {
                     if (user.avatarUrl != null)
+                    {
                         UserAvatar.Source = user.avatarUrl;
+                        AvatarView.ImageSource = CurrentUser.avatarUrl;
+                    }
 
                     string login = user.login == null ? Constants.UNKNOWN_FILED_VALUE : user.login;
 
@@ -114,6 +117,7 @@ namespace GoNTrip.Pages
 
                     ErrorPopup.MessageText = Constants.FILE_SELECTION_ERROR;
                     PopupControl.OpenPopup(ErrorPopup);
+
                     return;
                 }
 
@@ -130,6 +134,12 @@ namespace GoNTrip.Pages
                 ErrorPopup.MessageText = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
+        }
+
+        private bool UserAvatar_OnClick(MotionEvent ME, CustomControls.IClickable sender)
+        {
+            PopupControl.OpenPopup(AvatarView);
+            return true;
         }
     }
 }
