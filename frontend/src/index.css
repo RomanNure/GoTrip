@@ -35,3 +35,9 @@ code {
     background-color: #3abd94!important;
     border: #3abd94!important;
 }
+
+textarea#exampleTextarea {
+  background: #EEEEEE!important;
+  box-sizing: border-box;
+  resize: both;
+}
