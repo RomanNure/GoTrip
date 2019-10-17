@@ -114,14 +114,12 @@ export default class SignUp extends Component {
             },
             data: user,
         })
-            .then(response => {
-                const addedUser = response.data;
-                console.log(`POST: user is added`, addedUser);
+            .then(({data}) => {
                 toast.success("Registered", {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                console.log('response', response);
-                this.props.history.push('/user/'+addedUser.id)
+                console.log(`POST: user is added`, data);
+                this.props.history.push('/user:'+data.id, data)
                 
                 // append to DOM
             })
