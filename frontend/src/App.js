@@ -26,7 +26,7 @@ export default class App extends Component {
     return (
       <div className="container-fluid" style={{ backgroundColor: "#eee" }}>
         <Header />
-        <div className="container-fluid" style={{ marginTop: 75 }}>
+        <div className="container-fluid" style={{ marginTop: 75,  height: 790  }}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={SignIn} />
