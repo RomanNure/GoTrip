@@ -17,12 +17,19 @@ export default class Header extends Component {
                             <li><a href="sass.html"><i className="material-icons">search</i></a></li>
                             <li className="active"><Link to="/registration">Sign Up</Link></li>
                             <li><Link to="/login">Sign In</Link></li>
+                            <li id="username">
+                                <a className="nav-link pr-2 pl-2 p-0">User Name</a>
+                            </li>
+                            <li className="nav-item avatar">
+                                <a className="nav-link p-0" href="#">
+                                    <img src="images/Avatar.png" className="rounded-circle z-depth-0"
+                                       id="header-avatar" alt="avatar image" height="35"></img>
+                                </a>
+                            </li>
                         </ul>
-                    </div>
+                   </div>
                 </nav>
-
             </div>
-
         )
     }
 }
