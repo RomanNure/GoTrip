@@ -51,10 +51,10 @@ public class RegistrationUserFormValidator {
     }
 
     private void isRegistrationDataCorrect(String login, String email) throws ValidationException{
-        if (!login.matches(LOGIN_PATTERN)) {
+        if (login == null || !login.matches(LOGIN_PATTERN)) {
             throw new ValidationException("Invalid login");
         }
-        if (!email.matches(EMAIL_PATTERN)) {
+        if (email == null || !email.matches(EMAIL_PATTERN)) {
             throw new ValidationException("Invalid email");
         }
     }
