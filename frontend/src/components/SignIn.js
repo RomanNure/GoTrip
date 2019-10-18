@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-
+import cookie from 'react-cookies'
 
 const display = {
     display: 'block',
@@ -52,9 +52,12 @@ export default class SignIn extends Component {
             .then(({ data }) => {
                 toast.success("Weclome back!", {
                     position: toast.POSITION.TOP_RIGHT
-                });
+                })
                 console.log('data', data)
-                this.props.history.push({pathname:'/user:' + data.id, state: data })//, {props: data})
+                cookie.save('user', { login: login.value, password: pass.value, id:data.id }, { path: '/' })
+                setTimeout(() => this.props.history.push({ pathname: '/user:' + data.id, state: data }), 2000)//, {props: data})
+                //window.location.reload();
+
             })
             .catch(err => {
                 console.log(' - error in signIn', err)

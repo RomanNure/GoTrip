@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-
+import cookie from 'react-cookies'
 
 const display = {
     display: 'block',
@@ -119,7 +119,8 @@ export default class SignUp extends Component {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 console.log(`POST: user is added`, data);
-                this.props.history.push({pathname:'/user:' + data.id, state: data })//, {props: data})
+                cookie.save('user', { login: login.value, password: p1.value, id:data.id }, { path: '/' })
+                setTimeout(() => this.props.history.push({ pathname: '/user:' + data.id, state: data }), 2000)//, {props: data})
                 // append to DOM
             })
             .catch(error => {

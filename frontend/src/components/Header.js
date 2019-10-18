@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import cookie from 'react-cookies'
+
 export default class Header extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            user: cookie.load("user")?cookie.load("user"):"empty"
         }
+
     }
 
     render() {
+        let { login, id } = this.state.user
+        if(!login) login = false
+
+        console.log('header state=> ', this.state)
         return (
             <div>
                 <nav>
@@ -15,19 +23,21 @@ export default class Header extends Component {
                         <a href="/" className="brand-logo"><img src="./gotrip.svg" height="125" width="125" /></a>
                         <ul className="right hide-on-med-and-down">
                             <li><a href="sass.html"><i className="material-icons">search</i></a></li>
-                            <li className="active"><Link to="/registration">Sign Up</Link></li>
-                            <li><Link to="/login">Sign In</Link></li>
-                            <li id="username">
-                                <a className="nav-link pr-2 pl-2 p-0">User Name</a>
+                            {!login && <li className="active"><Link to="/registration">Sign Up</Link></li>}
+                            {!login && <li><Link to="/login">Sign In</Link></li>}
+                            {login && <li id="username">
+                                <a className="nav-link pr-2 pl-2 p-0" href={"/user:"+id}>{login}</a>
                             </li>
-                            <li className="nav-item avatar">
-                                <a className="nav-link p-0" href="#">
+                            }
+                            {login && <li className="nav-item avatar">
+                                <a className="nav-link p-0" href={"/user:"+id}>
                                     <img src="images/Avatar.png" className="rounded-circle z-depth-0"
-                                       id="header-avatar" alt="avatar image" height="35"></img>
+                                        id="header-avatar" alt="avatar image" height="35"></img>
                                 </a>
                             </li>
+                            }
                         </ul>
-                   </div>
+                    </div>
                 </nav>
             </div>
         )

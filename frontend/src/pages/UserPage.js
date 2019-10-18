@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import qs from 'qs';
 import { ToastContainer, toast } from 'react-toastify';
+import cookie from 'react-cookies'
 
 export default class UserPage extends Component {
     constructor(props) {
@@ -11,8 +11,10 @@ export default class UserPage extends Component {
 
         if (!this.state) this.state = {
             login: false,
-            email: false
+            email: false,
+            rule: false
         }
+        this.state.user = cookie.load("user")
         this.state.id = this.props.location.pathname.match(/\:\d+/)[0].substr(1)
         console.log('id', this.state.id)
         console.log(this.props.location)
@@ -31,8 +33,11 @@ export default class UserPage extends Component {
 
             })
                 .then(({ data }) => {
-                    let { email, login } = data
-                    this.setState({ email, login })
+                    let { email, login, phone, fullName } = data
+                    let rule = (this.state.user && login == this.state.user.login) ? true : false
+                    this.setState({ email, login, phone, fullname: fullName, rule })
+                   // if (rule) window.location.reload();
+
                 })
                 .catch(error => {
                     toast.error('server not response', {
@@ -45,7 +50,8 @@ export default class UserPage extends Component {
 
 
     _onUpdate = () => {
-        let { fullname, phone } = this.refs
+        if (!this.state.rule) return
+        let { fullname, phone, email } = this.refs
         let NAME = /(\w+){1,3}/ig
         let PHONE = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         if (!fullname.value) {
@@ -79,13 +85,16 @@ export default class UserPage extends Component {
         let user = {
             id: this.state.id,
             phone: phone.value,
-            fullname: fullname.value
+            fullName: fullname.value,
+            login: this.state.user.login,
+            password: this.state.user.password,
+            email: email.value
         }
         console.log('user = >', user)
         axios({
             method: "post",
             url: 'https://go-trip.herokuapp.com/update/user',
-            //url: 'http://93.76.235.211:5000/register',
+            //url: 'http://93.76.235.211:5000/update/user',
             headers: {
                 //"Content-Type": "text/plain",
                 'Content-Type': 'application/json',//Content-Type': 'appication/json',
@@ -159,10 +168,19 @@ export default class UserPage extends Component {
         }
     }    */
     }
+    _onLogOut = () => {
+        console.log('logout')
+        cookie.remove('user', { path: '/' })
+        toast.error('Log outed', {
+            position: toast.POSITION.TOP_RIGHT
+        });
+        window.location.reload();
+        setTimeout(() => this.props.history.push('/login'), 2000)
+    }
 
     render() {
 
-        let { login, email } = this.state
+        let { login, email, rule, phone, fullname } = this.state
         console.log('userPage', this.state)
         return (
             <>
@@ -190,6 +208,8 @@ export default class UserPage extends Component {
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
+                                    {rule && <div className="text-center" ><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" onClick={this._onLogOut}>Log Out</a></div>
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -206,7 +226,7 @@ export default class UserPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
                                                     <div className="col-md-10">
-                                                        <input ref="fullname" id="inputContact1" type="text" placeholder="Name" defaultValue="" />
+                                                        <input ref="fullname" id="inputContact1" type="text" placeholder="Name" defaultValue="" value={fullname} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -218,7 +238,7 @@ export default class UserPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact3">Phone</label>
                                                     <div className="col-md-10">
-                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" defaultValue="" />
+                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" defaultValue="" value={phone} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -227,11 +247,12 @@ export default class UserPage extends Component {
                                                         <textarea className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue="" row="4" />
                                                     </div>
                                                 </div>
-                                                <div className="form-group">
+                                                {rule && <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
                                                         <a className="btn btn-primary custom-btn" onClick={this._onUpdate}>Update</a>
                                                     </div>
                                                 </div>
+                                                }
                                             </form>
                                             <div className="text-right mb-3"><a className="text-muted" href="#">Delete this contact?</a></div>
                                         </div>
