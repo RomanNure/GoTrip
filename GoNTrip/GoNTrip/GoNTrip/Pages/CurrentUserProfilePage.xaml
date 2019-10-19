@@ -18,6 +18,8 @@
             <x:Double x:Key="AvatarChangeButtonWidth">36</x:Double>
             <x:Double x:Key="AvatarChangeButtonHeight">36</x:Double>
 
+            <x:Single x:Key="ButtonClickedScale">0.9</x:Single>
+
             <Style x:Key="HeaderBar" TargetType="Grid">
                 <Setter Property="HeightRequest" Value="40"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
@@ -99,10 +101,12 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
 
                             <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
-                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" Grid.Row="0" Grid.Column="1" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
 
                         </Grid>
 
@@ -115,7 +119,7 @@
 
                             <AbsoluteLayout Style="{StaticResource AvatarWrapper}" >
                                 <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
-                                <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="0.9" OnClick="UserAvatarChange_OnClick" BorderRadius="0" 
+                                <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="UserAvatarChange_OnClick" BorderRadius="0" 
                                            TopRightBorderRadius="14" BotLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="ChangeAvatarButton.png"/>
                             </AbsoluteLayout>
 

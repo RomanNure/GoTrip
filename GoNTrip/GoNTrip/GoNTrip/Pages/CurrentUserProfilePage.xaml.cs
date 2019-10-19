@@ -37,7 +37,6 @@ namespace GoNTrip.Pages
 
         private void ProfilePage_Appearing(object sender, System.EventArgs e)
         {
-            PopupControl.OpenPopup(ActivityPopup);
             LoadUserProfile();
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
@@ -50,6 +49,8 @@ namespace GoNTrip.Pages
         {
             try
             {
+                PopupControl.OpenPopup(ActivityPopup);
+
                 User user = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentUser.id);
 
                 if (user != null)
@@ -123,9 +124,9 @@ namespace GoNTrip.Pages
 
                 CurrentUser = await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(CurrentUser, stream);
                 CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(CurrentUser);
-                LoadUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                LoadUserProfile();
             }
             catch(ResponseException ex)
             {
@@ -139,6 +140,12 @@ namespace GoNTrip.Pages
         private bool UserAvatar_OnClick(MotionEvent ME, CustomControls.IClickable sender)
         {
             PopupControl.OpenPopup(AvatarView);
+            return true;
+        }
+
+        private bool EditProfile_OnClick(MotionEvent ME, CustomControls.IClickable sender)
+        {
+            LoadUserProfile();
             return true;
         }
     }
