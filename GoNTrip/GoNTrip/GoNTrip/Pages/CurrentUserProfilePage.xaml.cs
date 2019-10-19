@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 
 using Xamarin.Forms;
@@ -12,7 +13,9 @@ using GoNTrip.Util;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.Validators;
 using GoNTrip.ServerInteraction.ResponseParsers;
+using GoNTrip.Pages.Additional.Validators.ModelFieldsPatterns;
 
 namespace GoNTrip.Pages
 {
@@ -25,7 +28,10 @@ namespace GoNTrip.Pages
         private User CurrentUser { get; set; }
 
         private delegate Task<Stream> Load();
+
         private PopupControlSystem PopupControl = null;
+        private Constants.Callback<Entry> SubscribeUpdateProfileEvents = null;
+        private FormValidator UpdateProfileValidator = new FormValidator();
 
         public CurrentUserProfilePage(User user)
         {
@@ -33,7 +39,35 @@ namespace GoNTrip.Pages
 
             InitializeComponent();
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
+
+            FieldValidationHandler<Entry> FirstNameValidation = new FieldValidationHandler<Entry>(
+                FirstName => FirstName.Text != null && UserFieldsPatterns.FIRST_NAME_PATTERN.IsMatch(FirstName.Text),
+                Constants.InvalidHandler, Constants.ValidHandler
+            );
+
+            FieldValidationHandler<Entry> LastNameValidation = new FieldValidationHandler<Entry>(
+                LastName => LastName.Text != null && UserFieldsPatterns.LAST_NAME_PATTERN.IsMatch(LastName.Text),
+                Constants.InvalidHandler, Constants.ValidHandler
+            );
+
+            FieldValidationHandler<Entry> PhoneValidation = new FieldValidationHandler<Entry>(
+                Phone => Phone.Text != null && UserFieldsPatterns.PHONE_PATTERN.IsMatch(Phone.Text),
+                Constants.InvalidHandler, Constants.ValidHandler
+            );
+
+            SubscribeUpdateProfileEvents = T =>
+            {
+                T.Unfocused += ProfileUpdateValidatedFieldUnfocused;
+                T.TextChanged += ProfileUpdateValidatedFieldTextChanged;
+            };
+
+            UpdateProfileValidator.Add<Entry>(FirstNameValidation, FirstNameEntry, SubscribeUpdateProfileEvents);
+            UpdateProfileValidator.Add<Entry>(LastNameValidation, LastNameEntry, SubscribeUpdateProfileEvents);
+            UpdateProfileValidator.Add<Entry>(PhoneValidation, PhoneEntry, SubscribeUpdateProfileEvents);
         }
+
+        private void ProfileUpdateValidatedFieldTextChanged(object sender, TextChangedEventArgs e) => UpdateProfileValidator.ValidateId(UpdateProfileValidator.GetId(sender));
+        private void ProfileUpdateValidatedFieldUnfocused(object sender, FocusEventArgs e) => UpdateProfileValidator.ValidateId(UpdateProfileValidator.GetId(sender));
 
         private void ProfilePage_Appearing(object sender, System.EventArgs e)
         {
@@ -51,28 +85,8 @@ namespace GoNTrip.Pages
             {
                 PopupControl.OpenPopup(ActivityPopup);
 
-                User user = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentUser.id);
-
-                if (user != null)
-                {
-                    if (user.avatarUrl != null)
-                    {
-                        UserAvatar.Source = user.avatarUrl;
-                        AvatarView.ImageSource = CurrentUser.avatarUrl;
-                    }
-
-                    string login = user.login == null ? Constants.UNKNOWN_FILED_VALUE : user.login;
-
-                    UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile";
-                    LoginInfoLabel.Text = login;
-
-                    NameInfoLabel.Text = user.fullName == null ? Constants.UNKNOWN_FILED_VALUE : user.fullName;
-
-                    EmailInfoLabel.Text = user.email == null ? Constants.UNKNOWN_FILED_VALUE : user.email;
-                    EmailInfoLabel.BackgroundColor = (Color)App.Current.Resources[user.email == null || !user.emailConfirmed ? NON_CONFIRMED_EMAIL_BACK_COLOR : CONFIRMED_EMAIL_BACK_COLOR];
-
-                    PhoneInfoLabel.Text = user.phone == null ? Constants.UNKNOWN_FILED_VALUE : user.phone;
-                }
+                CurrentUser = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentUser.id);
+                LoadCurrentUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
@@ -82,6 +96,39 @@ namespace GoNTrip.Pages
 
                 ErrorPopup.MessageText = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
+
+        private void LoadCurrentUserProfile()
+        {
+            if (CurrentUser != null)
+            {
+                if (CurrentUser.avatarUrl != null)
+                {
+                    UserAvatar.Source = CurrentUser.avatarUrl;
+                    AvatarView.ImageSource = this.CurrentUser.avatarUrl;
+                }
+
+                string login = CurrentUser.login == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.login;
+
+                UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile";
+                LoginInfoLabel.Text = login;
+
+                NameInfoLabel.Text = CurrentUser.fullName == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.fullName;
+                if (CurrentUser.fullName != null)
+                {
+                    string[] names = CurrentUser.fullName.Split(Constants.FIRST_LAST_NAME_SPLITTER);
+                    FirstNameEntry.Text = names[0];
+                    LastNameEntry.Text = names[1];
+                }
+
+                EmailInfoLabel.Text = CurrentUser.email == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.email;
+                EmailInfoLabel.BackgroundColor = (Color)App.Current.Resources[CurrentUser.email == null || !CurrentUser.emailConfirmed ? NON_CONFIRMED_EMAIL_BACK_COLOR : CONFIRMED_EMAIL_BACK_COLOR];
+
+                if (CurrentUser.phone != null)
+                    PhoneEntry.Text = CurrentUser.phone;
+
+                PhoneInfoLabel.Text = CurrentUser.phone == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.phone;
             }
         }
 
@@ -126,7 +173,9 @@ namespace GoNTrip.Pages
                 CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(CurrentUser);
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-                LoadUserProfile();
+
+                LoadCurrentUserProfile();
+                //LoadUserProfile();
             }
             catch(ResponseException ex)
             {
@@ -143,9 +192,42 @@ namespace GoNTrip.Pages
             return true;
         }
 
-        private bool EditProfile_OnClick(MotionEvent ME, CustomControls.IClickable sender)
+        private bool UpdateProfile_OnClick(MotionEvent ME, CustomControls.IClickable sender)
         {
             LoadUserProfile();
+            return true;
+        }
+
+        private async void EditProfilePopupConfirm_Clicked(object sender, EventArgs e)
+        {
+            PopupControl.CloseTopPopup();
+            PopupControl.OpenPopup(ActivityPopup);
+
+            try
+            {
+                if (!UpdateProfileValidator.ValidateAll())
+                    return;
+
+                CurrentUser.fullName = FirstNameEntry.Text + Constants.FIRST_LAST_NAME_SPLITTER.ToString() + LastNameEntry.Text;
+                CurrentUser.phone = PhoneEntry.Text;
+
+                CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(CurrentUser);
+                LoadCurrentUserProfile();
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
+
+        private bool EditProfile_OnClick(MotionEvent ME, CustomControls.IClickable sender)
+        {
+            PopupControl.OpenPopup(UpdateProfilePopup);
             return true;
         }
     }

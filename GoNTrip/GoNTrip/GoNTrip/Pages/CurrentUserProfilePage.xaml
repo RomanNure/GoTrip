@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:local="clr-namespace:CustomControls;assembly=CustomControls"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             xmlns:popups="clr-namespace:GoNTrip.Pages.Additional.Popups"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.CurrentUserProfilePage"
              Appearing="ProfilePage_Appearing">
@@ -21,9 +22,10 @@
             <x:Single x:Key="ButtonClickedScale">0.9</x:Single>
 
             <Style x:Key="HeaderBar" TargetType="Grid">
-                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="HeightRequest" Value="55"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+                <Setter Property="Padding" Value="5,0,5,0"/>
                 <Setter Property="ColumnSpacing" Value="0"/>
                 <Setter Property="RowSpacing" Value="0"/>
             </Style>
@@ -97,21 +99,27 @@
                     <StackLayout VerticalOptions="StartAndExpand" Margin="0,0,0,0">
 
                         <Grid Style="{StaticResource HeaderBar}">
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="40"/>
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
 
-                            <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
-                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="35"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
+                            <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.RowSpan="2" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.RowSpan="2" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+
+                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Text="Owner of Cesar Touristics Inc."/>
                         </Grid>
 
                         <Grid Margin="5,5,5,5" ColumnSpacing="5">
-                            
+
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="130"/>
                                 <ColumnDefinition Width="*"/>
@@ -129,7 +137,7 @@
                                     <ColumnDefinition Width="22*"/>
                                     <ColumnDefinition Width="78*"/>
                                 </Grid.ColumnDefinitions>
-                                
+
                                 <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
                                 <Label Style="{StaticResource InfoCell}"  x:Name="LoginInfoLabel" Grid.Row="0" Grid.Column="1"/>
 
@@ -145,13 +153,27 @@
                             </Grid>
                         </Grid>
 
-                        <Label x:Name="AdditionalUserInfo"/>
-
                         <ScrollView x:Name="UserVisitedTours"></ScrollView>
 
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
+
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="UpdateProfilePopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="UpdateProfilePopupOuterLayout" HeightRequest="300" WidthRequest="250" CornerRadius="10" >
+                    <local:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="300" WidthRequest="250" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Updating Profile" HorizontalTextAlignment="Center" FontSize="20"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="FirstNameEntry" Placeholder="First name" Text="Oleh"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="LastNameEntry" Placeholder="First name" Text="Kyrychenko"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="PhoneEntry" Placeholder="Phone" Text="+380978017973"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="EditProfilePopupConfirm" VerticalOptions="End" Text="Confirm" Clicked="EditProfilePopupConfirm_Clicked"/>
+
+                        </StackLayout>
+                    </local:ClickableFrame>
+                </local:ClickableFrame>
+            </popups:Popup>
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>

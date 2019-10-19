@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace GoNTrip.Pages.Additional.Validators
 {
@@ -18,13 +16,14 @@ namespace GoNTrip.Pages.Additional.Validators
             Registry = new Dictionary<object, int>();
         }
 
-        public int Add<T>(FieldValidationHandler<T> validationHandler, T validated)
+        public int Add<T>(FieldValidationHandler<T> validationHandler, T validated, Constants.Callback<T> callback)
         {
             if (Registry.ContainsKey(validated))
                 return -1;
 
             Validation.Add(++id, () => validationHandler.Validate(validated));
             Registry.Add(validated, id);
+            callback(validated);
 
             return id;
         }

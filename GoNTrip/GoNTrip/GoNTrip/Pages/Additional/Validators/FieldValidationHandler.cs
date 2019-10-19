@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Xamarin.Forms;
 
 namespace GoNTrip.Pages.Additional.Validators
 {
@@ -8,6 +9,8 @@ namespace GoNTrip.Pages.Additional.Validators
 
     public class FieldValidationHandler<T>
     {
+        private Func<Entry, bool> p;
+
         private Predicate<T> Validator { get; set; }
         private ValidationHandler<T> InvalidHandler { get; set; }
         private ValidationHandler<T> ValidHandler { get; set; }
@@ -17,6 +20,11 @@ namespace GoNTrip.Pages.Additional.Validators
             Validator = validator;
             InvalidHandler = invalidHandler;
             ValidHandler = validHandler;
+        }
+
+        public FieldValidationHandler(Func<Entry, bool> p)
+        {
+            this.p = p;
         }
 
         public bool Validate(T validated)

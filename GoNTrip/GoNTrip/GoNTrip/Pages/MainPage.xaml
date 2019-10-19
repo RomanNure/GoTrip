@@ -32,10 +32,10 @@
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Signing Up" HorizontalTextAlignment="Center" FontSize="20"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpLoginEntry" Placeholder="Login (8-20)"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordEntry" Placeholder="Password (8-30)" IsPassword="True"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordConfirmEntry" Placeholder="Confirm Password" IsPassword="True"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpEmailEntry" Placeholder="Email"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpLoginEntry" Placeholder="Login (8-20)" Text="cesar18102"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordEntry" Placeholder="Password (8-30)" IsPassword="True" Text="11111111"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpPasswordConfirmEntry" Placeholder="Confirm Password" IsPassword="True" Text="11111111"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="SignUpEmailEntry" Placeholder="Email" Text="cesar18102000@gmail.com"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="SignUpPopupConfirm" VerticalOptions="End" Text="Sign Up" Clicked="SignUpPopupConfirm_Clicked"/>
                             
                         </StackLayout>
@@ -50,8 +50,8 @@
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Logging In" HorizontalTextAlignment="Center" FontSize="20"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInLoginEntry" Placeholder="Login"/>
-                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Placeholder="Password" IsPassword="True"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInLoginEntry" Placeholder="Login" Text="cesar18102"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="LogInPasswordEntry" Placeholder="Password" IsPassword="True" Text="11111111"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="LogInPopupConfirm" VerticalOptions="End" Text="Log In" Clicked="LogInPopupConfirm_Clicked"/>
 
                         </StackLayout>

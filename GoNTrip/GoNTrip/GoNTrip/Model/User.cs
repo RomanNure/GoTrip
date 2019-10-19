@@ -38,7 +38,7 @@ namespace GoNTrip.Model
         public string fullName { get; set; }
 
         [UpdateProfileField]
-        public string phone { get; private set; }
+        public string phone { get; set; }
 
         [UpdateProfileField]
         public DateTime registrationDatetime { get; set; }
