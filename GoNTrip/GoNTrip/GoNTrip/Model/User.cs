@@ -49,6 +49,8 @@ namespace GoNTrip.Model
         [UpdateProfileField]
         public string avatarUrl { get; set; }
 
+        public string description { get; set; }
+
         public User() { }
         public User(long id) { this.id = id; }
         public User(string login, string password, string email = "")

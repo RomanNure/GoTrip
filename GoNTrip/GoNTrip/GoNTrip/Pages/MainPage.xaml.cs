@@ -1,7 +1,5 @@
 ﻿using System;
 
-using CustomControls;
-
 using Autofac;
 
 using Xamarin.Forms;
@@ -10,23 +8,17 @@ using Xamarin.Forms.Xaml;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
-using GoNTrip.Pages.Additional.Validators;
 using GoNTrip.ServerInteraction.ResponseParsers;
-using GoNTrip.Pages.Additional.Validators.ModelFieldsPatterns;
+using GoNTrip.Pages.Additional.Validators.Templates;
 
 namespace GoNTrip.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : ContentPage
     {
-        private FormValidator SignUpValidator = new FormValidator();
-        private FormValidator LogInValidator = new FormValidator();
-
-        private PopupControlSystem PopupControl = null;
-        public Constants.Callback<Entry> SubscribeSignUpEvents = null;
-        public Constants.Callback<Entry> SubscribeLogInEvents = null;
-
-        public static readonly Clicked OnPopupBodyClickedIgnore = (e, sender) => true;
+        private PopupControlSystem PopupControl { get; set; }
+        private SignUpValidator SignUpValidator { get; set; }
+        private LogInValidator LogInValidator { get; set; }
 
         public MainPage()
         {
@@ -34,55 +26,14 @@ namespace GoNTrip.Pages
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
-            //Clicked OnPopupWrapperClicked = (e, sender) => { popupControlSystem.CloseTopPopupAndHideKeyboardIfNeeded(); return true; };
-
-            SignUpPopup.OnPopupBodyClicked += OnPopupBodyClickedIgnore;
-            LogInPopup.OnPopupBodyClicked += OnPopupBodyClickedIgnore;
+            SignUpPopup.OnPopupBodyClicked += Constants.CLICK_IGNORE;
+            LogInPopup.OnPopupBodyClicked += Constants.CLICK_IGNORE;
 
             ErrorPopup.OnFirstButtonClicked = AuthErrorClose_Clicked;
 
-            FieldValidationHandler<Entry> LoginValidation = new FieldValidationHandler<Entry>(
-                Login => Login.Text != null && UserFieldsPatterns.LOGIN_PATTERN.IsMatch(Login.Text),
-                Constants.InvalidHandler, Constants.ValidHandler);
-
-            FieldValidationHandler<Entry> PasswordValidation = new FieldValidationHandler<Entry>(
-                Password => Password.Text != null && UserFieldsPatterns.PASSWORD_PATTERN.IsMatch(Password.Text),
-                Constants.InvalidHandler, Constants.ValidHandler);
-
-            FieldValidationHandler<Entry> PasswordConfirmValidation = new FieldValidationHandler<Entry>(
-                PasswordConfirm => PasswordConfirm.Text != null && UserFieldsPatterns.PASSWORD_PATTERN.IsMatch(PasswordConfirm.Text) && PasswordConfirm.Text == SignUpPasswordEntry.Text,
-                Constants.InvalidHandler, Constants.ValidHandler);
-
-            FieldValidationHandler<Entry> EmailValidation = new FieldValidationHandler<Entry>(
-                Email => Email.Text != null && UserFieldsPatterns.EMAIL_PATTERN.IsMatch(Email.Text),
-                Constants.InvalidHandler, Constants.ValidHandler);
-
-            SubscribeSignUpEvents = T =>
-            {
-                T.Unfocused += OnValidatedSignUpFieldUnfocused;
-                T.TextChanged += OnValidatedSignUpFieldTextChanged;
-            };
-
-            SignUpValidator.Add<Entry>(LoginValidation, SignUpLoginEntry, SubscribeSignUpEvents);
-            SignUpValidator.Add<Entry>(PasswordValidation, SignUpPasswordEntry, SubscribeSignUpEvents);
-            SignUpValidator.Add<Entry>(PasswordConfirmValidation, SignUpPasswordConfirmEntry, SubscribeSignUpEvents);
-            SignUpValidator.Add<Entry>(EmailValidation, SignUpEmailEntry, SubscribeSignUpEvents);
-
-            SubscribeLogInEvents = T =>
-            {
-                T.Unfocused += OnValidatedLogInFieldUnfocused;
-                T.TextChanged += OnValidatedLogInFieldTextChanged;
-            };
-
-            LogInValidator.Add<Entry>(LoginValidation, LogInLoginEntry, SubscribeLogInEvents);
-            LogInValidator.Add<Entry>(PasswordValidation, LogInPasswordEntry, SubscribeLogInEvents);
+            SignUpValidator = new SignUpValidator(SignUpLoginEntry, SignUpPasswordEntry, SignUpPasswordConfirmEntry, SignUpEmailEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
+            LogInValidator = new LogInValidator(LogInLoginEntry, LogInPasswordEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
         }
-
-        private void OnValidatedSignUpFieldUnfocused(object sender, FocusEventArgs e) => SignUpValidator.ValidateId(SignUpValidator.GetId(sender));
-        private void OnValidatedSignUpFieldTextChanged(object sender, TextChangedEventArgs e) => SignUpValidator.ValidateId(SignUpValidator.GetId(sender));
-
-        private void OnValidatedLogInFieldUnfocused(object sender, FocusEventArgs e) => LogInValidator.ValidateId(LogInValidator.GetId(sender));
-        private void OnValidatedLogInFieldTextChanged(object sender, TextChangedEventArgs e) => LogInValidator.ValidateId(LogInValidator.GetId(sender));
 
         private void SignUpButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(SignUpPopup);
 

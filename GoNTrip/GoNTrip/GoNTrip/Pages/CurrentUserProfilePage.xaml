@@ -22,7 +22,7 @@
             <x:Single x:Key="ButtonClickedScale">0.9</x:Single>
 
             <Style x:Key="HeaderBar" TargetType="Grid">
-                <Setter Property="HeightRequest" Value="55"/>
+                <Setter Property="HeightRequest" Value="50"/>
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
                 <Setter Property="Padding" Value="5,0,5,0"/>
@@ -106,17 +106,13 @@
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
 
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="35"/>
-                                <RowDefinition Height="*"/>
-                            </Grid.RowDefinitions>
-
                             <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
-                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.RowSpan="2" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.RowSpan="2" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
-
-                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HorizontalTextAlignment="Center" Grid.Row="1" Grid.Column="0" Text="Owner of Cesar Touristics Inc."/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
                         </Grid>
+
+                        <BoxView HeightRequest="1" HorizontalOptions="FillAndExpand" Margin="0,-7,0,0" BackgroundColor="{StaticResource ContentBackColor}"/>
+                        <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" Margin="0,-6,0,0" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" Text="Owner of Cesar Touristics Inc."/>
 
                         <Grid Margin="5,5,5,5" ColumnSpacing="5">
 
