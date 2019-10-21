@@ -156,8 +156,9 @@ namespace GoNTrip.Pages
 
         private bool EditProfile_OnClick(MotionEvent ME, CustomControls.IClickable sender)
         {
-            PopupControl.OpenPopup(UpdateProfilePopup);
-            return true;
+            if (ME.Action == MotionEventActions.Down)
+                PopupControl.OpenPopup(UpdateProfilePopup);
+            return false;
         }
 
         private void EditProfilePopupConfirm_Clicked(object sender, EventArgs e)
@@ -181,7 +182,7 @@ namespace GoNTrip.Pages
                 LoadCurrentUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-                PopupControl.CloseTopPopup();
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
             }
             catch (ResponseException ex)
             {
