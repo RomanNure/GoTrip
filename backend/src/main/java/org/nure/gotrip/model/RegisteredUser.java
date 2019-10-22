@@ -50,6 +50,9 @@ public class RegisteredUser {
 	@Column(name = "avatar_url")
 	private String avatarUrl;
 
+	@Column(name = "description")
+	private String description;
+
 	@JsonIgnore
 	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Company company;
@@ -143,5 +146,13 @@ public class RegisteredUser {
 
 	public void setCompany(Company company) {
 		this.company = company;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 }

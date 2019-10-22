@@ -16,32 +16,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthorizationController {
 
-    private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
+	private final Logger logger = LoggerFactory.getLogger(AuthorizationController.class);
 
-    private RegisteredUserService registeredUserService;
+	private RegisteredUserService registeredUserService;
 
-    @Autowired
-    public AuthorizationController(RegisteredUserService registeredUserService) {
-        this.registeredUserService = registeredUserService;
-    }
+	@Autowired
+	public AuthorizationController(RegisteredUserService registeredUserService) {
+		this.registeredUserService = registeredUserService;
+	}
 
-    @PostMapping(value = "/authorize", produces = "application/json")
-    public RegisteredUser authorize(@RequestBody UserRegistrationFormDto userRegistrationFormDto) {
-        RegisteredUser user;
+	@PostMapping(value = "/authorize", produces = "application/json")
+	public RegisteredUser authorize(@RequestBody UserRegistrationFormDto userRegistrationFormDto) {
+		RegisteredUser user = getRegisteredUser(userRegistrationFormDto);
+		checkUserPassword(user, userRegistrationFormDto);
+		return user;
+	}
 
-        try {
-            user = registeredUserService.findByLogin(userRegistrationFormDto.getLogin());
-        } catch (NotFoundUserException e) {
-            logger.info(e.getMessage());
-            throw new NotFoundException(e.getMessage());
-        }
+	private RegisteredUser getRegisteredUser(UserRegistrationFormDto userRegistrationFormDto) {
+		try {
+			return registeredUserService.findByLogin(userRegistrationFormDto.getLogin());
+		} catch (NotFoundUserException e) {
+			logger.info(e.getMessage());
+			throw new NotFoundException(e.getMessage());
+		}
+	}
 
-        if (!registeredUserService.checkPassword(user, userRegistrationFormDto.getPassword())) {
-            String logMessage = String.format("Invalid password entered for user %s", userRegistrationFormDto.getLogin());
-            logger.info(logMessage);
-            throw new BadRequestException("Invalid password");
-        }
+	private void checkUserPassword(RegisteredUser user, UserRegistrationFormDto userRegistrationFormDto) {
+		if (!registeredUserService.checkPassword(user, userRegistrationFormDto.getPassword())) {
+			String logMessage = String.format("Invalid password entered for user %s", userRegistrationFormDto.getLogin());
+			logger.info(logMessage);
+			throw new BadRequestException("Invalid password");
+		}
+	}
 
-        return user;
-    }
 }

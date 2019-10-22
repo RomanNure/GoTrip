@@ -29,28 +29,38 @@ public class RegisteredUserUpdateController {
 
     @PostMapping(value = "/update/user", produces = "application/json")
     public RegisteredUser updateUserData(@RequestBody RegisteredUser updatedUser){
-        try {
-            registrationUserFormValidator.validateUser(updatedUser);
-        } catch (ValidationException e) {
-            logger.info("Invalid request data");
-            throw new BadRequestException(e.getMessage());
-        }
-
+	    checkRequestUser(updatedUser);
         long userId = updatedUser.getId();
-        RegisteredUser oldUser;
-        try {
-            oldUser = registeredUserService.findById(userId);
-        } catch (NotFoundUserException e) {
-            logger.info("User with invalid id tried to update");
-            throw new BadRequestException("Invalid id");
-        }
-
-        oldUser.setEmail(updatedUser.getEmail());
-        oldUser.setPhone(updatedUser.getPhone());
-        oldUser.setFullName(updatedUser.getFullName());
-        oldUser.setAvatarUrl(updatedUser.getAvatarUrl());
-
+	    RegisteredUser oldUser = getRegisteredUser(userId);
+	    changeUserInformation(oldUser, updatedUser);
         registeredUserService.update(oldUser);
         return oldUser;
     }
+
+	private void checkRequestUser(RegisteredUser updatedUser) {
+		try {
+			registrationUserFormValidator.validateUser(updatedUser);
+		} catch (ValidationException e) {
+			logger.info("Invalid request data");
+			throw new BadRequestException(e.getMessage());
+		}
+	}
+
+	private RegisteredUser getRegisteredUser(long userId) {
+		try {
+			return registeredUserService.findById(userId);
+		} catch (NotFoundUserException e) {
+			logger.info("User with invalid id tried to update");
+			throw new BadRequestException("Invalid id");
+		}
+	}
+
+	private void changeUserInformation(RegisteredUser oldUser, RegisteredUser updatedUser) {
+		oldUser.setEmail(updatedUser.getEmail());
+		oldUser.setPhone(updatedUser.getPhone());
+		oldUser.setFullName(updatedUser.getFullName());
+		oldUser.setAvatarUrl(updatedUser.getAvatarUrl());
+		oldUser.setDescription(updatedUser.getDescription());
+	}
+
 }

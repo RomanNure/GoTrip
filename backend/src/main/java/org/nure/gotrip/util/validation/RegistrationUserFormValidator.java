@@ -1,14 +1,14 @@
 package org.nure.gotrip.util.validation;
 
-import org.nure.gotrip.exception.ValidationException;
 import org.nure.gotrip.dto.UserRegistrationFormDto;
+import org.nure.gotrip.exception.ValidationException;
 import org.nure.gotrip.model.RegisteredUser;
 import org.springframework.stereotype.Component;
 
 @Component
 public class RegistrationUserFormValidator {
 
-    private static final int MAX_FULLNAME_SIZE = 50;
+	private static final int MAX_FULL_NAME_SIZE = 50;
 
 	private static final String LOGIN_PATTERN = "^[a-zA-Z0-9]{8,20}$";
 
@@ -60,7 +60,7 @@ public class RegistrationUserFormValidator {
     }
 
     private void isAdditionalDataCorrect(String fullname, String phone) throws ValidationException{
-        if (fullname != null && !fullname.matches(FULL_NAME_PATTERN) && fullname.length() > MAX_FULLNAME_SIZE) {
+	    if (fullname != null && !fullname.matches(FULL_NAME_PATTERN) && fullname.length() > MAX_FULL_NAME_SIZE) {
             throw new ValidationException("Invalid full name");
         }
         if (phone != null && !phone.matches(PHONE_PATTERN)) {
