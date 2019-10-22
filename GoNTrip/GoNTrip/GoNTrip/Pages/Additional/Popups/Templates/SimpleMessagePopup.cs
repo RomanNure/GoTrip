@@ -50,18 +50,14 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
         private EventHandler onThirdButtonClicked;
         public EventHandler OnThirdButtonClicked { get { return onThirdButtonClicked; } set { onThirdButtonClicked = value; UpdateButtons(); } }
 
-        private ClickableFrame OuterFrame { get; set; }
-        private ClickableFrame InnerFrame { get; set; }
-
-        protected StackLayout ContentsLayout { get; private set; }
         protected Grid ButtonGrid { get; private set; }
 
         private Label MessageLabel { get; set; }
 
-        public SimpleMessagePopup()
+        public SimpleMessagePopup() : base()
         {
             StackLayout layout = new StackLayout();
-            ContentsLayout = layout;
+            ContentWrapper = layout;
 
             Label messageLabel = new Label();
             messageLabel.Style = (Style)Application.Current.Resources[POPUP_LABEL_CLASS];
@@ -78,7 +74,7 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
             ClickableFrame innerFrame = new ClickableFrame();
             innerFrame.Style = (Style)Application.Current.Resources[INNER_FRAME_CLASS];
             innerFrame.BackgroundColor = (Color)Application.Current.Resources[INNER_FRAME_COLOR];
-            innerFrame.Content = ContentsLayout;
+            innerFrame.Content = ContentWrapper;
             InnerFrame = innerFrame;
 
             ClickableFrame outerFrame = new ClickableFrame();
@@ -147,12 +143,12 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
             ButtonGrid = buttonGrid;
 
-            if (ContentsLayout != null)
+            if (ContentWrapper != null)
             {
-                if (ContentsLayout.Children.Count == 2)
-                    ContentsLayout.Children.RemoveAt(1);
+                if (ContentWrapper.Children.Count == 2)
+                    ContentWrapper.Children.RemoveAt(1);
 
-                ContentsLayout.Children.Add(buttonGrid);
+                ContentWrapper.Children.Add(buttonGrid);
             }
         }
     }

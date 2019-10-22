@@ -14,20 +14,12 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
         public const string OUTER_FRAME_CLASS = "PopupOuterFrame";
         public const string POPUP_BACKGROUND_CLASS = "PopupBackgroud";
 
-        /*private int popupWidth = 150;
-        public int PopupWidth { get { return popupWidth; } set { popupWidth = Math.Max(0, value); UpdatePopupShape(); } }
-
-        private int popupHeight = 150;
-        public int PopupHeight { get { return popupHeight; } set { popupHeight = Math.Max(0, value); UpdatePopupShape(); } }*/
-
         private string imageSource = "";
         public string ImageSource { get { return imageSource; } set { imageSource = value; UpdatePhotoSource(); } }
 
-        private ClickableFrame OuterFrame { get; set; }
-        private ClickableFrame InnerFrame { get; set; }
-        private Img Image { get; set; }
+        protected Img Image { get; set; }
 
-        public PhotoPopup()
+        public PhotoPopup() : base()
         {
             Img image = new Img();
             image.HorizontalOptions = LayoutOptions.FillAndExpand;

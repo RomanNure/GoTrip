@@ -174,7 +174,10 @@
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
             <templates:SimpleMessagePopup x:Name="SelectAvatarSourcePopup" PopupWidth="250" PopupHeight="100" MessageText="Select avatar source" FirstButtonText="Camera" SecondButtonText="Gallery"/>
-            <templates:PhotoPopup x:Name="AvatarView" ImageSource="ChangeAvatarButton.png"/>
+
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="100" ImageSource="DefaultAvatar.png"/>
+            <templates:SwipablePhotoPopup x:Name="n1" YTranslationBorder="300" XTranslationBorder="100" ImageSource="update.png"/>
+            <templates:SwipablePhotoPopup x:Name="n2" YTranslationBorder="300" XTranslationBorder="100" ImageSource="settings.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

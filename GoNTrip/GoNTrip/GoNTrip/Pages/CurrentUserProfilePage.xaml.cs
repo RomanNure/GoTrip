@@ -17,6 +17,7 @@ using GoNTrip.Pages.Additional.Validators;
 using GoNTrip.ServerInteraction.ResponseParsers;
 using GoNTrip.Pages.Additional.Validators.ModelFieldsPatterns;
 using GoNTrip.Pages.Additional.Validators.Templates;
+using GoNTrip.Pages.Additional.Popups.Templates;
 
 namespace GoNTrip.Pages
 {
@@ -41,7 +42,13 @@ namespace GoNTrip.Pages
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
             EditProfileValidator = new EditProfileValidator(FirstNameEntry, LastNameEntry, PhoneEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
+
+            SwipablePopupCollection swipablePopupCollection = new SwipablePopupCollection(new TextCounter());
+            swipablePopupCollection.Add(AvatarView);
+            swipablePopupCollection.Add(n1);
+            swipablePopupCollection.Add(n2);
         }
+
 
         private void ProfilePage_Appearing(object sender, System.EventArgs e)
         {
@@ -51,6 +58,9 @@ namespace GoNTrip.Pages
 
             SelectAvatarSourcePopup.OnFirstButtonClicked = (ctx, arg) => { UploadAvatar(async () => await App.DI.Resolve<Camera>().TakePhoto(Camera.CameraLocation.FRONT, Constants.MAX_PHOTO_WIDTH_HEIGHT)); };
             SelectAvatarSourcePopup.OnSecondButtonClicked = (ctx, arg) => { UploadAvatar(async () => await App.DI.Resolve<Gallery>().PickPhoto(Constants.MAX_PHOTO_WIDTH_HEIGHT)); };
+
+            n1.ImageSource = "settings.png";
+            n2.ImageSource = "update.png";
         }
 
         private async void LoadUserProfile()

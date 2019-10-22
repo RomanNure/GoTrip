@@ -18,10 +18,7 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
         private int circleRadius = 50;
         public int CircleRadius { get { return circleRadius; } set { circleRadius = Math.Max(0, value); UpdateSize(); } }
 
-        private ClickableFrame OuterFrame { get; set; }
-        private ClickableFrame InnerFrame { get; set; }
-
-        public LoadingPopup()
+        public LoadingPopup() : base()
         {
             ActivityIndicator indicator = new ActivityIndicator();
             indicator.HorizontalOptions = LayoutOptions.FillAndExpand;

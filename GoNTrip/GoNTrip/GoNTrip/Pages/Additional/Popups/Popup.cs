@@ -23,13 +23,17 @@ namespace GoNTrip.Pages.Additional.Popups
         public int TotalFocuses { get; private set; }
         private List<InputView> Inputs = new List<InputView>();
 
+        protected ClickableFrame OuterFrame { get; set; }
+        protected ClickableFrame InnerFrame { get; set; }
+        protected StackLayout ContentWrapper { get; set; }
+
         public Popup()
         {
             this.ChildAdded += (sender, e) => UpdateEvents();
             this.ChildRemoved += (sender, e) => UpdateEvents();
         }
 
-        private void UpdateEvents()
+        protected void UpdateEvents()
         {
             try
             {
