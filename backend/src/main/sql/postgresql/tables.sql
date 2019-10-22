@@ -8,7 +8,8 @@ CREATE TABLE registered_user
   phone                  varchar(15),
   registration_date_time timestamp   NOT NULL,
   email_confirmed        boolean,
-  avatar_url             varchar
+  avatar_url             varchar,
+  description            varchar
 );
 
 create table company
