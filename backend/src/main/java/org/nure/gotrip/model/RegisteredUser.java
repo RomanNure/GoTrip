@@ -57,9 +57,12 @@ public class RegisteredUser {
 	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Company company;
 
-	//Empty constructor for JPA
-	public RegisteredUser() {
+	@JsonIgnore
+    @OneToOne(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Administrator administrator;
 
+	public RegisteredUser() {
+        //Constructor for JPA
 	}
 
 	public RegisteredUser(String login, String password, String email) {
@@ -155,4 +158,12 @@ public class RegisteredUser {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
+    }
 }

@@ -60,3 +60,18 @@ create table guide
       references registered_user,
   wanted_tours_keywords varchar
 );
+
+create table tours
+(
+  tour_id          bigserial not null unique primary key,
+  administrator_id bigserial not null
+    constraint tours_administrator_id_fk
+      references administrators,
+  name varchar(70) not null,
+  description varchar not null,
+  price_per_person numeric(10, 2) not null,
+  main_picture_url varchar,
+  start_date_time timestamp not null,
+  finish_date_time timestamp not null,
+  max_participants integer
+);

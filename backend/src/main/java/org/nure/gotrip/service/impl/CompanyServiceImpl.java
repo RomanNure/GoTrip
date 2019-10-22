@@ -1,12 +1,9 @@
 package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotFoundCompanyException;
-import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueCompanyException;
 import org.nure.gotrip.model.Company;
-import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.repository.CompanyRepository;
-import org.nure.gotrip.repository.RegisteredUserRepository;
 import org.nure.gotrip.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -50,5 +47,4 @@ public class CompanyServiceImpl implements CompanyService {
 	public Company findById(long id) throws NotFoundCompanyException {
 		return companyRepository.findById(id).orElseThrow(() -> new NotFoundCompanyException("Company with such id does not exist"));
 	}
-
 }

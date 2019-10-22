@@ -11,7 +11,7 @@ public class UserRegistrationFormDtoTest {
 
 	@Test
 	public void checkUserRegistrationFormMapping() {
-		UserRegistrationFormDto userRegistrationFormDto = new UserRegistrationFormDto("LolTest", "123456", "sobaka@mail.com");
+		UserRegistrationFormDto userRegistrationFormDto = new UserRegistrationFormDto("LolTest", "123456", "sobaka@mail.com", "Some text");
 
 		RegisteredUser registeredUser = modelMapper.map(userRegistrationFormDto, RegisteredUser.class);
 
