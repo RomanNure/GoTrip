@@ -1,6 +1,5 @@
 package org.nure.gotrip.controller;
 
-import org.nure.gotrip.dto.AllToursDto;
 import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;

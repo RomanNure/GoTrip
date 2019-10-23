@@ -4,7 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import java.util.List;
 
 @Getter
@@ -29,10 +38,16 @@ public class Company {
 	@Column(name = "email")
 	private String email;
 
-    @OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
+	@Column(name = "description")
+	private String description;
+
+	@Column(name = "image_link")
+	private String imageLink;
+
+	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
 	private List<Administrator> administrators;
 
 	public Company() {
-	    //Constructor for JPA
+		//Constructor for JPA
 	}
 }

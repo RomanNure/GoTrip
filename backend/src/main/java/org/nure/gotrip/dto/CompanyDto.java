@@ -14,8 +14,13 @@ public class CompanyDto {
 
     @NotNull
 	private String name;
+
 	@NotNull
 	private String email;
+
 	@NotNull
 	private RegisteredUser owner;
+
+	@NotNull
+	private String description;
 }
