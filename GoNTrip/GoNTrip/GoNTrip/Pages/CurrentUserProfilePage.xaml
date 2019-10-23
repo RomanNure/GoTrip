@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:local="clr-namespace:CustomControls;assembly=CustomControls"
+             xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             xmlns:popups="clr-namespace:GoNTrip.Pages.Additional.Popups"
+             mc:Ignorable="d"
+             x:Class="GoNTrip.Pages.CurrentUserProfilePage"
+             Appearing="ProfilePage_Appearing">
+    
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <x:Double x:Key="AvatarWidth">130</x:Double>
+            <x:Double x:Key="AvatarHeight">130</x:Double>
+
+            <x:Double x:Key="AvatarChangeButtonWidth">36</x:Double>
+            <x:Double x:Key="AvatarChangeButtonHeight">36</x:Double>
+
+            <x:Single x:Key="ButtonClickedScale">0.9</x:Single>
+
+            <Style x:Key="HeaderBar" TargetType="Grid">
+                <Setter Property="HeightRequest" Value="50"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+                <Setter Property="Padding" Value="5,0,5,0"/>
+                <Setter Property="ColumnSpacing" Value="0"/>
+                <Setter Property="RowSpacing" Value="0"/>
+            </Style>
+
+            <Style x:Key="HeaderLabel" TargetType="Label" BasedOn="{StaticResource LabelBar}">
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="HeightRequest" Value="40"/>
+                <Setter Property="FontSize" Value="20"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+            </Style>
+
+            <Style x:Key="EditProfileButton" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="32"/>
+                <Setter Property="HeightRequest" Value="32"/>
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+            </Style>
+
+            <Style x:Key="Avatar" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
+            </Style>
+
+            <Style x:Key="AvatarChangeButton" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarChangeButtonWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarChangeButtonHeight}"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="92,2,36,36"/>
+            </Style>
+
+            <Style x:Key="AvatarWrapper" TargetType="AbsoluteLayout">
+                <Setter Property="Grid.Column" Value="0"/>
+                <Setter Property="Grid.Row" Value="0"/>
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="InfoGrid" TargetType="Grid">
+                <Setter Property="Grid.Column" Value="1"/>
+                <Setter Property="Grid.Row" Value="0"/>
+                
+                <Setter Property="ColumnSpacing" Value="1"/>
+                <Setter Property="RowSpacing" Value="1"/>
+
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+
+                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+                <Setter Property="Padding" Value="2"/>
+            </Style>
+
+            <Style x:Key="InfoCell" TargetType="Label">
+                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+
+                <Setter Property="VerticalTextAlignment" Value="Center"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+
+                <Setter Property="FontSize" Value="13"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
+
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="StartAndExpand" Margin="0,0,0,0">
+
+                        <Grid Style="{StaticResource HeaderBar}">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="40"/>
+                                <ColumnDefinition Width="40"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                            <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                        </Grid>
+
+                        <BoxView HeightRequest="1" HorizontalOptions="FillAndExpand" Margin="0,-7,0,0" BackgroundColor="{StaticResource ContentBackColor}"/>
+                        <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" Margin="0,-6,0,0" VerticalOptions="StartAndExpand" HorizontalTextAlignment="Center" Text="Owner of Cesar Touristics Inc."/>
+
+                        <Grid Margin="5,5,5,5" ColumnSpacing="5">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="130"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <AbsoluteLayout Style="{StaticResource AvatarWrapper}" >
+                                <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
+                                <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="UserAvatarChange_OnClick" BorderRadius="0" 
+                                           TopRightBorderRadius="14" BotLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="ChangeAvatarButton.png"/>
+                            </AbsoluteLayout>
+
+                            <Grid Style="{StaticResource InfoGrid}">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="22*"/>
+                                    <ColumnDefinition Width="78*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
+                                <Label Style="{StaticResource InfoCell}"  x:Name="LoginInfoLabel" Grid.Row="0" Grid.Column="1"/>
+
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Name:"/>
+                                <Label Style="{StaticResource InfoCell}"  x:Name="NameInfoLabel" Grid.Row="1" Grid.Column="1"/>
+
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Email:"/>
+                                <Label Style="{StaticResource InfoCell}" x:Name="EmailInfoLabel" Grid.Row="2" Grid.Column="1"/>
+
+                                <Label Style="{StaticResource InfoCell}" Grid.Row="3" Grid.Column="0" Text="Phone:"/>
+                                <Label Style="{StaticResource InfoCell}" x:Name="PhoneInfoLabel" Grid.Row="3" Grid.Column="1"/>
+
+                            </Grid>
+                        </Grid>
+
+                        <ScrollView x:Name="UserVisitedTours"></ScrollView>
+
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="UpdateProfilePopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <local:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="UpdateProfilePopupOuterLayout" HeightRequest="300" WidthRequest="250" CornerRadius="10" >
+                    <local:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="300" WidthRequest="250" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Updating Profile" HorizontalTextAlignment="Center" FontSize="20"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="FirstNameEntry" Placeholder="First name" Text="Oleh"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="LastNameEntry" Placeholder="First name" Text="Kyrychenko"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="PhoneEntry" Placeholder="Phone" Text="+380978017973"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="EditProfilePopupConfirm" VerticalOptions="End" Text="Confirm" Clicked="EditProfilePopupConfirm_Clicked"/>
+
+                        </StackLayout>
+                    </local:ClickableFrame>
+                </local:ClickableFrame>
+            </popups:Popup>
+
+            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+            <templates:SimpleMessagePopup x:Name="SelectAvatarSourcePopup" PopupWidth="250" PopupHeight="100" MessageText="Select avatar source" FirstButtonText="Camera" SecondButtonText="Gallery"/>
+
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultAvatar.png"/>
+            <templates:SwipablePhotoPopup x:Name="n1" YTranslationBorder="300" XTranslationBorder="150" ImageSource="update.png"/>
+            <templates:SwipablePhotoPopup x:Name="n2" YTranslationBorder="300" XTranslationBorder="150" ImageSource="settings.png"/>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+    
+</ContentPage>
