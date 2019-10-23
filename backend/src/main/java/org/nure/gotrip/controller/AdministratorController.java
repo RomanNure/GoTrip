@@ -1,9 +1,11 @@
 package org.nure.gotrip.controller;
 
+import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.AdministratorAddDto;
 import org.nure.gotrip.exception.NotFoundCompanyException;
 import org.nure.gotrip.exception.NotFoundUserException;
+import org.nure.gotrip.exception.NotUniqueAdministratorException;
 import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Company;
 import org.nure.gotrip.model.RegisteredUser;
@@ -50,6 +52,12 @@ public class AdministratorController {
             throw new NotFoundException(e.getMessage());
         }
         Administrator administrator = new Administrator(user, company);
-        return new ResponseEntity<>(administratorService.addAdministrator(administrator), HttpStatus.OK);
+        try {
+            administrator = administratorService.addAdministrator(administrator);
+            return new ResponseEntity<>(administrator, HttpStatus.OK);
+        }catch (NotUniqueAdministratorException e){
+            LOGGER.info("Administrator exists", e);
+            throw new ConflictException(e.getMessage());
+        }
     }
 }

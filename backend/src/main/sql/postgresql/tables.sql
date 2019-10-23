@@ -30,7 +30,8 @@ CREATE TABLE administrators
       references registered_user,
   company_id         bigserial not null
     constraint company_id_fk
-      references company
+      references company,
+   unique(registered_user_id, company_id)
 );
 
 create table notification_types
