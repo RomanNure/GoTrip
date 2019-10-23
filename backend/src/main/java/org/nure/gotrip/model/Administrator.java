@@ -35,4 +35,9 @@ public class Administrator {
     public Administrator(){
         //Constructor for JPA
     }
+
+    public Administrator(RegisteredUser user, Company company){
+        this.registeredUser = user;
+        this.company = company;
+    }
 }

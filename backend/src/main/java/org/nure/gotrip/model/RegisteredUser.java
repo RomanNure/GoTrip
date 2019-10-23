@@ -53,11 +53,9 @@ public class RegisteredUser {
 	@Column(name = "description")
 	private String description;
 
-	@JsonIgnore
 	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private Company company;
 
-	@JsonIgnore
     @OneToOne(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Administrator administrator;
 
