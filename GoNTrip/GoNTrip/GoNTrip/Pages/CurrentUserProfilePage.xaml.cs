@@ -33,20 +33,22 @@ namespace GoNTrip.Pages
 
         private PopupControlSystem PopupControl { get; set; }
         private EditProfileValidator EditProfileValidator { get; set; }
+        private SwipablePopupCollection PopupCollection { get; set; }
 
         public CurrentUserProfilePage(User user)
         {
             CurrentUser = user;
 
             InitializeComponent();
+
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
+            PopupCollection = new SwipablePopupCollection(PopupControl);
 
             EditProfileValidator = new EditProfileValidator(FirstNameEntry, LastNameEntry, PhoneEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
 
-            SwipablePopupCollection swipablePopupCollection = new SwipablePopupCollection(new TextCounter());
-            swipablePopupCollection.Add(AvatarView);
-            swipablePopupCollection.Add(n1);
-            swipablePopupCollection.Add(n2);
+            PopupCollection.Add(AvatarView);
+            PopupCollection.Add(n1);
+            PopupCollection.Add(n2);
         }
 
 
@@ -168,6 +170,7 @@ namespace GoNTrip.Pages
         {
             if (ME.Action == MotionEventActions.Down)
                 PopupControl.OpenPopup(UpdateProfilePopup);
+
             return false;
         }
 
@@ -205,14 +208,18 @@ namespace GoNTrip.Pages
 
         private bool UpdateProfile_OnClick(MotionEvent ME, CustomControls.IClickable sender)
         {
-            LoadUserProfile();
-            return true;
+            if (ME.Action == MotionEventActions.Down)
+                LoadUserProfile();
+
+            return false;
         }
 
         private bool UserAvatar_OnClick(MotionEvent ME, CustomControls.IClickable sender)
         {
-            PopupControl.OpenPopup(AvatarView);
-            return true;
+            if (ME.Action == MotionEventActions.Down)
+                PopupCollection.MoveNext();
+            
+            return false;
         }
 
         protected override bool OnBackButtonPressed()

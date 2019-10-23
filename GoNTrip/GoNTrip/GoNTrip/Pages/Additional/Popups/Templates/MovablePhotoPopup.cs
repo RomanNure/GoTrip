@@ -5,7 +5,7 @@ using Xamarin.Essentials;
 
 namespace GoNTrip.Pages.Additional.Popups.Templates
 {
-    public class MovablePhotoPopup : PhotoPopup
+    public class MovablePhotoPopup : SignedPhotoPopup
     {
         public delegate void OnBorderExceeded(MovablePhotoPopup popup);
 
@@ -17,30 +17,22 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
         public float? XTranslationBorder { get; set; }
         public float? YTranslationBorder { get; set; }
 
-        public MovablePhotoPopup() : base() => base.Image.OnClick += Popup_OnClick;
+        public MovablePhotoPopup() : base() => base.Image.OnClick += (ME, sender) => Move(ME, sender);
 
         protected (float x, float y) startMovePoint = (0, 0);
-
-        private bool Popup_OnClick(MotionEvent ME, IClickable sender)
+        protected bool Move(MotionEvent ME, IClickable sender)
         {
-            Img img = sender as Img;
-
             if (ME.Action == MotionEventActions.Down)
             {
                 startMovePoint = (ME.RawX, ME.RawY);
                 return false;
             }
 
-            if (ME.Action == MotionEventActions.Up)
-            {
-                img.TranslationX = 0;
-                img.TranslationY = 0;
-            }
-            else
-            {
-                img.TranslationX = (ME.RawX - startMovePoint.x) / DeviceDisplay.MainDisplayInfo.Density;
-                img.TranslationY = (ME.RawY - startMovePoint.y) / DeviceDisplay.MainDisplayInfo.Density;
-            }
+            Img img = sender as Img;
+
+            (float x, float y) translation = GetNewTranslation(ME, startMovePoint, (float)DeviceDisplay.MainDisplayInfo.Density);
+            img.TranslationX = translation.x;
+            img.TranslationY = translation.y;
 
             double width = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
             double height = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
@@ -55,6 +47,14 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
                 OnBotBorderExceeded?.Invoke(this);
 
             return false;
+        }
+
+        protected virtual (float x, float y) GetNewTranslation(MotionEvent ME, (float x, float y) start, float density)
+        {
+            if (ME.Action == MotionEventActions.Up)
+                return (0, 0);
+
+            return ((ME.RawX - start.x) / density, (ME.RawY - start.y) / density);
         }
     }
 }

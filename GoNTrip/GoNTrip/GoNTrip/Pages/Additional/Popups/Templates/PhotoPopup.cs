@@ -31,6 +31,7 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
             StackLayout layout = new StackLayout();
             layout.Children.Add(image);
+            ContentWrapper = layout;
 
             ClickableFrame innerFrame = new ClickableFrame();
             innerFrame.Style = (Style)Application.Current.Resources[INNER_FRAME_CLASS];

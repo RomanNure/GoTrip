@@ -7,21 +7,23 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
     public class SwipablePopupCollection
     {
         private List<SwipablePhotoPopup> popups = new List<SwipablePhotoPopup>();
-        private ICounter counter = null;
+        private PopupControlSystem PopupControl { get; set; }
 
-        public SwipablePopupCollection(ICounter counter) => this.counter = counter;
+        public SwipablePopupCollection(PopupControlSystem popupControl) => this.PopupControl = popupControl;
 
         public void Add(SwipablePhotoPopup popup)
         {
             popups.Add(popup);
+
             popup.OnRightBorderExceeded += (sender) => { if (sender.Equals(current)) MovePrev(); };
             popup.OnLeftBorderExceeded += (sender) => { if (sender.Equals(current)) MoveNext(); };
 
-            ++counter.Max;
+            popup.OnBotBorderExceeded += (sender) => Reset();
+            popup.OnTopBorderExceeded += (sender) => Reset();
         }
 
-        private int currentIndex = 0;
-        private Popup current => hasCurrent ? popups[currentIndex] : null;
+        private int currentIndex = -1;
+        private SwipablePhotoPopup current => hasCurrent ? popups[currentIndex] : null;
 
         private bool hasCurrent => currentIndex >= 0 && currentIndex < Count;
         private bool hasNext => currentIndex < Count - 1;
@@ -31,20 +33,29 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
         private bool Move(bool isMoveNext)
         {
-            if (!hasCurrent || !((isMoveNext && hasNext) || (!isMoveNext && hasPrev)))
+            if (!((isMoveNext && hasNext) || (!isMoveNext && hasPrev)))
                 return false;
 
-            current.ForceHide();
-            currentIndex += isMoveNext ? 1 : -1;
-            current.Show();
+            if (hasCurrent)
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-            if (isMoveNext) counter?.MoveNext();
-            else counter?.MovePrev();
+            currentIndex += isMoveNext ? 1 : -1;
+            PopupControl.OpenPopup(current);
+
+            current.Text = (currentIndex + 1) + "/" + popups.Count;
 
             return true;
         }
 
         public bool MoveNext() => Move(true);
         public bool MovePrev() => Move(false);
+
+        public void Reset()
+        {
+            if (hasCurrent)
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+            currentIndex = -1;
+        }
     }
 }
