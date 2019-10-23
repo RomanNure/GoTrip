@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { PureComponent } from 'react';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+} from "react-router-dom";
+import SignIn from './components/SignIn.js';
+import Home from './pages/Home.js';
+import SignUp from './components/SignUp.js';
+import Header from './components/Header.js';
+import UserPage from './pages/UserPage.js';
+import NotFound from './components/NotFound.js';
+import cookie from 'react-cookies'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      user: false
+    }
+  }
+
+  shouldComponentUpdate(p, s) {
+    let cookieUser = cookie.load('user')
+    console.log('cooki user', cookieUser, s)
+    if (cookieUser && cookieUser.login != s.user.login) {
+        console.log('marched rerender')
+      return true
+    }
+    return false
+  }
+  /* eslint-disable */
+  render() {
+
+    console.log('- router rendered', this.props)
+    return (
+      <div className="container-fluid" style={{ backgroundColor: "#eee" }}>
+        <Header />
+        <div className="container-fluid" style={{ marginTop: 75, height: 790 }}>
+          <Switch>
+            <Route path="/" exact component={Home} />
+            <Route path="/login" exact component={SignIn} />
+
+            <Route path="/registration" exact component={SignUp} />
+
+            <Route path="/user:id" component={(data) => <UserPage {...data} />} />
+            <Route component={NotFound} />
+          </Switch>
+        </div>
+
+      </div>
+    )
+  }
 }
-
-export default App;
+//<Route path="/" component={NotFound} />
