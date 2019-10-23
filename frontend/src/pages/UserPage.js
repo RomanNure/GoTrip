@@ -17,7 +17,7 @@ export default class UserPage extends Component {
         this.state.user = cookie.load("user")
         this.state.id = this.props.location.pathname.match(/\:\d+/)[0].substr(1)
         console.log('id', this.state.id)
-        console.log(this.props.location)
+        //console.log(this.props.location)
         //        console.log('state= >', state)
     }
 
