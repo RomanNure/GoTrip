@@ -38,5 +38,6 @@ namespace UnitTests
 
             Assert.IsTrue(fieldValidationHandler.Validate("test"));
         }
+		//nothing
     }
 }
