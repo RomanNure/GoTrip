@@ -51,8 +51,6 @@ namespace GoNTrip.Pages
 
             Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.PROFILE;
             Navigator.LinkClicks();
-
-            UserAboutSave.IsVisible = false;
         }
 
         private void ProfilePage_Appearing(object sender, EventArgs e) => LoadUserProfile();
@@ -272,10 +270,10 @@ namespace GoNTrip.Pages
         {
             if (ME.Action == MotionEventActions.Down)
             {
-                UserAbout.IsReadOnly = false;
                 UserAboutSave.IsVisible = true;
                 UserAboutEdit.IsVisible = false;
 
+                UserAbout.IsReadOnly = false;
                 UserAbout.Focus();
             }
 

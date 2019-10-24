@@ -194,7 +194,7 @@
 
                                             <Editor Style="{StaticResource UserAbout}" x:Name="UserAbout" Placeholder="Write about yourself..." Grid.RowSpan="3" Grid.ColumnSpan="2"/>
                                             <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutEdit" OnClick="UserAboutEdit_OnClick" Source="edit.png" BorderAlways="False" ClickedBorderWidth="0" Grid.Row="2" Grid.Column="2"/>
-                                            <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutSave" OnClick="UserAboutSave_OnClick" Source="save.png" BorderAlways="False" ClickedBorderWidth="0" Grid.Row="0" Grid.Column="2"/>
+                                            <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutSave" OnClick="UserAboutSave_OnClick" Source="save.png" IsVisible="False" BorderAlways="False" ClickedBorderWidth="0" Grid.Row="0" Grid.Column="2"/>
 
                                         </Grid>
                                     </Frame>
