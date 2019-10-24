@@ -49,6 +49,7 @@ export default class App extends PureComponent {
             <Route path="/registration" exact component={SignUp} />
 
             <Route path="/create-company" exact component={CreateCompany} />
+            <Route path="/company-page" exact component={CompanyPage} />
 
             <Route path="/user:id" component={(data) => <UserPage {...data} />} />
             <Route component={NotFound} />

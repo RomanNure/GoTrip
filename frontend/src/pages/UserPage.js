@@ -208,7 +208,7 @@ export default class UserPage extends Component {
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
-                                    {rule && <div className="text-center" ><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" onClick={this._onLogOut}>Log Out</a></div>
+                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onLogOut}>Log Out</a></div>
                                     }
                                 </div>
                             </div>
@@ -249,7 +249,7 @@ export default class UserPage extends Component {
                                                 </div>
                                                 {rule && <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
-                                                        <a className="btn btn-primary custom-btn" onClick={this._onUpdate}>Update</a>
+                                                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onUpdate}>Update</a>
                                                     </div>
                                                 </div>
                                                 }
