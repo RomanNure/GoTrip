@@ -35,7 +35,7 @@ public class RegistrationCompanyControllerTest {
 
 	@Test
 	public void shouldGetPositiveResponse() throws Exception {
-		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", new RegisteredUser());
+		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", new RegisteredUser(), "lol");
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
 		mvc.perform(MockMvcRequestBuilders.post(COMPANY_REGISTRATION)
@@ -47,7 +47,7 @@ public class RegistrationCompanyControllerTest {
 
 	@Test
 	public void shouldGetBadRequestResponse() throws Exception {
-		CompanyDto companyDto = new CompanyDto("name", "fiasko", new RegisteredUser());
+		CompanyDto companyDto = new CompanyDto("name", "fiasko", new RegisteredUser(), "lol");
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
 		mvc.perform(MockMvcRequestBuilders.post(COMPANY_REGISTRATION)
@@ -59,7 +59,7 @@ public class RegistrationCompanyControllerTest {
 
 	@Test
 	public void shouldGetConflictResponse() throws Exception {
-		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", new RegisteredUser());
+		CompanyDto companyDto = new CompanyDto("name", "fiasko@gmail.com", new RegisteredUser(), "lol");
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
 		Mockito.when(companyRepository.save(Mockito.any(Company.class)))

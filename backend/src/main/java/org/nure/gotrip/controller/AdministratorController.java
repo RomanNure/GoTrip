@@ -3,6 +3,7 @@ package org.nure.gotrip.controller;
 import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.AdministratorAddDto;
+import org.nure.gotrip.dto.AdministratorDto;
 import org.nure.gotrip.exception.NotFoundCompanyException;
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueAdministratorException;
@@ -18,8 +19,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class AdministratorController {
@@ -35,6 +41,19 @@ public class AdministratorController {
         this.administratorService = administratorService;
         this.registeredUserService = registeredUserService;
         this.companyService = companyService;
+    }
+
+    @GetMapping(value = "/administrator/get", produces = "application/json")
+    public ResponseEntity getAdministrators(@RequestParam long companyId){
+        Company company;
+        try {
+            company = companyService.findById(companyId);
+        } catch (NotFoundCompanyException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+        List<AdministratorDto> list = new ArrayList<>();
+        company.getAdministrators().forEach(admin -> list.add(new AdministratorDto(admin.getId(), registeredUserService.findByAdministrator(admin.getId()))));
+        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @PostMapping(value = "/administrator/add", produces = "application/json")

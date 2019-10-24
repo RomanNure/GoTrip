@@ -2,6 +2,7 @@ package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueUserException;
+import org.nure.gotrip.model.Company;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.repository.RegisteredUserRepository;
 import org.nure.gotrip.service.RegisteredUserService;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Date;
 
 @Service
@@ -56,5 +58,16 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
     @Override
     public RegisteredUser findByLogin(String login) throws NotFoundUserException {
         return registeredUserRepository.findByLogin(login).orElseThrow(()->new NotFoundUserException("User with such login doesn't exist"));
+    }
+
+    @Override
+    public Iterable<BigInteger> findUserCompanies(Long userId){
+	    return registeredUserRepository.findByEmployee(userId);
+    }
+
+    @Override
+    public RegisteredUser findByAdministrator(long administratorId){
+	    Long userId = registeredUserRepository.findByAdministrator(administratorId).longValue();
+	    return registeredUserRepository.findById(userId).orElse(null);
     }
 }
