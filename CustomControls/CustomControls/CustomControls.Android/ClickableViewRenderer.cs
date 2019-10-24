@@ -34,7 +34,7 @@ namespace CustomControls.Droid
                 if (e.Action == MotionEventActions.Down)
                     Target.ScaleTo(Target.ScaleOnClicked, Target.ClickAnimationDuration);
                 else if (e.Action == MotionEventActions.Up)
-                    Target.ScaleTo(1.0f / Target.ScaleOnClicked, Target.ClickAnimationDuration);
+                    Target.ScaleTo(1.0f, Target.ClickAnimationDuration);
             }
 
             if (Target.Click(e))

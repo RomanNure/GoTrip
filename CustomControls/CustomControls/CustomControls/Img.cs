@@ -10,6 +10,7 @@ namespace CustomControls
     public class Img : ClickableView
     {
         public event Changed OnSourceChanged;
+        public event Changed OnImageScaleChanged;
         public event Changed OnBorderRadiusChanged;
         public event Changed OnBorderColorChanged;
 
@@ -79,9 +80,6 @@ namespace CustomControls
 
         private bool borderAlways = true;
         public bool BorderAlways { get { return borderAlways; } set { borderAlways = value; } }
-
-        private bool clickAnimation = true;
-        public bool ClickAnimation { get { return clickAnimation; } set { clickAnimation = value; } }
 
         private float clickedBorderWidth = 10;
         public float ClickedBorderWidth { get { return clickedBorderWidth; } set { clickedBorderWidth = Math.Max(value, 0); } }

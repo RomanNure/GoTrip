@@ -46,19 +46,26 @@ namespace CustomControls.Droid
 
         protected override void OnDraw(Canvas canvas)
         {
-            base.OnDraw(canvas);
+            try
+            {
+                if (!Target.IsVisible)
+                    return;
 
-            int size = Math.Min(canvas.Width, canvas.Height);
+                base.OnDraw(canvas);
 
-            float dx = (canvas.Width - size) / 2.0f;
-            float dy = (canvas.Height - size) / 2.0f;
+                int size = Math.Min(canvas.Width, canvas.Height);
 
-            canvas.DrawRoundRect(dx, dy, dx + size, dy + size, TargetCheckBox.BorderRadiusX, TargetCheckBox.BorderRadiusY, OuterP);
+                float dx = (canvas.Width - size) / 2.0f;
+                float dy = (canvas.Height - size) / 2.0f;
 
-            float differ = (TargetCheckBox.OuterWidth + TargetCheckBox.RadiusDiffer) * Density / 2;
+                canvas.DrawRoundRect(dx, dy, dx + size, dy + size, TargetCheckBox.BorderRadiusX, TargetCheckBox.BorderRadiusY, OuterP);
 
-            if (TargetCheckBox.Checked)
-                canvas.DrawRoundRect(dx + differ, dy + differ, dx + size - differ, dy + size - differ, TargetCheckBox.BorderRadiusX, TargetCheckBox.BorderRadiusY, InnerP);
+                float differ = (TargetCheckBox.OuterWidth + TargetCheckBox.RadiusDiffer) * Density / 2;
+
+                if (TargetCheckBox.Checked)
+                    canvas.DrawRoundRect(dx + differ, dy + differ, dx + size - differ, dy + size - differ, TargetCheckBox.BorderRadiusX, TargetCheckBox.BorderRadiusY, InnerP);
+            }
+            catch { }
         }
 
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)

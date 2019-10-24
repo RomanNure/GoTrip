@@ -42,18 +42,25 @@ namespace CustomControls.Droid
 
         protected override void OnDraw(Canvas canvas)
         {
-            canvas.DrawColor(Android.Graphics.Color.Red);
-            foreach(List<Xamarin.Forms.Point> PG in TTV.PointGroups)
+            try
             {
-                for (int i = 0; i < PG.Count - 1; i++)
-                {
-                    canvas.DrawCircle((float)PG[i].X, (float)PG[i].Y, PointRadius, P);
-                    canvas.DrawLine((float)PG[i].X, (float)PG[i].Y, (float)PG[i + 1].X, (float)PG[i + 1].Y, P);
-                }
+                if (!TTV.IsVisible)
+                    return;
 
-                if (PG.Count > 0)
-                    canvas.DrawCircle((float)PG.Last().X, (float)PG.Last().Y, PointRadius, P);
+                canvas.DrawColor(Android.Graphics.Color.Red);
+                foreach (List<Xamarin.Forms.Point> PG in TTV.PointGroups)
+                {
+                    for (int i = 0; i < PG.Count - 1; i++)
+                    {
+                        canvas.DrawCircle((float)PG[i].X, (float)PG[i].Y, PointRadius, P);
+                        canvas.DrawLine((float)PG[i].X, (float)PG[i].Y, (float)PG[i + 1].X, (float)PG[i + 1].Y, P);
+                    }
+
+                    if (PG.Count > 0)
+                        canvas.DrawCircle((float)PG.Last().X, (float)PG.Last().Y, PointRadius, P);
+                }
             }
+            catch { }
         }
 
         public override bool OnTouchEvent(MotionEvent e)

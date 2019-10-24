@@ -48,7 +48,9 @@ namespace CustomControls.Droid
 
             TargetImage.OnSourceChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
             TargetImage.OnBorderRadiusChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
+            TargetImage.OnImageScaleChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
             TargetImage.OnBorderColorChanged += sender => PostInvalidate();
+
 
             UpdateBitmapData();
             PostInvalidate();
@@ -105,13 +107,13 @@ namespace CustomControls.Droid
 
             Borders.Clear();
 
-            for(int i = 0; i <= Img.SIDES_COUNT; i++)
+            for (int i = 0; i <= Img.SIDES_COUNT; i++)
                 Borders.Add(new List<float>());
             int side = 0;
 
             for (Img.Corners corner = 0; corner < (Img.Corners)Img.CORNERS_COUNT; corner++)
             {
-                int borderRadius = TargetImage.GetBorderRadius(corner);
+                int borderRadius = (int)(TargetImage.GetBorderRadius(corner) * Density);
 
                 int start = (borderRadius - 1) * ((int)corner % 2);
                 int delta = start == 0 ? 1 : -1;
@@ -137,7 +139,7 @@ namespace CustomControls.Droid
                     Borders[side].Add(x);
                     Borders[side].Add(by);
 
-                    if(i > dColor != isColorChanged)
+                    if (i > dColor != isColorChanged)
                     {
                         Borders[++side].Add(x);
                         Borders[side].Add(by);
@@ -146,7 +148,7 @@ namespace CustomControls.Droid
                     }
                 }
 
-                if(borderRadius == 0)
+                if (borderRadius == 0)
                 {
                     int x = (int)(TargetImage.WidthRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 0]);
                     int y = (int)(TargetImage.HeightRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 2]);
@@ -168,39 +170,43 @@ namespace CustomControls.Droid
 
         protected override void OnDraw(Canvas canvas)
         {
-            if (BitmapData == null)
-                return;
-
-            Bitmap tempBitmap = Bitmap.CreateScaledBitmap(BitmapData, canvas.Width, canvas.Height, false);
-
-            float dx = (canvas.Width - tempBitmap.Width) / 2.0f;
-            float dy = (canvas.Height - tempBitmap.Height) / 2.0f;
-
-            float ratioX = (float)tempBitmap.Width / BitmapData.Width;
-            float ratioY = (float)tempBitmap.Height / BitmapData.Height;
-
-            canvas.DrawBitmap(tempBitmap, dx, dy, null);
-
-            tempBitmap.Dispose();
-
-            if ((TargetImage.BorderAlways || TargetImage.ClickAnimation && Clicked) && TargetImage.ClickedBorderWidth != 0)
+            try
             {
-                for (int i = 0; i < Borders.Count; i++)
+                if (BitmapData == null || !Target.IsVisible)
+                    return;
+
+                Bitmap tempBitmap = Bitmap.CreateScaledBitmap(BitmapData, canvas.Width, canvas.Height, false);
+
+                float dx = (canvas.Width - tempBitmap.Width) / 2.0f;
+                float dy = (canvas.Height - tempBitmap.Height) / 2.0f;
+
+                float ratioX = (float)tempBitmap.Width / BitmapData.Width;
+                float ratioY = (float)tempBitmap.Height / BitmapData.Height;
+
+                canvas.DrawBitmap(tempBitmap, dx, dy, null);
+
+                tempBitmap.Dispose();
+
+                if ((TargetImage.BorderAlways || TargetImage.ClickAnimation && Clicked) && TargetImage.ClickedBorderWidth != 0)
                 {
-                    Paint P = new Paint();
-                    P.StrokeCap = Paint.Cap.Round;
-                    P.StrokeWidth = TargetImage.ClickedBorderWidth;
-                    P.Color = ColorConvert(TargetImage.GetBorderColor((Img.Sides)i));
+                    for (int i = 0; i < Borders.Count; i++)
+                    {
+                        Paint P = new Paint();
+                        P.StrokeCap = Paint.Cap.Round;
+                        P.StrokeWidth = TargetImage.ClickedBorderWidth * Density;
+                        P.Color = ColorConvert(TargetImage.GetBorderColor((Img.Sides)i));
 
-                    List<float> tempBorders = ShiftAndScalePoints(dx, dy, ratioX, ratioY, Borders[i].ToArray());
+                        List<float> tempBorders = ShiftAndScalePoints(dx, dy, ratioX, ratioY, Borders[i].ToArray());
 
-                    for (int l = 0; l < tempBorders.Count - 2; l += 2)
-                        canvas.DrawLine(tempBorders[l], tempBorders[l + 1], tempBorders[l + 2], tempBorders[l + 3], P);
+                        for (int l = 0; l < tempBorders.Count - 2; l += 2)
+                            canvas.DrawLine(tempBorders[l], tempBorders[l + 1], tempBorders[l + 2], tempBorders[l + 3], P);
 
-                    List<float> nextLineFirstPoint = ShiftAndScalePoints(dx, dy, ratioX, ratioY, Borders[(i + 1) % Borders.Count][0], Borders[(i + 1) % Borders.Count][1]);
-                    canvas.DrawLine(tempBorders[tempBorders.Count - 2], tempBorders[tempBorders.Count - 1], nextLineFirstPoint[0], nextLineFirstPoint[1], P);
+                        List<float> nextLineFirstPoint = ShiftAndScalePoints(dx, dy, ratioX, ratioY, Borders[(i + 1) % Borders.Count][0], Borders[(i + 1) % Borders.Count][1]);
+                        canvas.DrawLine(tempBorders[tempBorders.Count - 2], tempBorders[tempBorders.Count - 1], nextLineFirstPoint[0], nextLineFirstPoint[1], P);
+                    }
                 }
             }
+            catch { }
         }
 
         private List<float> ShiftAndScalePoints(float dx, float dy, float ratioX, float ratioY, params float[] P)

@@ -47,17 +47,24 @@ namespace CustomControls.Droid
 
         protected override void OnDraw(Canvas canvas)
         {
-            base.OnDraw(canvas);
+            try
+            {
+                if (!Target.IsVisible)
+                    return;
 
-            int size = Math.Min(canvas.Width, canvas.Height);
+                base.OnDraw(canvas);
 
-            float cx = canvas.Width / 2.0f;
-            float cy = canvas.Height / 2.0f;
+                int size = Math.Min(canvas.Width, canvas.Height);
 
-            canvas.DrawCircle(cx, cy, size / 2, OuterP);
+                float cx = canvas.Width / 2.0f;
+                float cy = canvas.Height / 2.0f;
 
-            if (TargetRadioButton.Checked)
-                canvas.DrawCircle(cx, cy, TargetRadioButton.InnerRadius * Density, InnerP);
+                canvas.DrawCircle(cx, cy, size / 2, OuterP);
+
+                if (TargetRadioButton.Checked)
+                    canvas.DrawCircle(cx, cy, TargetRadioButton.InnerRadius * Density, InnerP);
+            }
+            catch { }
         }
 
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)
