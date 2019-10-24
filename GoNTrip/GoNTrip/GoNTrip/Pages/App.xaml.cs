@@ -48,6 +48,9 @@ namespace GoNTrip.Pages
             builder.RegisterType<UpdateProfileController>().SingleInstance().AsSelf();
             builder.RegisterType<UpdateProfileQueryFactory>().SingleInstance().AsSelf();
 
+            builder.RegisterType<GetAdministratedCompaniesController>().SingleInstance().AsSelf();
+            builder.RegisterType<GetAdministratedCompaniesQueryFactory>().SingleInstance().AsSelf();
+
             builder.RegisterType<Session>().SingleInstance().AsSelf();
 
             DI = builder.Build();

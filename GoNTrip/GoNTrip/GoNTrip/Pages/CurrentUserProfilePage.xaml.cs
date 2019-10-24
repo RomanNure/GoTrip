@@ -63,6 +63,7 @@ namespace GoNTrip.Pages
 
                 Session session = App.DI.Resolve<Session>();
                 session.CurrentUser = await App.DI.Resolve<GetProfileController>().GetUserById(session.CurrentUser.id);
+                session.CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(session.CurrentUser);
 
                 LoadCurrentUserProfile();
 
@@ -114,7 +115,7 @@ namespace GoNTrip.Pages
                 UserAbout.Text = CurrentUser.description == null ? String.Empty : CurrentUser.description;
 
                 AdditionalUserInfo.Text = CurrentUser.company != null ? $"Owner of {CurrentUser.company.name}" :
-                                         (CurrentUser.administrator != null ? $"Admin of {"some"} company" : "");
+                                         (CurrentUser.administrator != null ? $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}" : "");
             }
         }
 

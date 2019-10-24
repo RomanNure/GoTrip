@@ -1,8 +1,10 @@
-﻿using GoNTrip.Model;
+﻿using System.Collections;
+using System.Collections.Generic;
+
+using GoNTrip.Model;
 using GoNTrip.ServerAccess;
 
 using Newtonsoft.Json;
-using System;
 
 namespace GoNTrip.ServerInteraction.ResponseParsers
 {
@@ -18,5 +20,14 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
             throw ex;
         }
 
+        public IEnumerable<T> ParseCollection<T>(IServerResponse modelElementJSON) where T : ModelElement
+        {
+            ResponseException ex = null;
+
+            try { ex = JsonConvert.DeserializeObject<ResponseException>(modelElementJSON.Data); }
+            catch { return JsonConvert.DeserializeObject<IEnumerable<T>>(modelElementJSON.Data); }
+
+            throw ex;
+        }
     }
 }

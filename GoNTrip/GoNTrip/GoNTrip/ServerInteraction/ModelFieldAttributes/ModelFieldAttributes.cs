@@ -8,4 +8,5 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class LogInField : ExportField { }
     public class GetProfileField : ExportField { }
     public class UpdateProfileField : ExportField { }
+    public class GetAdministratedCompaniesField : ExportField { }
 }

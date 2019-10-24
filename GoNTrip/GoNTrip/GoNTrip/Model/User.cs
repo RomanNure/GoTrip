@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 using Android.Runtime;
 
@@ -12,6 +13,7 @@ namespace GoNTrip.Model
     [Preserve(AllMembers = true)]
     public class User : ModelElement
     {
+        [GetAdministratedCompaniesField]
         [UpdateProfileField]
         [GetProfileField]
         [JsonRequired]
@@ -57,6 +59,9 @@ namespace GoNTrip.Model
 
         [UpdateProfileField]
         public Admin administrator { get; set; }
+
+        [JsonIgnore]
+        public List<Company> AdministratedCompanies { get; set; }
 
         public User() { }
         public User(long id) { this.id = id; }

@@ -35,7 +35,7 @@ namespace GoNTrip.ServerInteraction.QueryFactories
         }
 
         protected async Task<IDictionary<string, string>> ExtractQueryParameters<T, R>(T item) where T : ModelElement
-                                                                                   where R : ExportField
+                                                                                               where R : ExportField
         {
             IDictionary<string, string> data = new Dictionary<string, string>();
 

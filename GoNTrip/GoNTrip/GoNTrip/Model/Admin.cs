@@ -3,7 +3,7 @@
 namespace GoNTrip.Model
 {
     [JsonObject]
-    public class Admin
+    public class Admin : ModelElement
     {
         public long id { get; set; }
 
