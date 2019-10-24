@@ -15,8 +15,8 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            int x = formValidator.Add<string>(fieldValidationHandler, validated);
-            int y = formValidator.Add<string>(fieldValidationHandler, validated);
+            int x = formValidator.Add<string>(fieldValidationHandler, validated, null);
+            int y = formValidator.Add<string>(fieldValidationHandler, validated, null);
 
             Assert.IsTrue(formValidator.GetId<string>(validated) == x);
             Assert.IsFalse(formValidator.GetId<string>(validated) == y);
@@ -32,8 +32,8 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            int x = formValidator.Add<int>(fieldValidationHandler, validated);
-            int y = formValidator.Add<int>(fieldValidationHandler, validated);
+            int x = formValidator.Add<int>(fieldValidationHandler, validated, null);
+            int y = formValidator.Add<int>(fieldValidationHandler, validated, null);
 
             Assert.IsTrue(formValidator.GetId<int>(validated) == x);
             Assert.IsFalse(formValidator.GetId<int>(validated) == y);
@@ -50,8 +50,8 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            int x = formValidator.Add<int>(fieldValidationHandler, validated1);
-            int y = formValidator.Add<int>(fieldValidationHandler, validated2);
+            int x = formValidator.Add<int>(fieldValidationHandler, validated1, null);
+            int y = formValidator.Add<int>(fieldValidationHandler, validated2, null);
 
             Assert.IsTrue(formValidator.Remove(x));//removed
             Assert.IsFalse(formValidator.Remove(x));//not removed
@@ -70,9 +70,9 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            formValidator.Add<bool>(fieldValidationHandler, validated1);
-            formValidator.Add<bool>(fieldValidationHandler, validated2);
-            formValidator.Add<bool>(fieldValidationHandler, validated3);
+            formValidator.Add<bool>(fieldValidationHandler, validated1, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated2, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated3, null);
 
             Assert.IsFalse(formValidator.ValidateAll());
         }
@@ -87,9 +87,9 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            formValidator.Add<bool>(fieldValidationHandler, validated1);
-            formValidator.Add<bool>(fieldValidationHandler, validated2);
-            formValidator.Add<bool>(fieldValidationHandler, validated3);
+            formValidator.Add<bool>(fieldValidationHandler, validated1, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated2, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated3, null);
 
             Assert.IsTrue(formValidator.ValidateAll());
         }
@@ -104,9 +104,9 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            formValidator.Add<bool>(fieldValidationHandler, validated1);
-            formValidator.Add<bool>(fieldValidationHandler, validated2);
-            formValidator.Add<bool>(fieldValidationHandler, validated3);
+            formValidator.Add<bool>(fieldValidationHandler, validated1, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated2, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated3, null);
 
             Assert.IsFalse(formValidator.ValidateToFirstInvalid());
         }
@@ -121,9 +121,9 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            formValidator.Add<bool>(fieldValidationHandler, validated1);
-            formValidator.Add<bool>(fieldValidationHandler, validated2);
-            formValidator.Add<bool>(fieldValidationHandler, validated3);
+            formValidator.Add<bool>(fieldValidationHandler, validated1, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated2, null);
+            formValidator.Add<bool>(fieldValidationHandler, validated3, null);
 
             Assert.IsTrue(formValidator.ValidateToFirstInvalid());
         }
@@ -138,9 +138,9 @@ namespace UnitTests
 
             FormValidator formValidator = new FormValidator();
 
-            int i1 = formValidator.Add<bool>(fieldValidationHandler, validated1);
-            int i2 = formValidator.Add<bool>(fieldValidationHandler, validated2);
-            int i3 = formValidator.Add<bool>(fieldValidationHandler, validated3);
+            int i1 = formValidator.Add<bool>(fieldValidationHandler, validated1, null);
+            int i2 = formValidator.Add<bool>(fieldValidationHandler, validated2, null);
+            int i3 = formValidator.Add<bool>(fieldValidationHandler, validated3, null);
 
             formValidator.Remove(i2);
 

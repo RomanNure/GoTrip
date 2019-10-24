@@ -16,5 +16,11 @@ namespace GoNTrip.Pages
         {
             InitializeComponent();
         }
+
+        private void ContentPage_Appearing(object sender, EventArgs e)
+        {
+            Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.OTHER;
+            Navigator.LinkClicks();
+        }
     }
 }

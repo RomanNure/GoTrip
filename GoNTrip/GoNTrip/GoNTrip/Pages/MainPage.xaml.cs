@@ -51,9 +51,9 @@ namespace GoNTrip.Pages
 
             try
             {
-                User user = await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
+                App.DI.Resolve<Session>().CurrentUser = await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
 
-                App.Current.MainPage = new CurrentUserProfilePage(user);
+                App.Current.MainPage = new CurrentUserProfilePage();
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)
@@ -88,9 +88,9 @@ namespace GoNTrip.Pages
 
             try
             {
-                User user = await App.DI.Resolve<LogInController>().LogIn(login, password);
-                
-                App.Current.MainPage = new CurrentUserProfilePage(user);
+                App.DI.Resolve<Session>().CurrentUser = await App.DI.Resolve<LogInController>().LogIn(login, password);
+                App.Current.MainPage = new CurrentUserProfilePage();
+
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)

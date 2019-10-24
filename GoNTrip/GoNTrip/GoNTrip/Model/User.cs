@@ -49,7 +49,14 @@ namespace GoNTrip.Model
         [UpdateProfileField]
         public string avatarUrl { get; set; }
 
+        [UpdateProfileField]
         public string description { get; set; }
+
+        [UpdateProfileField]
+        public Company company { get; set; }
+
+        [UpdateProfileField]
+        public Admin administrator { get; set; }
 
         public User() { }
         public User(long id) { this.id = id; }

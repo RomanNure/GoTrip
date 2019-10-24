@@ -49,8 +49,6 @@
         </Style>
 
         <Style x:Key="PhotoSign" TargetType="Label">
-            <!--<Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-            <Setter Property="VerticalOptions" Value="EndAndExpand"/>-->
             <Setter Property="FontSize" Value="24"/>
             <Setter Property="TextColor" Value="{StaticResource BarFontColor}"/>
         </Style>

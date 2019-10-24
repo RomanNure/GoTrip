@@ -5,11 +5,14 @@ using Autofac;
 using Xamarin.Forms;
 
 using GoNTrip.Util;
+using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.ServerAccess;
 using GoNTrip.InternalDataAccess;
 using GoNTrip.ServerInteraction.QueryFactories;
 using GoNTrip.ServerInteraction.ResponseParsers;
+
+using GoNTrip.Pages.Additional.Controls;
 
 namespace GoNTrip.Pages
 {
@@ -44,6 +47,8 @@ namespace GoNTrip.Pages
 
             builder.RegisterType<UpdateProfileController>().SingleInstance().AsSelf();
             builder.RegisterType<UpdateProfileQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<Session>().SingleInstance().AsSelf();
 
             DI = builder.Build();
         }
