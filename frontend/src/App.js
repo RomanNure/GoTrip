@@ -9,6 +9,10 @@ import Home from './pages/Home.js';
 import SignUp from './components/SignUp.js';
 import Header from './components/Header.js';
 import UserPage from './pages/UserPage.js';
+
+import CreateCompany from "./components/CreateCompany";
+import CompanyPage from "./components/CompanyPage";
+
 import NotFound from './components/NotFound.js';
 import cookie from 'react-cookies'
 
@@ -43,6 +47,8 @@ export default class App extends PureComponent {
             <Route path="/login" exact component={SignIn} />
 
             <Route path="/registration" exact component={SignUp} />
+
+            <Route path="/create-company" exact component={CreateCompany} />
 
             <Route path="/user:id" component={(data) => <UserPage {...data} />} />
             <Route component={NotFound} />
