@@ -4,16 +4,51 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
+             xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.TourListPage"
              Appearing="ContentPage_Appearing">
     
     <ContentPage.Content>
-        <StackLayout>
+        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
 
-            <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50"/>
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
 
-        </StackLayout>
+                        <Grid Style="{StaticResource PageContent}">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Style="{StaticResource HeaderBar}" Grid.Row="0" Grid.Column="0">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="40"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Label Style="{StaticResource HeaderLabel}" Text="Available tours" Grid.Row="0" Grid.Column="0" />
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SearchButton" OnClick="SearchButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="search.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="FilterButton" OnClick="FilterButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="filter.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SortButton" OnClick="SortButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="3" Source="sort.png" BorderAlways="False" ClickedBorderWidth="0"/>
+
+                            </Grid>
+
+                            <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50" Grid.Row="2" Grid.Column="0"/>
+
+                        </Grid>
+                        
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+        </AbsoluteLayout>
     </ContentPage.Content>
     
 </ContentPage>

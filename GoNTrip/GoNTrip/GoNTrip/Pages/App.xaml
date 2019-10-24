@@ -8,6 +8,8 @@
              x:Class="GoNTrip.Pages.App">
     <Application.Resources>
 
+        <x:Single x:Key="ButtonClickedScale">0.9</x:Single>
+        
         <Color x:Key="ContentBackColor">#F1F1F1</Color>
         <Color x:Key="ContentFontColor">#0A3500</Color>
         <Color x:Key="BarBackColor">#0A3500</Color>
@@ -93,6 +95,37 @@
             <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
             <Setter Property="CornerRadius" Value="0"/>
+        </Style>
+
+        <Style x:Key="PageContent" TargetType="Grid">
+            <Setter Property="ColumnSpacing" Value="0"/>
+            <Setter Property="RowSpacing" Value="0"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        </Style>
+
+        <Style x:Key="HeaderBar" TargetType="Grid">
+            <Setter Property="HeightRequest" Value="50"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+            <Setter Property="Padding" Value="5,0,5,0"/>
+            <Setter Property="ColumnSpacing" Value="0"/>
+            <Setter Property="RowSpacing" Value="0"/>
+        </Style>
+
+        <Style x:Key="HeaderLabel" TargetType="Label" BasedOn="{StaticResource LabelBar}">
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="HeightRequest" Value="40"/>
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="HorizontalTextAlignment" Value="Center"/>
+            <Setter Property="VerticalTextAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="HeaderButton" TargetType="local:Img">
+            <Setter Property="WidthRequest" Value="32"/>
+            <Setter Property="HeightRequest" Value="32"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
         </Style>
 
     </Application.Resources>

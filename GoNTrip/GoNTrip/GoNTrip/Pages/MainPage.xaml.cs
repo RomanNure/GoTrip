@@ -52,8 +52,8 @@ namespace GoNTrip.Pages
             try
             {
                 App.DI.Resolve<Session>().CurrentUser = await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
-
                 App.Current.MainPage = new CurrentUserProfilePage();
+
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)
@@ -63,13 +63,6 @@ namespace GoNTrip.Pages
                 ErrorPopup.MessageText = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
-            /*catch(Exception ex)
-            {
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-
-                AuthErrorMessage.Text = ex.InnerException.Message;
-                PopupControl.OpenPopup(ErrorPopup);
-            }*/
         }
 
         private void LogInButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(LogInPopup);

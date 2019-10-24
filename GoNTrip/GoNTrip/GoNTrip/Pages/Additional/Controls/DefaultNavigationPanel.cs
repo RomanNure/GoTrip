@@ -1,12 +1,12 @@
-﻿using System;
-using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 using Android.Views;
 
 using CustomControls;
 
 using Xamarin.Forms;
+
+using Autofac;
 
 namespace GoNTrip.Pages.Additional.Controls
 {
@@ -26,7 +26,8 @@ namespace GoNTrip.Pages.Additional.Controls
 
         public const float HEIGHT = 50;
         public const float PADDING = 3;
-        public const float BORDER_WIDTH = 1;
+        public const float SCALE_CLICKED = 0.9f;
+
 
         public const string PROFILE_NAVIGATION_BUTTON_SOURCE = "profile.png";
         public const string MESSAGES_NAVIGATION_BUTTON_SOURCE = "messages.png";
@@ -84,6 +85,8 @@ namespace GoNTrip.Pages.Additional.Controls
 
             img.WidthRequest = HEIGHT - 2 * PADDING;
             img.HeightRequest = HEIGHT - 2 * PADDING;
+
+            img.ScaleOnClicked = SCALE_CLICKED;
 
             img.OnClick += (ME, sender) =>
             {

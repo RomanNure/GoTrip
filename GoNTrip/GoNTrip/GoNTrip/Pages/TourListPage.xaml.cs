@@ -22,5 +22,20 @@ namespace GoNTrip.Pages
             Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.TOUR_LIST;
             Navigator.LinkClicks();
         }
+
+        private bool SearchButton_OnClick(Android.Views.MotionEvent ME, CustomControls.IClickable sender)
+        {
+            return false;
+        }
+
+        private bool FilterButton_OnClick(Android.Views.MotionEvent ME, CustomControls.IClickable sender)
+        {
+            return false;
+        }
+
+        private bool SortButton_OnClick(Android.Views.MotionEvent ME, CustomControls.IClickable sender)
+        {
+            return false;
+        }
     }
 }

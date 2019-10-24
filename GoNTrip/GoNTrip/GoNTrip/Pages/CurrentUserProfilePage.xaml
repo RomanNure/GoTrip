@@ -20,32 +20,6 @@
             <x:Double x:Key="AvatarChangeButtonWidth">36</x:Double>
             <x:Double x:Key="AvatarChangeButtonHeight">36</x:Double>
 
-            <x:Single x:Key="ButtonClickedScale">0.9</x:Single>
-
-            <Style x:Key="HeaderBar" TargetType="Grid">
-                <Setter Property="HeightRequest" Value="50"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
-                <Setter Property="Padding" Value="5,0,5,0"/>
-                <Setter Property="ColumnSpacing" Value="0"/>
-                <Setter Property="RowSpacing" Value="0"/>
-            </Style>
-
-            <Style x:Key="HeaderLabel" TargetType="Label" BasedOn="{StaticResource LabelBar}">
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="HeightRequest" Value="40"/>
-                <Setter Property="FontSize" Value="20"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-            </Style>
-
-            <Style x:Key="EditProfileButton" TargetType="local:Img">
-                <Setter Property="WidthRequest" Value="32"/>
-                <Setter Property="HeightRequest" Value="32"/>
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
-            </Style>
-
             <Style x:Key="ProfileWrapper" TargetType="Grid">
                 <Setter Property="Margin" Value="5,5,5,5"/>
                 <Setter Property="ColumnSpacing" Value="5"/>
@@ -136,7 +110,7 @@
                 <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
                     <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
 
-                        <Grid ColumnSpacing="0" RowSpacing="0" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                        <Grid Style="{StaticResource PageContent}">
                             
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
@@ -155,12 +129,12 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
-                                <local:Img Style="{StaticResource EditProfileButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                                <local:Img Style="{StaticResource EditProfileButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                                <local:Img Style="{StaticResource HeaderButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                                <local:Img Style="{StaticResource HeaderButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
                             </Grid>
 
                             <BoxView BackgroundColor="{StaticResource ContentBackColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0"/>
-                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HorizontalTextAlignment="Center" Text="Owner of Cesar Touristics Inc." Grid.Row="2" Grid.Column="0"/>
+                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HorizontalTextAlignment="Center" Grid.Row="2" Grid.Column="0"/>
 
                             <Grid Style="{StaticResource ProfileWrapper}" Grid.Row="3" Grid.Column="0">
 

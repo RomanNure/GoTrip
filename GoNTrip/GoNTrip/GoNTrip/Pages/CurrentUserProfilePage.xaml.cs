@@ -39,17 +39,10 @@ namespace GoNTrip.Pages
             InitializeComponent();
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
-            PhotoCollection = new SwipablePhotoCollection(PopupControl);
-
             EditProfileValidator = new EditProfileValidator(FirstNameEntry, LastNameEntry, PhoneEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
 
+            PhotoCollection = new SwipablePhotoCollection(PopupControl);
             PhotoCollection.Add(AvatarView);
-        }
-
-
-        private void ProfilePage_Appearing(object sender, EventArgs e)
-        {
-            LoadUserProfile();
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
@@ -61,6 +54,8 @@ namespace GoNTrip.Pages
 
             UserAboutSave.IsVisible = false;
         }
+
+        private void ProfilePage_Appearing(object sender, EventArgs e) => LoadUserProfile();
 
         private async void LoadUserProfile()
         {

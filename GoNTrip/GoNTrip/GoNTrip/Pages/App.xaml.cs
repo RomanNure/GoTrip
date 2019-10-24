@@ -55,10 +55,7 @@ namespace GoNTrip.Pages
 
         public App()
         {
-            TimeSpan start = DateTime.Now.TimeOfDay;
             InitServices();
-            TimeSpan end = DateTime.Now.TimeOfDay;
-
             InitializeComponent();
 
             MainPage = new MainPage();
