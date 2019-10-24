@@ -22,12 +22,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/administrator")
 public class AdministratorController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AdministratorController.class);
@@ -43,7 +45,7 @@ public class AdministratorController {
         this.companyService = companyService;
     }
 
-    @GetMapping(value = "/administrator/get", produces = "application/json")
+    @GetMapping(value = "/get", produces = "application/json")
     public ResponseEntity getAdministrators(@RequestParam long companyId){
         Company company;
         try {
@@ -56,7 +58,7 @@ public class AdministratorController {
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
-    @PostMapping(value = "/administrator/add", produces = "application/json")
+    @PostMapping(value = "/add", produces = "application/json")
     public ResponseEntity addAdministrator(@RequestBody AdministratorAddDto administratorDto){
         RegisteredUser user;
         Company company;
@@ -79,4 +81,5 @@ public class AdministratorController {
             throw new ConflictException(e.getMessage());
         }
     }
+
 }
