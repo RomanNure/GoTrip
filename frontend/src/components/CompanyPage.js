@@ -41,7 +41,13 @@ export default class CompanyPage extends Component {
                                 <div className="panel-body">
                                     <div className="pull-right">
                                     </div>
-                                    <div className="h4 text-center mr-md-5 mt-5 mt-md-3">Company Information</div>
+                                    <div className="h4 text-center mr-md-5 mt-5 mt-md-3">
+                                        <div className="btn-group mr-2" role="group" aria-label="First group">
+                                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Company Information</button>
+                                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Tours</button>
+                                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Employees</button>
+                                        </div>
+                                    </div>
                                     <div className="row pv-lg">
                                         <div className="col-lg-2"></div>
                                         <div className="col-lg-8">
