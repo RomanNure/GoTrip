@@ -204,7 +204,7 @@ export default class UserPage extends Component {
                                     <h3 className="m0 text-bold">{login ? login : "empty user"}</h3>
                                     <div className="row justify-content-center">
                                         <div className="col-11">
-                                            <textarea className="form-control" id="exampleTextarea" placeholder="User description" row="4">{description}</textarea>
+                                            <textarea className="form-control" id="exampleTextarea" placeholder="User description" row="4" value={description}></textarea>
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
