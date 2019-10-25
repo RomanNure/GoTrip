@@ -59,8 +59,7 @@ public class AdministratorControllerTest {
 		mvc.perform(post("/administrator/add")
 				.content(gsonJsonProvider.toJson(administratorDto))
 				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isOk())
-				.andReturn();
+				.andExpect(status().isOk());
 	}
 
 	@Test
@@ -81,8 +80,7 @@ public class AdministratorControllerTest {
 		mvc.perform(post("/administrator/add")
 				.content(gsonJsonProvider.toJson(administratorDto))
 				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isNotFound())
-				.andReturn();//NotUniqueAdministratorException
+				.andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -103,7 +101,6 @@ public class AdministratorControllerTest {
 		mvc.perform(post("/administrator/add")
 				.content(gsonJsonProvider.toJson(administratorDto))
 				.contentType(MediaType.APPLICATION_JSON))
-				.andExpect(status().isConflict())
-				.andReturn();
+				.andExpect(status().isConflict());
 	}
 }
