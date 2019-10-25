@@ -9,7 +9,7 @@ export default class Header extends Component {
             user: cookie.load("user") ? cookie.load("user") : false
         }
     }
-    
+
 
     render() {
         let { login, id } = this.state.user
@@ -25,16 +25,14 @@ export default class Header extends Component {
                             <li><a href="sass.html"><i className="material-icons">search</i></a></li>
                             {!login && <li className="active"><Link to="/registration">Sign Up</Link></li>}
                             {!login && <li><Link to="/login">Sign In</Link></li>}
-                            {login && <li id="username">
-                                <a className="nav-link pr-2 pl-2 p-0" href={"/user:" + id}>{login}</a>
-                            </li>
-                            }
-                            {login && <li className="nav-item avatar">
-                                <a className="nav-link p-0" href={"/user:" + id}>
-                                    <img src="images/Avatar.png" className="rounded-circle z-depth-0"
-                                        id="header-avatar" alt="avatar image" height="35"></img>
-                                </a>
-                            </li>
+                            {login &&
+                                <li className="nav-item avatar">
+                                    <a className="nav-link p-0" href={"/user:" + id}>
+                                        {login}
+                                        <img src="images/Avatar.png" className="rounded-circle z-depth-0"
+                                            id="header-avatar" alt="avatar image" height="35"></img>
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </div>
