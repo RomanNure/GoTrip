@@ -11,7 +11,7 @@ import Header from './components/Header.js';
 import UserPage from './pages/UserPage.js';
 
 import CreateCompany from "./components/CreateCompany";
-import CompanyPage from "./components/CompanyPage";
+import CompanyPage from "./pages/CompanyPage";
 import EmployeeList from "./components/EmployeeList";
 
 import NotFound from './components/NotFound.js';
