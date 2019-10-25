@@ -1,14 +1,12 @@
 ﻿using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 using Newtonsoft.Json;
 
-using System.Text;
-
 using GoNTrip.Model;
-using System.Threading.Tasks;
-
+using GoNTrip.ServerAccess;
 using GoNTrip.ServerInteraction.ModelFieldAttributes;
 
 namespace GoNTrip.ServerInteraction.QueryFactories

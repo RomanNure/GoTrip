@@ -44,10 +44,13 @@ namespace GoNTrip.Pages
             PhotoCollection = new SwipablePhotoCollection(PopupControl);
             PhotoCollection.Add(AvatarView);
 
-            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
-
             SelectAvatarSourcePopup.OnFirstButtonClicked = (ctx, arg) => { UploadAvatar(async () => await App.DI.Resolve<Camera>().TakePhoto(Camera.CameraLocation.FRONT, Constants.MAX_PHOTO_WIDTH_HEIGHT)); };
             SelectAvatarSourcePopup.OnSecondButtonClicked = (ctx, arg) => { UploadAvatar(async () => await App.DI.Resolve<Gallery>().PickPhoto(Constants.MAX_PHOTO_WIDTH_HEIGHT)); };
+
+            ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
+            ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+
+            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.PROFILE;
             Navigator.LinkClicks();
@@ -220,18 +223,6 @@ namespace GoNTrip.Pages
             return false;
         }
 
-        protected override bool OnBackButtonPressed()
-        {
-            if (PopupControl.OpenedPopupsCount == 0 || PopupControl.IsKeyboardVisible())
-                App.Current.MainPage = new MainPage();
-            else if (PhotoCollection.Opened)
-                PhotoCollection.Reset();
-            else
-                PopupControl.CloseTopPopup();
-            
-            return true;
-        }
-
         private bool UserAboutSave_OnClick(MotionEvent ME, IClickable sender)
         {
             if(ME.Action == MotionEventActions.Down)
@@ -279,6 +270,18 @@ namespace GoNTrip.Pages
             }
 
             return false;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (PopupControl.OpenedPopupsCount == 0)
+                PopupControl.OpenPopup(ExitConfirmPopup);
+            else if (PhotoCollection.Opened)
+                PhotoCollection.Reset();
+            else
+                PopupControl.CloseTopPopup();
+
+            return true;
         }
     }
 }
