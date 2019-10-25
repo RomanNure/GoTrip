@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'react-cookies'
+//import formidable from 'formidable'
 
 export default class UserPage extends Component {
     constructor(props) {
@@ -10,8 +11,6 @@ export default class UserPage extends Component {
         this.state = state
 
         if (!this.state) this.state = {
-            login: false,
-            email: false,
             rule: false
         }
         this.state.user = cookie.load("user")
@@ -33,11 +32,11 @@ export default class UserPage extends Component {
 
             })
                 .then(({ data }) => {
-                    console.log('data=>',data)
+                    console.log('data=>', data)
                     let { email, login, phone, fullName, description, avatarUrl } = data
                     let rule = (this.state.user && login == this.state.user.login) ? true : false
-                    this.setState({ email, login, phone, fullName, rule , description, avatarUrl })
-                   // if (rule) window.location.reload();
+                    this.setState({ email, login, phone, fullName, rule, description, avatarUrl })
+                    // if (rule) window.location.reload();
 
                 })
                 .catch(error => {
@@ -50,9 +49,9 @@ export default class UserPage extends Component {
     }
 
 
-    _onUpdate = () => {
+    _onUpdate = (data) => {
         if (!this.state.rule) return
-        let { fullName, phone, email } = this.refs
+        let { fullName, phone, email, description } = this.refs
         let NAME = /(\w+){1,3}/ig
         let PHONE = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         if (!fullName.value) {
@@ -75,6 +74,7 @@ export default class UserPage extends Component {
             });
             return
         }
+
         if (PHONE.test(phone.value)) {
             console.log('email, phone', fullName, phone);
         } else {
@@ -83,15 +83,20 @@ export default class UserPage extends Component {
             });
             return
         }
+        console.log('this.state.avatar.url', this.state.avatarUrl.toString(), data)
+        let avatarUrl = data ? "http://185.255.96.249:5000/GoTrip/GoTripImgs/avatars/" + data : this.state.avatarUrl
         let user = {
             id: this.state.id,
             phone: phone.value,
             fullName: fullName.value,
             login: this.state.user.login,
             password: this.state.user.password,
-            email: email.value
+            email: email.value,
+            description: description ? description.value : null,
+            avatarUrl
         }
-        console.log('user = >', user)
+        //user.avatarUrl = "http://185.255.96.249:5000/GoTrip/GoTripImgs/avatars/5.png"
+        console.log('this.state.avatarUrl', user.avatarUrl)
         axios({
             method: "post",
             url: 'https://go-trip.herokuapp.com/update/user',
@@ -134,39 +139,43 @@ export default class UserPage extends Component {
     _onUploadPhoto = () => (e) => {
         e.preventDefault()
         console.log('- Upload photo', e);
-        const files = e.target.files;
-        console.log('files', files)
-
-        /*if (files[i]) {
-            Images.insert(files[i], function(err, fileObj) {
-                if (err) {
-                    console.log('- upload error: '+err.toString());
-                    window.Toast("Error: "+err.toString(), 'err');
-                } else {
-                    let imgId = fileObj._id; 
-                    console.log(imgId)       
-                    /*Meteor.call('company.logo', id, imgId, (err, res) => {                                                                                                                                                                    
-                        if(err){                            
-                            window.Toast("Error: "+err.toString(), 'err');                                                                                                                                                                    
-                        } else {                            
-                            //console.log("Ok: "+res);      
-                            var fr = new FileReader();      
-                            fr.onload = function (ev) {         
-                                //console.log('- reader done.');
-                                img_logo.src = ev.target.result;
-                                if (self.props.logoEl) self.props.logoEl.src = ev.target.result;
-                            }
-                            //console.log('- reading..');   
-                            fr.readAsDataURL(files[i]);     
-                            window.Toast("OK, updated!", 1000, 'ok'); 
-                            data.logo = imgId               
-                            self.setState({ data })
-                        }
+        const file = e.target.files[0];
+        console.log('files', file)
+        let type = file.type.split('/')[1];
+        console.log('type', type)
+        console.log('file =>', file)
+        var formData = new FormData();
+        formData.append('file', file, this.state.id + "." + type);
+        //formData.set('path', this.state.id+"."+type)
+        axios.post('http://185.255.96.249:5000/fileupload', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(data => {
+                toast.success('Photo updated', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                console.log('data=> ', data)
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.log('data=>', error.response.data);
+                    console.log("status=>", error.response.status);
+                    console.log('headers =>', error.response.headers);
+                    toast.error(error.response.data.message, {
+                        position: toast.POSITION.TOP_RIGHT
                     });
+
+                } else if (error.request) {
+                    console.log('request err', error.request);
+                } else {
+                    console.log('Error', error.message);
                 }
-            });
-        }
-    }    */
+                console.log('config', error.config)
+                console.log('Error', error);
+            })
+        this._onUpdate(this.state.id + '.' + type)
     }
     _onLogOut = () => {
         console.log('logout')
@@ -195,9 +204,11 @@ export default class UserPage extends Component {
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
                                             <label htmlFor="Photo">
-                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src={avatarUrl?avatarUrl:"images/Avatar.png"}  alt="Contact" style={{cursor:"pointer"}} />
+                                                <img className="center-block img-responsive  thumb96" src={avatarUrl ? avatarUrl : "images/Avatar.png"} 
+                                                alt="Contact" 
+                                                style={{ cursor: "pointer", width:200, height:200, borderRadius:100 }} />
                                             </label>
-                                            {rule && <input type="file" ref='photo' id='Photo' style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
+                                            {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
 
                                         </>
                                     </div>
@@ -226,30 +237,24 @@ export default class UserPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
                                                     <div className="col-md-10">
-                                                        <input ref="fullName" id="inputContact1" type="text" placeholder="Name" defaultValue="" value={fullName} />
+                                                        <input ref="fullName" id="inputContact1" type="text" placeholder="Name" disabled={!this.state.rule} defaultValue={fullName} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
                                                     <div className="col-md-10">
-                                                        <input ref="email" id="inputContact2" type="email" placeholder="Email Address" value={email} />
+                                                        <input ref="email" id="inputContact2" type="email" disabled={!this.state.rule} placeholder="Email Address" defaultValue={email} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact3">Phone</label>
                                                     <div className="col-md-10">
-                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" defaultValue="" value={phone} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="col-sm-2 control-label" htmlFor="inputContact6">Address</label>
-                                                    <div className="col-md-10">
-                                                        <textarea className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue="" row="4" />
+                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" disabled={!this.state.rule} defaultValue={phone} />
                                                     </div>
                                                 </div>
                                                 {rule && <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
-                                                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onUpdate}>Update</a>
+                                                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={() => this._onUpdate()}>Update</a>
                                                     </div>
                                                 </div>
                                                 }
