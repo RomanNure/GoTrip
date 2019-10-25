@@ -29,6 +29,10 @@ export default class CompanyPage extends Component {
                                         <label htmlFor="company-email">Company email</label>
                                         <input type="email" className="form-control" id="company-email" placeholder="Enter email"/>
                                     </div>
+                                    <div className="form-group">
+                                        <label htmlFor="company-website">Company website</label>
+                                        <input type="text" className="form-control" id="company-website" placeholder="Website URL"/>
+                                    </div>
                                     <button type="submit" className="btn waves-effect waves-light #81c784 green lighten-2">Create Company</button>
                                 </form>
                             </div>
