@@ -121,62 +121,16 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private void BuildLayout()
         {
-            Label pricePlaceholderLabel = new Label();
-            pricePlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_PRICE_PLACEHOLDER_CLASS_NAME];
-            pricePlaceholderLabel.HorizontalOptions = TOUR_PRICE_PLACEHOLDER_HORISONTAL_OPTIONS;
-            pricePlaceholderLabel.Text = PRICE_PLACEHOLDER_TEXT;
+            this.Style = (Style)App.Current.Resources[OUTER_FRAME_CLASS_NAME];
+            this.Margin = OUTER_FRAME_MARGIN;
 
-            priceLabel = new Label();
-            priceLabel.Style = (Style)App.Current.Resources[TOUR_PRICE_CLASS_NAME];
-            priceLabel.HorizontalOptions = TOUR_PRICE_HORISONTAL_OPTIONS;
+            Frame innerFrame = new Frame();
+            innerFrame.Style = (Style)App.Current.Resources[INNER_FRAME_CLASS_NAME];
+            this.Content = innerFrame;
 
-            Label placesPlaceholderLabel = new Label();
-            placesPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_PLACES_PLACEHOLDER_CLASS_NAME];
-            placesPlaceholderLabel.HorizontalOptions = TOUR_PLACES_PLACEHOLDER_HORISONTAL_OPTIONS;
-            placesPlaceholderLabel.Text = PLACES_PLACEHOLDER_TEXT;
-
-            placesLabel = new Label();
-            placesLabel.Style = (Style)App.Current.Resources[TOUR_PLACES_CLASS_NAME];
-            placesLabel.HorizontalOptions = TOUR_PLACES_HORISONTAL_OPTIONS;
-
-            Label startPlaceholderLabel = new Label();
-            startPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_START_PLACEHOLDER_CLASS_NAME];
-            startPlaceholderLabel.HorizontalOptions = TOUR_START_PLACEHOLDER_HORISONTAL_OPTIONS;
-            startPlaceholderLabel.Text = START_PLACEHOLDER_TEXT;
-
-            startLabel = new Label();
-            startLabel.Style = (Style)App.Current.Resources[TOUR_START_CLASS_NAME];
-            startLabel.HorizontalOptions = TOUR_START_HORISONTAL_OPTIONS;
-
-            Label endPlaceholderLabel = new Label();
-            endPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_END_PLACEHOLDER_CLASS_NAME];
-            endPlaceholderLabel.HorizontalOptions = TOUR_END_PLACEHOLDER_HORISONTAL_OPTIONS;
-            endPlaceholderLabel.Text = END_PLACEHOLDER_TEXT;
-
-            endLabel = new Label();
-            endLabel.Style = (Style)App.Current.Resources[TOUR_END_CLASS_NAME];
-            endLabel.HorizontalOptions = TOUR_END_HORISONTAL_OPTIONS;
-
-            Grid tourPreviewInfoWrapper = new Grid();
-            tourPreviewInfoWrapper.Style = (Style)App.Current.Resources[TOUR_INFO_WRAPPER_CLASS_NAME];
-
-            tourPreviewInfoWrapper.Children.Add(pricePlaceholderLabel, TOUR_PRICE_PLACEHOLDER_COLUMN, TOUR_PRICE_PLACEHOLDER_ROW);
-            tourPreviewInfoWrapper.Children.Add(priceLabel, TOUR_PRICE_COLUMN, TOUR_PRICE_ROW);
-            tourPreviewInfoWrapper.Children.Add(placesPlaceholderLabel, TOUR_PLACES_PLACEHOLDER_COLUMN, TOUR_PLACES_PLACEHOLDER_ROW);
-            tourPreviewInfoWrapper.Children.Add(placesLabel, TOUR_PLACES_COLUMN, TOUR_PLACES_ROW);
-
-            tourPreviewInfoWrapper.Children.Add(startPlaceholderLabel, TOUR_START_PLACEHOLDER_COLUMN, TOUR_START_PLACEHOLDER_ROW);
-            tourPreviewInfoWrapper.Children.Add(startLabel, TOUR_START_COLUMN, TOUR_START_ROW);
-            tourPreviewInfoWrapper.Children.Add(endPlaceholderLabel, TOUR_END_PLACEHOLDER_COLUMN, TOUR_END_PLACEHOLDER_ROW);
-            tourPreviewInfoWrapper.Children.Add(endLabel, TOUR_END_COLUMN, TOUR_END_ROW);
-
-            descriptionLabel = new Label();
-            descriptionLabel.Style = (Style)App.Current.Resources[TOUR_DESCRIPTION_CLASS_NAME];
-            descriptionLabel.HorizontalOptions = TOUR_DESCRIPTION_HORISONTAL_OPTIONS;
-
-            nameLabel = new Label();
-            nameLabel.Style = (Style)App.Current.Resources[TOUR_NAME_CLASS_NAME];
-            nameLabel.HorizontalOptions = TOUR_NAME_HORISONTAL_OPTIONS;
+            Grid tourPreviewWrapper = new Grid();
+            tourPreviewWrapper.Style = (Style)App.Current.Resources[WRAPPER_CLASS_NAME];
+            innerFrame.Content = tourPreviewWrapper;
 
             image = new Img();
             image.Style = (Style)App.Current.Resources[TOUR_IMAGE_CLASS_NAME];
@@ -184,41 +138,65 @@ namespace GoNTrip.Pages.Additional.Controls
             image.ClickedBorderWidth = TOUR_IMAGE_BORDERS_WIDTH;
             image.BorderRadius = TOUR_IMAGE_BORDER_RADIUS;
             image.Source = TOUR_IMAGE_DEFAULT_SOURCE;
-
-            Grid tourPreviewWrapper = new Grid();
-            tourPreviewWrapper.Style = (Style)App.Current.Resources[WRAPPER_CLASS_NAME];
             tourPreviewWrapper.Children.Add(image, TOUR_IMAGE_COLUMN_START, TOUR_IMAGE_COLUMN_END, TOUR_IMAGE_ROW_START, TOUR_IMAGE_ROW_END);
+
+            nameLabel = new Label();
+            nameLabel.Style = (Style)App.Current.Resources[TOUR_NAME_CLASS_NAME];
+            nameLabel.HorizontalOptions = TOUR_NAME_HORISONTAL_OPTIONS;
             tourPreviewWrapper.Children.Add(nameLabel, TOUR_NAME_COLUMN, TOUR_NAME_ROW);
+
+            descriptionLabel = new Label();
+            descriptionLabel.Style = (Style)App.Current.Resources[TOUR_DESCRIPTION_CLASS_NAME];
+            descriptionLabel.HorizontalOptions = TOUR_DESCRIPTION_HORISONTAL_OPTIONS;
             tourPreviewWrapper.Children.Add(descriptionLabel, TOUR_DESCRIPTION_COLUMN, TOUR_DESCRIPTION_ROW);
+
+            Grid tourPreviewInfoWrapper = new Grid();
+            tourPreviewInfoWrapper.Style = (Style)App.Current.Resources[TOUR_INFO_WRAPPER_CLASS_NAME];
             tourPreviewWrapper.Children.Add(tourPreviewInfoWrapper, TOUR_INFO_WRAPPER_COLUMN, TOUR_INFO_WRAPPER_ROW);
 
-            Frame innerFrame = new Frame();
-            innerFrame.Style = (Style)App.Current.Resources[INNER_FRAME_CLASS_NAME];
-            innerFrame.Content = tourPreviewWrapper;
+            Label pricePlaceholderLabel = new Label();
+            pricePlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_PRICE_PLACEHOLDER_CLASS_NAME];
+            pricePlaceholderLabel.HorizontalOptions = TOUR_PRICE_PLACEHOLDER_HORISONTAL_OPTIONS;
+            pricePlaceholderLabel.Text = PRICE_PLACEHOLDER_TEXT;
+            tourPreviewInfoWrapper.Children.Add(pricePlaceholderLabel, TOUR_PRICE_PLACEHOLDER_COLUMN, TOUR_PRICE_PLACEHOLDER_ROW);
 
-            this.Style = (Style)App.Current.Resources[OUTER_FRAME_CLASS_NAME];
-            this.Margin = OUTER_FRAME_MARGIN;
-            this.Content = innerFrame;
+            priceLabel = new Label();
+            priceLabel.Style = (Style)App.Current.Resources[TOUR_PRICE_CLASS_NAME];
+            priceLabel.HorizontalOptions = TOUR_PRICE_HORISONTAL_OPTIONS;
+            tourPreviewInfoWrapper.Children.Add(priceLabel, TOUR_PRICE_COLUMN, TOUR_PRICE_ROW);
+
+            Label placesPlaceholderLabel = new Label();
+            placesPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_PLACES_PLACEHOLDER_CLASS_NAME];
+            placesPlaceholderLabel.HorizontalOptions = TOUR_PLACES_PLACEHOLDER_HORISONTAL_OPTIONS;
+            placesPlaceholderLabel.Text = PLACES_PLACEHOLDER_TEXT;
+            tourPreviewInfoWrapper.Children.Add(placesPlaceholderLabel, TOUR_PLACES_PLACEHOLDER_COLUMN, TOUR_PLACES_PLACEHOLDER_ROW);
+
+            placesLabel = new Label();
+            placesLabel.Style = (Style)App.Current.Resources[TOUR_PLACES_CLASS_NAME];
+            placesLabel.HorizontalOptions = TOUR_PLACES_HORISONTAL_OPTIONS;
+            tourPreviewInfoWrapper.Children.Add(placesLabel, TOUR_PLACES_COLUMN, TOUR_PLACES_ROW);
+
+            Label startPlaceholderLabel = new Label();
+            startPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_START_PLACEHOLDER_CLASS_NAME];
+            startPlaceholderLabel.HorizontalOptions = TOUR_START_PLACEHOLDER_HORISONTAL_OPTIONS;
+            startPlaceholderLabel.Text = START_PLACEHOLDER_TEXT;
+            tourPreviewInfoWrapper.Children.Add(startPlaceholderLabel, TOUR_START_PLACEHOLDER_COLUMN, TOUR_START_PLACEHOLDER_ROW);
+
+            startLabel = new Label();
+            startLabel.Style = (Style)App.Current.Resources[TOUR_START_CLASS_NAME];
+            startLabel.HorizontalOptions = TOUR_START_HORISONTAL_OPTIONS;
+            tourPreviewInfoWrapper.Children.Add(startLabel, TOUR_START_COLUMN, TOUR_START_ROW);
+
+            Label endPlaceholderLabel = new Label();
+            endPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_END_PLACEHOLDER_CLASS_NAME];
+            endPlaceholderLabel.HorizontalOptions = TOUR_END_PLACEHOLDER_HORISONTAL_OPTIONS;
+            endPlaceholderLabel.Text = END_PLACEHOLDER_TEXT;
+            tourPreviewInfoWrapper.Children.Add(endPlaceholderLabel, TOUR_END_PLACEHOLDER_COLUMN, TOUR_END_PLACEHOLDER_ROW);
+
+            endLabel = new Label();
+            endLabel.Style = (Style)App.Current.Resources[TOUR_END_CLASS_NAME];
+            endLabel.HorizontalOptions = TOUR_END_HORISONTAL_OPTIONS;
+            tourPreviewInfoWrapper.Children.Add(endLabel, TOUR_END_COLUMN, TOUR_END_ROW);  
         }
-
-        //<Frame Style = "{StaticResource OuterBorderFrame}" Margin="3">
-        //                                <Frame Style = "{StaticResource InnerBorderFrame}" >
-        //                                    < Grid Style="{StaticResource TourPreviewWrapper}">
-
-        //                                        <customcontrols:Img Style = "{StaticResource TourPreviewMainImage}" Grid.RowSpan="3" Grid.Column="0" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="45" Source="DefaultAvatar.png"/>
-        //                                        <Label Style = "{StaticResource TourPreviewNameLabel}" Grid.Row="0" Grid.Column="1" Text="Tour name..." HorizontalOptions="Start"/>
-        //                                        <Label Style = "{StaticResource PlaceholderLabel}" Grid.Row="1" Grid.Column="1" Text="Tour description..." HorizontalOptions="Start"/>
-
-        //                                        <Grid Style = "{StaticResource TourPreviewInfoWrapper}" Grid.Row="2" Grid.Column="1">
-        //                                            <Label Style = "{StaticResource PlaceholderLabel}" Grid.Row="0" Grid.Column="0" Text="Price: " HorizontalOptions="Start"/>
-        //                                            <Label Style = "{StaticResource InfoLabel}" Grid.Row="0" Grid.Column="1" Text="25$" HorizontalOptions="Start"/>
-
-        //                                            <Label Style = "{StaticResource PlaceholderLabel}" Grid.Row="0" Grid.Column="2" Text="Places: " HorizontalOptions="Start"/>
-        //                                            <Label Style = "{StaticResource InfoLabel}" Grid.Row="0" Grid.Column="3" FontSize="14" Text="0/4" HorizontalOptions="Start"/>
-        //                                        </Grid>
-
-        //                                    </Grid>
-        //                                </Frame>
-        //                            </Frame>
     }
 }

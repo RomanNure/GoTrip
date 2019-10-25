@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -6,6 +7,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using Autofac;
+
+using CustomControls;
+
+using Android.Views;
 
 using GoNTrip.Model;
 using GoNTrip.Controllers;
@@ -26,7 +31,7 @@ namespace GoNTrip.Pages
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
-            Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.TOUR_LIST;
+            Navigator.Current = DefaultNavigationPanel.PageEnum.TOUR_LIST;
             Navigator.LinkClicks();
 
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
@@ -35,10 +40,13 @@ namespace GoNTrip.Pages
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
         }
 
-        private async void ContentPage_Appearing(object sender, EventArgs e)
+        private bool UpdateButton_OnClick(MotionEvent ME, IClickable sender) { GetAndLoadTours(); return false; }
+        private void ContentPage_Appearing(object sender, EventArgs e) => GetAndLoadTours();
+
+        private async void GetAndLoadTours()
         {
-            List<Tour> allTours = await GetTours();
-            LoadToursAsync(allTours);
+            List<Tour> tours = await GetTours();
+            LoadToursAsync(tours);
         }
 
         private async Task<List<Tour>> GetTours()
@@ -71,23 +79,25 @@ namespace GoNTrip.Pages
         {
             PopupControl.OpenPopup(ActivityPopup);
 
+            TourList.Children.Clear();
+
             foreach (Tour tour in tours)
                 TourList.Children.Add(new TourListItem(tour));
 
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
         }
 
-        private bool SearchButton_OnClick(Android.Views.MotionEvent ME, CustomControls.IClickable sender)
+        private bool SearchButton_OnClick(MotionEvent ME, IClickable sender)
         {
             return false;
         }
 
-        private bool FilterButton_OnClick(Android.Views.MotionEvent ME, CustomControls.IClickable sender)
+        private bool FilterButton_OnClick(MotionEvent ME, IClickable sender)
         {
             return false;
         }
 
-        private bool SortButton_OnClick(Android.Views.MotionEvent ME, CustomControls.IClickable sender)
+        private bool SortButton_OnClick(MotionEvent ME, IClickable sender)
         {
             return false;
         }
