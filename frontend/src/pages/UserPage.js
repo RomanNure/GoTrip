@@ -33,9 +33,10 @@ export default class UserPage extends Component {
 
             })
                 .then(({ data }) => {
-                    let { email, login, phone, fullName } = data
+                    console.log('data=>',data)
+                    let { email, login, phone, fullName, description, avatarUrl } = data
                     let rule = (this.state.user && login == this.state.user.login) ? true : false
-                    this.setState({ email, login, phone, fullname: fullName, rule })
+                    this.setState({ email, login, phone, fullName, rule , description, avatarUrl })
                    // if (rule) window.location.reload();
 
                 })
@@ -51,10 +52,10 @@ export default class UserPage extends Component {
 
     _onUpdate = () => {
         if (!this.state.rule) return
-        let { fullname, phone, email } = this.refs
+        let { fullName, phone, email } = this.refs
         let NAME = /(\w+){1,3}/ig
         let PHONE = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
-        if (!fullname.value) {
+        if (!fullName.value) {
             toast.error('Please type your name !', {
                 position: toast.POSITION.TOP_RIGHT
             });
@@ -66,8 +67,8 @@ export default class UserPage extends Component {
             return
         }
 
-        if (NAME.test(fullname.value)) {
-            console.log('email, phone', fullname, phone);
+        if (NAME.test(fullName.value)) {
+            console.log('email, phone', fullName, phone);
         } else {
             toast.error('Invalid name !', {
                 position: toast.POSITION.TOP_RIGHT
@@ -75,7 +76,7 @@ export default class UserPage extends Component {
             return
         }
         if (PHONE.test(phone.value)) {
-            console.log('email, phone', fullname, phone);
+            console.log('email, phone', fullName, phone);
         } else {
             toast.error('Invalid phone !', {
                 position: toast.POSITION.TOP_RIGHT
@@ -85,7 +86,7 @@ export default class UserPage extends Component {
         let user = {
             id: this.state.id,
             phone: phone.value,
-            fullName: fullname.value,
+            fullName: fullName.value,
             login: this.state.user.login,
             password: this.state.user.password,
             email: email.value
@@ -135,7 +136,6 @@ export default class UserPage extends Component {
         console.log('- Upload photo', e);
         const files = e.target.files;
         console.log('files', files)
-        let i = 0, img_logo = this.img_logo, data = this.state.data, self = this
 
         /*if (files[i]) {
             Images.insert(files[i], function(err, fileObj) {
@@ -180,7 +180,7 @@ export default class UserPage extends Component {
 
     render() {
 
-        let { login, email, rule, phone, fullname } = this.state
+        let { login, email, rule, phone, fullName, description, avatarUrl } = this.state
         console.log('userPage', this.state)
         return (
             <>
@@ -195,16 +195,16 @@ export default class UserPage extends Component {
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
                                             <label htmlFor="Photo">
-                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src="images/Avatar.png" alt="Contact" />
+                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src={avatarUrl?avatarUrl:"images/Avatar.png"}  alt="Contact" style={{cursor:"pointer"}} />
                                             </label>
-                                            <input type="file" ref='photo' id='Photo' style={{ display: "none" }} onChange={this._onUploadPhoto} />
+                                            {rule && <input type="file" ref='photo' id='Photo' style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
 
                                         </>
                                     </div>
                                     <h3 className="m0 text-bold">{login ? login : "empty user"}</h3>
                                     <div className="row justify-content-center">
                                         <div className="col-11">
-                                            <textarea className="form-control" id="exampleTextarea" placeholder="User description" row="4"></textarea>
+                                            <textarea className="form-control" id="exampleTextarea" placeholder="User description" row="4">{description}</textarea>
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
@@ -226,7 +226,7 @@ export default class UserPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
                                                     <div className="col-md-10">
-                                                        <input ref="fullname" id="inputContact1" type="text" placeholder="Name" defaultValue="" value={fullname} />
+                                                        <input ref="fullName" id="inputContact1" type="text" placeholder="Name" defaultValue="" value={fullName} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">

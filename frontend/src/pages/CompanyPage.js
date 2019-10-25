@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default class CompanyPage extends Component {
     constructor(props) {
         super(props);
-        this.state = { }
+        this.state = {}
     }
 
 
@@ -21,7 +21,7 @@ export default class CompanyPage extends Component {
                                             <label htmlFor="Photo">
                                                 <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src="images/Avatar.png" alt="Contact" />
                                             </label>
-                                            <input type="file" ref='photo' id='Photo' style={{ display: "none" }}/>
+                                            <input type="file" ref='photo' id='Photo' style={{ display: "none" }} />
 
                                         </>
                                     </div>
@@ -32,7 +32,6 @@ export default class CompanyPage extends Component {
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
-                                    <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2">Log Out</a></div>
                                 </div>
                             </div>
                         </div>
@@ -42,9 +41,9 @@ export default class CompanyPage extends Component {
                                     <div className="pull-right">
                                     </div>
                                     <div className="h4 text-center mr-md-12 mt-12 mt-md-3">
-                                            <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{width:"35%"}}>Information</a>
-                                            <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{width:"35%"}}>Tours</a>
-                                            <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{width:"30%"}}>Employees</a>
+                                        <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{ width: "35%" }}>Information</a>
+                                        <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{ width: "35%" }}>Tours</a>
+                                        <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{ width: "30%" }}>Employees</a>
                                     </div>
                                     <div className="row pv-lg">
                                         <div className="col-lg-2"></div>
@@ -53,13 +52,13 @@ export default class CompanyPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
                                                     <div className="col-md-10">
-                                                        <input ref="fullname" id="inputContact1" type="text" placeholder="Name" defaultValue="" value="test"/>
+                                                        <input ref="fullname" id="inputContact1" type="text" placeholder="Name" defaultValue="" value="test" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
                                                     <div className="col-md-10">
-                                                        <input ref="email" id="inputContact2" type="email" placeholder="Email Address" value="test"/>
+                                                        <input ref="email" id="inputContact2" type="email" placeholder="Email Address" value="test" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -74,13 +73,12 @@ export default class CompanyPage extends Component {
                                                         <textarea className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue="" row="4" />
                                                     </div>
                                                 </div>
-                                                 <div className="form-group">
+                                                <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
                                                         <a className="btn waves-effect waves-light #81c784 green lighten-2">Update</a>
                                                     </div>
                                                 </div>
                                             </form>
-                                            <div className="text-right mb-3"><a className="text-muted" href="#">Delete this contact?</a></div>
                                         </div>
                                     </div>
                                 </div>
