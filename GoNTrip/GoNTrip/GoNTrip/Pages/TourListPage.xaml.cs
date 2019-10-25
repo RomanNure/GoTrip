@@ -59,6 +59,11 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
 
+            Tour TOO_LONG_TOUR = new Tour();
+            TOO_LONG_TOUR.name = "TOO LONG TOUR NAME" + "TOO LONG TOUR NAME" + "TOO LONG TOUR NAME" + "TOO LONG TOUR NAME" + "TOO LONG TOUR NAME";
+            TOO_LONG_TOUR.description = "TOO LONG TOUR DESCRIPTION" + "TOO LONG TOUR DESCRIPTION" + "TOO LONG TOUR DESCRIPTION" + "TOO LONG TOUR DESCRIPTION" + "TOO LONG TOUR DESCRIPTION";
+            rawTourList.Add(TOO_LONG_TOUR);
+
             return rawTourList;
         }
 

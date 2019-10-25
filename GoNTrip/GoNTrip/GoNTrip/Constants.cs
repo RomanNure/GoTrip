@@ -23,5 +23,6 @@ namespace GoNTrip
         public const string UNKNOWN_FILED_VALUE = "unknown";
         public const char FIRST_LAST_NAME_SPLITTER = ' ';
         public const string DEFAULT_AVATAR_SOURCE = "DefaultAvatar.png";
+        public const string CURRENCY_SYMBOL = "$";
     }
 }

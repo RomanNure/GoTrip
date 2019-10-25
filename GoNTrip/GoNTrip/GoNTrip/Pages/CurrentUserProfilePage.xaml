@@ -74,19 +74,6 @@
                 <Setter Property="AbsoluteLayout.LayoutFlags" Value="XProportional,YProportional,WidthProportional,HeightProportional"/>
             </Style>
 
-            <Style x:Key="UserAboutBorderFrame" TargetType="Frame">
-                <Setter Property="CornerRadius" Value="5"/>
-                <Setter Property="Padding" Value="2"/>
-                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
-            </Style>
-
-            <Style x:Key="UserAboutWrapperFrame" TargetType="Frame">
-                <Setter Property="CornerRadius" Value="3"/>
-                <Setter Property="Padding" Value="0"/>
-                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
-                <Setter Property="BorderColor" Value="{StaticResource BarBackColor}"/>
-            </Style>
-
             <Style x:Key="UserAboutButtonsGrid" TargetType="Grid">
                 <Setter Property="ColumnSpacing" Value="0"/>
                 <Setter Property="RowSpacing" Value="0"/>
@@ -176,8 +163,8 @@
 
                                 </Grid>
 
-                                <Frame Style="{StaticResource UserAboutBorderFrame}" Grid.Row="1" Grid.ColumnSpan="2">
-                                    <Frame Style="{StaticResource UserAboutWrapperFrame}" >
+                                <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.ColumnSpan="2">
+                                    <Frame Style="{StaticResource InnerBorderFrame}" >
                                         <Grid Style="{StaticResource UserAboutButtonsGrid}">
 
                                             <Grid.RowDefinitions>

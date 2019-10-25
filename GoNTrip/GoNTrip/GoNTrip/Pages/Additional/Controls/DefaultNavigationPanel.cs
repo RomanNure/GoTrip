@@ -24,19 +24,18 @@ namespace GoNTrip.Pages.Additional.Controls
 
         public PageEnum Current { get; set; }
 
-        public const float HEIGHT = 50;
-        public const float PADDING = 3;
-        public const float SCALE_CLICKED = 0.9f;
+        private const float HEIGHT = 50;
+        private const float PADDING = 3;
+        private const float SCALE_CLICKED = 0.9f;
 
+        private const string PROFILE_NAVIGATION_BUTTON_SOURCE = "profile.png";
+        private const string MESSAGES_NAVIGATION_BUTTON_SOURCE = "messages.png";
+        private const string TOUR_LIST_NAVIGATION_BUTTON_SOURCE = "tourList.jpg";
+        private const string MY_TOUR_LIST_NAVIGATION_BUTTON_SOURCE = "myTourList.png";
+        private const string ADVANCED_NAVIGATION_BUTTON_SOURCE = "advanced.png";
 
-        public const string PROFILE_NAVIGATION_BUTTON_SOURCE = "profile.png";
-        public const string MESSAGES_NAVIGATION_BUTTON_SOURCE = "messages.png";
-        public const string TOUR_LIST_NAVIGATION_BUTTON_SOURCE = "tourList.jpg";
-        public const string MY_TOUR_LIST_NAVIGATION_BUTTON_SOURCE = "myTourList.png";
-        public const string ADVANCED_NAVIGATION_BUTTON_SOURCE = "advanced.png";
-
-        public const string NAVIGATOR_BACK_COLOR_NAME = "BarBackColor";
-        public const string NAVIGATOR_BUTTONS_BORDER_COLOR_NAME = "AdditionalColor";
+        private const string NAVIGATOR_BACK_COLOR_NAME = "BarBackColor";
+        private const string NAVIGATOR_BUTTONS_BORDER_COLOR_NAME = "AdditionalColor";
 
         private List<Img> navigationButtons = new List<Img>();
 

@@ -129,5 +129,84 @@
             <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
         </Style>
 
+        <Style x:Key="OuterBorderFrame" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="5"/>
+            <Setter Property="Padding" Value="3"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+        </Style>
+
+        <Style x:Key="InnerBorderFrame" TargetType="Frame">
+            <Setter Property="CornerRadius" Value="2"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+            <Setter Property="BorderColor" Value="{StaticResource BarBackColor}"/>
+        </Style>
+
+        <Style x:Key="TourPreviewWrapper" TargetType="Grid">
+            <Setter Property="Padding" Value="2"/>
+            <Setter Property="HeightRequest" Value="120"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+
+            <Setter Property="ColumnSpacing" Value="0"/>
+            <Setter Property="RowSpacing" Value="0"/>
+
+            <Setter Property="RowDefinitions">
+                <RowDefinitionCollection>
+                    <RowDefinition Height="0.2*"/>
+                    <RowDefinition Height="0.4*"/>
+                    <RowDefinition Height="0.4*"/>
+                </RowDefinitionCollection>
+            </Setter>
+
+            <Setter Property="ColumnDefinitions">
+                <ColumnDefinitionCollection>
+                    <ColumnDefinition Width="100"/>
+                    <ColumnDefinition Width="*"/>
+                </ColumnDefinitionCollection>
+            </Setter>
+        </Style>
+
+        <Style x:Key="TourPreviewMainImage" TargetType="local:Img">
+            <Setter Property="WidthRequest" Value="90"/>
+            <Setter Property="HeightRequest" Value="90"/>
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        </Style>
+
+        <Style x:Key="PlaceholderLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="{StaticResource PlaceholderColor}"/>
+        </Style>
+
+        <Style x:Key="InfoLabel" TargetType="Label">
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+        </Style>
+
+        <Style x:Key="TourPreviewNameLabel" TargetType="Label" BasedOn="{StaticResource InfoLabel}">
+            <Setter Property="FontSize" Value="18"/>
+        </Style>
+
+        <Style x:Key="TourPreviewInfoWrapper" TargetType="Grid">
+            <Setter Property="ColumnDefinitions">
+                <ColumnDefinitionCollection>
+                    <ColumnDefinition Width="0.16*"/>
+                    <ColumnDefinition Width="0.32*"/>
+                    <ColumnDefinition Width="0.2*"/>
+                    <ColumnDefinition Width="0.32*"/>
+                </ColumnDefinitionCollection>
+            </Setter>
+            <Setter Property="RowDefinitions">
+                <RowDefinitionCollection>
+                    <RowDefinition Height="0.5*"/>
+                    <RowDefinition Height="0.5*"/>
+                </RowDefinitionCollection>
+            </Setter>
+
+            <Setter Property="ColumnSpacing" Value="0"/>
+            <Setter Property="RowSpacing" Value="0"/>
+        </Style>
+
     </Application.Resources>
 </Application>
