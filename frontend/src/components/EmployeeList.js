@@ -68,7 +68,7 @@ export default class CompanyPage extends Component {
                    </div>
                     <div className="col-5">
                         <div className="btn-group-vertical mr-2" role="group" aria-label="First group">
-                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Add Guid</button>
+                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2 mb-2">Add Guid</button>
                             <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Add Administrator</button>
                         </div>
                     </div>
