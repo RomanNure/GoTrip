@@ -12,32 +12,35 @@ export default class Header extends Component {
 
 
     render() {
-        let { login, id } = this.state.user
+        let { login, id, avatarUrl } = this.state.user
         if (!login) login = false
 
         console.log('header state=> ', this.state)
         return (
-            <div>
-                <nav>
-                    <div className="nav-wrapper #81c784 green lighten-2">
-                        <a href="/" className="brand-logo"><img src="./gotrip.svg" height="125" width="125" /></a>
-                        <ul className="right hide-on-med-and-down">
-                            <li><a href="sass.html"><i className="material-icons">search</i></a></li>
-                            {!login && <li className="active"><Link to="/registration">Sign Up</Link></li>}
-                            {!login && <li><Link to="/login">Sign In</Link></li>}
-                            {login &&
-                                <li className="nav-item avatar">
-                                    <a className="nav-link p-0" href={"/user:" + id}>
-                                        {login}
-                                        <img src="images/Avatar.png" className="rounded-circle z-depth-0"
-                                            id="header-avatar" alt="avatar image" height="35"></img>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </nav>
-            </div>
+            <nav>
+                <div className="nav-wrapper #81c784 green lighten-2" >
+                    <a href="/" className="brand-logo"><img src="./gotrip.svg" style={{ height: 125, width: 125, marginLeft:10 }} /></a>
+                    <ul className="right hide-on-med-and-down">
+                        <li><a href="sass.html"><i className="material-icons" style={{ marginRight: 15, alignItems: "center" }}>search</i></a></li>
+                        {login ?
+                            <li className="nav-item avatar">
+                                <a className="nav-link p-0" href={"/user:" + id}>
+                                    {login}
+                                    <img src={avatarUrl ? avatarUrl : "images/Avatar.png"}
+                                        alt="avatar image"
+                                        style={{ height: 60, width: 60, borderRadius: 100, margin: 10, marginTop: 2, marginBottom: 5 }}
+                                    />
+                                </a>
+                            </li>
+                            :
+                            <>
+                                <li className="active"><Link to="/registration">Sign Up</Link></li>
+                                <li><Link to="/login">Sign In</Link></li>
+                            </>
+                        }
+                    </ul>
+                </div>
+            </nav>
         )
     }
 }

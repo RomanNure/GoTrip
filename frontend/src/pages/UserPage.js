@@ -35,6 +35,11 @@ export default class UserPage extends Component {
                     console.log('data=>', data)
                     let { email, login, phone, fullName, description, avatarUrl } = data
                     let rule = (this.state.user && login == this.state.user.login) ? true : false
+                    let user = cookie.load('user')
+                    if (rule && avatarUrl) {
+                        user.avatarUrl = avatarUrl
+                        cookie.save('user', user, { path: '/' })
+                    }
                     this.setState({ email, login, phone, fullName, rule, description, avatarUrl })
                     // if (rule) window.location.reload();
 
@@ -52,7 +57,7 @@ export default class UserPage extends Component {
     _onUpdate = (data) => {
         if (!this.state.rule) return
         let { fullName, phone, email, description } = this.refs
-        let NAME = /(\w+){1,3}/ig
+        let NAME = /\w{1,20}\s{1}\w{1,20}/ig
         let PHONE = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         if (!fullName.value) {
             toast.error('Please type your name !', {
@@ -204,23 +209,28 @@ export default class UserPage extends Component {
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
                                             <label htmlFor="Photo">
-                                                <img className="center-block img-responsive  thumb96" src={avatarUrl ? avatarUrl : "images/Avatar.png"} 
-                                                alt="Contact" 
-                                                style={{ cursor: "pointer", width:200, height:200, borderRadius:100 }} />
+                                                <img
+                                                    className="center-block img-responsive  thumb96"
+                                                    src={avatarUrl ? avatarUrl : "images/Avatar.png"}
+                                                    alt="Contact"
+                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100 }}
+                                                />
                                             </label>
-                                            {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
+                                            {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
 
                                         </>
                                     </div>
                                     <h3 className="m0 text-bold">{login ? login : "empty user"}</h3>
                                     <div className="row justify-content-center">
                                         <div className="col-11">
-                                            <textarea className="form-control" id="exampleTextarea" placeholder="User description" row="4" value={description}></textarea>
+                                            <textarea className="form-control" id="exampleTextarea" disible={!rule} placeholder="User description" row="4" defaultValue={description}></textarea>
                                         </div>
                                     </div>
-                                    <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
-                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onLogOut}>Log Out</a></div>
+                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Become a company</a></div>
                                     }
+                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -243,7 +253,7 @@ export default class UserPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
                                                     <div className="col-md-10">
-                                                        <input ref="email" id="inputContact2" type="email" disabled={!this.state.rule} placeholder="Email Address" defaultValue={email} />
+                                                        <input ref="email" id="inputContact2" type="email" disabled={true} placeholder="Email Address" defaultValue={email} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
@@ -270,3 +280,6 @@ export default class UserPage extends Component {
         )
     }
 }
+
+
+//<div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>

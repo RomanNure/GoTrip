@@ -30,7 +30,7 @@ export default class App extends PureComponent {
     let cookieUser = cookie.load('user')
     console.log('cooki user', cookieUser, s)
     if (cookieUser && cookieUser.login != s.user.login) {
-        console.log('marched rerender')
+      console.log('marched rerender')
       return true
     }
     return false
@@ -40,7 +40,7 @@ export default class App extends PureComponent {
 
     console.log('- router rendered', this.props)
     return (
-      <div className="container-fluid" style={{ backgroundColor: "#eee" }}>
+      <div style={{ backgroundColor: "#eee", width: "100%" }}>
         <Header />
         <div className="container-fluid" style={{ marginTop: 75, height: 790 }}>
           <Switch>
