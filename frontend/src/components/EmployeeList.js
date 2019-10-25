@@ -31,6 +31,7 @@ export default class CompanyPage extends Component {
                                                <div className="text-sm text-muted">12m ago</div>
                                            </div>
                                        </div>
+                                       <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                    </div>
                                    <div className="media">
                                        <div className="media-left media-middle">
@@ -41,6 +42,7 @@ export default class CompanyPage extends Component {
                                                <div className="text-sm text-muted">2h ago</div>
                                            </div>
                                        </div>
+                                       <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                    </div>
                                    <div className="media">
                                        <div className="media-left media-middle">
@@ -51,6 +53,7 @@ export default class CompanyPage extends Component {
                                                <div className="text-sm text-muted">yesterday</div>
                                            </div>
                                        </div>
+                                       <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                    </div>
                                    <div className="media">
                                        <div className="media-left media-middle">
@@ -61,6 +64,7 @@ export default class CompanyPage extends Component {
                                                <div className="text-sm text-muted">2 weeks ago</div>
                                            </div>
                                        </div>
+                                       <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                    </div>
                                </div>
                            </div>
@@ -91,6 +95,7 @@ export default class CompanyPage extends Component {
                                                 <div className="text-sm text-muted">12m ago</div>
                                             </div>
                                         </div>
+                                        <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                     </div>
                                     <div className="media">
                                         <div className="media-left media-middle">
@@ -101,6 +106,7 @@ export default class CompanyPage extends Component {
                                                 <div className="text-sm text-muted">2h ago</div>
                                             </div>
                                         </div>
+                                        <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                     </div>
                                     <div className="media">
                                         <div className="media-left media-middle">
@@ -111,6 +117,7 @@ export default class CompanyPage extends Component {
                                                 <div className="text-sm text-muted">yesterday</div>
                                             </div>
                                         </div>
+                                        <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                     </div>
                                     <div className="media">
                                         <div className="media-left media-middle">
@@ -121,6 +128,7 @@ export default class CompanyPage extends Component {
                                                 <div className="text-sm text-muted">2 weeks ago</div>
                                             </div>
                                         </div>
+                                        <i className="material-icons mt-2 mr-3 icon-red">highlight_off</i>
                                     </div>
                                 </div>
                             </div>
