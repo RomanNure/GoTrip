@@ -41,12 +41,10 @@ export default class CompanyPage extends Component {
                                 <div className="panel-body">
                                     <div className="pull-right">
                                     </div>
-                                    <div className="h4 text-center mr-md-5 mt-5 mt-md-3">
-                                        <div className="btn-group mr-2" role="group" aria-label="First group">
-                                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Company Information</button>
-                                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Tours</button>
-                                            <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Employees</button>
-                                        </div>
+                                    <div className="h4 text-center mr-md-12 mt-12 mt-md-3">
+                                            <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{width:"35%"}}>Information</a>
+                                            <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{width:"35%"}}>Tours</a>
+                                            <a className="btn-large waves-effect waves-light #81c784 green lighten-2" style={{width:"30%"}}>Employees</a>
                                     </div>
                                     <div className="row pv-lg">
                                         <div className="col-lg-2"></div>

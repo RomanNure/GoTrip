@@ -254,7 +254,6 @@ export default class UserPage extends Component {
                                                 </div>
                                                 }
                                             </form>
-                                            <div className="text-right mb-3"><a className="text-muted" href="#">Delete this contact?</a></div>
                                         </div>
                                     </div>
                                 </div>
