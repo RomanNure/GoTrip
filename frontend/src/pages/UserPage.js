@@ -182,6 +182,7 @@ export default class UserPage extends Component {
             })
         this._onUpdate(this.state.id + '.' + type)
     }
+
     _onLogOut = () => {
         console.log('logout')
         cookie.remove('user', { path: '/' })
@@ -190,6 +191,11 @@ export default class UserPage extends Component {
         });
         window.location.reload();
         setTimeout(() => this.props.history.push('/login'), 2000)
+    }
+
+    _onCreateCompany = () => {
+        console.log('lets create a company')
+        this.props.history.push({ pathname: '/create-company', state: { id: this.state.id } })
     }
 
     render() {
@@ -204,7 +210,7 @@ export default class UserPage extends Component {
 
                     <div className="row ng-scope" >
                         <div className="col-md-4" >
-                            <div className="panel panel-default" style={{ height: 600, backgroundColor:"#fff", borderRadius:20}}>
+                            <div className="panel panel-default" style={{ height: 600, backgroundColor: "#fff", borderRadius: 20 }}>
                                 <div className="panel-body text-center">
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
@@ -213,7 +219,7 @@ export default class UserPage extends Component {
                                                     className="center-block img-responsive  thumb96"
                                                     src={avatarUrl ? avatarUrl : "images/Avatar.png"}
                                                     alt="Contact"
-                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100, margin:5 }}
+                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100, margin: 5 }}
                                                 />
                                             </label>
                                             {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
@@ -226,7 +232,7 @@ export default class UserPage extends Component {
                                             <textarea className="form-control" id="exampleTextarea" disible={!rule} placeholder="User description" row="4" defaultValue={description}></textarea>
                                         </div>
                                     </div>
-                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Become a company</a></div>
+                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onCreateCompany}>Become a company</a></div>
                                     }
                                     {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
                                     }
@@ -234,7 +240,7 @@ export default class UserPage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-8 panel panel-default" style={{ height: 600, backgroundColor:"#fff", borderRadius:20}}>
+                        <div className="col-md-8 panel panel-default" style={{ height: 600, backgroundColor: "#fff", borderRadius: 20 }}>
                             <div>
                                 <div className="panel-body">
                                     <div className="pull-right">

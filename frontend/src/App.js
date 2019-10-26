@@ -43,7 +43,7 @@ export default class App extends PureComponent {
     return (
       <div style={{ backgroundColor: "#eee", flexDirection: "column" }}>
         <Header />
-        <div className="container-fluid" style={{ marginTop: 75, marginBottom:135 }}>
+        <div className="container-fluid" style={{ marginTop: 75, marginBottom: 135 }}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={SignIn} />
@@ -51,10 +51,11 @@ export default class App extends PureComponent {
             <Route path="/registration" exact component={SignUp} />
 
             <Route path="/create-company" exact component={CreateCompany} />
-            <Route path="/company-page" exact component={CompanyPage} />
             <Route path="/employee-list" exact component={EmployeeList} />
 
             <Route path="/user:id" component={(data) => <UserPage {...data} />} />
+            <Route path="/company:id" component={(data) => <CompanyPage {...data} />} />
+
             <Route component={NotFound} />
           </Switch>
         </div>

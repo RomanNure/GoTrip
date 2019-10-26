@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
-export default class CompanyPage extends Component {
+export default class ToresList extends Component {
     constructor(props) {
         super(props);
         this.state = {}
@@ -11,11 +11,11 @@ export default class CompanyPage extends Component {
     render() {
         return (
             <div className="container">
-                <div className="row h3 m-4">
+                <div className="row h3">
                     Company Employees
                 </div>
                 <div className="row">
-                   <div className="col-7 col-md-9">
+                   <div className="col-8 col-md-5">
                        <div>
                            <div className="panel panel-default pt-2 pl-2 pb-2">
                                <div className="panel-heading">
@@ -70,7 +70,7 @@ export default class CompanyPage extends Component {
                            </div>
                        </div>
                    </div>
-                    <div className="col-2 col-md-3" style={{right:0}}>
+                    <div className="col-4 col-md-5">
                         <div className="btn-group-vertical mr-2" role="group" aria-label="First group">
                             <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2 mb-2">Add Guid</button>
                             <button type="button" className="btn waves-effect waves-light #81c784 green lighten-2">Add Admin</button>
@@ -79,7 +79,7 @@ export default class CompanyPage extends Component {
 
 
 
-                    <div className="col-8 col-md-9">
+                    <div className="col-8 col-md-5">
                         <div>
                             <div className="panel panel-default pt-2 pl-2 pb-2">
                                 <div className="panel-heading">
