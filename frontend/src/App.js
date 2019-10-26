@@ -16,6 +16,7 @@ import EmployeeList from "./components/EmployeeList";
 
 import NotFound from './components/NotFound.js';
 import cookie from 'react-cookies'
+import Footer from './components/Footer.js';
 
 export default class App extends PureComponent {
   constructor(props) {
@@ -40,9 +41,9 @@ export default class App extends PureComponent {
 
     console.log('- router rendered', this.props)
     return (
-      <div style={{ backgroundColor: "#eee", width: "100%" }}>
+      <div style={{ backgroundColor: "#eee", flexDirection: "column" }}>
         <Header />
-        <div className="container-fluid" style={{ marginTop: 75, height: 790 }}>
+        <div className="container-fluid" style={{ marginTop: 75, marginBottom:135 }}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={SignIn} />
@@ -57,6 +58,7 @@ export default class App extends PureComponent {
             <Route component={NotFound} />
           </Switch>
         </div>
+        <Footer />
 
       </div>
     )

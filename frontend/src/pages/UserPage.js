@@ -202,9 +202,9 @@ export default class UserPage extends Component {
 
                 <div className="container bootstrap snippet" >
 
-                    <div className="row ng-scope">
+                    <div className="row ng-scope" >
                         <div className="col-md-4" >
-                            <div className="panel panel-default" style={{ height: 600 }}>
+                            <div className="panel panel-default" style={{ height: 600, backgroundColor:"#fff", borderRadius:20}}>
                                 <div className="panel-body text-center">
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
@@ -213,7 +213,7 @@ export default class UserPage extends Component {
                                                     className="center-block img-responsive  thumb96"
                                                     src={avatarUrl ? avatarUrl : "images/Avatar.png"}
                                                     alt="Contact"
-                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100 }}
+                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100, margin:5 }}
                                                 />
                                             </label>
                                             {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
@@ -234,7 +234,7 @@ export default class UserPage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-8 panel panel-default">
+                        <div className="col-md-8 panel panel-default" style={{ height: 600, backgroundColor:"#fff", borderRadius:20}}>
                             <div>
                                 <div className="panel-body">
                                     <div className="pull-right">
