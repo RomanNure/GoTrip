@@ -1,11 +1,14 @@
 ﻿using Xamarin.Forms;
 
-using GoNTrip.Model;
+using Android.Views;
+
 using CustomControls;
+
+using GoNTrip.Model;
 
 namespace GoNTrip.Pages.Additional.Controls
 {
-    public class TourListItem : Frame
+    public class TourListItem : ClickableFrame
     {
         private Img image { get; set; }
         private Label nameLabel { get; set; }
@@ -97,18 +100,20 @@ namespace GoNTrip.Pages.Additional.Controls
 
         public TourListItem() => BuildLayout();
 
-        public TourListItem(Tour tour, int currentParticipants = 0)
+        public TourListItem(Tour tour, int numInList, int currentParticipants = 0)
         {
             BuildLayout();
-            Fill(tour, currentParticipants);
+            Fill(tour, currentParticipants, numInList);
         }
 
-        public void Fill(Tour tour, int currentParticipants)
+        public void Fill(Tour tour, int numInList, int currentParticipants = 0)
         {
             image.Source = tour.mainPictureUrl == null ? TOUR_IMAGE_DEFAULT_SOURCE : tour.mainPictureUrl;
 
             nameLabel.Text = tour.name == null ? string.Empty : (tour.name.Length > MAX_NAME_SYMBOLS ? 
                 tour.name.Substring(0, MAX_NAME_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.name);
+
+            //nameLabel.Text += " " + tour.id;
 
             descriptionLabel.Text = tour.description == null ? string.Empty : (tour.description.Length > MAX_DESCRIPTION_SYMBOLS ?
                 tour.description.Substring(0, MAX_DESCRIPTION_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.description);
@@ -117,6 +122,13 @@ namespace GoNTrip.Pages.Additional.Controls
             placesLabel.Text = currentParticipants + "/" + tour.maxParticipants;
             startLabel.Text = tour.startDateTime.ToShortDateString();
             endLabel.Text = tour.finishDateTime.ToShortDateString();
+
+            this.OnClick += (ME, sender) =>
+            {
+                if (ME.Action == MotionEventActions.Up)
+                    App.Current.MainPage = new TourPage(tour, numInList);
+                return false;
+            };
         }
 
         private void BuildLayout()

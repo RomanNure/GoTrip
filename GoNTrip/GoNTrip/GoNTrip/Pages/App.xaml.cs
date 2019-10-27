@@ -54,6 +54,7 @@ namespace GoNTrip.Pages
             builder.RegisterType<GetToursController>().SingleInstance().AsSelf();
             builder.RegisterType<GetToursQueryFactory>().SingleInstance().AsSelf();
 
+            builder.RegisterType<TourListItemFactory>().SingleInstance().AsSelf();
             builder.RegisterType<Session>().SingleInstance().AsSelf();
 
             DI = builder.Build();
