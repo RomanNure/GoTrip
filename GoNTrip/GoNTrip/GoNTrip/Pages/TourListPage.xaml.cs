@@ -119,13 +119,14 @@ namespace GoNTrip.Pages
         {
             if (Tours.Count == 0)
                 Tours = await GetTours();
-            else
-                await Task.Run(() => Thread.Sleep(100));
 
             if (Tours.Count != 0)
             {
                 PopupControl.OpenPopup(ActivityPopup);
+
+                await Task.Run(() => Thread.Sleep(100));
                 LoadTours(Tours.Skip(FirstTourNum).Take(PAGE_TOURS_COUNT).ToList());
+
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
         }
