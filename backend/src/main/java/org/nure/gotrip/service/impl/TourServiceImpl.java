@@ -2,6 +2,8 @@ package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotUniqueTourException;
 import org.nure.gotrip.model.Tour;
+import org.nure.gotrip.model.TourPhoto;
+import org.nure.gotrip.repository.TourPhotoRepository;
 import org.nure.gotrip.repository.TourRepository;
 import org.nure.gotrip.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,11 +17,13 @@ import java.util.List;
 public class TourServiceImpl implements TourService {
 
 	private TourRepository tourRepository;
+    private TourPhotoRepository tourPhotoRepository;
 
 	@Autowired
-	public TourServiceImpl(TourRepository tourRepository) {
+	public TourServiceImpl(TourRepository tourRepository, TourPhotoRepository tourPhotoRepository) {
 		this.tourRepository = tourRepository;
-	}
+        this.tourPhotoRepository = tourPhotoRepository;
+    }
 
 	@Override
 	public List<Tour> findAll() {
@@ -32,7 +36,10 @@ public class TourServiceImpl implements TourService {
 	@Override
 	public Tour add(Tour tour) throws NotUniqueTourException {
 		try {
-			return tourRepository.save(tour);
+		    List<TourPhoto> photos = tour.getPhotos();
+            tour = tourRepository.save(tour);
+			tourPhotoRepository.saveAll(photos);
+			return tourRepository.findById(tour.getId()).orElseThrow(()->new RuntimeException());
 		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueTourException("The database contains a tour with this name");
 		}

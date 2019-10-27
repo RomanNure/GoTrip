@@ -76,3 +76,12 @@ create table tours
   finish_date_time timestamp not null,
   max_participants integer
 );
+
+create table tour_photos
+(
+  tour_photo_id bigserial not null unique primary key,
+  photo_url varchar not null,
+  tour_id bigserial not null
+    constraint tours_photos_tours_id_fk
+      references tours
+);

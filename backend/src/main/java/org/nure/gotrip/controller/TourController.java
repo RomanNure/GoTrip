@@ -8,6 +8,7 @@ import org.nure.gotrip.exception.NotFoundAdministratorException;
 import org.nure.gotrip.exception.NotUniqueTourException;
 import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Tour;
+import org.nure.gotrip.model.TourPhoto;
 import org.nure.gotrip.service.AdministratorService;
 import org.nure.gotrip.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/tours")
@@ -46,14 +49,16 @@ public class TourController {
 		try {
 			Administrator administrator = administratorService.getById(tourDto.getIdAdministrator());
 			Tour tour = modelMapper.map(tourDto, Tour.class);
-			tour.setAdministrator(administrator);
-			tour = tourService.add(tour);
-			return new ResponseEntity<>(tour, HttpStatus.OK);
+			tour.setPhotos(Arrays.stream(tourDto.getPhotosUrl())
+                    .map(stringUrl->new TourPhoto(stringUrl, tour))
+            .collect(Collectors.toList()));
+            tour.setAdministrator(administrator);
+			Tour newTour = tourService.add(tour);
+			return new ResponseEntity<>(newTour, HttpStatus.OK);
 		} catch (NotUniqueTourException e) {
 			throw new ConflictException(e.getMessage());
 		} catch (NotFoundAdministratorException e) {
 			throw new NotFoundException(e.getMessage());
 		}
 	}
-
 }

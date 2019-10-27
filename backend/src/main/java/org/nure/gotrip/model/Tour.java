@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -41,6 +42,9 @@ public class Tour {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "administrator_id")
     private Administrator administrator;
+
+    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+    private List<TourPhoto> photos;
 
     public Tour(){
         //Constructor for JPA
