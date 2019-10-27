@@ -17,6 +17,7 @@ import EmployeeList from "./components/EmployeeList";
 import NotFound from './components/NotFound.js';
 import cookie from 'react-cookies'
 import Footer from './components/Footer.js';
+import ToursList from "./components/ToursList";
 
 export default class App extends PureComponent {
   constructor(props) {
@@ -52,6 +53,7 @@ export default class App extends PureComponent {
 
             <Route path="/create-company" exact component={CreateCompany} />
             <Route path="/employee-list" exact component={EmployeeList} />
+            <Route path="/tours-list" exact component={ToursList} />
 
             <Route path="/user:id" component={(data) => <UserPage {...data} />} />
             <Route path="/company:id" component={(data) => <CompanyPage {...data} />} />
