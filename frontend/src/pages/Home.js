@@ -13,7 +13,7 @@ export default class Home extends Component {
   render() {
     return (
       //<SignIn/>
-      <div className="container-fluid" style={{backgroundColor:"#eee", height:615}}>
+      <div className="container-fluid" style={{backgroundColor:"#eee"}}>
         <div> Main Here</div>
 
       </div>

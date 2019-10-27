@@ -11,7 +11,7 @@ export default class Footer extends PureComponent {
 
     render() {
         return (
-            <footer className="page-footer #81c784 green lighten-2" style={{ bottom: 0 }}>
+            <footer className="page-footer #81c784 green lighten-2 bt-0" style={{position:"absolute", bottom: 0, left:0, right:0 }}>
                 <div className="container">
                     <div className="row">
                         <div className="col l6 s12">

@@ -42,7 +42,7 @@ export default class App extends PureComponent {
 
     console.log('- router rendered', this.props)
     return (
-      <div style={{ backgroundColor: "#eee", flexDirection: "column" }}>
+      <div style={{ backgroundColor: "#eee", position:"absolute", top:0, left:0, right:0, bottom:0}}>
         <Header />
         <div className="container-fluid" style={{ marginTop: 75, marginBottom: 135 }}>
           <Switch>
