@@ -8,11 +8,13 @@ using Xamarin.Essentials;
 using Plugin.Fingerprint;
 using Plugin.CurrentActivity;
 
+using GoNTrip.Pages;
+
 namespace GoNTrip.Droid
 {
     [Activity(Label = "GoNTrip", Icon = "@mipmap/icon", Theme = "@style/MainTheme", MainLauncher = true, ScreenOrientation = ScreenOrientation.Portrait, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
-    { 
+    {
         protected override void OnCreate(Bundle savedInstanceState)
         {
             TabLayoutResource = Resource.Layout.Tabbar;
@@ -24,7 +26,8 @@ namespace GoNTrip.Droid
 
             Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new GoNTrip.Pages.App());
+
+            LoadApplication(new App());
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Android.Content.PM.Permission[] grantResults)
         {

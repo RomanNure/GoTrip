@@ -3,15 +3,20 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.TourPage"
              Appearing="ContentPage_Appearing">
     
     <ContentPage.Content>
         <StackLayout>
+
             
             
-            
+            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultTourIcon.png"/>
+
         </StackLayout>
     </ContentPage.Content>
     

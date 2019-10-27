@@ -113,7 +113,7 @@ namespace GoNTrip.Pages.Additional.Controls
             nameLabel.Text = tour.name == null ? string.Empty : (tour.name.Length > MAX_NAME_SYMBOLS ? 
                 tour.name.Substring(0, MAX_NAME_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.name);
 
-            //nameLabel.Text += " " + tour.id;
+            nameLabel.Text += " " + tour.id;
 
             descriptionLabel.Text = tour.description == null ? string.Empty : (tour.description.Length > MAX_DESCRIPTION_SYMBOLS ?
                 tour.description.Substring(0, MAX_DESCRIPTION_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.description);
@@ -122,13 +122,6 @@ namespace GoNTrip.Pages.Additional.Controls
             placesLabel.Text = currentParticipants + "/" + tour.maxParticipants;
             startLabel.Text = tour.startDateTime.ToShortDateString();
             endLabel.Text = tour.finishDateTime.ToShortDateString();
-
-            this.OnClick += (ME, sender) =>
-            {
-                if (ME.Action == MotionEventActions.Up)
-                    App.Current.MainPage = new TourPage(tour, numInList);
-                return false;
-            };
         }
 
         private void BuildLayout()

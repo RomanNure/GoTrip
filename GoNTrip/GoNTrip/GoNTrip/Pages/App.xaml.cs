@@ -64,7 +64,6 @@ namespace GoNTrip.Pages
         {
             InitServices();
             InitializeComponent();
-
             MainPage = new MainPage();
         }
 

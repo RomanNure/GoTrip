@@ -16,9 +16,7 @@ using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.ServerInteraction.ResponseParsers;
-using GoNTrip.Pages.Additional.Popups.Templates;
 using GoNTrip.Pages.Additional.Validators.Templates;
-using Android.Util;
 
 namespace GoNTrip.Pages
 {
@@ -32,17 +30,15 @@ namespace GoNTrip.Pages
 
         private PopupControlSystem PopupControl { get; set; }
         private EditProfileValidator EditProfileValidator { get; set; }
-        private SwipablePhotoCollection PhotoCollection { get; set; }
 
         public CurrentUserProfilePage()
         {
             InitializeComponent();
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
-            EditProfileValidator = new EditProfileValidator(FirstNameEntry, LastNameEntry, PhoneEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
+            AvatarView.LinkControlSystem(PopupControl);
 
-            PhotoCollection = new SwipablePhotoCollection(PopupControl);
-            PhotoCollection.Add(AvatarView);
+            EditProfileValidator = new EditProfileValidator(FirstNameEntry, LastNameEntry, PhoneEntry, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
 
             SelectAvatarSourcePopup.OnFirstButtonClicked = (ctx, arg) => { UploadAvatar(async () => await App.DI.Resolve<Camera>().TakePhoto(Camera.CameraLocation.FRONT, Constants.MAX_PHOTO_WIDTH_HEIGHT)); };
             SelectAvatarSourcePopup.OnSecondButtonClicked = (ctx, arg) => { UploadAvatar(async () => await App.DI.Resolve<Gallery>().PickPhoto(Constants.MAX_PHOTO_WIDTH_HEIGHT)); };
@@ -119,6 +115,9 @@ namespace GoNTrip.Pages
 
                 AdditionalUserInfo.Text = CurrentUser.company != null ? $"Owner of {CurrentUser.company.name}" :
                                          (CurrentUser.administrator != null ? $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}" : "");
+
+                AvatarView.Sign.Text = login + (AdditionalUserInfo.Text == "" ? "" : " - " + AdditionalUserInfo.Text);
+                AvatarView.Sign.HorizontalTextAlignment = Xamarin.Forms.TextAlignment.Center;
             }
         }
 
@@ -218,7 +217,7 @@ namespace GoNTrip.Pages
         private bool UserAvatar_OnClick(MotionEvent ME, IClickable sender)
         {
             if (ME.Action == MotionEventActions.Down)
-                PhotoCollection.MoveNext();
+                PopupControl.OpenPopup(AvatarView);
             
             return false;
         }
@@ -276,8 +275,6 @@ namespace GoNTrip.Pages
         {
             if (PopupControl.OpenedPopupsCount == 0)
                 PopupControl.OpenPopup(ExitConfirmPopup);
-            else if (PhotoCollection.Opened)
-                PhotoCollection.Reset();
             else
                 PopupControl.CloseTopPopup();
 

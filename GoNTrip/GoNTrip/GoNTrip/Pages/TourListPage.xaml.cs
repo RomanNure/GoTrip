@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -16,8 +17,8 @@ using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.Controls;
+using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.ServerInteraction.ResponseParsers;
-using System.Threading;
 
 namespace GoNTrip.Pages
 {
@@ -32,9 +33,14 @@ namespace GoNTrip.Pages
 
         private const int PAGE_TOURS_COUNT = 8;
 
-        public TourListPage(int firstTourNum = 0)
+        public TourListPage(TourListPageMemento memento = null)
         {
-            FirstTourNum = firstTourNum;
+            if (memento != null)
+            {
+                Tours = memento.TourListPage.Tours;
+                FirstTourNum = memento.TourListPage.FirstTourNum;
+            }
+
             InitializeComponent();
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
@@ -92,7 +98,7 @@ namespace GoNTrip.Pages
 
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-            await GetAndLoadTours();
+            await GetAndLoadToursAsync();
 
             prevPageButton.IsVisible = true;
             nextPageButton.IsVisible = true;
@@ -110,12 +116,13 @@ namespace GoNTrip.Pages
             if (NewTourNum != -1)
             {
                 FirstTourNum = NewTourNum;
-                await GetAndLoadTours();
+                await GetAndLoadToursAsync();
                 await TourListScroll.ScrollToAsync(0, 0, false);
             }
         }
 
-        private async Task GetAndLoadTours()
+        private async void GetAndLoadTours() => await GetAndLoadToursAsync();
+        private async Task GetAndLoadToursAsync()
         {
             if (Tours.Count == 0)
                 Tours = await GetTours();
@@ -158,6 +165,14 @@ namespace GoNTrip.Pages
             {
                 TourLayouts[i].Fill(tours[i], i);
                 TourLayouts[i].IsVisible = true;
+
+                Tour tour = tours[i];
+                TourLayouts[i].OnClick += (ME, ctx) =>
+                {
+                    if (ME.Action == MotionEventActions.Up)
+                        App.Current.MainPage = new TourPage(tour, new TourListPageMemento(this));
+                    return false;
+                };
             }
 
             for (int i = tours.Count; i < PAGE_TOURS_COUNT; i++)
@@ -176,6 +191,17 @@ namespace GoNTrip.Pages
 
         private bool SortButton_OnClick(MotionEvent ME, IClickable sender)
         {
+            return false;
+        }
+
+        private bool UpdateButton_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if(ME.Action == MotionEventActions.Down)
+            {
+                Tours.Clear();
+                FirstTourNum = 0;
+                GetAndLoadTours();
+            }
             return false;
         }
 

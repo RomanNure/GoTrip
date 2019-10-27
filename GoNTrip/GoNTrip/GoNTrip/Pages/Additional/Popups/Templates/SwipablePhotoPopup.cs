@@ -5,10 +5,10 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 {
     public class SwipablePhotoPopup : MovablePhotoPopup
     {
-        public SwipablePhotoPopup() : base()
+        public void LinkControlSystem(PopupControlSystem popupControl)
         {
-            base.OnTopBorderExceeded += (sender) => this.ForceHide();
-            base.OnBotBorderExceeded += (sender) => this.ForceHide();
+            base.OnTopBorderExceeded += (sender) => popupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            base.OnBotBorderExceeded += (sender) => popupControl.CloseTopPopupAndHideKeyboardIfNeeded();
         }
 
         private bool isDX = false;

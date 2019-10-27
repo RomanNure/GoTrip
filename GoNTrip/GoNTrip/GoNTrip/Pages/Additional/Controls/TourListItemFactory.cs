@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 
-using GoNTrip.Model;
-
 namespace GoNTrip.Pages.Additional.Controls
 {
     public class TourListItemFactory

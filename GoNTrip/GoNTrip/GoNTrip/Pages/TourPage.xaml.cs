@@ -3,6 +3,7 @@ using Xamarin.Forms.Xaml;
 
 using GoNTrip.Model;
 using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.PageMementos;
 
 namespace GoNTrip.Pages
 {
@@ -11,12 +12,12 @@ namespace GoNTrip.Pages
     {
         private PopupControlSystem PopupControl { get; set; }
 
-        private int TourListStartNum { get; set; }
+        private TourListPageMemento TourListPageMemento { get; set; }
         private Tour CurrentTour { get; set; }
 
-        public TourPage(Tour tour, int tourListStartNum)
+        public TourPage(Tour tour, TourListPageMemento memento)
         {
-            TourListStartNum = tourListStartNum;
+            TourListPageMemento = memento;
             CurrentTour = tour;
 
             InitializeComponent();
@@ -32,7 +33,7 @@ namespace GoNTrip.Pages
         protected override bool OnBackButtonPressed()
         {
             if (PopupControl.OpenedPopupsCount == 0)
-                App.Current.MainPage = new TourListPage(TourListStartNum);
+                App.Current.MainPage = new TourListPage(TourListPageMemento);
             else
                 PopupControl.CloseTopPopup();
 
