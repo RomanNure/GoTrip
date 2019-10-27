@@ -90,9 +90,9 @@ namespace GoNTrip.Pages
             buttonsWrapper.Children.Add(nextPageButton, 1, 0);
             TourList.Children.Add(buttonsWrapper);
 
-            await GetAndLoadTours();
-
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+            await GetAndLoadTours();
 
             prevPageButton.IsVisible = true;
             nextPageButton.IsVisible = true;
@@ -102,8 +102,6 @@ namespace GoNTrip.Pages
 
         private async Task LoadToursActivityAsync(int firstTourNum)
         {
-            PopupControl.OpenPopup(ActivityPopup);
-
             int NewTourNum = -1;
 
             if (firstTourNum >= 0 && firstTourNum < Tours.Count)
@@ -115,8 +113,6 @@ namespace GoNTrip.Pages
                 await GetAndLoadTours();
                 await TourListScroll.ScrollToAsync(0, 0, false);
             }
-
-            PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
         }
 
         private async Task GetAndLoadTours()
@@ -126,18 +122,28 @@ namespace GoNTrip.Pages
             else
                 await Task.Run(() => Thread.Sleep(100));
 
-            LoadTours(Tours.Skip(FirstTourNum).Take(PAGE_TOURS_COUNT).ToList());
+            if (Tours.Count != 0)
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+                LoadTours(Tours.Skip(FirstTourNum).Take(PAGE_TOURS_COUNT).ToList());
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
         }
 
         private async Task<List<Tour>> GetTours()
         {
+            PopupControl.OpenPopup(ActivityPopup);
             List<Tour> tours = new List<Tour>();
+
             try
             {
                 tours = await App.DI.Resolve<GetToursController>().GetAllTours();
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch(ResponseException ex)
             {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
                 ErrorPopup.MessageText = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
