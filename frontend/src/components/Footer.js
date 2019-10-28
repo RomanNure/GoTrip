@@ -11,12 +11,11 @@ export default class Footer extends PureComponent {
 
     render() {
         return (
-            <footer className="page-footer #81c784 green lighten-2 bt-0" style={{position:"absolute", bottom: 0, left:0, right:0 }}>
-                <div className="container">
+            <footer className="page-footer #81c784 green lighten-2 bt-0" style={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
+                <div className="container" style={{ height: 50 }}>
                     <div className="row">
                         <div className="col l6 s12">
-                            <h5 className="white-text">Footer Content</h5>
-                            <p className="grey-text text-lighten-4">You can use rows and columns here to organize your footer content.</p>
+                            <p className="grey-text text-lighten-4">Make your dream come true with us!</p>
                         </div>
                         <div className="col l4 offset-l2 s12">
                             <h5 className="white-text">Contact us</h5>

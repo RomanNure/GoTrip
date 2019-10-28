@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
 import EmployeeList from '../components/EmployeeList.js';
 import ToursList from '../components/ToursList.js';
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
 
 export default class CompanyPage extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            tab: "Information"
+            tab: "Information",
         }
+        this.state.id = this.props.location.pathname.match(/\:\d+/)[0].substr(1)
+    }
+
+    componentDidMount() {
+        this._getCompany()
     }
     _onChangeTab = (tab) => (e) => {
         e.preventDefault()
@@ -15,9 +23,96 @@ export default class CompanyPage extends Component {
         this.setState({ tab })
     }
 
+    _getCompany = () => {
+        console.log('getting Company')
+        axios({
+            method: "get",
+            url: 'https://go-trip.herokuapp.com/company/get' + "?id=" + this.state.id,
+            headers: {
+                'Content-Type': 'application/x-www-from-urlencoded',//Content-Type': 'appication/json',
+            },
+
+        })
+            .then(({ data }) => {
+                let { description, email, name, id, imageLink } = data
+                console.log('data=>', data)
+                // if (rule) window.location.reload();
+                this.setState({ description, email, name, id, imageLink })
+
+            })
+            .catch(error => {
+                toast.error('server not response', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                console.log('Error', error);
+            })
+    }
+    _onAddAdmin = () => {
+        console.log('try to add company admin')
+
+    }
+    _onUpdateCompany = () => {
+        let { address, email, name, phone, description } = this.refs
+
+        if (!name.value) {
+            toast.error('Empty name of your copmany', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+        if (!address.value) {
+            toast.error('Empty address of your copmany', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+        if (!phone.value) {
+            toast.error('Empty phone of your copmany', {
+                position: toast.POSITION.TOP_RIGHT
+            });
+        }
+        axios({
+            method: "post",
+            url: 'https://go-trip.herokuapp.com/update/user',
+            //url: 'http://93.76.235.211:5000/update/user',
+            headers: {
+                //"Content-Type": "text/plain",
+                'Content-Type': 'application/json',//Content-Type': 'appication/json',
+            },
+            data: user,
+        })
+            .then(({ data }) => {
+                toast.success("Updated", {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                console.log(`POST: user is added`, data);
+                this.props.history.push({ pathname: '/user:' + data.id, state: data })//, {props: data})
+                // append to DOM
+            })
+            .catch(error => {
+
+                if (error.response) {
+                    console.log('data=>', error.response.data);
+                    console.log("status=>", error.response.status);
+                    console.log('headers =>', error.response.headers);
+                    toast.error(error.response.data.message, {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+
+                } else if (error.request) {
+                    console.log('request err', error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log('config', error.config)
+                console.log('Error', error);
+
+            });
+    }
+
     render() {
         return (
             <div>
+                <ToastContainer />
+
                 <div className="container bootstrap snippet" >
                     <div className="row ng-scope">
                         <div className="col-md-4" >
@@ -35,14 +130,14 @@ export default class CompanyPage extends Component {
                                     <h3 className="m0 text-bold"></h3>
                                     <div className="row justify-content-center">
                                         <div className="col-11">
-                                            <textarea className="form-control" id="exampleTextarea" placeholder="Company description" row="4"></textarea>
+                                            <textarea ref="description" className="form-control" id="exampleTextarea" placeholder="Company description" defaultValue={this.state.description} row="4"></textarea>
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-8 panel panel-default" style={{ backgroundColor: "#fff", borderRadius: 20, height:"100%" }}>
+                        <div className="col-md-8 panel panel-default" style={{ backgroundColor: "#fff", borderRadius: 20, height: "100%" }}>
                             <div>
                                 <div className="panel-body">
                                     <div className="pull-right">
@@ -59,30 +154,30 @@ export default class CompanyPage extends Component {
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
                                                     <div className="col-md-10">
-                                                        <input ref="fullname" id="inputContact1" type="text" placeholder="Name" defaultValue="" value="test" />
+                                                        <input ref="name" id="inputContact1" type="text" placeholder="Compnay Name" defaultValue={this.state.name} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
                                                     <div className="col-md-10">
-                                                        <input ref="email" id="inputContact2" type="email" placeholder="Email Address" value="test" />
+                                                        <input ref="email" id="inputContact2" disabled={true} type="email" placeholder="Email Address" defaultValue={this.state.email} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact3">Phone</label>
                                                     <div className="col-md-10">
-                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" defaultValue="" value="test" />
+                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" defaultValue={this.state.phone} />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <label className="col-sm-2 control-label" htmlFor="inputContact6">Address</label>
                                                     <div className="col-md-10">
-                                                        <textarea className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue="" row="4" />
+                                                        <textarea ref="address" className="materialize-textarea" id="inputContact6" placeholder="Address" defaultValue={this.state.address} row="4" />
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
-                                                        <a className="btn waves-effect waves-light #81c784 green lighten-2">Update</a>
+                                                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onUpdateCompany}>Update</a>
                                                     </div>
                                                 </div>
                                             </form>
@@ -90,10 +185,10 @@ export default class CompanyPage extends Component {
                                     </div>
                                     }
                                     {this.state.tab == "Employees" &&
-                                        <EmployeeList />
+                                        <EmployeeList {...this.props} _onAddAdmin={this._onAddAdmin} />
                                     }
                                     {this.state.tab == "Tours" &&
-                                        <ToursList />
+                                        <ToursList {...this.props} />
                                     }
                                 </div>
                             </div>
