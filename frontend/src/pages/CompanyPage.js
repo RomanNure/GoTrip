@@ -69,22 +69,27 @@ export default class CompanyPage extends Component {
                 position: toast.POSITION.TOP_RIGHT
             });
         }
+        let company = {
+            email: email.value,
+            name: name.value,
+            phone: phone.value,
+            description: description.value
+        }
         axios({
             method: "post",
-            url: 'https://go-trip.herokuapp.com/update/user',
+            url: 'https://go-trip.herokuapp.com/update/company',
             //url: 'http://93.76.235.211:5000/update/user',
             headers: {
                 //"Content-Type": "text/plain",
                 'Content-Type': 'application/json',//Content-Type': 'appication/json',
             },
-            data: user,
+            data: company,
         })
             .then(({ data }) => {
                 toast.success("Updated", {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                console.log(`POST: user is added`, data);
-                this.props.history.push({ pathname: '/user:' + data.id, state: data })//, {props: data})
+                console.log(`POST: company is updated`, data);
                 // append to DOM
             })
             .catch(error => {
@@ -107,8 +112,49 @@ export default class CompanyPage extends Component {
 
             });
     }
+    _onUploadPhoto = () => (e) => {
+        e.preventDefault()
+        console.log('- Upload photo', e);
+        const file = e.target.files[0];
+        console.log('files', file)
+        let type = file.type.split('/')[1];
+        console.log('type', type)
+        console.log('file =>', file)
+        var formData = new FormData();
+        formData.append('file', file, this.state.id + "." + type);
+        //formData.set('path', this.state.id+"."+type)
+        axios.post('http://185.255.96.249:5000/company', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        })
+            .then(data => {
+                toast.success('Photo updated', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+                console.log('data=> ', data)
+            })
+            .catch(error => {
+                if (error.response) {
+                    console.log('data=>', error.response.data);
+                    console.log("status=>", error.response.status);
+                    console.log('headers =>', error.response.headers);
+                    toast.error(error.response.data.message, {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
+
+                } else if (error.request) {
+                    console.log('request err', error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log('config', error.config)
+                console.log('Error', error);
+            })
+    }
 
     render() {
+        this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
         return (
             <div>
                 <ToastContainer />
@@ -121,9 +167,9 @@ export default class CompanyPage extends Component {
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
                                             <label htmlFor="Photo">
-                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src="images/Avatar.png" alt="Contact" />
+                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src={this.state.imageLink?this.state.imageLink:"images/Avatar.png"} alt="Contact" />
                                             </label>
-                                            <input type="file" ref='photo' id='Photo' style={{ display: "none" }} />
+                                            {<input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
 
                                         </>
                                     </div>
