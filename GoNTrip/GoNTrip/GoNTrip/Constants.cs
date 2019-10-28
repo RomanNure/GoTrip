@@ -1,8 +1,12 @@
 ﻿using System;
 
 using Xamarin.Forms;
+using Xamarin.Essentials;
+
+using Android.Views;
 
 using CustomControls;
+
 using GoNTrip.Pages.Additional.Validators;
 
 namespace GoNTrip
@@ -19,10 +23,17 @@ namespace GoNTrip
 
         public const int MAX_PHOTO_WIDTH_HEIGHT = 768;
 
+        public const string DEFAULT_AVATAR_SOURCE = "DefaultAvatar.png";
+        public const string DEFAULT_TOUR_IMAGE_SOURCE = "DefaultTourIcon.png";
+
         public const string FILE_SELECTION_ERROR = "File selection error";
         public const string UNKNOWN_FILED_VALUE = "unknown";
-        public const char FIRST_LAST_NAME_SPLITTER = ' ';
-        public const string DEFAULT_AVATAR_SOURCE = "DefaultAvatar.png";
+        
         public const string CURRENCY_SYMBOL = "$";
+
+        public const int ACTIVITY_INDICATOR_START_TIMEOUT = 100;
+
+        public const int PHOTO_POPUP_X_TRANSLATION_BORDER = 150;
+        public const int PHOTO_POPUP_Y_TRANSLATION_BORDER = 300;
     }
 }

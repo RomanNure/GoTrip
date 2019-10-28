@@ -44,27 +44,6 @@
                 <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             </Style>
 
-            <Style x:Key="InfoGrid" TargetType="Grid">
-                <Setter Property="ColumnSpacing" Value="1"/>
-                <Setter Property="RowSpacing" Value="1"/>
-
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-                <Setter Property="VerticalOptions" Value="StartAndExpand"/>
-
-                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
-                <Setter Property="Padding" Value="2"/>
-            </Style>
-
-            <Style x:Key="InfoCell" TargetType="Label">
-                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
-                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
-
-                <Setter Property="VerticalTextAlignment" Value="Center"/>
-                <Setter Property="HorizontalTextAlignment" Value="Center"/>
-
-                <Setter Property="FontSize" Value="13"/>
-            </Style>
-
             <Style x:Key="UserAbout" TargetType="Editor">
                 <Setter Property="IsReadOnly" Value="True"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>

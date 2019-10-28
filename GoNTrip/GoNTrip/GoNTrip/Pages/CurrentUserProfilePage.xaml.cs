@@ -23,6 +23,8 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CurrentUserProfilePage : ContentPage
     {
+        private const char FIRST_LAST_NAME_SPLITTER = ' ';
+
         private const string CONFIRMED_EMAIL_BACK_COLOR = "ContentBackColor";
         private const string NON_CONFIRMED_EMAIL_BACK_COLOR = "InvalidColor";
 
@@ -100,7 +102,7 @@ namespace GoNTrip.Pages
                 {
                     NameInfoLabel.Text = CurrentUser.fullName;
 
-                    string[] names = CurrentUser.fullName.Split(Constants.FIRST_LAST_NAME_SPLITTER);
+                    string[] names = CurrentUser.fullName.Split(FIRST_LAST_NAME_SPLITTER);
                     FirstNameEntry.Text = names[0];
                     LastNameEntry.Text = names[1];
                 }
@@ -188,7 +190,7 @@ namespace GoNTrip.Pages
             try
             {
                 Session session = App.DI.Resolve<Session>();
-                session.CurrentUser.fullName = FirstNameEntry.Text + Constants.FIRST_LAST_NAME_SPLITTER.ToString() + LastNameEntry.Text;
+                session.CurrentUser.fullName = FirstNameEntry.Text + FIRST_LAST_NAME_SPLITTER.ToString() + LastNameEntry.Text;
                 session.CurrentUser.phone = PhoneEntry.Text;
 
                 session.CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(session.CurrentUser);

@@ -8,9 +8,9 @@
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.TourPage"
              Appearing="ContentPage_Appearing">
-    
+
     <ContentPage.Content>
-        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
+        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}" x:Name="Layout">
 
             <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
                 <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
@@ -18,21 +18,74 @@
 
                         <ScrollView>
                             <StackLayout>
-                                
-                                <customcontrols:Img x:Name="TourMainImagePreview" OnClick="TourMainImagePreview_OnClick" HeightRequest="200" BorderAlways="False" ClickedBorderWidth="0" Source="DefaultTourIcon.png"/>
 
-                                <ScrollView Orientation="Horizontal" Margin="5,5,5,5">
-                                    <Grid x:Name="TourSecondaryImages">
+                                <Label Style="{StaticResource HeaderLabel}" x:Name="TourName" Text="Some Tour"/>
 
-                                        <customcontrols:Img Grid.Row="0" Grid.Column="0" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
-                                        <customcontrols:Img Grid.Row="0" Grid.Column="1" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
-                                        <customcontrols:Img Grid.Row="0" Grid.Column="2" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
-                                        <customcontrols:Img Grid.Row="0" Grid.Column="3" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
-                                        <customcontrols:Img Grid.Row="0" Grid.Column="4" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
+                                <customcontrols:Img BackgroundColor="Red" Margin="0,-7,0,0" x:Name="TourMainImagePreview" OnClick="TourMainImagePreview_OnClick" BorderAlways="False" ClickedBorderWidth="0" Source="DefaultTourIcon.png"/>
 
-                                    </Grid>
-                                </ScrollView>
+                                <StackLayout x:Name="TourContentWrapper" Margin="5,0,5,5">
 
+                                    <ScrollView Orientation="Horizontal">
+                                        <Grid x:Name="TourSecondaryImages" ColumnSpacing="5" HorizontalOptions="CenterAndExpand">
+
+                                            <!--Secondary images-->
+
+                                        </Grid>
+                                    </ScrollView>
+
+                                    <Grid Style="{StaticResource InfoGrid}">
+
+                                            <!--Tour info-->
+
+                                            <!--<Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="22*"/>
+                                            <ColumnDefinition Width="78*"/>
+                                        </Grid.ColumnDefinitions>-->
+
+                                            <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
+                                            <Label Style="{StaticResource InfoCell}"  x:Name="LoginInfoLabel" Grid.Row="0" Grid.Column="1"/>
+
+                                            <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Name:"/>
+                                            <Label Style="{StaticResource InfoCell}" x:Name="NameInfoLabel" Grid.Row="1" Grid.Column="1"/>
+
+                                            <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Email:"/>
+                                            <Label Style="{StaticResource InfoCell}" x:Name="EmailInfoLabel" Grid.Row="2" Grid.Column="1"/>
+
+                                            <Label Style="{StaticResource InfoCell}" Grid.Row="3" Grid.Column="0" Text="Phone:"/>
+                                            <Label Style="{StaticResource InfoCell}" x:Name="PhoneInfoLabel" Grid.Row="3" Grid.Column="1"/>
+
+                                        </Grid>
+
+                                        <Frame Style="{StaticResource OuterBorderFrame}">
+                                            <Frame Style="{StaticResource InnerBorderFrame}">
+
+                                                <Grid Style="{StaticResource ProfilePreviewWrapper}"/>
+                                                <!--Company info-->
+
+                                            </Frame>
+                                        </Frame>
+
+                                        <Frame Style="{StaticResource OuterBorderFrame}">
+                                            <Frame Style="{StaticResource InnerBorderFrame}">
+
+                                                <Grid Style="{StaticResource ProfilePreviewWrapper}"/>
+                                                <!--Admin info-->
+
+                                            </Frame>
+                                        </Frame>
+
+                                        <Frame Style="{StaticResource OuterBorderFrame}">
+                                            <Frame Style="{StaticResource InnerBorderFrame}">
+
+                                                <Grid Style="{StaticResource ProfilePreviewWrapper}"/>
+                                                <!--Guide info-->
+
+                                            </Frame>
+                                        </Frame>
+
+                                        <!--Members info-->
+                                    
+                                </StackLayout>
                             </StackLayout>
                         </ScrollView>
                         

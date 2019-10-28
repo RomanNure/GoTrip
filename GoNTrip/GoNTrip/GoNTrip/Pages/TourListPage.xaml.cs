@@ -131,7 +131,7 @@ namespace GoNTrip.Pages
             {
                 PopupControl.OpenPopup(ActivityPopup);
 
-                await Task.Run(() => Thread.Sleep(100));
+                await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
                 LoadTours(Tours.Skip(FirstTourNum).Take(PAGE_TOURS_COUNT).ToList());
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);

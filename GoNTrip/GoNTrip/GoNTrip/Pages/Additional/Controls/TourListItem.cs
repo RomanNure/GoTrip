@@ -24,8 +24,6 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private const string PRICE_PLACEHOLDER_TEXT = "Price: ";
         private const string PLACES_PLACEHOLDER_TEXT = "Places: ";
-        //private const string START_PLACEHOLDER_TEXT = "Start: ";
-        //private const string END_PLACEHOLDER_TEXT = "End: ";
 
         private const string OUTER_FRAME_CLASS_NAME = "OuterBorderFrame";
         private static readonly Thickness OUTER_FRAME_MARGIN = new Thickness(6, 3, 6, 3);
@@ -41,7 +39,7 @@ namespace GoNTrip.Pages.Additional.Controls
         private const bool TOUR_IMAGE_BORDER_ALWAYS = false;
         private const float TOUR_IMAGE_BORDERS_WIDTH = 0;
         private const int TOUR_IMAGE_BORDER_RADIUS = 45;
-        private const string TOUR_IMAGE_DEFAULT_SOURCE = "DefaultTourIcon.png";
+        private const string TOUR_IMAGE_DEFAULT_SOURCE = Constants.DEFAULT_TOUR_IMAGE_SOURCE;
 
         private const string TOUR_NAME_CLASS_NAME = "TourPreviewNameLabel";
         private const int TOUR_NAME_ROW = 0;
