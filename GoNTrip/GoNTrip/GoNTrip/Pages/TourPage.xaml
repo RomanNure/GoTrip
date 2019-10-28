@@ -4,20 +4,47 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.TourPage"
              Appearing="ContentPage_Appearing">
     
     <ContentPage.Content>
-        <StackLayout>
+        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
 
-            
-            
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
+
+                        <ScrollView>
+                            <StackLayout>
+                                
+                                <customcontrols:Img x:Name="TourMainImagePreview" OnClick="TourMainImagePreview_OnClick" HeightRequest="200" BorderAlways="False" ClickedBorderWidth="0" Source="DefaultTourIcon.png"/>
+
+                                <ScrollView Orientation="Horizontal" Margin="5,5,5,5">
+                                    <Grid x:Name="TourSecondaryImages">
+
+                                        <customcontrols:Img Grid.Row="0" Grid.Column="0" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
+                                        <customcontrols:Img Grid.Row="0" Grid.Column="1" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
+                                        <customcontrols:Img Grid.Row="0" Grid.Column="2" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
+                                        <customcontrols:Img Grid.Row="0" Grid.Column="3" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
+                                        <customcontrols:Img Grid.Row="0" Grid.Column="4" WidthRequest="130" HeightRequest="130" ClickedBorderColor="{StaticResource BarBackColor}" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultTourIcon.png"/>
+
+                                    </Grid>
+                                </ScrollView>
+
+                            </StackLayout>
+                        </ScrollView>
+                        
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
-            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultTourIcon.png"/>
+            <templates:SwipablePhotoPopup x:Name="TourMainImage" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultTourIcon.png"/>
 
-        </StackLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
     
 </ContentPage>

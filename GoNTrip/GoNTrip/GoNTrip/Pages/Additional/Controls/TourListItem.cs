@@ -16,8 +16,7 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private Label priceLabel { get; set; }
         private Label placesLabel { get; set; }
-        private Label startLabel { get; set; }
-        private Label endLabel { get; set; }
+        private Label startEndLabel { get; set; }
 
         private const int MAX_NAME_SYMBOLS = 20;
         private const int MAX_DESCRIPTION_SYMBOLS = 80;
@@ -25,8 +24,8 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private const string PRICE_PLACEHOLDER_TEXT = "Price: ";
         private const string PLACES_PLACEHOLDER_TEXT = "Places: ";
-        private const string START_PLACEHOLDER_TEXT = "Start: ";
-        private const string END_PLACEHOLDER_TEXT = "End: ";
+        //private const string START_PLACEHOLDER_TEXT = "Start: ";
+        //private const string END_PLACEHOLDER_TEXT = "End: ";
 
         private const string OUTER_FRAME_CLASS_NAME = "OuterBorderFrame";
         private static readonly Thickness OUTER_FRAME_MARGIN = new Thickness(6, 3, 6, 3);
@@ -78,25 +77,12 @@ namespace GoNTrip.Pages.Additional.Controls
         private const int TOUR_PLACES_COLUMN = 3;
         private static readonly LayoutOptions TOUR_PLACES_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
-        private const string TOUR_START_PLACEHOLDER_CLASS_NAME = "PlaceholderLabel";
-        private const int TOUR_START_PLACEHOLDER_ROW = 1;
-        private const int TOUR_START_PLACEHOLDER_COLUMN = 0;
-        private static readonly LayoutOptions TOUR_START_PLACEHOLDER_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
-
-        private const string TOUR_START_CLASS_NAME = "InfoLabel";
-        private const int TOUR_START_ROW = 1;
-        private const int TOUR_START_COLUMN = 1;
-        private static readonly LayoutOptions TOUR_START_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
-
-        private const string TOUR_END_PLACEHOLDER_CLASS_NAME = "PlaceholderLabel";
-        private const int TOUR_END_PLACEHOLDER_ROW = 1;
-        private const int TOUR_END_PLACEHOLDER_COLUMN = 2;
-        private static readonly LayoutOptions TOUR_END_PLACEHOLDER_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
-
-        private const string TOUR_END_CLASS_NAME = "InfoLabel";
-        private const int TOUR_END_ROW = 1;
-        private const int TOUR_END_COLUMN = 3;
-        private static readonly LayoutOptions TOUR_END_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
+        private const string TOUR_START_END_CLASS_NAME = "InfoLabel";
+        private const int TOUR_START_END_ROW_START = 1;
+        private const int TOUR_START_END_ROW_END = 2;
+        private const int TOUR_START_END_COLUMN_START = 0;
+        private const int TOUR_START_END_COLUMN_END = 3;
+        private static readonly LayoutOptions TOUR_START_END_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
         public TourListItem() => BuildLayout();
 
@@ -120,8 +106,7 @@ namespace GoNTrip.Pages.Additional.Controls
 
             priceLabel.Text = tour.pricePerPerson + Constants.CURRENCY_SYMBOL;
             placesLabel.Text = currentParticipants + "/" + tour.maxParticipants;
-            startLabel.Text = tour.startDateTime.ToShortDateString();
-            endLabel.Text = tour.finishDateTime.ToShortDateString();
+            startEndLabel.Text = tour.startDateTime.ToShortDateString() + " - " + tour.finishDateTime.ToShortDateString();
         }
 
         private void BuildLayout()
@@ -181,27 +166,10 @@ namespace GoNTrip.Pages.Additional.Controls
             placesLabel.HorizontalOptions = TOUR_PLACES_HORISONTAL_OPTIONS;
             tourPreviewInfoWrapper.Children.Add(placesLabel, TOUR_PLACES_COLUMN, TOUR_PLACES_ROW);
 
-            Label startPlaceholderLabel = new Label();
-            startPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_START_PLACEHOLDER_CLASS_NAME];
-            startPlaceholderLabel.HorizontalOptions = TOUR_START_PLACEHOLDER_HORISONTAL_OPTIONS;
-            startPlaceholderLabel.Text = START_PLACEHOLDER_TEXT;
-            tourPreviewInfoWrapper.Children.Add(startPlaceholderLabel, TOUR_START_PLACEHOLDER_COLUMN, TOUR_START_PLACEHOLDER_ROW);
-
-            startLabel = new Label();
-            startLabel.Style = (Style)App.Current.Resources[TOUR_START_CLASS_NAME];
-            startLabel.HorizontalOptions = TOUR_START_HORISONTAL_OPTIONS;
-            tourPreviewInfoWrapper.Children.Add(startLabel, TOUR_START_COLUMN, TOUR_START_ROW);
-
-            Label endPlaceholderLabel = new Label();
-            endPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_END_PLACEHOLDER_CLASS_NAME];
-            endPlaceholderLabel.HorizontalOptions = TOUR_END_PLACEHOLDER_HORISONTAL_OPTIONS;
-            endPlaceholderLabel.Text = END_PLACEHOLDER_TEXT;
-            tourPreviewInfoWrapper.Children.Add(endPlaceholderLabel, TOUR_END_PLACEHOLDER_COLUMN, TOUR_END_PLACEHOLDER_ROW);
-
-            endLabel = new Label();
-            endLabel.Style = (Style)App.Current.Resources[TOUR_END_CLASS_NAME];
-            endLabel.HorizontalOptions = TOUR_END_HORISONTAL_OPTIONS;
-            tourPreviewInfoWrapper.Children.Add(endLabel, TOUR_END_COLUMN, TOUR_END_ROW);  
+            startEndLabel = new Label();
+            startEndLabel.Style = (Style)App.Current.Resources[TOUR_START_END_CLASS_NAME];
+            startEndLabel.HorizontalOptions = TOUR_START_END_HORISONTAL_OPTIONS;
+            tourPreviewInfoWrapper.Children.Add(startEndLabel, TOUR_START_END_COLUMN_START, TOUR_START_END_COLUMN_END, TOUR_START_END_ROW_START, TOUR_START_END_ROW_END);
         }
     }
 }

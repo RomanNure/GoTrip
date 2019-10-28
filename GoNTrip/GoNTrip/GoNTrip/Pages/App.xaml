@@ -191,10 +191,10 @@
         <Style x:Key="TourPreviewInfoWrapper" TargetType="Grid">
             <Setter Property="ColumnDefinitions">
                 <ColumnDefinitionCollection>
-                    <ColumnDefinition Width="0.16*"/>
-                    <ColumnDefinition Width="0.32*"/>
                     <ColumnDefinition Width="0.2*"/>
-                    <ColumnDefinition Width="0.32*"/>
+                    <ColumnDefinition Width="0.3*"/>
+                    <ColumnDefinition Width="0.22*"/>
+                    <ColumnDefinition Width="0.28*"/>
                 </ColumnDefinitionCollection>
             </Setter>
             <Setter Property="RowDefinitions">
