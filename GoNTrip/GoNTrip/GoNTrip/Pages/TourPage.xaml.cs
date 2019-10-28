@@ -1,6 +1,6 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
-using System.Collections.Generic;
 
 using Android.Views;
 
@@ -23,8 +23,6 @@ namespace GoNTrip.Pages
         private const int SECONDARY_IMAGE_BORDER_RADIUS = 18;
         private const float SECONDARY_IMAGE_BORDER_WIDTH = 0;
         private static readonly Color SECONDARY_IMAGE_BORDER_COLOR = (Color)App.Current.Resources["BarBackColor"];
-
-        
 
         private PopupControlSystem PopupControl { get; set; }
         private SwipablePhotoCollection PhotoCollection { get; set; }
@@ -65,8 +63,8 @@ namespace GoNTrip.Pages
 
             TourSecondaryImages.Children.Clear();
 
-            CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
-            CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
+            //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
+            //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
             //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
             //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
 
@@ -111,6 +109,16 @@ namespace GoNTrip.Pages
             }
 
             TourName.Text = CurrentTour.name;
+            TourAbout.Text = CurrentTour.description;
+            TourPriceInfoLabel.Text = CurrentTour.pricePerPerson + Constants.CURRENCY_SYMBOL;
+            TourStartInfoLabel.Text = CurrentTour.startDateTime.ToString();
+            TourEndInfoLabel.Text = CurrentTour.finishDateTime.ToString();
+
+            TimeSpan duration = CurrentTour.finishDateTime - CurrentTour.startDateTime;
+            TourDurationInfoLabel.Text = (duration.Days == 0 ? "" : duration.Days + " days ") +
+                                         (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
+                                         (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
+            TourPlacesInfoLabel.Text = "0/" + CurrentTour.maxParticipants;
         }
 
         private bool TourMainImagePreview_OnClick(MotionEvent ME, IClickable sender)

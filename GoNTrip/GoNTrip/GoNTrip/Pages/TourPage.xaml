@@ -33,57 +33,64 @@
                                         </Grid>
                                     </ScrollView>
 
+                                    <Frame Style="{StaticResource OuterBorderFrame}">
+                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                            <Label x:Name="TourAbout" BackgroundColor="{StaticResource ContentBackColor}" Margin="5"/>
+                                        </Frame>
+                                    </Frame>
+
                                     <Grid Style="{StaticResource InfoGrid}">
 
-                                            <!--Tour info-->
+                                        <!--Tour info-->
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="40*"/>
+                                            <ColumnDefinition Width="60*"/>
+                                        </Grid.ColumnDefinitions>
 
-                                            <!--<Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="22*"/>
-                                            <ColumnDefinition Width="78*"/>
-                                        </Grid.ColumnDefinitions>-->
+                                        <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Price:"/>
+                                        <Label Style="{StaticResource InfoCell}" x:Name="TourPriceInfoLabel" Grid.Row="0" Grid.Column="1"/>
 
-                                            <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
-                                            <Label Style="{StaticResource InfoCell}"  x:Name="LoginInfoLabel" Grid.Row="0" Grid.Column="1"/>
+                                        <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Start:"/>
+                                        <Label Style="{StaticResource InfoCell}" x:Name="TourStartInfoLabel" Grid.Row="1" Grid.Column="1"/>
 
-                                            <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Name:"/>
-                                            <Label Style="{StaticResource InfoCell}" x:Name="NameInfoLabel" Grid.Row="1" Grid.Column="1"/>
+                                        <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="End:"/>
+                                        <Label Style="{StaticResource InfoCell}" x:Name="TourEndInfoLabel" Grid.Row="2" Grid.Column="1"/>
+                                        
+                                        <Label Style="{StaticResource InfoCell}" Grid.Row="3" Grid.Column="0" Text="Duration:"/>
+                                        <Label Style="{StaticResource InfoCell}" x:Name="TourDurationInfoLabel" Grid.Row="3" Grid.Column="1"/>
 
-                                            <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Email:"/>
-                                            <Label Style="{StaticResource InfoCell}" x:Name="EmailInfoLabel" Grid.Row="2" Grid.Column="1"/>
+                                        <Label Style="{StaticResource InfoCell}" Grid.Row="4" Grid.Column="0" Text="Places:"/>
+                                        <Label Style="{StaticResource InfoCell}" x:Name="TourPlacesInfoLabel" Grid.Row="4" Grid.Column="1"/>
 
-                                            <Label Style="{StaticResource InfoCell}" Grid.Row="3" Grid.Column="0" Text="Phone:"/>
-                                            <Label Style="{StaticResource InfoCell}" x:Name="PhoneInfoLabel" Grid.Row="3" Grid.Column="1"/>
+                                    </Grid>
 
-                                        </Grid>
-
-                                        <Frame Style="{StaticResource OuterBorderFrame}">
-                                            <Frame Style="{StaticResource InnerBorderFrame}">
-
-                                                <Grid Style="{StaticResource ProfilePreviewWrapper}"/>
+                                    <Frame Style="{StaticResource OuterBorderFrame}">
+                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                            <Grid Style="{StaticResource ProfilePreviewWrapper}">
                                                 <!--Company info-->
-
-                                            </Frame>
+                                                <Label Text="Company info here"/>
+                                            </Grid>
                                         </Frame>
+                                    </Frame>
 
-                                        <Frame Style="{StaticResource OuterBorderFrame}">
-                                            <Frame Style="{StaticResource InnerBorderFrame}">
-
-                                                <Grid Style="{StaticResource ProfilePreviewWrapper}"/>
+                                    <Frame Style="{StaticResource OuterBorderFrame}">
+                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                            <Grid Style="{StaticResource ProfilePreviewWrapper}">
                                                 <!--Admin info-->
-
-                                            </Frame>
+                                                <Label Text="Admin info here"/>
+                                            </Grid>
                                         </Frame>
+                                    </Frame>
 
-                                        <Frame Style="{StaticResource OuterBorderFrame}">
-                                            <Frame Style="{StaticResource InnerBorderFrame}">
-
-                                                <Grid Style="{StaticResource ProfilePreviewWrapper}"/>
-                                                <!--Guide info-->
-
-                                            </Frame>
+                                    <Frame Style="{StaticResource OuterBorderFrame}">
+                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                            <Grid Style="{StaticResource ProfilePreviewWrapper}">
+                                                <Label Text="Guide info here"/>
+                                            </Grid>
                                         </Frame>
+                                    </Frame>
 
-                                        <!--Members info-->
+                                    <!--Members info-->
                                     
                                 </StackLayout>
                             </StackLayout>
