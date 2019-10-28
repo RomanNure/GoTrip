@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import EmployeeList from '../components/EmployeeList.js';
+import ToursList from '../components/ToursList.js';
 
 export default class CompanyPage extends Component {
     constructor(props) {
@@ -41,7 +42,7 @@ export default class CompanyPage extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-8 panel panel-default" style={{ backgroundColor: "#fff", borderRadius: 20 }}>
+                        <div className="col-md-8 panel panel-default" style={{ backgroundColor: "#fff", borderRadius: 20, height:"100%" }}>
                             <div>
                                 <div className="panel-body">
                                     <div className="pull-right">
@@ -88,9 +89,12 @@ export default class CompanyPage extends Component {
                                         </div>
                                     </div>
                                     }
-                                    {this.state.tab == "Employees" && 
-                                    <EmployeeList/>
-                                }
+                                    {this.state.tab == "Employees" &&
+                                        <EmployeeList />
+                                    }
+                                    {this.state.tab == "Tours" &&
+                                        <ToursList />
+                                    }
                                 </div>
                             </div>
                         </div>

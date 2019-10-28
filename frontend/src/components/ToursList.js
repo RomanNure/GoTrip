@@ -4,32 +4,53 @@ import { Link } from 'react-router-dom';
 export default class ToresList extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            tours: this.props.tours ? this.props.tours : [
+                {
+                    img: "./images/bestplaceholder.jpg",
+                    title: "Adventure tour around Brazil",
+                    descr: "Best-selling Brazil tour! All the best things to do in the summer with our first-rate guide Ricardo!",
+                    time: "October 27, 2019"
+                },
+                {
+                    img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
+                    title: "Adventure tour to mars",
+                    descr: "Mask v woke",
+                    time: "October 29, 2019"
+                },
+            ]
+        }
     }
 
 
     render() {
+        console.log('rendered toursList')
         return (
-            <div>
-                <div className="container">
+            <div className="container">
+                {this.state.tours && this.state.tours.length > 0 ?
                     <div className="row">
-                        <div className="col-md-8">
-                            <div className="card rounded mb-4">
-                                <img className="card-img-top" src="./images/bestplaceholder.jpg" alt="Card image cap"/>
-                                <div className="card-body">
-                                    <h2 className="card-title">Adventure tour around Brazil</h2>
-                                    <p className="card-text">Best-selling Brazil tour! All the best things to do in the summer with our first-rate guide Ricardo!</p>
-                                    <a href="#" className="btn waves-effect waves-light #81c784 green lighten-2">Read More &rarr;</a>
-                                </div>
-                                <div className="card-footer text-muted">
-                                    Posted on October 27, 2019 by
-                                    &nbsp;<a href="#">Some company</a>
+                        {this.state.tours.map(({ descr, title, img, time }) => {
+                            return <div className="col-md-6" >
+                                <div className="card rounded mb-4">
+                                    <img className="card-img-top" src={img} alt="Card image cap" style={{ height: 300 }} />
+                                    <div className="card-body">
+                                        <h2 className="card-title">{title}</h2>
+                                        <p className="card-text">{descr}</p>
+                                        <a href="#" className="btn waves-effect waves-light #81c784 green lighten-2">Read More &rarr;</a>
+                                    </div>
+                                    <div className="card-footer text-muted">
+                                        Posted on {time} by
+                                                &nbsp;<a href="#">Some company</a>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        </div>
+                        })
+                        }
                     </div>
-                </div>
+                    :
+                    <div className="mx-auto text-center" style={{ fontSize: 24 }}>No Tours yet :(</div>
+                }
+            </div>
         )
     }
 }

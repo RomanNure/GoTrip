@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 //import SignIn from '../components/SignIn.js';
 
+import ToursList from '../components/ToursList';
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -13,9 +14,8 @@ export default class Home extends Component {
   render() {
     return (
       //<SignIn/>
-      <div className="container-fluid" style={{backgroundColor:"#eee"}}>
-        <div> Main Here</div>
-
+      <div className="container-fluid" style={{ backgroundColor: "#eee" }}>
+        <ToursList tours={false}/>
       </div>
     )
   }
