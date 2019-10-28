@@ -19,7 +19,10 @@ create table company
     constraint company_owner_id_fk
       references registered_user,
   name       varchar(40) not null unique,
-  email      varchar(40) not null
+  email      varchar(40) not null,
+  phone      varchar(20),
+  address    varchar(255),
+  domain     varchar(255)
 );
 
 CREATE TABLE administrators

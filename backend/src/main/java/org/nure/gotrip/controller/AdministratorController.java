@@ -4,6 +4,7 @@ import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.AdministratorAddDto;
 import org.nure.gotrip.dto.AdministratorDto;
+import org.nure.gotrip.exception.NotFoundAdministratorException;
 import org.nure.gotrip.exception.NotFoundCompanyException;
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueAdministratorException;
@@ -80,6 +81,15 @@ public class AdministratorController {
             LOGGER.info("Administrator exists", e);
             throw new ConflictException(e.getMessage());
         }
+    }
+
+    @GetMapping(value = "/get/user", produces = "application/json")
+    public ResponseEntity<RegisteredUser> getAdministratorWithUserInfo(@RequestParam long id){
+        RegisteredUser registeredUser = registeredUserService.findByAdministrator(id);
+        if(registeredUser == null){
+            throw new NotFoundException("User with such admin id was not found");
+        }
+        return new ResponseEntity<>(registeredUser, HttpStatus.OK);
     }
 
 }
