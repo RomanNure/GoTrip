@@ -2,12 +2,15 @@ package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotFoundCompanyException;
 import org.nure.gotrip.exception.NotUniqueCompanyException;
+import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Company;
 import org.nure.gotrip.repository.CompanyRepository;
 import org.nure.gotrip.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -47,4 +50,12 @@ public class CompanyServiceImpl implements CompanyService {
 	public Company findById(long id) throws NotFoundCompanyException {
 		return companyRepository.findById(id).orElseThrow(() -> new NotFoundCompanyException("Company with such id does not exist"));
 	}
+
+	public Company findByAdmin(long administratorId) throws NotFoundCompanyException {
+	    BigInteger companyId = companyRepository.findByAdministrator(administratorId);
+	    if(companyId == null){
+	        throw new NotFoundCompanyException("Company was not found");
+        }
+	    return companyRepository.findById(companyId.longValue()).orElseThrow(()->new NotFoundCompanyException("Company was not found"));
+    }
 }

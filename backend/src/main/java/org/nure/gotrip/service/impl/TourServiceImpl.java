@@ -1,5 +1,6 @@
 package org.nure.gotrip.service.impl;
 
+import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.exception.NotUniqueTourException;
 import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.model.TourPhoto;
@@ -25,6 +26,10 @@ public class TourServiceImpl implements TourService {
         this.tourPhotoRepository = tourPhotoRepository;
     }
 
+    public Tour findById(long id) throws NotFoundTourException {
+	    return tourRepository.findById(id).orElseThrow(() -> new NotFoundTourException("Tour was Not Found"));
+    }
+
 	@Override
 	public List<Tour> findAll() {
 		List<Tour> allTours = new ArrayList<>();
@@ -38,8 +43,10 @@ public class TourServiceImpl implements TourService {
 		try {
 		    List<TourPhoto> photos = tour.getPhotos();
             tour = tourRepository.save(tour);
+            long id = tour.getId();
+            photos.forEach(photo -> photo.getTour().setId(id));
 			tourPhotoRepository.saveAll(photos);
-			return tourRepository.findById(tour.getId()).orElseThrow(()->new RuntimeException());
+			return tourRepository.findById(id).get();
 		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueTourException("The database contains a tour with this name");
 		}

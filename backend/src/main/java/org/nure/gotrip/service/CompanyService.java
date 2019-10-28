@@ -3,6 +3,7 @@ package org.nure.gotrip.service;
 import org.nure.gotrip.exception.NotFoundCompanyException;
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueCompanyException;
+import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Company;
 
 public interface CompanyService {
@@ -17,4 +18,5 @@ public interface CompanyService {
 
 	Company findById(long id) throws NotFoundCompanyException;
 
+    Company findByAdmin(long administratorId) throws NotFoundCompanyException;
 }
