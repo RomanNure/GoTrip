@@ -271,5 +271,12 @@
             </Setter>
         </Style>
 
+        <Style x:Key="ProfilePreviewImage" TargetType="local:Img">
+            <Setter Property="WidthRequest" Value="70"/>
+            <Setter Property="HeightRequest" Value="70"/>
+            <Setter Property="HorizontalOptions" Value="Center"/>
+            <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
+
     </Application.Resources>
 </Application>

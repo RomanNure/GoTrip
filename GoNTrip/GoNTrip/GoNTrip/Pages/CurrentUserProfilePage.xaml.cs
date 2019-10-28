@@ -116,7 +116,7 @@ namespace GoNTrip.Pages
                 UserAbout.Text = CurrentUser.description == null ? String.Empty : CurrentUser.description;
 
                 AdditionalUserInfo.Text = CurrentUser.company != null ? $"Owner of {CurrentUser.company.name}" :
-                                         (CurrentUser.administrator != null ? $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}" : "");
+                                         (CurrentUser.administrator.Count != 0 ? $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}" : "");
 
                 AvatarView.Sign.Text = login + (AdditionalUserInfo.Text == "" ? "" : " - " + AdditionalUserInfo.Text);
                 AvatarView.Sign.HorizontalTextAlignment = Xamarin.Forms.TextAlignment.Center;

@@ -17,8 +17,8 @@ namespace GoNTrip.Model
         public DateTime finishDateTime { get; set; }
         public int maxParticipants { get; set; }
         public Admin administrator { get; set; }
-        public List<string> images { get; set; }
+        public List<Photo> photos { get; set; }
 
-        public Tour() { images = new List<string>(); }
+        public Tour() { }
     }
 }

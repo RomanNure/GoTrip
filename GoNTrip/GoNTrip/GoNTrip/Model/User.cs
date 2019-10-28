@@ -58,7 +58,7 @@ namespace GoNTrip.Model
         public Company company { get; set; }
 
         [UpdateProfileField]
-        public Admin administrator { get; set; }
+        public List<Admin> administrator { get; set; }
 
         [JsonIgnore]
         public List<Company> AdministratedCompanies { get; set; }

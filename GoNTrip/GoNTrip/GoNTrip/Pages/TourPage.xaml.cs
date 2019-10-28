@@ -73,7 +73,7 @@ namespace GoNTrip.Pages
                                                 - TourSecondaryImages.ColumnSpacing * (SECONDARY_IMAGES_COUNT_IN_ROW - 1)) 
                                           / SECONDARY_IMAGES_COUNT_IN_ROW;
 
-            for (int i = 0; i < CurrentTour.images.Count; i++)
+            for (int i = 0; i < CurrentTour.photos.Count; i++)
             {
                 Img img = new Img();
 
@@ -84,7 +84,7 @@ namespace GoNTrip.Pages
                 img.ClickedBorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
                 img.BorderRadius = SECONDARY_IMAGE_BORDER_RADIUS;
 
-                img.Source = CurrentTour.images[i];
+                img.Source = CurrentTour.photos[i].url;
 
                 int picNum = i + 1;
                 img.OnClick += (ME, ctx) =>
@@ -102,7 +102,7 @@ namespace GoNTrip.Pages
                 photo.YTranslationBorder = Constants.PHOTO_POPUP_Y_TRANSLATION_BORDER;
                 photo.XTranslationBorder = Constants.PHOTO_POPUP_X_TRANSLATION_BORDER;
 
-                photo.ImageSource = CurrentTour.images[i];
+                photo.ImageSource = CurrentTour.photos[i].url;
 
                 Layout.Children.Add(photo);
                 PhotoCollection.Add(photo);

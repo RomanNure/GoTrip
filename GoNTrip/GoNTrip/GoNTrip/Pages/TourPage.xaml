@@ -19,7 +19,7 @@
                         <ScrollView>
                             <StackLayout>
 
-                                <Label Style="{StaticResource HeaderLabel}" x:Name="TourName" Text="Some Tour"/>
+                                <Label Style="{StaticResource HeaderLabel}" x:Name="TourName" HeightRequest="-1" MinimumHeightRequest="40" Text="Some Tour"/>
 
                                 <customcontrols:Img BackgroundColor="Red" Margin="0,-7,0,0" x:Name="TourMainImagePreview" OnClick="TourMainImagePreview_OnClick" BorderAlways="False" ClickedBorderWidth="0" Source="DefaultTourIcon.png"/>
 
@@ -67,8 +67,11 @@
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
-                                                <!--Company info-->
-                                                <Label Text="Company info here"/>
+
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="CompanyImage" Source="DefaultTourIcon.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <Label Style="{StaticResource PlaceholderLabel}" Text="Organizator company" Grid.Row="0" Grid.Column="1"/>
+                                                <Label Style="{StaticResource InfoLabel}" x:Name="OrganisatorCompanyName" Text="Some company" Grid.Row="1" Grid.Column="1"/>
+
                                             </Grid>
                                         </Frame>
                                     </Frame>
@@ -76,8 +79,11 @@
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
-                                                <!--Admin info-->
-                                                <Label Text="Admin info here"/>
+
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <Label Style="{StaticResource PlaceholderLabel}" Text="Tour administrator" Grid.Row="0" Grid.Column="1"/>
+                                                <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminName" Text="Tour admin" Grid.Row="1" Grid.Column="1"/>
+
                                             </Grid>
                                         </Frame>
                                     </Frame>
@@ -85,13 +91,21 @@
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
-                                                <Label Text="Guide info here"/>
+
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <Label Style="{StaticResource PlaceholderLabel}" Text="Tour guide" Grid.Row="0" Grid.Column="1"/>
+                                                <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideName" Text="Tour guide" Grid.Row="1" Grid.Column="1"/>
+
                                             </Grid>
                                         </Frame>
                                     </Frame>
 
-                                    <!--Members info-->
-                                    
+                                    <Grid x:Name="TourMembers" ColumnSpacing="5" HorizontalOptions="CenterAndExpand">
+
+                                        <!--Members info-->
+
+                                    </Grid>
+
                                 </StackLayout>
                             </StackLayout>
                         </ScrollView>
