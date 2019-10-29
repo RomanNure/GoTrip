@@ -44,8 +44,9 @@ public class RegisteredUser {
 	@Column(name = "description")
 	private String description;
 
-	@OneToOne(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-	private Company company;
+	@JsonIgnore
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Company> company;
 
     @OneToMany(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Administrator> administrator;
@@ -136,14 +137,6 @@ public class RegisteredUser {
 		this.password = password;
 	}
 
-	public Company getCompany() {
-		return company;
-	}
-
-	public void setCompany(Company company) {
-		this.company = company;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -158,5 +151,17 @@ public class RegisteredUser {
 
     public void setAdministrator(List<Administrator> administrator) {
         this.administrator = administrator;
+    }
+
+    public List<Company> getCompany() {
+        return company;
+    }
+
+    public void setCompany(List<Company> company) {
+        this.company = company;
+    }
+
+    public List<Participating> getParticipatingList() {
+        return participatingList;
     }
 }
