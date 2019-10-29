@@ -39,12 +39,18 @@ public class Tour {
     @Column(name = "max_participants")
     private int maxParticipants;
 
+    @Column(name="location")
+    private String location;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "administrator_id")
     private Administrator administrator;
 
     @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
     private List<TourPhoto> photos;
+
+    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+    private List<Participating> participatingList;
 
     public Tour(){
         //Constructor for JPA

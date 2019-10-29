@@ -50,6 +50,10 @@ public class RegisteredUser {
     @OneToMany(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Administrator> administrator;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Participating> participatingList;
+
 	public RegisteredUser() {
         //Constructor for JPA
 	}

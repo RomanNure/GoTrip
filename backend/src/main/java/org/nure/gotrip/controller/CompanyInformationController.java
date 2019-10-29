@@ -1,11 +1,8 @@
 package org.nure.gotrip.controller;
 
 import org.nure.gotrip.controller.response.NotFoundException;
-import org.nure.gotrip.exception.NotFoundAdministratorException;
 import org.nure.gotrip.exception.NotFoundCompanyException;
-import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Company;
-import org.nure.gotrip.service.AdministratorService;
 import org.nure.gotrip.service.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,9 +33,9 @@ public class CompanyInformationController {
 	}
 
 	@GetMapping("/get/admin")
-    public ResponseEntity<Company> getByAdminId(@RequestParam long administratorId){
+    public ResponseEntity<Company> getByAdminId(@RequestParam long id){
 	    try {
-            Company company = companyService.findByAdmin(administratorId);
+            Company company = companyService.findByAdmin(id);
             return new ResponseEntity<>(company, HttpStatus.OK);
         } catch (NotFoundCompanyException e) {
             throw new NotFoundException(e.getMessage());

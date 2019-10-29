@@ -34,7 +34,7 @@ CREATE TABLE administrators
   company_id         bigserial not null
     constraint company_id_fk
       references company,
-   unique(registered_user_id, company_id)
+  unique (registered_user_id, company_id)
 );
 
 create table notification_types
@@ -67,24 +67,39 @@ create table guide
 
 create table tours
 (
-  tour_id          bigserial not null unique primary key,
-  administrator_id bigserial not null
+  tour_id          bigserial      not null unique primary key,
+  administrator_id bigserial      not null
     constraint tours_administrator_id_fk
       references administrators,
-  name varchar(70) not null,
-  description varchar not null,
+  name             varchar(70)    not null,
+  description      varchar        not null,
   price_per_person numeric(10, 2) not null,
   main_picture_url varchar,
-  start_date_time timestamp not null,
-  finish_date_time timestamp not null,
-  max_participants integer
+  start_date_time  timestamp      not null,
+  finish_date_time timestamp      not null,
+  max_participants integer,
+  location         varchar        not null
 );
 
 create table tour_photos
 (
   tour_photo_id bigserial not null unique primary key,
-  photo_url varchar not null,
-  tour_id bigserial not null
+  photo_url     varchar   not null,
+  tour_id       bigserial not null
     constraint tours_photos_tours_id_fk
       references tours
+);
+
+create table participating
+(
+  participating_id   bigserial not null unique primary key,
+  registered_user_id bigserial not null
+    constraint participating_user_id_fk
+      references registered_user,
+  tour_id            bigserial not null
+    constraint participating_tour_id_fk
+      references tours,
+  tour_rate          integer            default -1,
+  ticket_hash        varchar   not null default '-1',
+  guide_rate         integer            default -1
 );

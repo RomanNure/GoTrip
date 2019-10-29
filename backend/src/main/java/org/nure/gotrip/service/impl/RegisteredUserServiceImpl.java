@@ -2,7 +2,6 @@ package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.exception.NotUniqueUserException;
-import org.nure.gotrip.model.Company;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.repository.RegisteredUserRepository;
 import org.nure.gotrip.service.RegisteredUserService;
