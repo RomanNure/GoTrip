@@ -1,6 +1,5 @@
 package org.nure.gotrip.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -27,7 +26,6 @@ public class Company {
 	@Column(name = "company_id")
 	private long id;
 
-	@JsonIgnore
 	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "owner_id")
 	private RegisteredUser owner;
@@ -44,10 +42,21 @@ public class Company {
 	@Column(name = "image_link")
 	private String imageLink;
 
+	@Column(name = "domain")
+	private String domain;
+
+	@Column(name = "phone")
+	private String phone;
+
+	@Column(name = "address")
+	private String address;
+
 	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY)
 	private List<Administrator> administrators;
 
 	public Company() {
 		//Constructor for JPA
 	}
+
+
 }
