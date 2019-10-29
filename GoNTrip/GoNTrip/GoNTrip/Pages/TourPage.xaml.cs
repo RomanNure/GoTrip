@@ -2,6 +2,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Autofac;
+
 using Android.Views;
 
 using CustomControls;
@@ -13,6 +15,8 @@ using GoNTrip.Model;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.Pages.Additional.Popups.Templates;
+using GoNTrip.Controllers;
+using GoNTrip.ServerInteraction.ResponseParsers;
 
 namespace GoNTrip.Pages
 {
@@ -29,6 +33,8 @@ namespace GoNTrip.Pages
 
         private TourListPageMemento TourListPageMemento { get; set; }
         private Tour CurrentTour { get; set; }
+        private Company CurrentTourCompany { get; set; }
+        private User CurrentTourAdmin { get; set; }
 
         public TourPage(Tour tour, TourListPageMemento memento)
         {
@@ -37,21 +43,43 @@ namespace GoNTrip.Pages
 
             InitializeComponent();
 
-            TourMainImagePreview.WidthRequest = Width;
-            TourMainImagePreview.HeightRequest = Height;
-
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
-            PhotoCollection = new SwipablePhotoCollection(PopupControl);
 
+            TourMainImagePreview.WidthRequest = Width;
+            TourMainImagePreview.HeightRequest = Width;
+
+            PhotoCollection = new SwipablePhotoCollection(PopupControl);
             PhotoCollection.Add(TourMainImage);
+
+            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
         }
 
         private async void ContentPage_Appearing(object sender, System.EventArgs e)
         {
             PopupControl.OpenPopup(ActivityPopup);
+
+            try
+            {
+                CurrentTourAdmin = await GetCurrentTourAdminUserProfile(CurrentTour.administrator);
+                CurrentTourCompany = await GeteCurrentTourCompany(CurrentTour.administrator);
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+
+            PopupControl.OpenPopup(ActivityPopup);
             await LoadCurrentTour();
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
         }
+
+        private async Task<User> GetCurrentTourAdminUserProfile(Admin admin) => await App.DI.Resolve<GetUserByAdminController>().GetUserByAdmin(admin);
+        private async Task<Company> GeteCurrentTourCompany(Admin admin) => await App.DI.Resolve<GetCompanyByAdminController>().GetCompanyByAdmin(admin);
 
         private async Task LoadCurrentTour()
         {
@@ -63,14 +91,9 @@ namespace GoNTrip.Pages
 
             TourSecondaryImages.Children.Clear();
 
-            //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
-            //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
-            //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
-            //CurrentTour.images.Add(Constants.DEFAULT_TOUR_IMAGE_SOURCE);
-
-            double secondaryImageWidth = (Width - TourContentWrapper.Margin.Left 
-                                                - TourContentWrapper.Margin.Right 
-                                                - TourSecondaryImages.ColumnSpacing * (SECONDARY_IMAGES_COUNT_IN_ROW - 1)) 
+            double secondaryImageWidth = (Width - TourContentWrapper.Margin.Left
+                                                - TourContentWrapper.Margin.Right
+                                                - TourSecondaryImages.ColumnSpacing * (SECONDARY_IMAGES_COUNT_IN_ROW - 1))
                                           / SECONDARY_IMAGES_COUNT_IN_ROW;
 
             for (int i = 0; i < CurrentTour.photos.Count; i++)
@@ -119,6 +142,12 @@ namespace GoNTrip.Pages
                                          (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
                                          (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
             TourPlacesInfoLabel.Text = "0/" + CurrentTour.maxParticipants;
+
+            CompanyImage.Source = CurrentTourCompany == null || CurrentTourCompany.imageLink == null ? Constants.DEFAULT_COMPANY_AVATAR_IMAGE_SOURCE : CurrentTourCompany.imageLink;
+            OrganisatorCompanyName.Text = CurrentTourCompany == null ? String.Empty : CurrentTourCompany.name;
+
+            AdminAvatar.Source = CurrentTourAdmin == null || CurrentTourAdmin.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : CurrentTourAdmin.avatarUrl;
+            TourAdminName.Text = CurrentTourAdmin == null ? String.Empty : CurrentTourAdmin.login;
         }
 
         private bool TourMainImagePreview_OnClick(MotionEvent ME, IClickable sender)

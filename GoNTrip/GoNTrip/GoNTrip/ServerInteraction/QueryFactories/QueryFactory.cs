@@ -14,7 +14,7 @@ namespace GoNTrip.ServerInteraction.QueryFactories
     public abstract class QueryFactory
     {
         protected async Task<string> ExtractJsonQueryBody<T, R>(T item) where T : ModelElement
-                                                            where R : ExportField
+                                                            where R : QueryField
         {
             string body = "{ ";
 
@@ -33,7 +33,7 @@ namespace GoNTrip.ServerInteraction.QueryFactories
         }
 
         protected async Task<IDictionary<string, string>> ExtractQueryParameters<T, R>(T item) where T : ModelElement
-                                                                                               where R : ExportField
+                                                                                               where R : QueryField
         {
             IDictionary<string, string> data = new Dictionary<string, string>();
 

@@ -50,13 +50,13 @@ namespace GoNTrip.Pages
 
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
-
-            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
         }
 
         private async void ContentPage_Appearing(object sender, EventArgs e)
         {
             PopupControl.OpenPopup(ActivityPopup);
+
+            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             for (int i = 0; i < PAGE_TOURS_COUNT; i++)
             {
@@ -170,7 +170,10 @@ namespace GoNTrip.Pages
                 TourLayouts[i].OnClick += (ME, ctx) =>
                 {
                     if (ME.Action == MotionEventActions.Up)
+                    {
+                        PopupControl.OpenPopup(ActivityPopup);
                         App.Current.MainPage = new TourPage(tour, new TourListPageMemento(this));
+                    }
                     return false;
                 };
             }

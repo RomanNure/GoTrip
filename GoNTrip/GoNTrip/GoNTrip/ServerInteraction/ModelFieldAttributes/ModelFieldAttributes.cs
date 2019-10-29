@@ -2,11 +2,13 @@
 
 namespace GoNTrip.ServerInteraction.ModelFieldAttributes
 {
-    public class ExportField : Attribute { }
+    public class QueryField : Attribute { }
 
-    public class SignUpField : ExportField { }
-    public class LogInField : ExportField { }
-    public class GetProfileField : ExportField { }
-    public class UpdateProfileField : ExportField { }
-    public class GetAdministratedCompaniesField : ExportField { }
+    public class SignUpField : QueryField { }
+    public class LogInField : QueryField { }
+    public class GetProfileField : QueryField { }
+    public class UpdateProfileField : QueryField { }
+    public class GetAdministratedCompaniesField : QueryField { }
+    public class GetUserByAdminField : QueryField { }
+    public class GetCompanyByAdminField : QueryField { }
 }

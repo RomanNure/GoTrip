@@ -54,6 +54,12 @@ namespace GoNTrip.Pages
             builder.RegisterType<GetToursController>().SingleInstance().AsSelf();
             builder.RegisterType<GetToursQueryFactory>().SingleInstance().AsSelf();
 
+            builder.RegisterType<GetUserByAdminController>().SingleInstance().AsSelf();
+            builder.RegisterType<GetUserByAdminQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<GetCompanyByAdminController>().SingleInstance().AsSelf();
+            builder.RegisterType<GetCompanyByAdminQueryFactory>().SingleInstance().AsSelf();
+
             builder.RegisterType<TourListItemFactory>().SingleInstance().AsSelf();
             builder.RegisterType<Session>().SingleInstance().AsSelf();
 
