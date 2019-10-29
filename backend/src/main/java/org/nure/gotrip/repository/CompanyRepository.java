@@ -16,4 +16,8 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Query(value="SELECT DISTINCT company.company_id FROM company left join administrators on company.company_id = administrators.company_id WHERE " +
             "administrators.administrator_id = ?1", nativeQuery = true)
     BigInteger findByAdministrator(long administratorId);
+
+    @Query(value="SELECT DISTINCT company.company_id FROM company left join registered_user on company.owner_id = registered_user.registered_user_id WHERE " +
+            "registered_user.registered_user_id = ?1", nativeQuery = true)
+    Iterable<BigInteger> findByOwner(long id);
 }

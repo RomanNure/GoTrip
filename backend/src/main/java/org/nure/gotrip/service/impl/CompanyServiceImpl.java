@@ -11,6 +11,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class CompanyServiceImpl implements CompanyService {
@@ -57,5 +59,15 @@ public class CompanyServiceImpl implements CompanyService {
 	        throw new NotFoundCompanyException("Company was not found");
         }
 	    return companyRepository.findById(companyId.longValue()).orElseThrow(()->new NotFoundCompanyException("Company was not found"));
+    }
+
+    @Override
+    public List<Company> findByOwner(long id) throws NotFoundCompanyException {
+        Iterable<BigInteger> companyIds = companyRepository.findByOwner(id);
+        List<Company> result = new ArrayList<>();
+        for(BigInteger companyId : companyIds){
+            result.add(companyRepository.findById(companyId.longValue()).orElseThrow(()-> new NotFoundCompanyException("Company not found")));
+        }
+        return result;
     }
 }

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/company")
 public class CompanyInformationController {
@@ -36,6 +38,16 @@ public class CompanyInformationController {
     public ResponseEntity<Company> getByAdminId(@RequestParam long id){
 	    try {
             Company company = companyService.findByAdmin(id);
+            return new ResponseEntity<>(company, HttpStatus.OK);
+        } catch (NotFoundCompanyException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
+
+    @GetMapping("/get/owner")
+    public ResponseEntity<List<Company>> getByOwnerId(@RequestParam long id){
+        try {
+            List<Company> company = companyService.findByOwner(id);
             return new ResponseEntity<>(company, HttpStatus.OK);
         } catch (NotFoundCompanyException e) {
             throw new NotFoundException(e.getMessage());
