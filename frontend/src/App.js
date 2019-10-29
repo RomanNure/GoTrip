@@ -44,7 +44,7 @@ export default class App extends PureComponent {
     return (
       <div style={{ backgroundColor: "#eee", position:"absolute", top:0, left:0, right:0, bottom:0}}>
         <Header />
-        <div className="container-fluid" style={{ marginTop: 75, marginBottom: 135 }}>
+        <div className="container-fluid" style={{ minHeight: 640 }}>
           <Switch>
             <Route path="/" exact component={Home} />
             <Route path="/login" exact component={SignIn} />
