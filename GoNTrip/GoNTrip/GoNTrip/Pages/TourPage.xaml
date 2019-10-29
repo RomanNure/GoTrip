@@ -64,6 +64,8 @@
 
                                     </Grid>
 
+                                    <Button Style="{StaticResource CommonButton}" x:Name="JoinTourButton" Text="Join tour" Clicked="JoinTourButton_Clicked"/>
+
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
@@ -77,7 +79,7 @@
                                     </Frame>
 
                                     <Frame Style="{StaticResource OuterBorderFrame}">
-                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                        <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="AdminProfilePreview" OnClick="AdminProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
                                                 <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
@@ -85,11 +87,11 @@
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminName" Text="Tour admin" Grid.Row="1" Grid.Column="1"/>
 
                                             </Grid>
-                                        </Frame>
+                                        </customcontrols:ClickableFrame>
                                     </Frame>
 
                                     <Frame Style="{StaticResource OuterBorderFrame}">
-                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                        <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="GuideProfilePreview" OnClick="GuideProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
                                                 <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
@@ -97,7 +99,7 @@
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideName" Text="Tour guide" Grid.Row="1" Grid.Column="1"/>
 
                                             </Grid>
-                                        </Frame>
+                                        </customcontrols:ClickableFrame>
                                     </Frame>
 
                                     <Grid x:Name="TourMembers" ColumnSpacing="5" HorizontalOptions="CenterAndExpand">

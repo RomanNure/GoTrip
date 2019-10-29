@@ -35,6 +35,7 @@ namespace GoNTrip.Pages
         private Tour CurrentTour { get; set; }
         private Company CurrentTourCompany { get; set; }
         private User CurrentTourAdmin { get; set; }
+        private User CurrentTourGuide { get; set; }
 
         public TourPage(Tour tour, TourListPageMemento memento)
         {
@@ -121,13 +122,13 @@ namespace GoNTrip.Pages
                 TourSecondaryImages.Children.Add(img, i, 0);
 
                 SwipablePhotoPopup photo = new SwipablePhotoPopup();
+                Layout.Children.Add(photo);
+
+                photo.ImageSource = CurrentTour.photos[i].url;
 
                 photo.YTranslationBorder = Constants.PHOTO_POPUP_Y_TRANSLATION_BORDER;
                 photo.XTranslationBorder = Constants.PHOTO_POPUP_X_TRANSLATION_BORDER;
 
-                photo.ImageSource = CurrentTour.photos[i].url;
-
-                Layout.Children.Add(photo);
                 PhotoCollection.Add(photo);
             }
 
@@ -167,6 +168,27 @@ namespace GoNTrip.Pages
                 PopupControl.CloseTopPopup();
 
             return true;
+        }
+
+        private bool AdminProfilePreview_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if (ME.Action == MotionEventActions.Down)
+                OpenLinkedUser(CurrentTourAdmin);
+            return false;
+        }
+
+        private bool GuideProfilePreview_OnClick(MotionEvent ME, IClickable sender)
+        {
+            //if (ME.Action == MotionEventActions.Down)
+            //    OpenLinkedUser(CurrentTourGuide);
+            return false;
+        }
+
+        private void OpenLinkedUser(User user) => App.Current.MainPage = new OtherUserProfilePage(user);
+
+        private void JoinTourButton_Clicked(object sender, EventArgs e)
+        {
+
         }
     }
 }
