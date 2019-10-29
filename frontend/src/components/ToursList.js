@@ -28,25 +28,28 @@ export default class ToresList extends Component {
         return (
             <div className="container">
                 {this.state.tours && this.state.tours.length > 0 ?
-                    <div className="row">
+                    (<>
                         {this.state.tours.map(({ descr, title, img, time }) => {
-                            return <div className="col-md-6" >
-                                <div className="card rounded mb-4">
-                                    <img className="card-img-top" src={img} alt="Card image cap" style={{ height: 300 }} />
-                                    <div className="card-body">
-                                        <h2 className="card-title">{title}</h2>
-                                        <p className="card-text">{descr}</p>
-                                        <a href="#" className="btn waves-effect waves-light #81c784 green lighten-2">Read More &rarr;</a>
-                                    </div>
-                                    <div className="card-footer text-muted">
-                                        Posted on {time} by
+                            return <div className="row">
+                                <div className="col-md-8" >
+                                    <div className="card rounded mb-4">
+                                        <img className="card-img-top" src={img} alt="Card image cap" style={{ height: 300 }} />
+                                        <div className="card-body">
+                                            <h2 className="card-title">{title}</h2>
+                                            <p className="card-text">{descr}</p>
+                                            <a href="#" className="btn waves-effect waves-light #81c784 green lighten-2">Read More &rarr;</a>
+                                        </div>
+                                        <div className="card-footer text-muted">
+                                            Posted on {time} by
                                                 &nbsp;<a href="#">Some company</a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
+
                         })
                         }
-                    </div>
+                    </>)
                     :
                     <div className="mx-auto text-center" style={{ fontSize: 24 }}>No Tours yet :(</div>
                 }
