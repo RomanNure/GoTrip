@@ -136,7 +136,7 @@ namespace GoNTrip.Pages
                 PhotoCollection.Add(photo);
             }
 
-            TourName.Text = CurrentTour.name;
+            TourName.Text = CurrentTour.name;//add unknowns
             TourAbout.Text = CurrentTour.description;
             TourPriceInfoLabel.Text = CurrentTour.pricePerPerson + Constants.CURRENCY_SYMBOL;
             TourStartInfoLabel.Text = CurrentTour.startDateTime.ToString();
@@ -147,12 +147,15 @@ namespace GoNTrip.Pages
                                          (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
                                          (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
             TourPlacesInfoLabel.Text = CurrentTour.participatingList.Count + "/" + CurrentTour.maxParticipants;
+            TourLocationInfoLabel.Text = CurrentTour.location == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.location;
 
             CompanyImage.Source = CurrentTourCompany == null || CurrentTourCompany.imageLink == null ? Constants.DEFAULT_COMPANY_AVATAR_IMAGE_SOURCE : CurrentTourCompany.imageLink;
-            OrganisatorCompanyName.Text = CurrentTourCompany == null ? String.Empty : CurrentTourCompany.name;
+            OrganisatorCompanyName.Text = CurrentTourCompany == null || CurrentTourCompany.name == null ? String.Empty : CurrentTourCompany.name;
+            OrganisatorCompanyWebSite.Text = CurrentTourCompany == null || CurrentTourCompany.email == null ? String.Empty : CurrentTourCompany.email;
 
             AdminAvatar.Source = CurrentTourAdmin == null || CurrentTourAdmin.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : CurrentTourAdmin.avatarUrl;
-            TourAdminName.Text = CurrentTourAdmin == null ? String.Empty : CurrentTourAdmin.login;
+            TourAdminName.Text = CurrentTourAdmin == null || CurrentTourAdmin.login == null ? String.Empty : CurrentTourAdmin.login;
+            TourAdminEmail.Text = CurrentTourAdmin == null || CurrentTourAdmin.email == null ? String.Empty : CurrentTourAdmin.email;
 
             //CurrentTour.participatingList.Add(CurrentTourAdmin);
             //CurrentTour.participatingList.Add(App.DI.Resolve<Session>().CurrentUser);

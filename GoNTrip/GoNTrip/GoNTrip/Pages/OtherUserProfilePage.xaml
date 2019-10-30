@@ -105,6 +105,13 @@
 
                                 <Grid Style="{StaticResource InfoGrid}" Grid.Row="0" Grid.Column="1">
 
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="22*"/>
                                         <ColumnDefinition Width="78*"/>

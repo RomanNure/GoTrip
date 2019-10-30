@@ -19,8 +19,10 @@ namespace GoNTrip.Pages.Additional.Controls
         private Label placesLabel { get; set; }
         private Label startEndLabel { get; set; }
 
-        private const int MAX_NAME_SYMBOLS = 20;
-        private const int MAX_DESCRIPTION_SYMBOLS = 80;
+        private const int MAX_NAME_SYMBOLS = 15;
+        private const int MAX_DESCRIPTION_SYMBOLS = 50;
+        private const int MAX_LOCATION_SYMBOLS = 15;
+
         private const string TOO_LONG_STRING_PROLONGATOR = "...";
 
         private const string PRICE_PLACEHOLDER_TEXT = "Price: ";
@@ -107,15 +109,16 @@ namespace GoNTrip.Pages.Additional.Controls
         {
             image.Source = tour.mainPictureUrl == null ? TOUR_IMAGE_DEFAULT_SOURCE : tour.mainPictureUrl;
 
-            nameLabel.Text = tour.name == null ? string.Empty : (tour.name.Length > MAX_NAME_SYMBOLS ? 
+            nameLabel.Text = tour.name == null ? Constants.UNKNOWN_FILED_VALUE : (tour.name.Length > MAX_NAME_SYMBOLS ? 
                 tour.name.Substring(0, MAX_NAME_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.name);
 
             nameLabel.Text += " " + tour.id;
 
-            descriptionLabel.Text = tour.description == null ? string.Empty : (tour.description.Length > MAX_DESCRIPTION_SYMBOLS ?
+            descriptionLabel.Text = tour.description == null ? Constants.UNKNOWN_FILED_VALUE : (tour.description.Length > MAX_DESCRIPTION_SYMBOLS ?
                 tour.description.Substring(0, MAX_DESCRIPTION_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.description);
 
-            locationLabel.Text = tour.location == null ? Constants.UNKNOWN_FILED_VALUE : tour.location;
+            locationLabel.Text = tour.location == null ? Constants.UNKNOWN_FILED_VALUE : (tour.location.Length > MAX_LOCATION_SYMBOLS ?
+                tour.location.Substring(0, MAX_LOCATION_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.location);
 
             priceLabel.Text = tour.pricePerPerson + Constants.CURRENCY_SYMBOL;
             placesLabel.Text = tour.participatingList.Count + "/" + tour.maxParticipants;

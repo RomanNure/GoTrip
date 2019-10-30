@@ -41,6 +41,15 @@
 
                                     <Grid Style="{StaticResource InfoGrid}">
 
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="Auto"/>
+                                            <RowDefinition Height="*"/>
+                                        </Grid.RowDefinitions>
+                                        
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="40*"/>
                                             <ColumnDefinition Width="60*"/>
@@ -60,6 +69,9 @@
 
                                         <Label Style="{StaticResource InfoCell}" Grid.Row="4" Grid.Column="0" Text="Places:"/>
                                         <Label Style="{StaticResource InfoCell}" x:Name="TourPlacesInfoLabel" Grid.Row="4" Grid.Column="1"/>
+                                        
+                                        <Label Style="{StaticResource InfoCell}" Grid.Row="5" Grid.Column="0" Text="Location:"/>
+                                        <Label Style="{StaticResource InfoCell}" x:Name="TourLocationInfoLabel" Grid.Row="5" Grid.Column="1"/>
 
                                     </Grid>
 
@@ -69,9 +81,10 @@
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="CompanyImage" Source="DefaultTourIcon.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="CompanyImage" Source="DefaultTourIcon.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Organizator company" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="OrganisatorCompanyName" Text="Some company" Grid.Row="1" Grid.Column="1"/>
+                                                <Label Style="{StaticResource InfoLabel}" x:Name="OrganisatorCompanyWebSite" Text="Company domain" Grid.Row="2" Grid.Column="1"/>
 
                                             </Grid>
                                         </Frame>
@@ -81,9 +94,10 @@
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="AdminProfilePreview" OnClick="AdminProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" OnClick="AdminProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" OnClick="AdminProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Tour administrator" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminName" Text="Tour admin" Grid.Row="1" Grid.Column="1"/>
+                                                <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminEmail" Text="Admin email" Grid.Row="2" Grid.Column="1"/>
 
                                             </Grid>
                                         </customcontrols:ClickableFrame>
@@ -93,9 +107,10 @@
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="GuideProfilePreview" OnClick="GuideProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" OnClick="GuideProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" OnClick="GuideProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Tour guide" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideName" Text="Tour guide" Grid.Row="1" Grid.Column="1"/>
+                                                <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideEmail" Text="Guide email" Grid.Row="2" Grid.Column="1"/>
 
                                             </Grid>
                                         </customcontrols:ClickableFrame>
