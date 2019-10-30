@@ -50,3 +50,16 @@ textarea#exampleTextarea {
 #username {
   margin-left: 8px;
 }
+
+.head-image-wrapper {
+}
+
+.head-image-wrapper img {
+    width: 1108px;
+    height: 350px;
+}
+
+.image-wrapper img {
+    width: 350px;
+    height: 200px;
+}

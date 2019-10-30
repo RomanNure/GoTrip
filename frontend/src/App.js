@@ -18,6 +18,8 @@ import NotFound from './components/NotFound.js';
 import cookie from 'react-cookies'
 import Footer from './components/Footer.js';
 import ToursList from "./components/ToursList";
+import AddAdmin from "./components/AddAdmin";
+import TourPage from "./components/TourPage";
 
 export default class App extends PureComponent {
   constructor(props) {
@@ -52,6 +54,8 @@ export default class App extends PureComponent {
             <Route path="/registration" exact component={SignUp} />
 
             <Route path="/create-company" exact component={CreateCompany} />
+            <Route path="/add-admin" exact component={AddAdmin} />
+            <Route path="/tour-page" exact component={TourPage} />
             <Route path="/employee-list" exact component={EmployeeList} />
             <Route path="/tours-list" exact component={ToursList} />
 
