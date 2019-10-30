@@ -197,6 +197,9 @@ namespace GoNTrip.Pages
                 session.CurrentUser.phone = PhoneEntry.Text;
 
                 session.CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(session.CurrentUser);
+                session.CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(session.CurrentUser);
+                session.CurrentUser.OwnedCompanies = await App.DI.Resolve<GetOwnedCompaniesController>().GetOwnedCompanies(session.CurrentUser);
+
                 LoadCurrentUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
@@ -243,7 +246,10 @@ namespace GoNTrip.Pages
             {
                 Session session = App.DI.Resolve<Session>();
                 session.CurrentUser.description = UserAbout.Text;
+
                 session.CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(session.CurrentUser);
+                session.CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(session.CurrentUser);
+                session.CurrentUser.OwnedCompanies = await App.DI.Resolve<GetOwnedCompaniesController>().GetOwnedCompanies(session.CurrentUser);
 
                 LoadCurrentUserProfile();
 
