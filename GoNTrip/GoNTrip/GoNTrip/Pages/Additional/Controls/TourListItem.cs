@@ -10,7 +10,7 @@ namespace GoNTrip.Pages.Additional.Controls
 {
     public class TourListItem : ClickableFrame
     {
-        private Img image { get; set; }
+        public Img image { get; private set; }
         private Label nameLabel { get; set; }
         private Label descriptionLabel { get; set; }
 
@@ -84,13 +84,13 @@ namespace GoNTrip.Pages.Additional.Controls
 
         public TourListItem() => BuildLayout();
 
-        public TourListItem(Tour tour, int numInList, int currentParticipants = 0)
+        public TourListItem(Tour tour, int numInList)
         {
             BuildLayout();
-            Fill(tour, currentParticipants, numInList);
+            Fill(tour, numInList);
         }
 
-        public void Fill(Tour tour, int numInList, int currentParticipants = 0)
+        public void Fill(Tour tour, int numInList)
         {
             image.Source = tour.mainPictureUrl == null ? TOUR_IMAGE_DEFAULT_SOURCE : tour.mainPictureUrl;
 
@@ -103,7 +103,7 @@ namespace GoNTrip.Pages.Additional.Controls
                 tour.description.Substring(0, MAX_DESCRIPTION_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.description);
 
             priceLabel.Text = tour.pricePerPerson + Constants.CURRENCY_SYMBOL;
-            placesLabel.Text = currentParticipants + "/" + tour.maxParticipants;
+            placesLabel.Text = tour.participatingList.Count + "/" + tour.maxParticipants;
             startEndLabel.Text = tour.startDateTime.ToShortDateString() + " - " + tour.finishDateTime.ToShortDateString();
         }
 

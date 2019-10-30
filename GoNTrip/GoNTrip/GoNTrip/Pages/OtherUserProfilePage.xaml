@@ -4,16 +4,150 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
+             xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             xmlns:popups="clr-namespace:GoNTrip.Pages.Additional.Popups"
+             xmlns:local="clr-namespace:CustomControls;assembly=CustomControls"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.OtherUserProfilePage"
              Appearing="ContentPage_Appearing">
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <x:Double x:Key="AvatarWidth">130</x:Double>
+            <x:Double x:Key="AvatarHeight">130</x:Double>
+
+            <x:Double x:Key="AvatarChangeButtonWidth">36</x:Double>
+            <x:Double x:Key="AvatarChangeButtonHeight">36</x:Double>
+
+            <Style x:Key="ProfileWrapper" TargetType="Grid">
+                <Setter Property="Margin" Value="5,5,5,5"/>
+                <Setter Property="ColumnSpacing" Value="5"/>
+                <Setter Property="RowSpacing" Value="5"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="Avatar" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
+            </Style>
+
+            <Style x:Key="AvatarChangeButton" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarChangeButtonWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarChangeButtonHeight}"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="92,2,36,36"/>
+            </Style>
+
+            <Style x:Key="AvatarWrapper" TargetType="AbsoluteLayout">
+                <Setter Property="WidthRequest" Value="{StaticResource AvatarWidth}"/>
+                <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="UserAbout" TargetType="Editor">
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="UserAboutButton" TargetType="local:Img">
+                <Setter Property="WidthRequest" Value="20"/>
+                <Setter Property="HeightRequest" Value="20"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
-        <StackLayout>
+        <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
 
-            <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50"/>
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
 
-        </StackLayout>
+                        <Grid Style="{StaticResource PageContent}">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="1"/>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Style="{StaticResource HeaderBar}" Grid.Row="0" Grid.Column="0">
+                                <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
+                            </Grid>
+
+                            <BoxView BackgroundColor="{StaticResource ContentBackColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0"/>
+                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HorizontalTextAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+
+                            <Grid Style="{StaticResource ProfileWrapper}" Grid.Row="3" Grid.Column="0">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="100"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="130"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" Grid.Row="0" Grid.Column="0" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
+
+                                <Grid Style="{StaticResource InfoGrid}" Grid.Row="0" Grid.Column="1">
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="22*"/>
+                                        <ColumnDefinition Width="78*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Label Style="{StaticResource InfoCell}" Grid.Row="0" Grid.Column="0" Text="Login:"/>
+                                    <Label Style="{StaticResource InfoCell}"  x:Name="LoginInfoLabel" Grid.Row="0" Grid.Column="1"/>
+
+                                    <Label Style="{StaticResource InfoCell}" Grid.Row="1" Grid.Column="0" Text="Name:"/>
+                                    <Label Style="{StaticResource InfoCell}"  x:Name="NameInfoLabel" Grid.Row="1" Grid.Column="1"/>
+
+                                    <Label Style="{StaticResource InfoCell}" Grid.Row="2" Grid.Column="0" Text="Email:"/>
+                                    <Label Style="{StaticResource InfoCell}" x:Name="EmailInfoLabel" Grid.Row="2" Grid.Column="1"/>
+
+                                    <Label Style="{StaticResource InfoCell}" Grid.Row="3" Grid.Column="0" Text="Phone:"/>
+                                    <Label Style="{StaticResource InfoCell}" x:Name="PhoneInfoLabel" Grid.Row="3" Grid.Column="1"/>
+
+                                </Grid>
+
+                                <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.ColumnSpan="2">
+                                    <Frame Style="{StaticResource InnerBorderFrame}" >
+                                        <Editor Style="{StaticResource UserAbout}" x:Name="UserAbout" Placeholder="Write about yourself..." Grid.RowSpan="3" Grid.ColumnSpan="2"/>
+                                    </Frame>
+                                </Frame>
+
+                                <ScrollView x:Name="UserVisitedTours" Grid.Row="2" Grid.ColumnSpan="2">
+                                    <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+
+                                        <!--Tours-->
+
+                                    </StackLayout>
+                                </ScrollView>
+
+                            </Grid>
+
+                            <controls:DefaultNavigationPanel x:Name="Navigator" Grid.Row="4" Grid.Column="0"/>
+                        </Grid>
+
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultAvatar.png"/>
+
+        </AbsoluteLayout>
     </ContentPage.Content>
-    
+
 </ContentPage>

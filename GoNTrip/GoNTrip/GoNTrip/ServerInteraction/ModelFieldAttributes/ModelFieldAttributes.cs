@@ -11,4 +11,5 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class GetAdministratedCompaniesField : QueryField { }
     public class GetUserByAdminField : QueryField { }
     public class GetCompanyByAdminField : QueryField { }
+    public class GetOwnedCompaniesField : QueryField { }
 }

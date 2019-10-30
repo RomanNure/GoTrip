@@ -14,6 +14,7 @@ namespace GoNTrip.Model
     public class User : ModelElement
     {
         [GetAdministratedCompaniesField]
+        [GetOwnedCompaniesField]
         [UpdateProfileField]
         [GetProfileField]
         [JsonRequired]
@@ -55,10 +56,10 @@ namespace GoNTrip.Model
         public string description { get; set; }
 
         [UpdateProfileField]
-        public Company company { get; set; }
-
-        [UpdateProfileField]
         public List<Admin> administrator { get; set; }
+
+        [JsonIgnore]
+        public List<Company> OwnedCompanies { get; set; }
 
         [JsonIgnore]
         public List<Company> AdministratedCompanies { get; set; }

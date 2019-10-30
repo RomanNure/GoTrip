@@ -81,7 +81,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="1"/>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
@@ -100,7 +100,7 @@
                             </Grid>
 
                             <BoxView BackgroundColor="{StaticResource ContentBackColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0"/>
-                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HorizontalTextAlignment="Center" Grid.Row="2" Grid.Column="0"/>
+                            <Label Style="{StaticResource LabelBar}" x:Name="AdditionalUserInfo" HeightRequest="-1" HorizontalTextAlignment="Center" Grid.Row="2" Grid.Column="0"/>
 
                             <Grid Style="{StaticResource ProfileWrapper}" Grid.Row="3" Grid.Column="0">
 

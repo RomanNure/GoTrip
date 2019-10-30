@@ -142,7 +142,7 @@ namespace GoNTrip.Pages
             TourDurationInfoLabel.Text = (duration.Days == 0 ? "" : duration.Days + " days ") +
                                          (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
                                          (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
-            TourPlacesInfoLabel.Text = "0/" + CurrentTour.maxParticipants;
+            TourPlacesInfoLabel.Text = CurrentTour.participatingList.Count + "/" + CurrentTour.maxParticipants;
 
             CompanyImage.Source = CurrentTourCompany == null || CurrentTourCompany.imageLink == null ? Constants.DEFAULT_COMPANY_AVATAR_IMAGE_SOURCE : CurrentTourCompany.imageLink;
             OrganisatorCompanyName.Text = CurrentTourCompany == null ? String.Empty : CurrentTourCompany.name;
@@ -172,19 +172,26 @@ namespace GoNTrip.Pages
 
         private bool AdminProfilePreview_OnClick(MotionEvent ME, IClickable sender)
         {
-            if (ME.Action == MotionEventActions.Down)
+            if (ME.Action == MotionEventActions.Up)
                 OpenLinkedUser(CurrentTourAdmin);
             return false;
         }
 
         private bool GuideProfilePreview_OnClick(MotionEvent ME, IClickable sender)
         {
-            //if (ME.Action == MotionEventActions.Down)
+            //if (ME.Action == MotionEventActions.Up)
             //    OpenLinkedUser(CurrentTourGuide);
             return false;
         }
 
-        private void OpenLinkedUser(User user) => App.Current.MainPage = new OtherUserProfilePage(user);
+        private void OpenLinkedUser(User user)
+        {
+            ObjectBuilder tourPageBuilder = new ObjectBuilder(typeof(TourPage), 
+                new Type[] { typeof(Tour), typeof(TourListPageMemento) }, 
+                new object[] { CurrentTour, TourListPageMemento }
+            );
+            App.Current.MainPage = new OtherUserProfilePage(user, tourPageBuilder);
+        }
 
         private void JoinTourButton_Clicked(object sender, EventArgs e)
         {

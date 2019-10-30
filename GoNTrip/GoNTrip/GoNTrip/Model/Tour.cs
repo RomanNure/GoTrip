@@ -10,6 +10,7 @@ namespace GoNTrip.Model
     {
         public long id { get; set; }
         public string name { get; set; }
+        public string location { get; set; }
         public string description { get; set; }
         public double pricePerPerson { get; set; }
         public string mainPictureUrl { get; set; }
@@ -18,6 +19,7 @@ namespace GoNTrip.Model
         public int maxParticipants { get; set; }
         public Admin administrator { get; set; }
         public List<Photo> photos { get; set; }
+        public List<object> participatingList { get; set; }
 
         public Tour() { }
     }

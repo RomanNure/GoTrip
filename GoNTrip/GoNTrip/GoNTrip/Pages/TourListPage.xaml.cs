@@ -167,8 +167,7 @@ namespace GoNTrip.Pages
                 TourLayouts[i].IsVisible = true;
 
                 Tour tour = tours[i];
-                TourLayouts[i].OnClick += (ME, ctx) =>
-                {
+                Clicked tourClicked = (ME, ctx) => {
                     if (ME.Action == MotionEventActions.Up)
                     {
                         PopupControl.OpenPopup(ActivityPopup);
@@ -176,6 +175,9 @@ namespace GoNTrip.Pages
                     }
                     return false;
                 };
+
+                TourLayouts[i].OnClick += tourClicked;
+                TourLayouts[i].image.OnClick += tourClicked;
             }
 
             for (int i = tours.Count; i < PAGE_TOURS_COUNT; i++)

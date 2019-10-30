@@ -65,6 +65,7 @@ namespace GoNTrip.Pages
                 Session session = App.DI.Resolve<Session>();
                 session.CurrentUser = await App.DI.Resolve<GetProfileController>().GetUserById(session.CurrentUser.id);
                 session.CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(session.CurrentUser);
+                session.CurrentUser.OwnedCompanies = await App.DI.Resolve<GetOwnedCompaniesController>().GetOwnedCompanies(session.CurrentUser);
 
                 LoadCurrentUserProfile();
 
@@ -115,8 +116,10 @@ namespace GoNTrip.Pages
 
                 UserAbout.Text = CurrentUser.description == null ? String.Empty : CurrentUser.description;
 
-                AdditionalUserInfo.Text = CurrentUser.company != null ? $"Owner of {CurrentUser.company.name}" :
-                                         (CurrentUser.administrator.Count != 0 ? $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}" : "");
+                string owned = CurrentUser.OwnedCompanies.Count == 0 ? "" : $"Owner of {String.Join(", ", CurrentUser.OwnedCompanies)}";
+                string admined = CurrentUser.AdministratedCompanies.Count == 0 ? "" : $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}";
+
+                AdditionalUserInfo.Text = String.Join("\n", new string[] { owned, admined }).Trim();
 
                 AvatarView.Sign.Text = login + (AdditionalUserInfo.Text == "" ? "" : " - " + AdditionalUserInfo.Text);
                 AvatarView.Sign.HorizontalTextAlignment = Xamarin.Forms.TextAlignment.Center;

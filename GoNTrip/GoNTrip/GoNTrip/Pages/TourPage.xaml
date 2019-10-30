@@ -82,7 +82,7 @@
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="AdminProfilePreview" OnClick="AdminProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" OnClick="AdminProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Tour administrator" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminName" Text="Tour admin" Grid.Row="1" Grid.Column="1"/>
 
@@ -94,7 +94,7 @@
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="GuideProfilePreview" OnClick="GuideProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" OnClick="GuideProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="2" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Tour guide" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideName" Text="Tour guide" Grid.Row="1" Grid.Column="1"/>
 
