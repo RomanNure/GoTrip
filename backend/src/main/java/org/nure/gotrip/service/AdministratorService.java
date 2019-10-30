@@ -9,4 +9,7 @@ public interface AdministratorService {
 	Administrator addAdministrator(Administrator administrator) throws NotUniqueAdministratorException;
 
 	Administrator getById(long id) throws NotFoundAdministratorException;
+
+	Administrator update(Administrator administrator);
+
 }

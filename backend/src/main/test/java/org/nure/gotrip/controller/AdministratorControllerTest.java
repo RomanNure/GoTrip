@@ -49,7 +49,7 @@ public class AdministratorControllerTest {
 		Administrator administrator = Mockito.mock(Administrator.class);
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
-		administratorDto.setUserId(1L);
+		//administratorDto.setUserId(1L);
 		administratorDto.setCompanyId(1L);
 
 		Mockito.when(registeredUserService.findById(1L)).thenReturn(registeredUser);
@@ -70,7 +70,7 @@ public class AdministratorControllerTest {
 		Administrator administrator = Mockito.mock(Administrator.class);
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
-		administratorDto.setUserId(1L);
+		//administratorDto.setUserId(1L);
 		administratorDto.setCompanyId(1L);
 
 		Mockito.when(registeredUserService.findById(1L)).thenThrow(NotFoundUserException.class);
@@ -91,7 +91,7 @@ public class AdministratorControllerTest {
 		Administrator administrator = Mockito.mock(Administrator.class);
 		GsonJsonProvider gsonJsonProvider = new GsonJsonProvider();
 
-		administratorDto.setUserId(1L);
+		//administratorDto.setUserId(1L);
 		administratorDto.setCompanyId(1L);
 
 		Mockito.when(registeredUserService.findById(1L)).thenReturn(registeredUser);

@@ -32,4 +32,10 @@ public class AdministratorServiceImpl implements AdministratorService {
 	public Administrator getById(long id) throws NotFoundAdministratorException {
 		return administratorRepository.findById(id).orElseThrow(() -> new NotFoundAdministratorException("Company with such name does not exist"));
 	}
+
+	@Override
+	public Administrator update(Administrator administrator) {
+		return administratorRepository.save(administrator);
+	}
+
 }

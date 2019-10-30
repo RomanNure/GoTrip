@@ -44,6 +44,11 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		return registeredUserRepository.findById(id).orElseThrow(() -> new NotFoundUserException("User did not find by id"));
 	}
 
+	@Override
+	public RegisteredUser findByEmail(String email) throws NotFoundUserException {
+		return registeredUserRepository.findByEmail(email).orElseThrow(() -> new NotFoundUserException("User did not find by email"));
+	}
+
 	public Iterable<RegisteredUser> findAll() {
 		return registeredUserRepository.findAll();
 	}
