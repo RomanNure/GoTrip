@@ -41,7 +41,6 @@
 
                                     <Grid Style="{StaticResource InfoGrid}">
 
-                                        <!--Tour info-->
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="40*"/>
                                             <ColumnDefinition Width="60*"/>
@@ -102,11 +101,15 @@
                                         </customcontrols:ClickableFrame>
                                     </Frame>
 
-                                    <Grid x:Name="TourMembers" ColumnSpacing="5" HorizontalOptions="CenterAndExpand">
-
-                                        <!--Members info-->
-
-                                    </Grid>
+                                    <Frame Style="{StaticResource OuterBorderFrame}" x:Name="TourMembersWrapper" IsVisible="False">
+                                        <Frame Style="{StaticResource InnerBorderFrame}">
+                                            <Grid x:Name="TourMembers" ColumnSpacing="5" RowSpacing="5" HorizontalOptions="CenterAndExpand" BackgroundColor="{StaticResource ContentBackColor}">
+                                                
+                                                
+                                                
+                                            </Grid>
+                                        </Frame>
+                                    </Frame>
 
                                 </StackLayout>
                             </StackLayout>

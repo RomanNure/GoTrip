@@ -73,6 +73,14 @@ namespace GoNTrip.Model
             this.email = email;
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj == null || !obj.GetType().Equals(typeof(User)))
+                return false;
+
+            return (obj as User).id == id;
+        }
+
         public void UpdateAvatarUrl(string path) => avatarUrl = path == null ? avatarUrl : path;
     }
 }

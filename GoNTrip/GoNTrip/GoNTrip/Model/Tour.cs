@@ -19,7 +19,7 @@ namespace GoNTrip.Model
         public int maxParticipants { get; set; }
         public Admin administrator { get; set; }
         public List<Photo> photos { get; set; }
-        public List<object> participatingList { get; set; }
+        public List<Participating> participatingList { get; set; }
 
         public Tour() { }
     }

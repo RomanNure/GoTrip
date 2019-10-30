@@ -32,10 +32,10 @@
                 <Setter Property="HeightRequest" Value="{StaticResource AvatarHeight}"/>
             </Style>
 
-            <Style x:Key="AvatarChangeButton" TargetType="local:Img">
+            <Style x:Key="SendMessageButton" TargetType="local:Img">
                 <Setter Property="WidthRequest" Value="{StaticResource AvatarChangeButtonWidth}"/>
                 <Setter Property="HeightRequest" Value="{StaticResource AvatarChangeButtonHeight}"/>
-                <Setter Property="AbsoluteLayout.LayoutBounds" Value="92,2,36,36"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="92,92,36,36"/>
             </Style>
 
             <Style x:Key="AvatarWrapper" TargetType="AbsoluteLayout">
@@ -97,7 +97,11 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" Grid.Row="0" Grid.Column="0" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
+                                <AbsoluteLayout Style="{StaticResource AvatarWrapper}" Grid.Row="0" Grid.Column="0">
+                                    <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
+                                    <local:Img Style="{StaticResource SendMessageButton}" x:Name="SendMessage" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="SendMessage_OnClick" BorderRadius="0" 
+                                               BotRightBorderRadius="14" TopLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="sendMessage.png"/>
+                                </AbsoluteLayout>
 
                                 <Grid Style="{StaticResource InfoGrid}" Grid.Row="0" Grid.Column="1">
 
@@ -135,8 +139,7 @@
                                 </ScrollView>
 
                             </Grid>
-
-                            <controls:DefaultNavigationPanel x:Name="Navigator" Grid.Row="4" Grid.Column="0"/>
+                            
                         </Grid>
 
                     </StackLayout>

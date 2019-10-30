@@ -14,6 +14,7 @@ namespace GoNTrip.Pages.Additional.Controls
         private Label nameLabel { get; set; }
         private Label descriptionLabel { get; set; }
 
+        private Label locationLabel { get; set; }
         private Label priceLabel { get; set; }
         private Label placesLabel { get; set; }
         private Label startEndLabel { get; set; }
@@ -24,6 +25,10 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private const string PRICE_PLACEHOLDER_TEXT = "Price: ";
         private const string PLACES_PLACEHOLDER_TEXT = "Places: ";
+        private const string LOCATION_PLACEHOLDER_TEXT = "Location: ";
+
+        private static readonly Style PLACEHOLDER_LABEL_STYLE = (Style)App.Current.Resources["PlaceholderLabelFill"];
+        private static readonly Style INFO_LABEL_STYLE = (Style)App.Current.Resources["InfoLabelFill"];
 
         private const string OUTER_FRAME_CLASS_NAME = "OuterBorderFrame";
         private static readonly Thickness OUTER_FRAME_MARGIN = new Thickness(6, 3, 6, 3);
@@ -33,7 +38,7 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private const string TOUR_IMAGE_CLASS_NAME = "TourPreviewMainImage";
         private const int TOUR_IMAGE_ROW_START = 0;
-        private const int TOUR_IMAGE_ROW_END = 3;
+        private const int TOUR_IMAGE_ROW_END = 4;
         private const int TOUR_IMAGE_COLUMN_START = 0;
         private const int TOUR_IMAGE_COLUMN_END = 1;
         private const bool TOUR_IMAGE_BORDER_ALWAYS = false;
@@ -42,45 +47,53 @@ namespace GoNTrip.Pages.Additional.Controls
         private const string TOUR_IMAGE_DEFAULT_SOURCE = Constants.DEFAULT_TOUR_IMAGE_SOURCE;
 
         private const string TOUR_NAME_CLASS_NAME = "TourPreviewNameLabel";
-        private const int TOUR_NAME_ROW = 0;
-        private const int TOUR_NAME_COLUMN = 1;
+        private const int TOUR_NAME_ROW_START = 0;
+        private const int TOUR_NAME_ROW_END = 1;
+        private const int TOUR_NAME_COLUMN_START = 1;
+        private const int TOUR_NAME_COLUMN_END = 3;
         private static readonly LayoutOptions TOUR_NAME_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
-        private const string TOUR_DESCRIPTION_CLASS_NAME = "PlaceholderLabel";
-        private const int TOUR_DESCRIPTION_ROW = 1;
-        private const int TOUR_DESCRIPTION_COLUMN = 1;
-        private static readonly LayoutOptions TOUR_DESCRIPTION_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
+        private static readonly Style TOUR_DESCRIPTION_CLASS = PLACEHOLDER_LABEL_STYLE;
+        private const int TOUR_DESCRIPTION_ROW_START = 1;
+        private const int TOUR_DESCRIPTION_ROW_END = 2;
+        private const int TOUR_DESCRIPTION_COLUMN_START = 1;
+        private const int TOUR_DESCRIPTION_COLUMN_END = 3;
+
+        private static readonly Style TOUR_LOCATION_PLACEHOLDER_CLASS = PLACEHOLDER_LABEL_STYLE;
+        private const int TOUR_LOCATION_PLACEHOLDER_ROW = 2;
+        private const int TOUR_LOCATION_PLACEHOLDER_COLUMN = 1;
+
+        private static readonly Style TOUR_LOCATION_CLASS = INFO_LABEL_STYLE;
+        private const int TOUR_LOCATION_ROW = 2;
+        private const int TOUR_LOCATION_COLUMN = 2;
 
         private const string TOUR_INFO_WRAPPER_CLASS_NAME = "TourPreviewInfoWrapper";
-        private const int TOUR_INFO_WRAPPER_ROW = 2;
-        private const int TOUR_INFO_WRAPPER_COLUMN = 1;
+        private const int TOUR_INFO_WRAPPER_ROW_START = 3;
+        private const int TOUR_INFO_WRAPPER_ROW_END = 4;
+        private const int TOUR_INFO_WRAPPER_COLUMN_START = 1;
+        private const int TOUR_INFO_WRAPPER_COLUMN_END = 3;
 
-        private const string TOUR_PRICE_PLACEHOLDER_CLASS_NAME = "PlaceholderLabel";
+        private static readonly Style TOUR_PRICE_PLACEHOLDER_CLASS = PLACEHOLDER_LABEL_STYLE;
         private const int TOUR_PRICE_PLACEHOLDER_ROW = 0;
         private const int TOUR_PRICE_PLACEHOLDER_COLUMN = 0;
-        private static readonly LayoutOptions TOUR_PRICE_PLACEHOLDER_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
-        private const string TOUR_PRICE_CLASS_NAME = "InfoLabel";
+        private static readonly Style TOUR_PRICE_CLASS = INFO_LABEL_STYLE;
         private const int TOUR_PRICE_ROW = 0;
         private const int TOUR_PRICE_COLUMN = 1;
-        private static readonly LayoutOptions TOUR_PRICE_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
-        private const string TOUR_PLACES_PLACEHOLDER_CLASS_NAME = "PlaceholderLabel";
+        private static readonly Style TOUR_PLACES_PLACEHOLDER_CLASS = PLACEHOLDER_LABEL_STYLE;
         private const int TOUR_PLACES_PLACEHOLDER_ROW = 0;
         private const int TOUR_PLACES_PLACEHOLDER_COLUMN = 2;
-        private static readonly LayoutOptions TOUR_PLACES_PLACEHOLDER_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
-        private const string TOUR_PLACES_CLASS_NAME = "InfoLabel";
+        private static readonly Style TOUR_PLACES_CLASS = INFO_LABEL_STYLE;
         private const int TOUR_PLACES_ROW = 0;
         private const int TOUR_PLACES_COLUMN = 3;
-        private static readonly LayoutOptions TOUR_PLACES_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
-        private const string TOUR_START_END_CLASS_NAME = "InfoLabel";
+        private static readonly Style TOUR_START_END_CLASS = INFO_LABEL_STYLE;
         private const int TOUR_START_END_ROW_START = 1;
         private const int TOUR_START_END_ROW_END = 2;
         private const int TOUR_START_END_COLUMN_START = 0;
         private const int TOUR_START_END_COLUMN_END = 3;
-        private static readonly LayoutOptions TOUR_START_END_HORISONTAL_OPTIONS = LayoutOptions.FillAndExpand;
 
         public TourListItem() => BuildLayout();
 
@@ -101,6 +114,8 @@ namespace GoNTrip.Pages.Additional.Controls
 
             descriptionLabel.Text = tour.description == null ? string.Empty : (tour.description.Length > MAX_DESCRIPTION_SYMBOLS ?
                 tour.description.Substring(0, MAX_DESCRIPTION_SYMBOLS - TOO_LONG_STRING_PROLONGATOR.Length) + TOO_LONG_STRING_PROLONGATOR : tour.description);
+
+            locationLabel.Text = tour.location == null ? Constants.UNKNOWN_FILED_VALUE : tour.location;
 
             priceLabel.Text = tour.pricePerPerson + Constants.CURRENCY_SYMBOL;
             placesLabel.Text = tour.participatingList.Count + "/" + tour.maxParticipants;
@@ -131,42 +146,45 @@ namespace GoNTrip.Pages.Additional.Controls
             nameLabel = new Label();
             nameLabel.Style = (Style)App.Current.Resources[TOUR_NAME_CLASS_NAME];
             nameLabel.HorizontalOptions = TOUR_NAME_HORISONTAL_OPTIONS;
-            tourPreviewWrapper.Children.Add(nameLabel, TOUR_NAME_COLUMN, TOUR_NAME_ROW);
+            tourPreviewWrapper.Children.Add(nameLabel, TOUR_NAME_COLUMN_START, TOUR_NAME_COLUMN_END, TOUR_NAME_ROW_START, TOUR_NAME_ROW_END);
 
             descriptionLabel = new Label();
-            descriptionLabel.Style = (Style)App.Current.Resources[TOUR_DESCRIPTION_CLASS_NAME];
-            descriptionLabel.HorizontalOptions = TOUR_DESCRIPTION_HORISONTAL_OPTIONS;
-            tourPreviewWrapper.Children.Add(descriptionLabel, TOUR_DESCRIPTION_COLUMN, TOUR_DESCRIPTION_ROW);
+            descriptionLabel.Style = TOUR_DESCRIPTION_CLASS;
+            tourPreviewWrapper.Children.Add(descriptionLabel, TOUR_DESCRIPTION_COLUMN_START, TOUR_DESCRIPTION_COLUMN_END, TOUR_DESCRIPTION_ROW_START, TOUR_DESCRIPTION_ROW_END);
+
+            Label locationPlaceholderLabel = new Label();
+            locationPlaceholderLabel.Text = LOCATION_PLACEHOLDER_TEXT;
+            locationPlaceholderLabel.Style = TOUR_LOCATION_PLACEHOLDER_CLASS;
+            tourPreviewWrapper.Children.Add(locationPlaceholderLabel, TOUR_LOCATION_PLACEHOLDER_COLUMN, TOUR_LOCATION_PLACEHOLDER_ROW);
+
+            locationLabel = new Label();
+            locationLabel.Style = TOUR_LOCATION_CLASS;
+            tourPreviewWrapper.Children.Add(locationLabel, TOUR_LOCATION_COLUMN, TOUR_LOCATION_ROW);
 
             Grid tourPreviewInfoWrapper = new Grid();
             tourPreviewInfoWrapper.Style = (Style)App.Current.Resources[TOUR_INFO_WRAPPER_CLASS_NAME];
-            tourPreviewWrapper.Children.Add(tourPreviewInfoWrapper, TOUR_INFO_WRAPPER_COLUMN, TOUR_INFO_WRAPPER_ROW);
+            tourPreviewWrapper.Children.Add(tourPreviewInfoWrapper, TOUR_INFO_WRAPPER_COLUMN_START, TOUR_INFO_WRAPPER_COLUMN_END, TOUR_INFO_WRAPPER_ROW_START, TOUR_INFO_WRAPPER_ROW_END);
 
             Label pricePlaceholderLabel = new Label();
-            pricePlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_PRICE_PLACEHOLDER_CLASS_NAME];
-            pricePlaceholderLabel.HorizontalOptions = TOUR_PRICE_PLACEHOLDER_HORISONTAL_OPTIONS;
+            pricePlaceholderLabel.Style = TOUR_PRICE_PLACEHOLDER_CLASS;
             pricePlaceholderLabel.Text = PRICE_PLACEHOLDER_TEXT;
             tourPreviewInfoWrapper.Children.Add(pricePlaceholderLabel, TOUR_PRICE_PLACEHOLDER_COLUMN, TOUR_PRICE_PLACEHOLDER_ROW);
 
             priceLabel = new Label();
-            priceLabel.Style = (Style)App.Current.Resources[TOUR_PRICE_CLASS_NAME];
-            priceLabel.HorizontalOptions = TOUR_PRICE_HORISONTAL_OPTIONS;
+            priceLabel.Style = TOUR_PRICE_CLASS;
             tourPreviewInfoWrapper.Children.Add(priceLabel, TOUR_PRICE_COLUMN, TOUR_PRICE_ROW);
 
             Label placesPlaceholderLabel = new Label();
-            placesPlaceholderLabel.Style = (Style)App.Current.Resources[TOUR_PLACES_PLACEHOLDER_CLASS_NAME];
-            placesPlaceholderLabel.HorizontalOptions = TOUR_PLACES_PLACEHOLDER_HORISONTAL_OPTIONS;
+            placesPlaceholderLabel.Style = TOUR_PLACES_PLACEHOLDER_CLASS;
             placesPlaceholderLabel.Text = PLACES_PLACEHOLDER_TEXT;
             tourPreviewInfoWrapper.Children.Add(placesPlaceholderLabel, TOUR_PLACES_PLACEHOLDER_COLUMN, TOUR_PLACES_PLACEHOLDER_ROW);
 
             placesLabel = new Label();
-            placesLabel.Style = (Style)App.Current.Resources[TOUR_PLACES_CLASS_NAME];
-            placesLabel.HorizontalOptions = TOUR_PLACES_HORISONTAL_OPTIONS;
+            placesLabel.Style = TOUR_PLACES_CLASS;
             tourPreviewInfoWrapper.Children.Add(placesLabel, TOUR_PLACES_COLUMN, TOUR_PLACES_ROW);
 
             startEndLabel = new Label();
-            startEndLabel.Style = (Style)App.Current.Resources[TOUR_START_END_CLASS_NAME];
-            startEndLabel.HorizontalOptions = TOUR_START_END_HORISONTAL_OPTIONS;
+            startEndLabel.Style = TOUR_START_END_CLASS;
             tourPreviewInfoWrapper.Children.Add(startEndLabel, TOUR_START_END_COLUMN_START, TOUR_START_END_COLUMN_END, TOUR_START_END_ROW_START, TOUR_START_END_ROW_END);
         }
     }

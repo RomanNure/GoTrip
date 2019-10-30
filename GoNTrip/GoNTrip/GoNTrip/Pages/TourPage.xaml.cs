@@ -23,15 +23,19 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TourPage : ContentPage
     {
+        private const int TOUR_MEMBERS_AVATAR_COUNT_IN_ROW = 5;
         private const int SECONDARY_IMAGES_COUNT_IN_ROW = 3;
+
         private const int SECONDARY_IMAGE_BORDER_RADIUS = 18;
         private const float SECONDARY_IMAGE_BORDER_WIDTH = 0;
+
         private static readonly Color SECONDARY_IMAGE_BORDER_COLOR = (Color)App.Current.Resources["BarBackColor"];
 
         private PopupControlSystem PopupControl { get; set; }
         private SwipablePhotoCollection PhotoCollection { get; set; }
 
         private TourListPageMemento TourListPageMemento { get; set; }
+
         private Tour CurrentTour { get; set; }
         private Company CurrentTourCompany { get; set; }
         private User CurrentTourAdmin { get; set; }
@@ -149,6 +153,43 @@ namespace GoNTrip.Pages
 
             AdminAvatar.Source = CurrentTourAdmin == null || CurrentTourAdmin.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : CurrentTourAdmin.avatarUrl;
             TourAdminName.Text = CurrentTourAdmin == null ? String.Empty : CurrentTourAdmin.login;
+
+            //CurrentTour.participatingList.Add(CurrentTourAdmin);
+            //CurrentTour.participatingList.Add(App.DI.Resolve<Session>().CurrentUser);
+
+            //TourMembersWrapper.IsVisible = CurrentTour.participatingList.Count != 0;
+
+            //double tourMemberAvatarWidth = (Width - TourContentWrapper.Margin.Left
+            //                                    - TourContentWrapper.Margin.Right
+            //                                    - TourMembers.ColumnSpacing * (TOUR_MEMBERS_AVATAR_COUNT_IN_ROW - 1))
+            //                              / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
+
+            //for (int i = 0; i < CurrentTour.participatingList.Count; i++)
+            //{
+            //    Img img = new Img();
+
+            //    img.WidthRequest = tourMemberAvatarWidth;
+            //    img.HeightRequest = tourMemberAvatarWidth;
+
+            //    img.ClickedBorderColor = SECONDARY_IMAGE_BORDER_COLOR;
+            //    img.ClickedBorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
+            //    img.BorderRadius = SECONDARY_IMAGE_BORDER_RADIUS;
+
+            //    img.Source = CurrentTour.participatingList[i].avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : CurrentTour.participatingList[i].avatarUrl;
+
+            //    User member = CurrentTour.participatingList[i];
+            //    img.OnClick += (ME, ctx) =>
+            //    {
+            //        if (ME.Action == MotionEventActions.Up)
+            //            OpenLinkedUser(member);
+            //        return false;
+            //    };
+
+            //    Label login = new Label() { Style = (Style)App.Current.Resources["InfoCell"], Text = member.login };
+
+            //    TourMembers.Children.Add(img, (2 * i) % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW, (2 * i) / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW);
+            //    TourMembers.Children.Add(login, (2 * i + 1) % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW, (2 * i + 1) / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW);
+            //}
         }
 
         private bool TourMainImagePreview_OnClick(MotionEvent ME, IClickable sender)
@@ -156,18 +197,6 @@ namespace GoNTrip.Pages
             if (ME.Action == MotionEventActions.Up)
                 PhotoCollection.MoveNext();
             return false;
-        }
-
-        protected override bool OnBackButtonPressed()
-        {
-            if (PopupControl.OpenedPopupsCount == 0)
-                App.Current.MainPage = new TourListPage(TourListPageMemento);
-            else if (PhotoCollection.Opened)
-                PhotoCollection.Reset();
-            else
-                PopupControl.CloseTopPopup();
-
-            return true;
         }
 
         private bool AdminProfilePreview_OnClick(MotionEvent ME, IClickable sender)
@@ -186,16 +215,35 @@ namespace GoNTrip.Pages
 
         private void OpenLinkedUser(User user)
         {
+            PopupControl.OpenPopup(ActivityPopup);
+
             ObjectBuilder tourPageBuilder = new ObjectBuilder(typeof(TourPage), 
                 new Type[] { typeof(Tour), typeof(TourListPageMemento) }, 
                 new object[] { CurrentTour, TourListPageMemento }
             );
-            App.Current.MainPage = new OtherUserProfilePage(user, tourPageBuilder);
+
+            App.Current.MainPage = App.DI.Resolve<Session>().CurrentUser.Equals(user) ? new CurrentUserProfilePage() as Page : 
+                                                                                        new OtherUserProfilePage(user, tourPageBuilder);
         }
 
         private void JoinTourButton_Clicked(object sender, EventArgs e)
         {
 
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (PopupControl.OpenedPopupsCount == 0)
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+                App.Current.MainPage = new TourListPage(TourListPageMemento);
+            }
+            else if (PhotoCollection.Opened)
+                PhotoCollection.Reset();
+            else
+                PopupControl.CloseTopPopup();
+
+            return true;
         }
     }
 }

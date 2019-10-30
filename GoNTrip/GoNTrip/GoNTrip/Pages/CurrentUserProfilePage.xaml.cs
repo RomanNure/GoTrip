@@ -51,7 +51,7 @@ namespace GoNTrip.Pages
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.PROFILE;
-            Navigator.LinkClicks();
+            Navigator.LinkClicks(PopupControl, ActivityPopup);
         }
 
         private void ProfilePage_Appearing(object sender, EventArgs e) => LoadUserProfile();

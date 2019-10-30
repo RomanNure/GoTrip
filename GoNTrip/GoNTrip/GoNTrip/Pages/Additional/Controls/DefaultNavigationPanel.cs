@@ -6,7 +6,10 @@ using CustomControls;
 
 using Xamarin.Forms;
 
-using Autofac;
+using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.Popups.Templates;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace GoNTrip.Pages.Additional.Controls
 {
@@ -35,7 +38,6 @@ namespace GoNTrip.Pages.Additional.Controls
         private const string ADVANCED_NAVIGATION_BUTTON_SOURCE = "advanced.png";
 
         private const string NAVIGATOR_BACK_COLOR_NAME = "BarBackColor";
-        private const string NAVIGATOR_BUTTONS_BORDER_COLOR_NAME = "AdditionalColor";
 
         private List<Img> navigationButtons = new List<Img>();
 
@@ -62,15 +64,26 @@ namespace GoNTrip.Pages.Additional.Controls
             Add(ADVANCED_NAVIGATION_BUTTON_SOURCE, (ME, sender) => OnAdvancedButtonClicked(ME, sender), PageEnum.ADVANCED);
         }
 
-        public void LinkClicks()
+        public void LinkClicks(PopupControlSystem popupControl, LoadingPopup loadingPopup)
         {
-            OnProfileButtonClicked += (ME, sender) => { App.Current.MainPage = new CurrentUserProfilePage(); return false; };
-            OnMessagesButtonClicked += (ME, sender) => { App.Current.MainPage = new MessagesPage(); return false; };
-            OnTourListButtonClicked += (ME, sender) => { App.Current.MainPage = new TourListPage(); return false; };
-            OnMyTourListButtonClicked += (ME, sender) => { App.Current.MainPage = new MyTourListPage(); return false; };
-            OnAdvancedButtonClicked += (ME, sender) => { App.Current.MainPage = new AdvancedPage(); return false; };
+            OnProfileButtonClicked += (ME, sender) => { OpenPage<CurrentUserProfilePage>(popupControl, loadingPopup); return false; };
+            OnMessagesButtonClicked += (ME, sender) => { OpenPage<MessagesPage>(popupControl, loadingPopup); return false; };
+            OnTourListButtonClicked += (ME, sender) => { OpenPage<TourListPage>(popupControl, loadingPopup); return false; };
+            OnMyTourListButtonClicked += (ME, sender) => { OpenPage<MyTourListPage>(popupControl, loadingPopup); return false; };
+            OnAdvancedButtonClicked += (ME, sender) => { OpenPage<AdvancedPage>(popupControl, loadingPopup); return false; };
 
             OnCurrentPageNavigationButtonClicked += (ME, sender) => false;
+        }
+
+        private async void OpenPage<T>(PopupControlSystem popupControl, LoadingPopup loadingPopup) where T : ContentPage, new() =>
+            await OpenPageAsync<T>(popupControl, loadingPopup);
+
+        private async Task OpenPageAsync<T>(PopupControlSystem popupControl, LoadingPopup loadingPopup) where T : ContentPage, new()
+        {
+            popupControl.OpenPopup(loadingPopup);
+
+            await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
+            App.Current.MainPage = new T();
         }
 
         private Img Add(string source, Clicked clicked, PageEnum pageType)

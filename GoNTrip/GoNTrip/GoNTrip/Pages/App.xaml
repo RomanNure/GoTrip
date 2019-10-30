@@ -144,7 +144,7 @@
 
         <Style x:Key="TourPreviewWrapper" TargetType="Grid">
             <Setter Property="Padding" Value="2"/>
-            <Setter Property="HeightRequest" Value="120"/>
+            <Setter Property="HeightRequest" Value="140"/>
             <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
             <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
 
@@ -154,15 +154,17 @@
             <Setter Property="RowDefinitions">
                 <RowDefinitionCollection>
                     <RowDefinition Height="0.2*"/>
-                    <RowDefinition Height="0.4*"/>
-                    <RowDefinition Height="0.4*"/>
+                    <RowDefinition Height="0.35*"/>
+                    <RowDefinition Height="0.15*"/>
+                    <RowDefinition Height="0.3*"/>
                 </RowDefinitionCollection>
             </Setter>
 
             <Setter Property="ColumnDefinitions">
                 <ColumnDefinitionCollection>
                     <ColumnDefinition Width="100"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="0.5*"/>
+                    <ColumnDefinition Width="0.5*"/>
                 </ColumnDefinitionCollection>
             </Setter>
         </Style>
@@ -276,6 +278,14 @@
             <Setter Property="HeightRequest" Value="70"/>
             <Setter Property="HorizontalOptions" Value="Center"/>
             <Setter Property="VerticalOptions" Value="Center"/>
+        </Style>
+
+        <Style x:Key="PlaceholderLabelFill" BasedOn="{StaticResource PlaceholderLabel}" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        </Style>
+
+        <Style x:Key="InfoLabelFill" BasedOn="{StaticResource InfoLabel}" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
         </Style>
 
     </Application.Resources>

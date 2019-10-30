@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+using GoNTrip.Pages.Additional.Popups;
 
 namespace GoNTrip.Pages
 {
@@ -17,10 +15,14 @@ namespace GoNTrip.Pages
             InitializeComponent();
         }
 
+        private PopupControlSystem PopupControl { get; set; }
+
         private void ContentPage_Appearing(object sender, EventArgs e)
         {
+            PopupControl = new PopupControlSystem(OnBackButtonPressed);
+
             Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.MESSAGES;
-            Navigator.LinkClicks();
+            Navigator.LinkClicks(PopupControl, ActivityPopup);
         }
     }
 }

@@ -4,16 +4,36 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
+             xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.MyTourListPage"
              Appearing="ContentPage_Appearing">
     
     <ContentPage.Content>
-        <StackLayout>
+        <AbsoluteLayout>
+
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
+
+                        <Grid Style="{StaticResource PageContent}">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="50"/>
+                            </Grid.RowDefinitions>
+
+                            <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50" Grid.Row="2" Grid.Column="0"/>
+
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             
-            <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50"/>
-            
-        </StackLayout>
+        </AbsoluteLayout>
     </ContentPage.Content>
     
 </ContentPage>

@@ -33,6 +33,8 @@ namespace GoNTrip.Pages
 
         private const int PAGE_TOURS_COUNT = 8;
 
+        public TourListPage() : this(null) { }
+
         public TourListPage(TourListPageMemento memento = null)
         {
             if (memento != null)
@@ -46,7 +48,7 @@ namespace GoNTrip.Pages
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
             Navigator.Current = DefaultNavigationPanel.PageEnum.TOUR_LIST;
-            Navigator.LinkClicks();
+            Navigator.LinkClicks(PopupControl, ActivityPopup);
 
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();

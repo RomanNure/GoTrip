@@ -1,16 +1,20 @@
 ﻿using System;
+
 using Android.Views;
+
 using Autofac;
+
 using CustomControls;
-using GoNTrip.Controllers;
-using GoNTrip.Model;
-using GoNTrip.Pages.Additional.Controls;
-using GoNTrip.Pages.Additional.PageMementos;
-using GoNTrip.Pages.Additional.Popups;
-using GoNTrip.ServerInteraction.ResponseParsers;
-using Newtonsoft.Json;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+using GoNTrip.Model;
+using GoNTrip.Controllers;
+using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.Controls;
+using GoNTrip.Pages.Additional.PageMementos;
+using GoNTrip.ServerInteraction.ResponseParsers;
 
 namespace GoNTrip.Pages
 {
@@ -36,9 +40,6 @@ namespace GoNTrip.Pages
             AvatarView.LinkControlSystem(PopupControl);
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
-
-            Navigator.Current = DefaultNavigationPanel.PageEnum.OTHER;
-            Navigator.LinkClicks();
         }
 
         private void ContentPage_Appearing(object sender, EventArgs e) => GetAndLoadCurrentUserProfile();
@@ -110,11 +111,19 @@ namespace GoNTrip.Pages
         protected override bool OnBackButtonPressed()
         {
             if (PopupControl.OpenedPopupsCount == 0)
+            {
+                PopupControl.OpenPopup(ActivityPopup);
                 App.Current.MainPage = SourcePageBuilder.Build() as Page;
+            }
             else
                 PopupControl.CloseTopPopup();
 
             return true;
+        }
+
+        private bool SendMessage_OnClick(MotionEvent ME, IClickable sender)
+        {
+            return false;
         }
     }
 }
