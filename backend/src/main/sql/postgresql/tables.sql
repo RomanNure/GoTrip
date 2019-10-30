@@ -103,3 +103,6 @@ create table participating
   ticket_hash        varchar   not null default '-1',
   guide_rate         integer            default -1
 );
+
+SELECT tours.*, administrators.*, tour_photos.*, participating.*
+FROM tours inner join administrators on tours

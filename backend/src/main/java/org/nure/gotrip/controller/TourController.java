@@ -3,6 +3,7 @@ package org.nure.gotrip.controller;
 import org.modelmapper.ModelMapper;
 import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
+import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.dto.TourDto;
 import org.nure.gotrip.exception.NotFoundAdministratorException;
 import org.nure.gotrip.exception.NotFoundTourException;
@@ -69,4 +70,9 @@ public class TourController {
 			throw new NotFoundException(e.getMessage());
 		}
 	}
+
+	@PostMapping(value = "/get/advanced", produces = "application/json")
+    public ResponseEntity getByFilters(@RequestBody FilterUnit filterUnit){
+	    return new ResponseEntity<>(tourService.getByCriteria(filterUnit), HttpStatus.OK);
+    }
 }

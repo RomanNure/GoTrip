@@ -1,9 +1,11 @@
 package org.nure.gotrip.service.impl;
 
+import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.exception.NotUniqueTourException;
 import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.model.TourPhoto;
+import org.nure.gotrip.repository.TourJdbcRepository;
 import org.nure.gotrip.repository.TourPhotoRepository;
 import org.nure.gotrip.repository.TourRepository;
 import org.nure.gotrip.service.TourService;
@@ -19,11 +21,13 @@ public class TourServiceImpl implements TourService {
 
 	private TourRepository tourRepository;
     private TourPhotoRepository tourPhotoRepository;
+    private TourJdbcRepository tourJdbcRepository;
 
 	@Autowired
-	public TourServiceImpl(TourRepository tourRepository, TourPhotoRepository tourPhotoRepository) {
+	public TourServiceImpl(TourRepository tourRepository, TourPhotoRepository tourPhotoRepository, TourJdbcRepository tourJdbcRepository) {
 		this.tourRepository = tourRepository;
         this.tourPhotoRepository = tourPhotoRepository;
+        this.tourJdbcRepository = tourJdbcRepository;
     }
 
     public Tour findById(long id) throws NotFoundTourException {
@@ -51,4 +55,11 @@ public class TourServiceImpl implements TourService {
 			throw new NotUniqueTourException("The database contains a tour with this name");
 		}
 	}
+
+	public List<Tour> getByCriteria(FilterUnit filterUnit){
+        List<Long> ids =  tourJdbcRepository.getIdToursByCriteria(filterUnit);
+        List<Tour> tours = new ArrayList<>();
+        ids.forEach(id -> tours.add(tourRepository.findById(id).get()));
+        return tours;
+    }
 }

@@ -1,5 +1,6 @@
 package org.nure.gotrip.service;
 
+import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.exception.NotUniqueTourException;
 import org.nure.gotrip.model.Tour;
@@ -13,4 +14,6 @@ public interface TourService {
     Tour add(Tour tour) throws NotUniqueTourException;
 
     Tour findById(long id) throws NotFoundTourException;
+
+    List<Tour> getByCriteria(FilterUnit filterUnit);
 }
