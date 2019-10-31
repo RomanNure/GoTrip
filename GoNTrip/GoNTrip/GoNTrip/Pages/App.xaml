@@ -90,6 +90,12 @@
             <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
         </Style>
 
+        <Style x:Key="PopupDatePicker" TargetType="DatePicker" BasedOn="{StaticResource PopupInnerView}">
+            <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+            <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+            <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+        </Style>
+        
         <Style x:Key="PopupButton" TargetType="Button" BasedOn="{StaticResource PopupInnerView}">
             <Setter Property="BackgroundColor" Value="{StaticResource AdditionalColor}"/>
             <Setter Property="TextColor" Value="{StaticResource BarFontColor}"/>

@@ -11,6 +11,8 @@ using Autofac;
 
 using CustomControls;
 
+//using Syncfusion.SfNumericUpDown.XForms;
+
 using Android.Views;
 
 using GoNTrip.Model;
@@ -186,18 +188,24 @@ namespace GoNTrip.Pages
                 TourLayouts[i].IsVisible = false;
         }
 
-        private bool SearchButton_OnClick(MotionEvent ME, IClickable sender)
+        private bool FilterButton_OnClick(MotionEvent ME, IClickable sender)
         {
+            if (ME.Action == MotionEventActions.Down)
+                PopupControl.OpenPopup(FilterPopup);
+
             return false;
         }
 
-        private bool FilterButton_OnClick(MotionEvent ME, IClickable sender)
+        private bool SearchButton_OnClick(MotionEvent ME, IClickable sender)
         {
             return false;
         }
 
         private bool SortButton_OnClick(MotionEvent ME, IClickable sender)
         {
+            if (ME.Action == MotionEventActions.Down)
+                PopupControl.OpenPopup(SortPopup);
+
             return false;
         }
 
