@@ -11,8 +11,6 @@ using Autofac;
 
 using CustomControls;
 
-//using Syncfusion.SfNumericUpDown.XForms;
-
 using Android.Views;
 
 using GoNTrip.Model;
@@ -54,6 +52,20 @@ namespace GoNTrip.Pages
 
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+
+            LoadFilterNumericUpDowns();
+        }
+
+        private void LoadFilterNumericUpDowns()
+        {
+            MinPricePicker.OnValueChanged += (sender) => MaxPricePicker.Val = Math.Max(MinPricePicker.Val, MaxPricePicker.Val);
+            MaxPricePicker.OnValueChanged += (sender) => MinPricePicker.Val = Math.Min(MinPricePicker.Val, MaxPricePicker.Val);
+
+            MinStartDate.DateSelected += (sender, e) => MaxStartDate.Date = MinStartDate.Date > MaxStartDate.Date ? MinStartDate.Date : MaxStartDate.Date;
+            MaxStartDate.DateSelected += (sender, e) => MinStartDate.Date = MinStartDate.Date > MaxStartDate.Date ? MaxStartDate.Date : MinStartDate.Date;
+
+            MinPlacesPicker.OnValueChanged += (sender) => MaxPlacesPicker.Val = Math.Max(MinPlacesPicker.Val, MaxPlacesPicker.Val);
+            MaxPlacesPicker.OnValueChanged += (sender) => MinPlacesPicker.Val = Math.Min(MinPlacesPicker.Val, MaxPlacesPicker.Val);
         }
 
         private async void ContentPage_Appearing(object sender, EventArgs e)
@@ -188,16 +200,19 @@ namespace GoNTrip.Pages
                 TourLayouts[i].IsVisible = false;
         }
 
+        private bool SearchButton_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if (ME.Action == MotionEventActions.Down)
+                PopupControl.OpenPopup(SearchPopup);
+
+            return false;
+        }
+
         private bool FilterButton_OnClick(MotionEvent ME, IClickable sender)
         {
             if (ME.Action == MotionEventActions.Down)
                 PopupControl.OpenPopup(FilterPopup);
 
-            return false;
-        }
-
-        private bool SearchButton_OnClick(MotionEvent ME, IClickable sender)
-        {
             return false;
         }
 
@@ -207,6 +222,21 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(SortPopup);
 
             return false;
+        }
+
+        private void SearchPopupConfirm_Clicked(object sender, EventArgs e)
+        {
+            //TODO
+        }
+
+        private void FilterPopupConfirm_Clicked(object sender, EventArgs e)
+        {
+            //TODO
+        }
+
+        private void SortPopupConfirm_Clicked(object sender, EventArgs e)
+        {
+            //TODO
         }
 
         private bool UpdateButton_OnClick(MotionEvent ME, IClickable sender)

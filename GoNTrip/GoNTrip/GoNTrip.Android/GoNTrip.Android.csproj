@@ -81,9 +81,6 @@
     <PackageReference Include="Plugin.Fingerprint">
       <Version>1.4.9</Version>
     </PackageReference>
-    <PackageReference Include="Syncfusion.Xamarin.SfNumericUpDown">
-      <Version>17.3.0.21</Version>
-    </PackageReference>
     <PackageReference Include="Xam.Plugin.Media">
       <Version>4.0.1.5</Version>
     </PackageReference>

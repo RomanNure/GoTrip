@@ -10,6 +10,29 @@
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.TourListPage"
              Appearing="ContentPage_Appearing">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="FieldNameLabel" BasedOn="{StaticResource HeaderLabel}" TargetType="Label">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+            </Style>
+
+            <Style x:Key="NumericUpDownEntry" BasedOn="{StaticResource PopupEntry}" TargetType="Entry">
+                <Setter Property="Margin" Value="0"/>
+            </Style>
+
+            <Style x:Key="NumericUpDownButton" TargetType="Button">
+                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="NotOnlyInRowPopupDatePicker" BasedOn="{StaticResource PopupDatePicker}" TargetType="DatePicker">
+                <Setter Property="Margin" Value="0,0,-10,0"/>
+            </Style>
+
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
@@ -61,26 +84,40 @@
             </StackLayout>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="FilterPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="FilterPopupOuterLayout" HeightRequest="250" WidthRequest="300" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="250" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="FilterPopupOuterLayout" HeightRequest="400" WidthRequest="300" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="400" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Filtering" HorizontalTextAlignment="Center" FontSize="20"/>
 
-                            <Grid x:Name="FilterWrapper" ColumnSpacing="10" BackgroundColor="{StaticResource BarBackColor}">
+                            <Grid x:Name="FilterWrapper" BackgroundColor="{StaticResource BarBackColor}">
 
-                                <Entry Style="{StaticResource PopupEntry}" x:Name="MinPriceEntry" Keyboard="Numeric" Placeholder="Min price" Grid.Row="0" Grid.Column="0"/>
-                                <Entry Style="{StaticResource PopupEntry}" x:Name="MaxPriceEntry" Keyboard="Numeric" Placeholder="Max price" Grid.Row="0" Grid.Column="1"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.4*"/>
+                                    <ColumnDefinition Width="0.6*"/>
+                                </Grid.ColumnDefinitions>
 
-                                <DatePicker Style="{StaticResource PopupDatePicker}" x:Name="MinStartDate" Grid.Row="1" Grid.Column="0"/>
-                                <DatePicker Style="{StaticResource PopupDatePicker}" x:Name="MaxStartDate" Grid.Row="1" Grid.Column="1"/>
+                                <Label Style="{StaticResource FieldNameLabel}" Text="Min $:" Grid.Row="0" Grid.Column="0"/>
+                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MinPricePicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" DecimalPlaces="2" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="0" Grid.Column="1"/>
+                                
+                                <Label Style="{StaticResource FieldNameLabel}" Text="Max $:" Grid.Row="1" Grid.Column="0"/>
+                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPricePicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" DecimalPlaces="2" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="1" Grid.Column="1"/>
 
-                                <Entry Style="{StaticResource PopupEntry}" x:Name="MinParticipants" Keyboard="Numeric" Placeholder="Min participants" Grid.Row="2" Grid.Column="0"/>
-                                <Entry Style="{StaticResource PopupEntry}" x:Name="MaxParticipants" Keyboard="Numeric" Placeholder="Max participants" Grid.Row="2" Grid.Column="1"/>
+                                <Label Style="{StaticResource FieldNameLabel}" Text="From date:" Grid.Row="2" Grid.Column="0"/>
+                                <DatePicker Style="{StaticResource NotOnlyInRowPopupDatePicker}" x:Name="MinStartDate" Grid.Row="2" Grid.Column="1"/>
+
+                                <Label Style="{StaticResource FieldNameLabel}" Text="To date:" Grid.Row="3" Grid.Column="0"/>
+                                <DatePicker Style="{StaticResource NotOnlyInRowPopupDatePicker}" x:Name="MaxStartDate" Grid.Row="3" Grid.Column="1"/>
+
+                                <Label Style="{StaticResource FieldNameLabel}" Text="Min places:" Grid.Row="4" Grid.Column="0"/>
+                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MinPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="4" Grid.Column="1"/>
+                                
+                                <Label Style="{StaticResource FieldNameLabel}" Text="Max places:" Grid.Row="5" Grid.Column="0"/>
+                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="5" Grid.Column="1"/>
 
                             </Grid>
                             
-                            <Button Style="{StaticResource PopupButton}" x:Name="FilterPopupConfirm" VerticalOptions="End" Text="Apply"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="FilterPopupConfirm" Clicked="FilterPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>
@@ -88,25 +125,49 @@
             </popups:Popup>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="SortPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SortPopupOuterLayout" HeightRequest="150" WidthRequest="150" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="150" WidthRequest="150" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SortPopupOuterLayout" HeightRequest="200" WidthRequest="200" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="200" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Sorting" HorizontalTextAlignment="Center" FontSize="20"/>
 
-                            <Grid x:Name="SortWrapper" ColumnSpacing="10" BackgroundColor="{StaticResource BarBackColor}">
+                            <Grid x:Name="SortWrapper" BackgroundColor="{StaticResource BarBackColor}">
 
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="50"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
-                                <customcontrols:RadioButton OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="10" Checked="False" Grid.Row="0" Grid.Column="0"/>
+                                <customcontrols:RadioButton x:Name="PriceSortedChecker" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="0" Grid.Column="0"/>
                                 <Label Style="{StaticResource HeaderLabel}" Text="Price" Grid.Row="0" Grid.Column="1"/>
+
+                                <customcontrols:RadioButton x:Name="FreePlacesSortedChecker" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="1" Grid.Column="0"/>
+                                <Label Style="{StaticResource HeaderLabel}" Text="Free places" Grid.Row="1" Grid.Column="1"/>
 
                             </Grid>
 
-                            <Button Style="{StaticResource PopupButton}" x:Name="SortPopupConfirm" VerticalOptions="End" Text="Apply"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="SortPopupConfirm" Clicked="SortPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
+
+                        </StackLayout>
+                    </customcontrols:ClickableFrame>
+                </customcontrols:ClickableFrame>
+            </popups:Popup>
+
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="SearchPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SearchPopupOuterLayout" HeightRequest="200" WidthRequest="250" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="200" WidthRequest="250" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Searching" HorizontalTextAlignment="Center" FontSize="20"/>
+
+                            <Grid x:Name="SearchWrapper" BackgroundColor="{StaticResource BarBackColor}">
+
+                                <Entry Style="{StaticResource PopupEntry}" x:Name="TourNameSearcher" Placeholder="Tour name" Grid.Row="0" Grid.Column="0"/>
+                                <Entry Style="{StaticResource PopupEntry}" x:Name="TourLocationSearcher" Placeholder="Tour location" Grid.Row="1" Grid.Column="0"/>
+
+                            </Grid>
+
+                            <Button Style="{StaticResource PopupButton}" x:Name="SearchPopupConfirm" Clicked="SearchPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>
