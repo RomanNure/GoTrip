@@ -7,6 +7,7 @@ using System.Linq;
 using GoNTrip.Pages;
 using GoNTrip.Model;
 using GoNTrip.ServerAccess;
+using GoNTrip.Model.FilterSortSearch;
 using GoNTrip.ServerInteraction.QueryFactories;
 using GoNTrip.ServerInteraction.ResponseParsers;
 
@@ -14,11 +15,13 @@ namespace GoNTrip.Controllers
 {
     public class GetToursController
     {
-        public async Task<List<Tour>> GetAllTours()
+        public async Task<List<Tour>> GetTours(FilterSorterSearcher filterSorterSearcher = null)
         {
-            IQuery getAllToursQuery = App.DI.Resolve<GetToursQueryFactory>().GetAllTours();
-            IServerResponse allTours = await App.DI.Resolve<IServerCommunicator>().SendQuery(getAllToursQuery);
-            return App.DI.Resolve<IResponseParser>().ParseCollection<Tour>(allTours).ToList();
+            GetToursQueryFactory getToursQueryFactory = App.DI.Resolve<GetToursQueryFactory>();
+
+            IQuery getToursQuery = filterSorterSearcher == null || filterSorterSearcher.IsEmpty() ? getToursQueryFactory.GetAllTours() : getToursQueryFactory.GetTours(filterSorterSearcher);
+            IServerResponse tours = await App.DI.Resolve<IServerCommunicator>().SendQuery(getToursQuery);
+            return App.DI.Resolve<IResponseParser>().ParseCollection<Tour>(tours).ToList();
         }
     }
 }
