@@ -8,5 +8,6 @@ namespace CustomControls
     {
         bool Click(MotionEvent ME);
         event Clicked OnClick;
+
     }
 }

@@ -27,6 +27,6 @@ namespace CustomControls
         private int radiusDiffer = 3;
         public int RadiusDiffer { get { return radiusDiffer; } set { radiusDiffer = Math.Max(0, value); } }
 
-        public float InnerRadius { get { return (float)Math.Max(0, (Math.Min(Height, Width) - OuterWidth) / 2 - RadiusDiffer); } }
+        public float InnerRadius { get { return OuterWidth / 2 - RadiusDiffer; } }
     }
 }
