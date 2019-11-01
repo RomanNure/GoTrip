@@ -20,6 +20,7 @@ namespace CustomControls.Droid
         {
             base.OnElementChanged(e);
             TargetSelect = e.NewElement as SelectBox;
+            TargetSelect.CheckedChanged += (sender) => PostInvalidate();
         }
 
         public override bool OnTouchEvent(MotionEvent e)
@@ -30,7 +31,7 @@ namespace CustomControls.Droid
             if (e.Action == MotionEventActions.Down)
                 TargetSelect.Checked = !TargetSelect.Checked;
 
-            PostInvalidate();
+            //PostInvalidate();
 
             return false;
         }
