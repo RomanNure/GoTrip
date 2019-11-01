@@ -26,6 +26,7 @@ namespace GoNTrip.Pages
     public partial class TourListPage : ContentPage
     {
         private PopupControlSystem PopupControl { get; set; }
+        private List<RadioButton> SortedCheckers { get; set; }
 
         private List<TourListItem> TourLayouts = new List<TourListItem>();
         private List<Tour> Tours = new List<Tour>();
@@ -52,6 +53,8 @@ namespace GoNTrip.Pages
 
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+
+            SortedCheckers = new List<RadioButton>() { PriceSortedChecker, FreePlacesSortedChecker };
 
             LoadFilterNumericUpDowns();
         }
@@ -237,6 +240,18 @@ namespace GoNTrip.Pages
         private void SortPopupConfirm_Clicked(object sender, EventArgs e)
         {
             //TODO
+        }
+
+        private bool SortedChecker_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if (ME.Action != MotionEventActions.Down)
+                return false;
+
+            foreach (RadioButton sortedChecker in SortedCheckers)
+                if (!sortedChecker.Equals(sender))
+                    sortedChecker.Checked = false;
+
+            return false;
         }
 
         private bool UpdateButton_OnClick(MotionEvent ME, IClickable sender)
