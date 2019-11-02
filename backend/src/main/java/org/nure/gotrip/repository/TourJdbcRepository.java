@@ -39,27 +39,26 @@ public class TourJdbcRepository {
     private static String generateQuery(FilterUnit filterUnit){
         StringBuilder builder = new StringBuilder(QUERY_START);
 
-        List<FilterUnit.Filter> filters = filterUnit.getFilters();
         boolean whereSet = false;
 
         //masks
-        if(filterUnit.getTourSubstring() != null){
-            builder.append(" WHERE tours.name LIKE '%").append(filterUnit.getTourSubstring()).append("%'");
+        if(filterUnit.getSearch().get("tourNameSubstr") != null){
+            builder.append(" WHERE tours.name LIKE '%").append(filterUnit.getSearch().get("tourNameSubstr")).append("%'");
             whereSet = true;
         }
 
-        if(filterUnit.getLocationSubstring() != null){
+        if(filterUnit.getSearch().get("tourLocationSubstr") != null){
             if(!whereSet) {
-                builder.append(" WHERE tours.name LIKE '%").append(filterUnit.getTourSubstring()).append("%'");
+                builder.append(" WHERE tours.location LIKE '%").append(filterUnit.getSearch().get("tourLocationSubstr")).append("%'");
                 whereSet = true;
             }else{
-                builder.append(" AND tours.name LIKE '%").append(filterUnit.getTourSubstring()).append("%'");
+                builder.append(" AND tours.location LIKE '%").append(filterUnit.getSearch().get("tourLocationSubstr")).append("%'");
             }
         }
 
         //filtering
-        if(filters.contains(new FilterUnit.Filter("price"))){
-            FilterUnit.Filter priceFilter = filterUnit.getFilterByName("price");
+        if(filterUnit.getFilter("priceFilter") != null){
+            FilterUnit.Filter priceFilter = filterUnit.getFilter("priceFilter");
             if(!whereSet) {
                 builder.append(" WHERE price_per_person BETWEEN ").append(priceFilter.getFrom()).append(" AND ").append(priceFilter.getTo());
                 whereSet = true;
@@ -68,8 +67,8 @@ public class TourJdbcRepository {
             }
         }
 
-        if(filters.contains(new FilterUnit.Filter("start"))){
-            FilterUnit.Filter durationFilter = filterUnit.getFilterByName("start");
+        if(filterUnit.getFilter("startDateFilter") != null){
+            FilterUnit.Filter durationFilter = filterUnit.getFilter("startDateFilter");
             if(whereSet){
                 builder.append(" AND start_date_time BETWEEN '").append(durationFilter.getFrom()).append("' AND '").append(durationFilter.getTo()).append("'");
             }else{
@@ -78,8 +77,8 @@ public class TourJdbcRepository {
             }
         }
 
-        if(filters.contains(new FilterUnit.Filter("participants"))){
-            FilterUnit.Filter durationFilter = filterUnit.getFilterByName("participants");
+        if(filterUnit.getFilter("participantsFilter") != null){
+            FilterUnit.Filter durationFilter = filterUnit.getFilter("participantsFilter");
             if(whereSet){
                 builder.append(" AND max_participants BETWEEN ").append(durationFilter.getFrom()).append(" AND ").append(durationFilter.getTo());
             }else{
@@ -88,8 +87,7 @@ public class TourJdbcRepository {
         }
 
         //sorting
-        List<String> sortings = filterUnit.getSortingCriteria();
-        if(sortings.contains("price")){
+        if(filterUnit.getSortingCriterion().equals("price")){
             builder.append(" ORDER BY price_per_person ASC");
         }
 
