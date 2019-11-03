@@ -39,6 +39,7 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
             this.search.tourLocationSubstr = tourLocationSubstr;
         }
 
-        public bool IsChanged() => filters.IsChanged || sortingCriterion != TourSortCriteria.no || !search.IsEmpty();
+        [JsonIgnore]
+        public bool IsChanged => filters.IsChanged || sortingCriterion != TourSortCriteria.no || !search.IsEmpty();
     }
 }

@@ -11,6 +11,12 @@
             tourLocationSubstr = locationSubstr;
         }
 
+        public void Reset()
+        {
+            tourNameSubstr = "";
+            tourLocationSubstr = "";
+        }
+
         public bool IsEmpty() => tourNameSubstr == "" && tourLocationSubstr == "";
     }
 }

@@ -26,5 +26,11 @@ namespace GoNTrip.Model.FilterSortSearch
             this.from = min;
             this.to = max;
         }
+
+        public void Reset()
+        {
+            from = min;
+            to = max;
+        }
     }
 }

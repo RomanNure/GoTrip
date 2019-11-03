@@ -84,8 +84,8 @@
             </StackLayout>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="FilterPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="FilterPopupOuterLayout" HeightRequest="400" WidthRequest="300" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="400" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="FilterPopupOuterLayout" HeightRequest="450" WidthRequest="300" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="450" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Filtering" HorizontalTextAlignment="Center" FontSize="20"/>
@@ -118,6 +118,7 @@
                             </Grid>
                             
                             <Button Style="{StaticResource PopupButton}" x:Name="FilterPopupConfirm" Clicked="FilterPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="FilterPopupReset" Clicked="FilterPopupReset_Clicked" VerticalOptions="End" Text="Reset"/>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>
@@ -125,8 +126,8 @@
             </popups:Popup>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="SortPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SortPopupOuterLayout" HeightRequest="200" WidthRequest="200" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="200" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SortPopupOuterLayout" HeightRequest="250" WidthRequest="200" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="250" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Sorting" HorizontalTextAlignment="Center" FontSize="20"/>
@@ -147,6 +148,7 @@
                             </Grid>
 
                             <Button Style="{StaticResource PopupButton}" x:Name="SortPopupConfirm" Clicked="SortPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="SortPopupReset" Clicked="SortPopupReset_Clicked" VerticalOptions="End" Text="Reset"/>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>
@@ -154,8 +156,8 @@
             </popups:Popup>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="SearchPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SearchPopupOuterLayout" HeightRequest="200" WidthRequest="250" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="200" WidthRequest="250" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="SearchPopupOuterLayout" HeightRequest="250" WidthRequest="250" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="250" WidthRequest="250" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Searching" HorizontalTextAlignment="Center" FontSize="20"/>
@@ -168,6 +170,7 @@
                             </Grid>
 
                             <Button Style="{StaticResource PopupButton}" x:Name="SearchPopupConfirm" Clicked="SearchPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="SearchPopupReset" Clicked="SearchPopupReset_Clicked" VerticalOptions="End" Text="Reset"/>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>

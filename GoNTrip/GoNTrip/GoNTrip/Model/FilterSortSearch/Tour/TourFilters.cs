@@ -18,6 +18,13 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
             participantsFilter = new Filter<int>(int.MinValue, int.MaxValue);
         }
 
+        public void Reset()
+        {
+            priceFilter.Reset();
+            startDateFilter.Reset();
+            participantsFilter.Reset();
+        }
+
         [JsonIgnore]
         public bool IsChanged => priceFilter.IsChanged || startDateFilter.IsChanged || participantsFilter.IsChanged;
     }

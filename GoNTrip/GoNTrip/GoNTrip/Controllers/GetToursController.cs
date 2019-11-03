@@ -19,7 +19,7 @@ namespace GoNTrip.Controllers
         {
             GetToursQueryFactory getToursQueryFactory = App.DI.Resolve<GetToursQueryFactory>();
 
-            IQuery getToursQuery = filterSorterSearcher == null || !filterSorterSearcher.IsChanged() ? getToursQueryFactory.GetAllTours() : getToursQueryFactory.GetTours(filterSorterSearcher);
+            IQuery getToursQuery = filterSorterSearcher == null || !filterSorterSearcher.IsChanged ? getToursQueryFactory.GetAllTours() : getToursQueryFactory.GetTours(filterSorterSearcher);
             IServerResponse tours = await App.DI.Resolve<IServerCommunicator>().SendQuery(getToursQuery);
             return App.DI.Resolve<IResponseParser>().ParseCollection<Tour>(tours).ToList();
         }
