@@ -67,4 +67,8 @@
       <DependentUpon>CurrentUserProfilePage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\FilterSortSearch\FilterTemplates\" />
+  </ItemGroup>
 </Project>
