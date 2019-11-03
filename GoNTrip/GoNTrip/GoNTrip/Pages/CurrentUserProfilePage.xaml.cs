@@ -155,7 +155,10 @@ namespace GoNTrip.Pages
 
                 Session session = App.DI.Resolve<Session>();
                 session.CurrentUser = await App.DI.Resolve<ChangeAvatarController>().ChangeAvatar(session.CurrentUser, stream);
+
                 session.CurrentUser = await App.DI.Resolve<UpdateProfileController>().Update(session.CurrentUser);
+                session.CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(session.CurrentUser);
+                session.CurrentUser.OwnedCompanies = await App.DI.Resolve<GetOwnedCompaniesController>().GetOwnedCompanies(session.CurrentUser);
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 

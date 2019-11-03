@@ -16,6 +16,6 @@ namespace GoNTrip.Pages.Additional.Validators.ModelFieldsPatterns
 
         public static Regex FIRST_NAME_PATTERN = new Regex("^[a-zA-Z]{2,47}$");
         public static Regex LAST_NAME_PATTERN = new Regex("^[a-zA-Z]{2,47}$");
-        public static Regex PHONE_PATTERN = new Regex("^\\+[0-9]{7,15}$");
+        public static Regex PHONE_PATTERN = new Regex("^\\+?[0-9]{12}$");
     }
 }
