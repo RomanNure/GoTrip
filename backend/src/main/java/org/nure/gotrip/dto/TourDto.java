@@ -14,9 +14,9 @@ public class TourDto {
 	private String description;
 	private double pricePerPerson;
 	private String mainPictureUrl;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date startDateTime;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date finishDateTime;
 	private int maxParticipants;
 	private long idAdministrator;
