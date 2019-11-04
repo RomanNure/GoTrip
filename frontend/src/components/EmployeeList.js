@@ -44,7 +44,7 @@ export default class CompanyPage extends Component {
             return axios(url)
         })
         axios.all([ids])
-            .then(axios.spread(function (acct, perms) {
+            .then(axios.spread((acct, perms) => {
                 let users = []
                 acct.map(i => {
                     i.then(d => console.log('then =>>>>>', users.push(d.data)))
