@@ -3,7 +3,6 @@ package org.nure.gotrip.service.impl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.mail.Message;
@@ -13,6 +12,9 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Properties;
 
 @Service
@@ -23,17 +25,16 @@ public class MailService {
     private static final String KEY_WORD = "{{injection}}";
 
     private Properties mailProperties;
-    private String mailTemplate;
 
-    public void sendThroughRemote(String recipient, String ... placeholders) throws MessagingException {
+    public void sendThroughRemote(String recipient, String mailTemplate, String subject, String ... placeholders) throws MessagingException {
         try {
             Session session = Session.getDefaultInstance(mailProperties);
             MimeMessage message = new MimeMessage(session);
             message.setFrom(new InternetAddress(mailProperties.getProperty("mail.smtp.user")));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(recipient));
 
-            message.setSubject("Email Confirmation");
-            String content = formContent(placeholders);
+            message.setSubject(subject);
+            String content = formContent(mailTemplate, placeholders);
             message.setContent(content, "text/html; charset=utf-8");
 
             Transport tr = session.getTransport();
@@ -45,7 +46,7 @@ public class MailService {
         }
     }
 
-    private String formContent(String ... placeholders){
+    private String formContent(String mailTemplate, String ... placeholders){
         StringBuilder mailBuilder = new StringBuilder(mailTemplate);
         int arrayIndex = 0;
         while(mailBuilder.indexOf(KEY_WORD) != -1){
@@ -59,14 +60,24 @@ public class MailService {
         return mailBuilder.toString();
     }
 
+    public String getMailTemplate(String filename) throws IOException {
+        FileReader fileReader = new FileReader(filename);
+        BufferedReader reader = new BufferedReader(fileReader);
+        StringBuilder builder = new StringBuilder();
+        String line = reader.readLine();
+        while(line != null){
+            builder.append(line);
+            line = reader.readLine();
+        }
+        return builder.toString();
+    }
+
     @Autowired
     private void setMailProperties(Properties mailProperties) {
         this.mailProperties = mailProperties;
     }
 
-    @Autowired
-    @Qualifier("mailTemplate")
-    private void setMailTemplate(String template) {
-        this.mailTemplate = template;
+    public String getEmailProperty(String key){
+        return mailProperties.getProperty(key);
     }
 }

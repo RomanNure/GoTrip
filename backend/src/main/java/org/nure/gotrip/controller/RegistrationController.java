@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.mail.MessagingException;
+import java.io.IOException;
 
 @RestController
 public class RegistrationController {
@@ -61,8 +62,14 @@ public class RegistrationController {
 	private void sendMail(RegisteredUser user) {
 		new Thread(() -> {
 			try {
-				mailService.sendThroughRemote(user.getEmail(), user.getLogin(), String.valueOf(user.getId()));
-			} catch (MessagingException e) {
+				mailService.sendThroughRemote(user.getEmail(),
+                        mailService.getMailTemplate("target/classes/mail.html"),
+                        "Email Confirmation",
+                        user.getLogin(),
+                        mailService.getEmailProperty("mailAddress"),
+                        String.valueOf(user.getId())
+                );
+			} catch (MessagingException | IOException e) {
 				logger.error("Exception while sending email", e);
 			}
 		}).start();
