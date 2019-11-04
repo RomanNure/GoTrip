@@ -34,10 +34,10 @@ export default class CompanyPage extends Component {
 
         })
             .then(({ data }) => {
-                let { description, email, name, id, imageLink } = data
+                let { description, email, name, id, imageLink, domain, administrators } = data
                 console.log('data=>', data)
                 // if (rule) window.location.reload();
-                this.setState({ description, email, name, id, imageLink })
+                this.setState({ description, email, name, id, imageLink, domain, administrators })
 
             })
             .catch(error => {
@@ -222,6 +222,12 @@ export default class CompanyPage extends Component {
                                                     </div>
                                                 </div>
                                                 <div className="form-group">
+                                                    <label className="col-sm-2 control-label" htmlFor="inputContact7">Domain</label>
+                                                    <div className="col-md-10">
+                                                        <textarea ref="domain" className="materialize-textarea" id="inputContact7" placeholder="domain" defaultValue={this.state.domain} row="4" />
+                                                    </div>
+                                                </div>
+                                                <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
                                                         <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onUpdateCompany}>Update</a>
                                                     </div>
@@ -231,7 +237,7 @@ export default class CompanyPage extends Component {
                                     </div>
                                     }
                                     {this.state.tab == "Employees" &&
-                                        <EmployeeList {...this.props} _onAddAdmin={this._onAddAdmin} />
+                                        <EmployeeList {...this.props} _onAddAdmin={this._onAddAdmin} administrators={this.state.administrators} />
                                     }
                                     {this.state.tab == "Tours" &&
                                         <ToursList {...this.props} />
