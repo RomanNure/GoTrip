@@ -195,7 +195,7 @@ export default class UserPage extends Component {
 
     _onCreateCompany = () => {
         console.log('lets create a company')
-        this.props.history.push({ pathname: '/create-company', state: { id: this.state.id } })
+        this.props.history.push({ pathname: '/create-company', state: { id: this.state.id, email: this.state.email, login: this.state.login, fullName: this.state.fullName, phone: this.state.phone } })
     }
 
     render() {

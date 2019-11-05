@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
 
-export default class CompanyPage extends Component {
+export default class EmployeeList extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -23,11 +23,11 @@ export default class CompanyPage extends Component {
                 }
             ]*/
         }
-        this._getUsers = this._getUsers.bind(this)
     }
     componentDidMount() {
         this._getUsers()
     }
+
     _getUsers = async () => {
         let options = {
             method: "get",
@@ -47,32 +47,14 @@ export default class CompanyPage extends Component {
             .then(axios.spread((acct, perms) => {
                 let users = []
                 acct.map(i => {
-                    i.then(d => console.log('then =>>>>>', users.push(d.data)))
+                    i.then(d => users.push(d.data))
                 })
-                console.log('users', users)
+                //console.log('users', users)
 
-                this.setState({ administrators: users })
-                // Both requests are now complete
+                this.state.administrators = users
+                this.setState()
+                this.forceUpdate()
             }));
-        /*let d = ids.map( i => {
-            axios()
-                .then(({ data }) => {
-                    console.log('data=>', data)
-                    return data
-                    /*    let { email, login, phone, fullName, description, avatarUrl } = data
-                        let rule = (this.state.user && login == this.state.user.login) ? true : false
-                        let user = cookie.load('user')
-                        if (rule && avatarUrl) {
-                            user.avatarUrl = avatarUrl
-                            cookie.save('user', user, { path: '/' })
-                        }
-                        this.setState({ email, login, phone, fullName, rule, description, avatarUrl })
-                        // if (rule) window.location.reload();
-    
-                })
-        })
-        console.log('d=>', d)
-      */  console.log('ids', ids)
     }
 
 
@@ -80,7 +62,7 @@ export default class CompanyPage extends Component {
         console.log('this.props=>', this.props)
         let { administrators } = this.state
         console.log('this.state.', this.state)
-        console.log('admins=>', administrators)
+        console.log('administrators=>', administrators && administrators.length)
         return (
             <div className="container">
                 <div className="row h3 m-4">
@@ -95,13 +77,13 @@ export default class CompanyPage extends Component {
                                 </div>
                                 <div className="panel-body">
                                     {this.state.guides && this.state.guides.length > 0 ?
-                                        this.state.guides.map(({ id, name, time, avatarUrl }, i) => {
+                                        this.state.guides.map(({ id, fullName, time, avatarUrl }, i) => {
                                             return <div className="media" key={i} onClick={() => this.props.history.push('/user:' + id)}>
                                                 <div className="media-left mr-2">
                                                     <a href="#"><img className="media-object rounded-circle img-thumbnail thumb48" src={avatarUrl ? avatarUrl : "images/Avatar.png"} alt="Contact" /></a>
                                                 </div>
                                                 <div className="media-body pb-2">
-                                                    <div className="text-bold">{name}
+                                                    <div className="text-bold">{fullName}
                                                         <div className="text-sm text-muted">{time}</div>
                                                     </div>
                                                 </div>
@@ -129,13 +111,14 @@ export default class CompanyPage extends Component {
                                     <div className="panel-title h5">Company Administrators</div>
                                 </div>
                                 {administrators && administrators.length > 0 ?
-                                    administrators.map(({ id, name, time, avatarUrl }, i) => {
+                                    administrators.map(({ id, login, fullName, time, avatarUrl }, i) => {
+                                        console.log('admin=>', i, administrators[i])
                                         return <div className="media" key={i} onClick={() => this.props.history.push('/user:' + id)}>
                                             <div className="media-left mr-2">
                                                 <a href="#"><img className="media-object rounded-circle img-thumbnail thumb48" src={avatarUrl ? avatarUrl : "images/Avatar.png"} alt="Contact" /></a>
                                             </div>
                                             <div className="media-body pb-2">
-                                                <div className="text-bold">{name}
+                                                <div className="text-bold">{fullName ? fullName : login}
                                                     <div className="text-sm text-muted">{time}</div>
                                                 </div>
                                             </div>
@@ -143,7 +126,7 @@ export default class CompanyPage extends Component {
                                         </div>
                                     })
                                     :
-                                    <div>No Administrators yes :(</div>
+                                    <div>No Administrators yet :(</div>
                                 }
                             </div>
                         </div>
