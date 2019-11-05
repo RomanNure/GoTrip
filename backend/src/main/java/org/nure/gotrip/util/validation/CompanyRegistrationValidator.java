@@ -23,7 +23,7 @@ public class CompanyRegistrationValidator {
 
 	private static final String ADDRESS_PATTERN = "(.+)";
 
-	private static final String IMAGE_LINK_PATTERN = "(?!.*?\\/)(.*?)(?:\\.(?:jpg|jpeg|jpe|png|img))";
+	private static final String IMAGE_LINK_PATTERN = "(.*?)(?:\\.(?:jpg|jpeg|jpe|png|img))";
 
 	public void registrationCompanyValid(CompanyDto companyDto) throws ValidationException {
 		validateEmail(companyDto.getEmail());
