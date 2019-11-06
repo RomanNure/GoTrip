@@ -15,6 +15,7 @@ import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.service.AdministratorService;
 import org.nure.gotrip.service.CompanyService;
 import org.nure.gotrip.service.RegisteredUserService;
+import org.nure.gotrip.service.impl.MailService;
 import org.nure.gotrip.util.validation.AdministratorAddValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.MessagingException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,15 +41,17 @@ public class AdministratorController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AdministratorController.class);
 
+	private MailService mailService;
 	private AdministratorService administratorService;
 	private RegisteredUserService registeredUserService;
 	private CompanyService companyService;
 	private AdministratorAddValidator administratorAddValidator;
 
 	@Autowired
-	public AdministratorController(AdministratorService administratorService, RegisteredUserService registeredUserService,
-	                               CompanyService companyService, AdministratorAddValidator administratorAddValidator) {
-		this.administratorService = administratorService;
+	public AdministratorController(MailService mailService, AdministratorService administratorService, RegisteredUserService registeredUserService,
+                                   CompanyService companyService, AdministratorAddValidator administratorAddValidator) {
+        this.mailService = mailService;
+        this.administratorService = administratorService;
 		this.registeredUserService = registeredUserService;
 		this.companyService = companyService;
 		this.administratorAddValidator = administratorAddValidator;
@@ -90,6 +95,7 @@ public class AdministratorController {
 		Company company = companyService.findById(administratorDto.getCompanyId());
 		Administrator administrator = new Administrator(user, company);
 		administrator = administratorService.addAdministrator(administrator);
+		sendEmail(user, company);
 		return new ResponseEntity<>(administrator, HttpStatus.OK);
 	}
 
@@ -112,4 +118,18 @@ public class AdministratorController {
 		return new ResponseEntity<>(registeredUser, HttpStatus.OK);
 	}
 
+    private void sendEmail(RegisteredUser user, Company company){
+        new Thread(() -> {
+            try {
+                mailService.sendThroughRemote(user.getEmail(),
+                        mailService.getMailTemplate("target/classes/administrator.html"),
+                        "A new administrator job",
+                        mailService.getEmailProperty("adminAddress"),
+                        company.getName()
+                );
+            } catch (MessagingException | IOException e) {
+                LOGGER.error("Exception while sending email", e);
+            }
+        }).start();
+    }
 }
