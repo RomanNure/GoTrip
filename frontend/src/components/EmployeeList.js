@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios'
+import ReactModal from 'react-modal';
+
 
 export default class EmployeeList extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            modal: false
             /*guides: [
                 {
                     id: 4,
@@ -56,7 +59,13 @@ export default class EmployeeList extends Component {
                 this.forceUpdate()
             }));
     }
-
+    _onAddAdmin = () => {
+        this.setState({ modal: true })
+    }
+    _onSentRequest = () => {
+        this.setState({ modal: false })
+        this.props._onAddAdmin(this.refs.admin.value) 
+    }
 
     render() {
         console.log('this.props=>', this.props)
@@ -65,6 +74,35 @@ export default class EmployeeList extends Component {
         console.log('administrators=>', administrators && administrators.length)
         return (
             <div className="container">
+                <ReactModal
+                    isOpen={this.state.modal}
+                    style={{
+                        overlay: {
+                            backgroundColor: "inharit"
+                        },
+                        content: {
+                            marginLeft: "35%",
+                            marginTop: "10%",
+                            marginBottom: "20%",
+                            alignItems: "space-between",
+                            width: "30%",
+                            borderRadius: 30,
+                            color: 'lightsteelblue'
+                        }
+                    }}
+                >
+                    <div style={{ marginLeft: "30%" }}>
+                        <h2>
+                            Add Admin
+                        </h2>
+                    </div>
+                    <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="login/email of admin" disabled={false/*!this.state.rule*/} />
+                    <a  className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({modal:false})}>close</a>
+
+                    <a style={{ marginLeft: "70%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
+                        onClick={() => this._onSentRequest}>Add admin</a>
+
+                </ReactModal>
                 <div className="row h3 m-4">
                     Company Employees
                 </div>
@@ -100,7 +138,7 @@ export default class EmployeeList extends Component {
                     <div className="col-2 col-md-3" style={{ right: 0 }}>
                         <div className="btn-group-vertical mr-2" role="group" aria-label="First group">
                             <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2 mb-2">Add Guid</a>
-                            <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this.props._onAddAdmin}>Add Admin</a>
+                            <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onAddAdmin}>Add Admin</a>
                         </div>
                     </div>
 

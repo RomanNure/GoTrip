@@ -4,12 +4,14 @@ import ToursList from '../components/ToursList.js';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 
+
 export default class CompanyPage extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             tab: "Information",
+            modal: false
         }
         this.state.id = this.props.location.pathname.match(/\:\d+/)[0].substr(1)
     }
@@ -47,8 +49,40 @@ export default class CompanyPage extends Component {
                 console.log('Error', error);
             })
     }
-    _onAddAdmin = () => {
-        console.log('try to add company admin')
+    _onAddAdmin = (text) => {
+        let data = {
+            companyId: this.state.id,
+            email: "",
+            login: ""
+        }
+        //  this.setState({ modal: true })
+        if (!text) return
+        if (text.match(/@/)) {
+            console.log('email')
+            data.email = text
+        } else {
+            data.login = text
+        }
+        console.log('data=>', data)
+        axios({
+            method: "post",
+            url: 'https://go-trip.herokuapp.com/administrator/add',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data
+        })
+            .then((res) => {
+                console.log('res=> ', res)
+                toast.success('added new administrator', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            })
+            .catch((err) => {
+                toast.error('server error', {
+                    position: toast.POSITION.TOP_RIGHT
+                });
+            })
 
     }
     _onUpdateCompany = () => {
@@ -154,10 +188,11 @@ export default class CompanyPage extends Component {
     }
 
     render() {
-        this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
+        //    this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
         return (
             <div>
                 <ToastContainer />
+
 
                 <div className="container bootstrap snippet" >
                     <div className="row ng-scope">
@@ -167,7 +202,10 @@ export default class CompanyPage extends Component {
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
                                             <label htmlFor="Photo">
-                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96" src={this.state.imageLink?this.state.imageLink:"images/Avatar.png"} alt="Contact" />
+                                                <img className="center-block img-circle img-responsive img-thumbnail rounded-circle thumb96"
+                                                    src={this.state.imageLink ? this.state.imageLink : "images/Avatar.png"} alt="Contact"
+                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100, margin: 5 }}
+                                                />
                                             </label>
                                             {<input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
 
@@ -188,11 +226,11 @@ export default class CompanyPage extends Component {
                                 <div className="panel-body">
                                     <div className="pull-right">
                                     </div>
-                                    <div className="h4 text-center mr-md-12 mt-12 mt-md-3" style={{ borderRadius: 20 }}>
+                                    {!this.state.modal && <div className="h4 text-center mr-md-12 mt-12 mt-md-3" style={{ borderRadius: 20 }}>
                                         <a className={this.state.tab == 'Information' ? "btn-large waves-effect waves-light #81c784 green lighten-1 " : 'btn-large waves-effect waves-light #81c784 green lighten-2'} style={{ width: "35%" }} onClick={this._onChangeTab('Information')}>Information</a>
                                         <a className={this.state.tab == 'Tours' ? "btn-large waves-effect waves-light #81c784 green lighten-1 " : 'btn-large waves-effect waves-light #81c784 green lighten-2'} style={{ width: "35%" }} onClick={this._onChangeTab('Tours')}>Tours</a>
                                         <a className={this.state.tab == 'Employees' ? "btn-large waves-effect waves-light #81c784 green lighten-1 " : 'btn-large waves-effect waves-light #81c784 green lighten-2'} style={{ width: "30%" }} onClick={this._onChangeTab('Employees')}>Employees</a>
-                                    </div>
+                                    </div>}
                                     {this.state.tab == "Information" && <div className="row pv-lg">
                                         <div className="col-lg-2"></div>
                                         <div className="col-lg-8">

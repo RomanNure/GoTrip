@@ -21,11 +21,11 @@ export default class UserPage extends Component {
     }
 
     componentDidMount() {
-        console.log('this.tate=>', this.state)
+        //console.log('this.tate=>', this.state)
         if (!this.state.login && this.state.id) {
             axios({
-                method: "get",
                 url: 'https://go-trip.herokuapp.com/user/get' + "?id=" + this.state.id,
+                method: "get",
                 headers: {
                     'Content-Type': 'application/x-www-from-urlencoded',//Content-Type': 'appication/json',
                 },

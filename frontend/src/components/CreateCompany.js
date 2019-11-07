@@ -80,7 +80,7 @@ export default class CompanyPage extends PureComponent {
                 },
                 data
             }),
-            axios.post('http://185.255.96.249:5000/fileupload', formData, {
+            axios.post('http://185.255.96.249:5000/company', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -88,53 +88,51 @@ export default class CompanyPage extends PureComponent {
 
         ])
             .then(axios.spread((acct, perms) => {
-                if(acct){
-                    toast.success("Company created !", {
-                        position: toast.POSITION.TOP_RIGHT
-                    })
-                    setTimeout(() => this.props.history.push({ pathname: '/company:' + this.props.history.location.state.id }), 3000)
-                }
-            }));
-       /* axios({
-            method: "post",
-            url: 'https://go-trip.herokuapp.com/company/registration',
-            //url:'http://93.76.235.211:5000/authorize',    
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data
-        })
-            .then(({ data }) => {
-                let { name, id, email } = data
-                toast.success("Weclome back!", {
+                toast.success("Company created !", {
                     position: toast.POSITION.TOP_RIGHT
                 })
-                console.log('data', data)
-                cookie.save('company', { name, id, email }, { path: '/company:id' })
-                setTimeout(() => this.props.history.push({ pathname: '/company:' + cookie.load('company').name }), 3000)
-                //setTimeout(() =>  window.location.update, 4000)//, {props: data})
-                //window.location.reload();
-
-            })
-            .catch(error => {
-                if (error.response) {
-                    console.log('data=>', error.response.data);
-                    console.log("status=>", error.response.status);
-                    console.log('headers =>', error.response.headers);
-                    toast.error(error.response.data.message, {
-                        position: toast.POSITION.TOP_RIGHT
-                    });
-
-                } else if (error.request) {
-                    console.log('request err', error.request);
-                } else {
-                    console.log('Error', error.message);
-                }
-                console.log('config', error.config)
-                console.log('Error', error);
-
-            })
-*/
+                setTimeout(() => this.props.history.push({ pathname: '/company:' + this.props.history.location.state.id }), 3000)
+            }));
+        /* axios({
+             method: "post",
+             url: 'https://go-trip.herokuapp.com/company/registration',
+             //url:'http://93.76.235.211:5000/authorize',    
+             headers: {
+                 'Content-Type': 'application/json',
+             },
+             data
+         })
+             .then(({ data }) => {
+                 let { name, id, email } = data
+                 toast.success("Weclome back!", {
+                     position: toast.POSITION.TOP_RIGHT
+                 })
+                 console.log('data', data)
+                 cookie.save('company', { name, id, email }, { path: '/company:id' })
+                 setTimeout(() => this.props.history.push({ pathname: '/company:' + cookie.load('company').name }), 3000)
+                 //setTimeout(() =>  window.location.update, 4000)//, {props: data})
+                 //window.location.reload();
+ 
+             })
+             .catch(error => {
+                 if (error.response) {
+                     console.log('data=>', error.response.data);
+                     console.log("status=>", error.response.status);
+                     console.log('headers =>', error.response.headers);
+                     toast.error(error.response.data.message, {
+                         position: toast.POSITION.TOP_RIGHT
+                     });
+ 
+                 } else if (error.request) {
+                     console.log('request err', error.request);
+                 } else {
+                     console.log('Error', error.message);
+                 }
+                 console.log('config', error.config)
+                 console.log('Error', error);
+ 
+             })
+ */
         //        console.log('data', data)
 
 
