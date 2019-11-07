@@ -7,7 +7,7 @@ export default class ToresList extends Component {
         this.state = {
             tours: this.props.tours ? this.props.tours : [
                 {
-                    img: "./images/bestplaceholder.jpg",
+                    img: "./images/placeholder.jpg",
                     title: "Adventure tour around Brazil",
                     descr: "Best-selling Brazil tour! All the best things to do in the summer with our first-rate guide Ricardo!",
                     time: "October 27, 2019"

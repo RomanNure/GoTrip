@@ -33,14 +33,9 @@ export default class UserPage extends Component {
             })
                 .then(({ data }) => {
                     console.log('data=>', data)
-                    let { email, login, phone, fullName, description, avatarUrl } = data
-                    let rule = (this.state.user && login == this.state.user.login) ? true : false
-                    let user = cookie.load('user')
-                    if (rule && avatarUrl) {
-                        user.avatarUrl = avatarUrl
-                        cookie.save('user', user, { path: '/' })
-                    }
-                    this.setState({ email, login, phone, fullName, rule, description, avatarUrl })
+                    if (!data.email) return false
+                    return data
+                    //this.setState({ email, login, phone, fullName, rule, description, avatarUrl })
                     // if (rule) window.location.reload();
 
                 })
@@ -49,6 +44,34 @@ export default class UserPage extends Component {
                         position: toast.POSITION.TOP_RIGHT
                     });
                     console.log('Error', error);
+                })
+                .then(userData => {
+                    axios({
+                        method: "get",
+                        url: 'https://go-trip.herokuapp.com/company/get/owner' + "?id=" + this.state.id,
+                        headers: {
+                            'Content-Type': 'application/x-www-from-urlencoded',//Content-Type': 'appication/json',
+                        },
+                    })
+                        .then(company => {
+                            console.log('company =>', company)
+                            if (!userData) throw "err"
+
+                            let { email, login, phone, fullName, description, avatarUrl } = userData
+                            let rule = (this.state.user && login == this.state.user.login) ? true : false
+                            let user = cookie.load('user')
+                            if (rule && avatarUrl) {
+                                user.avatarUrl = avatarUrl
+                                cookie.save('user', user, { path: '/' })
+                            }
+
+                            this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0] })
+                        })
+                })
+                .catch(err => {
+                    toast.error('server not response', {
+                        position: toast.POSITION.TOP_RIGHT
+                    });
                 })
         }
     }
@@ -197,10 +220,13 @@ export default class UserPage extends Component {
         console.log('lets create a company')
         this.props.history.push({ pathname: '/create-company', state: { id: this.state.id, email: this.state.email, login: this.state.login, fullName: this.state.fullName, phone: this.state.phone } })
     }
+    _onOpenYourCompany = () => {
+        this.props.history.push('/company:'+this.state.company.id)
+    }
 
     render() {
 
-        let { login, email, rule, phone, fullName, description, avatarUrl } = this.state
+        let { login, email, rule, phone, fullName, description, avatarUrl, company } = this.state
         console.log('userPage', this.state)
         return (
             <>
@@ -232,7 +258,9 @@ export default class UserPage extends Component {
                                             <textarea className="form-control" id="exampleTextarea" disible={!rule} placeholder="User description" row="4" defaultValue={description}></textarea>
                                         </div>
                                     </div>
-                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onCreateCompany}>Become a company</a></div>
+                                    {rule && !company ? <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onCreateCompany}>Become a company</a></div>
+                                        :
+                                        <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenYourCompany}>Manage your company</a></div>
                                     }
                                     {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
                                     }
