@@ -13,6 +13,8 @@ public interface TourService {
 
     Tour add(Tour tour) throws NotUniqueTourException;
 
+    void update(Tour tour) throws NotFoundTourException;
+
     Tour findById(long id) throws NotFoundTourException;
 
     List<Tour> getByCriteria(FilterUnit filterUnit);

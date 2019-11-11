@@ -38,4 +38,11 @@ public class AdministratorServiceImpl implements AdministratorService {
 		return administratorRepository.save(administrator);
 	}
 
+    @Override
+    public void remove(long id) throws NotFoundAdministratorException {
+        Administrator admin = administratorRepository.findById(id)
+                .orElseThrow(()-> new NotFoundAdministratorException("Administrator not found"));
+        administratorRepository.delete(admin);
+    }
+
 }

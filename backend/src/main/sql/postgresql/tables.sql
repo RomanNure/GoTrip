@@ -68,7 +68,7 @@ create table guide
 create table tours
 (
   tour_id          bigserial      not null unique primary key,
-  administrator_id bigserial      not null
+  administrator_id bigserial
     constraint tours_administrator_id_fk
       references administrators,
   name             varchar(70)    not null,

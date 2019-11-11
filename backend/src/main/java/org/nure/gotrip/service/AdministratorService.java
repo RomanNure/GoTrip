@@ -12,4 +12,5 @@ public interface AdministratorService {
 
 	Administrator update(Administrator administrator);
 
+	void remove(long id) throws NotFoundAdministratorException;
 }

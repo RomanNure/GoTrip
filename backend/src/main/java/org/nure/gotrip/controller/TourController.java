@@ -27,24 +27,24 @@ import java.util.stream.Collectors;
 @RequestMapping("/tours")
 public class TourController {
 
-	private TourService tourService;
-	private AdministratorService administratorService;
-	private ModelMapper modelMapper;
+    private TourService tourService;
+    private AdministratorService administratorService;
+    private ModelMapper modelMapper;
 
-	@Autowired
-	public TourController(TourService tourService, AdministratorService administratorService, ModelMapper modelMapper) {
-		this.tourService = tourService;
-		this.administratorService = administratorService;
-		this.modelMapper = modelMapper;
-	}
+    @Autowired
+    public TourController(TourService tourService, AdministratorService administratorService, ModelMapper modelMapper) {
+        this.tourService = tourService;
+        this.administratorService = administratorService;
+        this.modelMapper = modelMapper;
+    }
 
-	@GetMapping(value = "/get", produces = "application/json")
-	public ResponseEntity<List<Tour>> getAll() {
-		return new ResponseEntity<>(tourService.findAll(), HttpStatus.OK);
-	}
+    @GetMapping(value = "/get", produces = "application/json")
+    public ResponseEntity<List<Tour>> getAll() {
+        return new ResponseEntity<>(tourService.findAll(), HttpStatus.OK);
+    }
 
-	@GetMapping(value = "/get/id", produces = "application/json")
-    public ResponseEntity<Tour> getById(@RequestParam long id){
+    @GetMapping(value = "/get/id", produces = "application/json")
+    public ResponseEntity<Tour> getById(@RequestParam long id) {
         try {
             Tour tour = tourService.findById(id);
             return new ResponseEntity<>(tour, HttpStatus.OK);
@@ -53,26 +53,41 @@ public class TourController {
         }
     }
 
-	@PostMapping(value = "/add", produces = "application/json")
-	public ResponseEntity addTour(@RequestBody TourDto tourDto) {
-		try {
-			Administrator administrator = administratorService.getById(tourDto.getIdAdministrator());
-			Tour tour = modelMapper.map(tourDto, Tour.class);
-			tour.setPhotos(Arrays.stream(tourDto.getPhotosUrl())
-                    .map(stringUrl->new TourPhoto(stringUrl, tour))
-            .collect(Collectors.toList()));
-            tour.setAdministrator(administrator);
-			Tour newTour = tourService.add(tour);
-			return new ResponseEntity<>(newTour, HttpStatus.OK);
-		} catch (NotUniqueTourException e) {
-			throw new ConflictException(e.getMessage());
-		} catch (NotFoundAdministratorException e) {
-			throw new NotFoundException(e.getMessage());
-		}
-	}
+    @PostMapping(value = "/add", produces = "application/json")
+    public ResponseEntity addTour(@RequestBody TourDto tourDto) {
+        try {
+            Tour tour = getTour(tourDto);
+            Tour newTour = tourService.add(tour);
+            return new ResponseEntity<>(newTour, HttpStatus.OK);
+        } catch (NotUniqueTourException e) {
+            throw new ConflictException(e.getMessage());
+        } catch (NotFoundAdministratorException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
 
-	@PostMapping(value = "/get/advanced", produces = "application/json")
-    public ResponseEntity getByFilters(@RequestBody FilterUnit filterUnit){
-	    return new ResponseEntity<>(tourService.getByCriteria(filterUnit), HttpStatus.OK);
+    @PostMapping(value = "/edit", produces = "application/json")
+    public ResponseEntity editTour(@RequestBody Tour tour) {
+        try {
+            tourService.update(tour);
+        } catch (NotFoundTourException e) {
+            throw new NotFoundException("Can't find such tour");
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/get/advanced", produces = "application/json")
+    public ResponseEntity getByFilters(@RequestBody FilterUnit filterUnit) {
+        return new ResponseEntity<>(tourService.getByCriteria(filterUnit), HttpStatus.OK);
+    }
+
+    private Tour getTour(TourDto tourDto) throws NotFoundAdministratorException {
+        Administrator administrator = administratorService.getById(tourDto.getIdAdministrator());
+        Tour tour = modelMapper.map(tourDto, Tour.class);
+        tour.setPhotos(Arrays.stream(tourDto.getPhotosUrl())
+                .map(stringUrl -> new TourPhoto(stringUrl, tour))
+                .collect(Collectors.toList()));
+        tour.setAdministrator(administrator);
+        return tour;
     }
 }

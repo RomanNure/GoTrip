@@ -9,6 +9,8 @@ import org.nure.gotrip.repository.TourJdbcRepository;
 import org.nure.gotrip.repository.TourPhotoRepository;
 import org.nure.gotrip.repository.TourRepository;
 import org.nure.gotrip.service.TourService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -18,6 +20,8 @@ import java.util.List;
 
 @Service
 public class TourServiceImpl implements TourService {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(TourServiceImpl.class);
 
 	private TourRepository tourRepository;
     private TourPhotoRepository tourPhotoRepository;
@@ -56,7 +60,21 @@ public class TourServiceImpl implements TourService {
 		}
 	}
 
-	public List<Tour> getByCriteria(FilterUnit filterUnit){
+    @Override
+    public void update(Tour tour) throws NotFoundTourException {
+        try {
+            Tour oldTour = tourRepository.findById(tour.getId())
+                    .orElseThrow(()-> new NotFoundTourException("Tour was not found"));
+            oldTour.getPhotos().forEach(tourPhotoRepository::delete);
+
+            tour.getPhotos().forEach(photo -> photo.setTour(tour));
+            add(tour);
+        } catch (NotUniqueTourException e) {
+            LOGGER.error("Can't update tour", e);
+        }
+    }
+
+    public List<Tour> getByCriteria(FilterUnit filterUnit){
         List<Long> ids =  tourJdbcRepository.getIdToursByCriteria(filterUnit);
         List<Tour> tours = new ArrayList<>();
         ids.forEach(id -> tours.add(tourRepository.findById(id).get()));
