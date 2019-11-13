@@ -1,8 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Net;
+using System.Linq;
+using IO = System.IO;
+using System.Collections.Generic;
 
-using Android.Content.Res;
 using Android.Content;
 using Android.Graphics;
 using Android.Views;
@@ -10,47 +11,52 @@ using Android.Views;
 using CustomControls;
 using CustomControls.Droid;
 
-using Xamarin.Forms;
+using XF = Xamarin.Forms;
 using Xamarin.Forms.Platform.Android;
-using System.Collections.Generic;
-using System.Linq;
 
-[assembly: ExportRenderer(typeof(Img), typeof(ImgRenderer))]
+[assembly: XF.ExportRenderer(typeof(Img), typeof(ImgRenderer))]
 namespace CustomControls.Droid
 {
     public class ImgRenderer : ClickableViewRenderer
     {
-        private Img TargetImage;
-        private Bitmap BitmapData;
+        private Img TargetImage { get; set; }
+        private Bitmap BitmapData { get; set; }
 
-        private static readonly int[,] CORNER_PNT_TRANS_COEFS = new int[4, 4]
+        private Path[] Borders = new Path[4];
+        private const float cornerAngle = -(float)Math.PI / 2.0f;
+        private static readonly float[] cornerAngleStarts = new float[4] { (float)Math.PI, (float)Math.PI / 2.0f, 0, -(float)Math.PI / 2.0f };
+        private static readonly float[] cornerCircleCenterCoeffs = new float[16]
         {
-            { 0,  1, 0,  1 },
-            { 1, -1, 0,  1 },
-            { 1, -1, 1, -1 },
-            { 0,  1, 1, -1 }
+            0, 1, 0, 1,
+            1, -1, 0, 1,
+            1, -1, 1, -1,
+            0,  1, 1, -1
         };
 
-        private List<List<float>> Borders = new List<List<float>>();
-        private static readonly Paint TransperentPaint = new Paint();
+        private static readonly Paint CornerCropPaint = new Paint();
 
         public ImgRenderer(Context context) : base(context)
         {
             SetWillNotDraw(false);
-            TransperentPaint.Color = Android.Graphics.Color.Transparent;
+
+            CornerCropPaint.Color = Color.Transparent;
+            CornerCropPaint.SetStyle(Paint.Style.Fill);
+            CornerCropPaint.SetXfermode(new PorterDuffXfermode(PorterDuff.Mode.Clear));
         }
 
-        protected override void OnElementChanged(ElementChangedEventArgs<BoxView> e)
+        protected override void OnElementChanged(ElementChangedEventArgs<XF.BoxView> e)
         {
             base.OnElementChanged(e);
 
             TargetImage = Target as Img;
 
             TargetImage.OnSourceChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
-            TargetImage.OnBorderRadiusChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
-            TargetImage.OnImageScaleChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
-            TargetImage.OnBorderColorChanged += sender => PostInvalidate();
+            TargetImage.OnCornerRadiusChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
+            TargetImage.OnCornerSmoothChanged += sender => { UpdateBitmapData(); PostInvalidate(); };
 
+            TargetImage.OnBorderColorChanged += sender => PostInvalidate();
+            TargetImage.OnBorderWidthChanged += sender => PostInvalidate();
+            TargetImage.OnBorderStatusChanged += sender => PostInvalidate();
 
             UpdateBitmapData();
             PostInvalidate();
@@ -78,7 +84,7 @@ namespace CustomControls.Droid
                 BitmapData = tempScaled.Copy(Bitmap.Config.Argb8888, true);
                 tempScaled.Dispose();
 
-                AddBorderRadiusMask();
+                UpdateCorners();
             }
             catch { BitmapData = null; }
         }
@@ -87,7 +93,7 @@ namespace CustomControls.Droid
         {
             try
             {
-                Stream str = Android.App.Application.Context.Assets.Open(path);
+                IO.Stream str = Android.App.Application.Context.Assets.Open(path);
                 return BitmapFactory.DecodeStream(str);
             }
             catch
@@ -95,132 +101,107 @@ namespace CustomControls.Droid
                 Uri url = new Uri(TargetImage.Source);
                 HttpWebRequest request = new HttpWebRequest(url);
 
-                Stream response = request.GetResponse().GetResponseStream();
+                IO.Stream response = request.GetResponse().GetResponseStream();
                 return BitmapFactory.DecodeStream(response);
             }
         }
 
-        private void AddBorderRadiusMask()
+        private PointF[] GetBorderPoints(float centerX, float centerY, float angleStart, float angle, float radius, int pointsCount)
+        {
+            PointF[] pts = new PointF[pointsCount];
+
+            double angleDelta = angle / (pointsCount - 1);
+            double currentAngle = angleStart;
+
+            for (int i = 0; i < pointsCount; i++, currentAngle += angleDelta)
+                pts[i] = GetCirclePoint(centerX, centerY, radius, currentAngle);
+
+            return pts;
+        }
+
+        private Path BuildBorderPath(IEnumerable<PointF> borderPoints, Path.FillType fillType, bool close)
+        {
+            List<PointF> p = borderPoints.ToList();
+            Path path = new Path();
+
+            path.SetFillType(fillType);
+            path.MoveTo(borderPoints.ElementAt(0).X, borderPoints.ElementAt(0).Y);
+
+            foreach (PointF point in borderPoints)
+                path.LineTo(point.X, point.Y);
+
+            if (close) path.Close();
+
+            return path;
+        }
+
+        private Path BuildCornerPath(IEnumerable<PointF> borderPoints, float cornerX, float cornerY)
+        {
+            Path path = BuildBorderPath(borderPoints, Path.FillType.EvenOdd, false);
+
+            path.LineTo(cornerX, cornerY);
+            path.LineTo(borderPoints.ElementAt(0).X, borderPoints.ElementAt(0).Y);
+
+            path.Close();
+
+            return path;
+        }
+
+        private PointF GetCirclePoint(float cx, float cy, float radius, double angle) =>
+            new PointF(cx + radius * (float)Math.Cos(angle), cy - radius * (float)Math.Sin(angle));
+
+        private void UpdateCorners()
         {
             if (BitmapData == null)
                 return;
 
-            Borders.Clear();
+            Canvas canvas = new Canvas(BitmapData);
+            PointF[][] borderPoints = new PointF[4][];
 
-            for (int i = 0; i <= Img.SIDES_COUNT; i++)
-                Borders.Add(new List<float>());
-            int side = 0;
-
-            for (Img.Corners corner = 0; corner < (Img.Corners)Img.CORNERS_COUNT; corner++)
+            for(Img.Corners i = Img.Corners.TOP_LEFT; i <= Img.Corners.BOT_LEFT; i++)
             {
-                int borderRadius = (int)(TargetImage.GetBorderRadius(corner) * Density);
+                int ii = (int)i;
+                int radius = (int)(TargetImage.GetCornerRadius(i) * Density);
 
-                int start = (borderRadius - 1) * ((int)corner % 2);
-                int delta = start == 0 ? 1 : -1;
+                float px = cornerCircleCenterCoeffs[ii * Img.CORNERS_COUNT] * BitmapData.Width;
+                float py = cornerCircleCenterCoeffs[ii * Img.CORNERS_COUNT + 2] * BitmapData.Height;
 
-                int dColor = (int)Math.Sqrt(borderRadius * borderRadius / 2);
-                bool isColorChanged = start > dColor;
+                float cx = px + cornerCircleCenterCoeffs[ii * Img.CORNERS_COUNT + 1] * radius;
+                float cy = py + cornerCircleCenterCoeffs[ii * Img.CORNERS_COUNT + 3] * radius;
 
-                for (int i = start; i >= 0 && i < borderRadius; i += delta) //x 
-                {
-                    int x = (int)(TargetImage.WidthRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 0] + i * CORNER_PNT_TRANS_COEFS[(int)corner, 1]);
-                    int maxY = borderRadius - (int)Math.Sqrt(2 * borderRadius * i - i * i);
-
-                    if (x >= 0 && x < BitmapData.Width)
-                        for (int j = 0; j < maxY; j++) //y
-                        {
-                            int y = (int)(TargetImage.HeightRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 2] + j * CORNER_PNT_TRANS_COEFS[(int)corner, 3]);
-                            if (y >= 0 && y < BitmapData.Height)
-                                BitmapData.SetPixel(x, y, Android.Graphics.Color.Transparent);
-                        }
-
-                    int by = (int)(TargetImage.HeightRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 2] + maxY * CORNER_PNT_TRANS_COEFS[(int)corner, 3]);
-
-                    Borders[side].Add(x);
-                    Borders[side].Add(by);
-
-                    if (i > dColor != isColorChanged)
-                    {
-                        Borders[++side].Add(x);
-                        Borders[side].Add(by);
-
-                        isColorChanged = !isColorChanged;
-                    }
-                }
-
-                if (borderRadius == 0)
-                {
-                    int x = (int)(TargetImage.WidthRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 0]);
-                    int y = (int)(TargetImage.HeightRequest * Density * CORNER_PNT_TRANS_COEFS[(int)corner, 2]);
-
-                    Borders[side].Add(x);
-                    Borders[side].Add(y);
-
-                    Borders[++side].Add(x);
-                    Borders[side].Add(y);
-
-                    isColorChanged = !isColorChanged;
-                }
+                borderPoints[ii] = GetBorderPoints(cx, cy, cornerAngleStarts[(int)i], cornerAngle, radius, TargetImage.CornersSmooth);
+                canvas.DrawPath(BuildCornerPath(borderPoints[ii], px, py), CornerCropPaint);
             }
 
-            foreach (float i in Borders.First())
-                Borders.Last().Add(i);
-            Borders.RemoveAt(0);
+            for (int i = 0; i < Borders.Length - 1; i++)
+                Borders[i] = BuildBorderPath(borderPoints[i].Skip(borderPoints[i].Length / 2 - 1).Concat(borderPoints[i + 1].Take(borderPoints[i + 1].Length / 2 + 1)), Path.FillType.EvenOdd, false);
+            Borders[Borders.Length - 1] = BuildBorderPath(borderPoints.Last().Skip(borderPoints.Last().Length / 2 - 1).Concat(borderPoints.First().Take(borderPoints.First().Length / 2 + 1)), Path.FillType.EvenOdd, false);
         }
 
         protected override void OnDraw(Canvas canvas)
         {
-            try
-            {
-                if (BitmapData == null || !Target.IsVisible)
-                    return;
+            if (BitmapData == null)
+                return;
 
-                Bitmap tempBitmap = Bitmap.CreateScaledBitmap(BitmapData, canvas.Width, canvas.Height, false);
+            Bitmap tempBitmap = Bitmap.CreateScaledBitmap(BitmapData, canvas.Width, canvas.Height, false);
 
-                float dx = (canvas.Width - tempBitmap.Width) / 2.0f;
-                float dy = (canvas.Height - tempBitmap.Height) / 2.0f;
+            float dx = (canvas.Width - tempBitmap.Width) / 2.0f;
+            float dy = (canvas.Height - tempBitmap.Height) / 2.0f;
 
-                float ratioX = (float)tempBitmap.Width / BitmapData.Width;
-                float ratioY = (float)tempBitmap.Height / BitmapData.Height;
+            canvas.DrawBitmap(tempBitmap, dx, dy, null);
 
-                canvas.DrawBitmap(tempBitmap, dx, dy, null);
+            tempBitmap.Dispose();
 
-                tempBitmap.Dispose();
-
-                if ((TargetImage.BorderAlways || TargetImage.ClickAnimation && Clicked) && TargetImage.ClickedBorderWidth != 0)
+            if ((TargetImage.Border || (TargetImage.BorderOnClick && Clicked)) && TargetImage.BorderWidth != 0)
+                for (Img.Sides i = Img.Sides.TOP; i <= Img.Sides.LEFT; i++)
                 {
-                    for (int i = 0; i < Borders.Count; i++)
-                    {
-                        Paint P = new Paint();
-                        P.StrokeCap = Paint.Cap.Round;
-                        P.StrokeWidth = TargetImage.ClickedBorderWidth * Density;
-                        P.Color = ColorConvert(TargetImage.GetBorderColor((Img.Sides)i));
-
-                        List<float> tempBorders = ShiftAndScalePoints(dx, dy, ratioX, ratioY, Borders[i].ToArray());
-
-                        for (int l = 0; l < tempBorders.Count - 2; l += 2)
-                            canvas.DrawLine(tempBorders[l], tempBorders[l + 1], tempBorders[l + 2], tempBorders[l + 3], P);
-
-                        List<float> nextLineFirstPoint = ShiftAndScalePoints(dx, dy, ratioX, ratioY, Borders[(i + 1) % Borders.Count][0], Borders[(i + 1) % Borders.Count][1]);
-                        canvas.DrawLine(tempBorders[tempBorders.Count - 2], tempBorders[tempBorders.Count - 1], nextLineFirstPoint[0], nextLineFirstPoint[1], P);
-                    }
+                    Paint borderPaint = new Paint();
+                    borderPaint.StrokeCap = Paint.Cap.Round;
+                    borderPaint.SetStyle(Paint.Style.Stroke);
+                    borderPaint.StrokeWidth = TargetImage.BorderWidth;
+                    borderPaint.Color = ColorConvert(TargetImage.GetBorderColor(i));
+                    canvas.DrawPath(Borders[(int)i], borderPaint);
                 }
-            }
-            catch { }
-        }
-
-        private List<float> ShiftAndScalePoints(float dx, float dy, float ratioX, float ratioY, params float[] P)
-        {
-            List<float> NP = new List<float>(P);
-            for (int i = 0; i < NP.Count; i += 2)
-            {
-                NP[i] += dx;
-                NP[i + 1] += dy;
-
-                NP[i] *= ratioX;
-                NP[i + 1] *= ratioY;
-            }
-            return NP;
         }
 
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)
@@ -235,6 +216,7 @@ namespace CustomControls.Droid
                 return true;
 
             PostInvalidate();
+
             return true;
         }
     }
