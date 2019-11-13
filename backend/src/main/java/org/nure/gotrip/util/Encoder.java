@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 @Component
 public class Encoder {
 
-    private static final byte DEFAULT_BYTE = 5;
+	private static final byte DEFAULT_BYTE = 5;
 	private final Logger logger = LoggerFactory.getLogger(Encoder.class);
 
 	private static final String ENCODING = "MD5";
@@ -28,11 +28,11 @@ public class Encoder {
 		}
 
 		byte[] encodedBytes = md.digest(bytesOfMessage);
-		for(int i = 0; i < encodedBytes.length; ++i){
-		    if(encodedBytes[i] == 0){
-		        encodedBytes[i] = DEFAULT_BYTE;
-            }
-        }
+		for (int i = 0; i < encodedBytes.length; ++i) {
+			if (encodedBytes[i] == 0) {
+				encodedBytes[i] = DEFAULT_BYTE;
+			}
+		}
 		return new String(encodedBytes);
 	}
 }

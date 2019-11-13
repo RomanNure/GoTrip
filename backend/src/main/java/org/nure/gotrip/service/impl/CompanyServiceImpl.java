@@ -2,7 +2,6 @@ package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.exception.NotFoundCompanyException;
 import org.nure.gotrip.exception.NotUniqueCompanyException;
-import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Company;
 import org.nure.gotrip.repository.CompanyRepository;
 import org.nure.gotrip.service.CompanyService;
@@ -26,7 +25,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Override
 	public Company add(Company company) throws NotUniqueCompanyException {
-        try{
+		try {
 			return companyRepository.save(company);
 		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueCompanyException("The database contains a company with this name");
@@ -54,20 +53,20 @@ public class CompanyServiceImpl implements CompanyService {
 	}
 
 	public Company findByAdmin(long administratorId) throws NotFoundCompanyException {
-	    BigInteger companyId = companyRepository.findByAdministrator(administratorId);
-	    if(companyId == null){
-	        throw new NotFoundCompanyException("Company was not found");
-        }
-	    return companyRepository.findById(companyId.longValue()).orElseThrow(()->new NotFoundCompanyException("Company was not found"));
-    }
+		BigInteger companyId = companyRepository.findByAdministrator(administratorId);
+		if (companyId == null) {
+			throw new NotFoundCompanyException("Company was not found");
+		}
+		return companyRepository.findById(companyId.longValue()).orElseThrow(() -> new NotFoundCompanyException("Company was not found"));
+	}
 
-    @Override
-    public List<Company> findByOwner(long id) throws NotFoundCompanyException {
-        Iterable<BigInteger> companyIds = companyRepository.findByOwner(id);
-        List<Company> result = new ArrayList<>();
-        for(BigInteger companyId : companyIds){
-            result.add(companyRepository.findById(companyId.longValue()).orElseThrow(()-> new NotFoundCompanyException("Company not found")));
-        }
-        return result;
-    }
+	@Override
+	public List<Company> findByOwner(long id) throws NotFoundCompanyException {
+		Iterable<BigInteger> companyIds = companyRepository.findByOwner(id);
+		List<Company> result = new ArrayList<>();
+		for (BigInteger companyId : companyIds) {
+			result.add(companyRepository.findById(companyId.longValue()).orElseThrow(() -> new NotFoundCompanyException("Company not found")));
+		}
+		return result;
+	}
 }

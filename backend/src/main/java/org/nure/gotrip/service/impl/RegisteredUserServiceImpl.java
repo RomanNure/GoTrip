@@ -26,7 +26,7 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		this.encoder = encoder;
 	}
 
-	public RegisteredUser add(RegisteredUser user) throws NotUniqueUserException{
+	public RegisteredUser add(RegisteredUser user) throws NotUniqueUserException {
 		try {
 			user.setPassword(encoder.encode(user.getPassword()));
 			user.setRegistrationDatetime(new Date(System.currentTimeMillis()));
@@ -40,7 +40,7 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		return registeredUserRepository.save(user);
 	}
 
-	public RegisteredUser findById(long id) throws NotFoundUserException{
+	public RegisteredUser findById(long id) throws NotFoundUserException {
 		return registeredUserRepository.findById(id).orElseThrow(() -> new NotFoundUserException("User did not find by id"));
 	}
 
@@ -53,25 +53,25 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 		return registeredUserRepository.findAll();
 	}
 
-    @Override
-    public boolean checkPassword(RegisteredUser user, String password) {
-        String encodedPassword = encoder.encode(password);
-        return user.getPassword().equals(encodedPassword);
-    }
+	@Override
+	public boolean checkPassword(RegisteredUser user, String password) {
+		String encodedPassword = encoder.encode(password);
+		return user.getPassword().equals(encodedPassword);
+	}
 
-    @Override
-    public RegisteredUser findByLogin(String login) throws NotFoundUserException {
-        return registeredUserRepository.findByLogin(login).orElseThrow(()->new NotFoundUserException("User with such login doesn't exist"));
-    }
+	@Override
+	public RegisteredUser findByLogin(String login) throws NotFoundUserException {
+		return registeredUserRepository.findByLogin(login).orElseThrow(() -> new NotFoundUserException("User with such login doesn't exist"));
+	}
 
-    @Override
-    public Iterable<BigInteger> findUserCompanies(Long userId){
-	    return registeredUserRepository.findByEmployee(userId);
-    }
+	@Override
+	public Iterable<BigInteger> findUserCompanies(Long userId) {
+		return registeredUserRepository.findByEmployee(userId);
+	}
 
-    @Override
-    public RegisteredUser findByAdministrator(long administratorId){
-	    Long userId = registeredUserRepository.findByAdministrator(administratorId).longValue();
-	    return registeredUserRepository.findById(userId).orElse(null);
-    }
+	@Override
+	public RegisteredUser findByAdministrator(long administratorId) {
+		Long userId = registeredUserRepository.findByAdministrator(administratorId).longValue();
+		return registeredUserRepository.findById(userId).orElse(null);
+	}
 }

@@ -24,47 +24,47 @@ public class RegistrationUserFormValidator {
 
 	private static final String FULL_NAME_PATTERN = "^[a-zA-Z]{2,47} [a-zA-Z]{2,47}$";
 
-    private static final String PHONE_PATTERN = "^\\+[0-9]{7,15}$";
+	private static final String PHONE_PATTERN = "^\\+[0-9]{7,15}$";
 
-    public boolean registrationUserFormValid(UserRegistrationFormDto userRegistrationFormDto) throws ValidationException {
+	public boolean registrationUserFormValid(UserRegistrationFormDto userRegistrationFormDto) throws ValidationException {
 		isRegistrationDataCorrect(
-		        userRegistrationFormDto.getLogin(),
-                userRegistrationFormDto.getEmail()
-        );
+				userRegistrationFormDto.getLogin(),
+				userRegistrationFormDto.getEmail()
+		);
 
-        if (!userRegistrationFormDto.getPassword().matches(PASS_PATTERN)) {
-            throw new ValidationException("Invalid password");
-        }
+		if (!userRegistrationFormDto.getPassword().matches(PASS_PATTERN)) {
+			throw new ValidationException("Invalid password");
+		}
 		return true;
 	}
 
-	public void validateUser(RegisteredUser user) throws ValidationException{
-        isRegistrationDataCorrect(
-                user.getLogin(),
-                user.getEmail()
-        );
+	public void validateUser(RegisteredUser user) throws ValidationException {
+		isRegistrationDataCorrect(
+				user.getLogin(),
+				user.getEmail()
+		);
 
-        isAdditionalDataCorrect(
-                user.getFullName(),
-                user.getPhone()
-        );
-    }
+		isAdditionalDataCorrect(
+				user.getFullName(),
+				user.getPhone()
+		);
+	}
 
-    private void isRegistrationDataCorrect(String login, String email) throws ValidationException{
-        if (login == null || !login.matches(LOGIN_PATTERN)) {
-            throw new ValidationException("Invalid login");
-        }
-        if (email == null || !email.matches(EMAIL_PATTERN)) {
-            throw new ValidationException("Invalid email");
-        }
-    }
+	private void isRegistrationDataCorrect(String login, String email) throws ValidationException {
+		if (login == null || !login.matches(LOGIN_PATTERN)) {
+			throw new ValidationException("Invalid login");
+		}
+		if (email == null || !email.matches(EMAIL_PATTERN)) {
+			throw new ValidationException("Invalid email");
+		}
+	}
 
-    private void isAdditionalDataCorrect(String fullname, String phone) throws ValidationException{
-	    if (fullname != null && !fullname.matches(FULL_NAME_PATTERN) && fullname.length() > MAX_FULL_NAME_SIZE) {
-            throw new ValidationException("Invalid full name");
-        }
-        if (phone != null && !phone.matches(PHONE_PATTERN)) {
-            throw new ValidationException("Invalid phone");
-        }
-    }
+	private void isAdditionalDataCorrect(String fullname, String phone) throws ValidationException {
+		if (fullname != null && !fullname.matches(FULL_NAME_PATTERN) && fullname.length() > MAX_FULL_NAME_SIZE) {
+			throw new ValidationException("Invalid full name");
+		}
+		if (phone != null && !phone.matches(PHONE_PATTERN)) {
+			throw new ValidationException("Invalid phone");
+		}
+	}
 }

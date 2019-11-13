@@ -3,7 +3,16 @@ package org.nure.gotrip.model;
 import lombok.Getter;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.util.Date;
 import java.util.List;
 
@@ -13,46 +22,46 @@ import java.util.List;
 @Table(name = "tours")
 public class Tour {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "tour_id")
-    private long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "tour_id")
+	private long id;
 
-    @Column(name = "name")
-    private String name;
+	@Column(name = "name")
+	private String name;
 
-    @Column(name = "description")
-    private String description;
+	@Column(name = "description")
+	private String description;
 
-    @Column(name = "price_per_person")
-    private double pricePerPerson;
+	@Column(name = "price_per_person")
+	private double pricePerPerson;
 
-    @Column(name = "main_picture_url")
-    private String mainPictureUrl;
+	@Column(name = "main_picture_url")
+	private String mainPictureUrl;
 
-    @Column(name = "start_date_time")
-    private Date startDateTime;
+	@Column(name = "start_date_time")
+	private Date startDateTime;
 
-    @Column(name = "finish_date_time")
-    private Date finishDateTime;
+	@Column(name = "finish_date_time")
+	private Date finishDateTime;
 
-    @Column(name = "max_participants")
-    private int maxParticipants;
+	@Column(name = "max_participants")
+	private int maxParticipants;
 
-    @Column(name="location")
-    private String location;
+	@Column(name = "location")
+	private String location;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "administrator_id")
-    private Administrator administrator;
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "administrator_id")
+	private Administrator administrator;
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
-    private List<TourPhoto> photos;
+	@OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+	private List<TourPhoto> photos;
 
-    @OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
-    private List<Participating> participatingList;
+	@OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
+	private List<Participating> participatingList;
 
-    public Tour(){
-        //Constructor for JPA
-    }
+	public Tour() {
+		//Constructor for JPA
+	}
 }

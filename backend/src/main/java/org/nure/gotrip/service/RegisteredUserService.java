@@ -22,7 +22,7 @@ public interface RegisteredUserService {
 
 	RegisteredUser findByLogin(String login) throws NotFoundUserException;
 
-    Iterable<BigInteger> findUserCompanies(Long userId);
+	Iterable<BigInteger> findUserCompanies(Long userId);
 
-    RegisteredUser findByAdministrator(long administratorId);
+	RegisteredUser findByAdministrator(long administratorId);
 }

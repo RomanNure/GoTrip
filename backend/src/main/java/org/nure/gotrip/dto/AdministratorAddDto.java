@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class AdministratorAddDto {
 
-    private long companyId;
-    private String email;
-    private String login;
+	private long companyId;
+	private String email;
+	private String login;
 
 }

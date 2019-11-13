@@ -9,19 +9,19 @@ import java.util.Map;
 @Setter
 public class FilterUnit {
 
-    private Map<String, Filter> filters;
-    private Map<String, String> search;
-    private String sortingCriterion;
+	private Map<String, Filter> filters;
+	private Map<String, String> search;
+	private String sortingCriterion;
 
-    @Getter
-    @Setter
-    public static class Filter{
+	@Getter
+	@Setter
+	public static class Filter {
 
-        String from;
-        String to;
-    }
+		String from;
+		String to;
+	}
 
-    public Filter getFilter(String filterName){
-        return filters.get(filterName);
-    }
+	public Filter getFilter(String filterName) {
+		return filters.get(filterName);
+	}
 }
