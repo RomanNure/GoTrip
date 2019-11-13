@@ -45,7 +45,7 @@ namespace GoNTrip.Pages.Additional.Controls
         private const int TOUR_IMAGE_COLUMN_END = 1;
         private const bool TOUR_IMAGE_BORDER_ALWAYS = false;
         private const float TOUR_IMAGE_BORDERS_WIDTH = 0;
-        private const int TOUR_IMAGE_BORDER_RADIUS = 45;
+        private const int TOUR_IMAGE_BORDER_RADIUS = 0;//45
         private const string TOUR_IMAGE_DEFAULT_SOURCE = Constants.DEFAULT_TOUR_IMAGE_SOURCE;
 
         private const string TOUR_NAME_CLASS_NAME = "TourPreviewNameLabel";

@@ -140,10 +140,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <customcontrols:RadioButton x:Name="PriceSortedChecker" OnClick="SortedChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="0" Grid.Column="0"/>
-                                <Label Style="{StaticResource HeaderLabel}" Text="Price" Grid.Row="0" Grid.Column="1"/>
+                                <Label Style="{StaticResource HeaderLabel}" x:Name="PriceSortLabel" Text="Price" Grid.Row="0" Grid.Column="1"/>
 
                                 <customcontrols:RadioButton x:Name="FreePlacesSortedChecker" OnClick="SortedChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="1" Grid.Column="0"/>
-                                <Label Style="{StaticResource HeaderLabel}" Text="Free places" Grid.Row="1" Grid.Column="1"/>
+                                <Label Style="{StaticResource HeaderLabel}" x:Name="FreePlacesSortLabel" Text="Free places" Grid.Row="1" Grid.Column="1"/>
 
                             </Grid>
 
