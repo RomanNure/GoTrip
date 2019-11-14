@@ -72,7 +72,7 @@
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="50"/>
                                 <RowDefinition Height="1"/>
-                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
@@ -155,7 +155,7 @@
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
-            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="0" XTranslationBorder="0" ImageSource="DefaultAvatar.png"/>
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="-100" XTranslationBorder="0" ImageSource="DefaultAvatar.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

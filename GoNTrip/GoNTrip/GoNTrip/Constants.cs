@@ -34,7 +34,7 @@ namespace GoNTrip
 
         public const int ACTIVITY_INDICATOR_START_TIMEOUT = 100;
 
-        public const int PHOTO_POPUP_X_TRANSLATION_BORDER = 0;
-        public const int PHOTO_POPUP_Y_TRANSLATION_BORDER = 0;
+        public const int PHOTO_POPUP_X_TRANSLATION_BORDER = -100;
+        public const int PHOTO_POPUP_Y_TRANSLATION_BORDER = -100;
     }
 }

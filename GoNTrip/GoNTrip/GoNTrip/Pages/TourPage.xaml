@@ -136,7 +136,7 @@
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
-            <templates:SwipablePhotoPopup x:Name="TourMainImage" YTranslationBorder="0" XTranslationBorder="0" ImageSource="DefaultTourIcon.png"/>
+            <templates:SwipablePhotoPopup x:Name="TourMainImage" YTranslationBorder="-100" XTranslationBorder="-100" ImageSource="DefaultTourIcon.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

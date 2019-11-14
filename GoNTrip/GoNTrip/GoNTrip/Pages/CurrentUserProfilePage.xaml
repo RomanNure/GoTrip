@@ -210,7 +210,7 @@
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
             <templates:SimpleMessagePopup x:Name="SelectAvatarSourcePopup" PopupWidth="250" PopupHeight="100" MessageText="Select avatar source" FirstButtonText="Camera" SecondButtonText="Gallery"/>
             <templates:SimpleMessagePopup x:Name="ExitConfirmPopup" PopupWidth="250" PopupHeight="100" MessageText="Are you sure want to exit?" FirstButtonText="Yes" SecondButtonText="No"/>
-            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="-50" XTranslationBorder="0" ImageSource="DefaultAvatar.png"/>
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="-100" XTranslationBorder="0" ImageSource="DefaultAvatar.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

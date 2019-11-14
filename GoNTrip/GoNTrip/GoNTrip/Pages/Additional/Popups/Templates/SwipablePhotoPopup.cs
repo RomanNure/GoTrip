@@ -24,7 +24,7 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
                 else
                 {
                     double height = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
-                    double outerTail = Math.Abs(TopBorderExceeded ? YTranslationBorder.Value - Image.Y - Image.TranslationY : Image.Y + Image.Height + Image.TranslationY - height - YTranslationBorder.Value);
+                    double outerTail = Math.Abs(TopBorderExceeded ? YTranslationBorder.Value - Image.Y - Image.TranslationY : Image.Y + Image.Height + Image.TranslationY - height + YTranslationBorder.Value);
                     Image.Scale = (1 - outerTail / Image.Height);
                 }
             }

@@ -364,6 +364,8 @@ namespace GoNTrip.Pages
             await UpdateToursAsync();
         }
 
+        private bool SortedCheckerLabel_OnClick(MotionEvent ME, IClickable sender) => ((sender as Element).BindingContext as IClickable).Click(ME);
+
         private bool SortedChecker_OnClick(MotionEvent ME, IClickable sender)
         {
             if (ME.Action != MotionEventActions.Down)
@@ -372,8 +374,6 @@ namespace GoNTrip.Pages
             foreach (RadioButton sortedChecker in SortedCheckers)
                 if (!sortedChecker.Equals(sender))
                     sortedChecker.Checked = false;
-            
-            //(sender as RadioButton).Parent
 
             return false;
         }
