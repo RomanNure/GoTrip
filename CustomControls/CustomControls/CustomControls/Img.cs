@@ -2,9 +2,11 @@
 
 using Xamarin.Forms;
 
+using AG = Android.Graphics;
+
 namespace CustomControls
 {
-    public class Img : ClickableView
+    public class Img : ClickableView, IDisposable
     {
         public event Changed OnSourceChanged;
 
@@ -166,5 +168,10 @@ namespace CustomControls
             get { return source; }
             set { source = value; OnSourceChanged?.Invoke(this); }
         }
+
+        private AG.Bitmap firstSource { get; set; }
+        public AG.Bitmap FirstSource { get => firstSource; set { firstSource = value; OnSourceChanged?.Invoke(this); } }
+
+        public void Dispose() => firstSource?.Dispose();
     }
 }

@@ -64,7 +64,7 @@ namespace CustomControls.Droid
 
         private void UpdateBitmapData()
         {
-            if (TargetImage.Source == "")
+            if (TargetImage.FirstSource == null && TargetImage.Source == "")
             {
                 BitmapData = null;
                 PostInvalidate();
@@ -73,7 +73,7 @@ namespace CustomControls.Droid
 
             try
             {
-                Bitmap temp = LoadBitmap(TargetImage.Source);
+                Bitmap temp = TargetImage.FirstSource == null ? LoadBitmap(TargetImage.Source) : TargetImage.FirstSource;
 
                 TargetImage.WidthRequest = TargetImage.WidthRequest == -1 ? temp.Width / Density : TargetImage.WidthRequest;
                 TargetImage.HeightRequest = TargetImage.HeightRequest == -1 ? temp.Height / Density : TargetImage.HeightRequest;
