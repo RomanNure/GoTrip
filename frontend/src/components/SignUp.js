@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'react-cookies'
-
+import { register } from '../api.js';
 const display = {
     display: 'block',
     top: 70,
@@ -90,7 +90,7 @@ export default class SignUp extends Component {
         } else {
             if (PASSWORD.test(p1)) {
                 console.log('- password matched')
-            }else{
+            } else {
                 toast.error("Password must contain A-Z, a-z, 1-9 !", {
                     position: toast.POSITION.TOP_RIGHT
                 });
@@ -103,29 +103,30 @@ export default class SignUp extends Component {
             email: email.value,
             password: p1.value
         }
-        axios({
-            method: "post",
-            url: 'https://go-trip.herokuapp.com/register',
-            //url: 'http://93.76.235.211:5000/register',
-            headers: {
-                //"Content-Type": "text/plain",
-                'Content-Type': 'application/json',//Content-Type': 'appication/json',
+        /*axios({
+    method: "post",
+    url: 'https://go-trip.herokuapp.com/register',
+    //url: 'http://93.76.235.211:5000/register',
+    headers: {
+        //"Content-Type": "text/plain",
+        'Content-Type': 'application/json',//Content-Type': 'appication/json',
 
-            },
-            data: user,
-        })
-            .then(({data}) => {
+    },
+    data: user,
+})*/
+        register(user)
+            .then(({ data }) => {
                 toast.success("Registered", {
                     position: toast.POSITION.TOP_RIGHT
                 });
                 console.log(`POST: user is added`, data);
-                cookie.save('user', { login: login.value, password: p1.value, id:data.id }, { path: '/' })
+                cookie.save('user', { login: login.value, password: p1.value, id: data.id }, { path: '/' })
                 setTimeout(() => this.props.history.push({ pathname: '/user:' + data.id, state: data }), 2000)//, {props: data})
                 // append to DOM
             })
             .catch(error => {
 
-               if (error.response) {
+                if (error.response) {
                     console.log('data=>', error.response.data);
                     console.log("status=>", error.response.status);
                     console.log('headers =>', error.response.headers);
