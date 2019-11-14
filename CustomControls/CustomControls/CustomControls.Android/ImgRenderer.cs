@@ -183,25 +183,29 @@ namespace CustomControls.Droid
             if (BitmapData == null)
                 return;
 
-            Bitmap tempBitmap = Bitmap.CreateScaledBitmap(BitmapData, canvas.Width, canvas.Height, false);
+            try
+            {
+                Bitmap tempBitmap = Bitmap.CreateScaledBitmap(BitmapData, canvas.Width, canvas.Height, false);
 
-            float dx = (canvas.Width - tempBitmap.Width) / 2.0f;
-            float dy = (canvas.Height - tempBitmap.Height) / 2.0f;
+                float dx = (canvas.Width - tempBitmap.Width) / 2.0f;
+                float dy = (canvas.Height - tempBitmap.Height) / 2.0f;
 
-            canvas.DrawBitmap(tempBitmap, dx, dy, null);
+                canvas.DrawBitmap(tempBitmap, dx, dy, null);
 
-            tempBitmap.Dispose();
+                tempBitmap.Dispose();
 
-            if ((TargetImage.Border || (TargetImage.BorderOnClick && Clicked)) && TargetImage.BorderWidth != 0)
-                for (Img.Sides i = Img.Sides.TOP; i <= Img.Sides.LEFT; i++)
-                {
-                    Paint borderPaint = new Paint();
-                    borderPaint.StrokeCap = Paint.Cap.Round;
-                    borderPaint.SetStyle(Paint.Style.Stroke);
-                    borderPaint.StrokeWidth = TargetImage.BorderWidth;
-                    borderPaint.Color = ColorConvert(TargetImage.GetBorderColor(i));
-                    canvas.DrawPath(Borders[(int)i], borderPaint);
-                }
+                if ((TargetImage.Border || (TargetImage.BorderOnClick && Clicked)) && TargetImage.BorderWidth != 0)
+                    for (Img.Sides i = Img.Sides.TOP; i <= Img.Sides.LEFT; i++)
+                    {
+                        Paint borderPaint = new Paint();
+                        borderPaint.StrokeCap = Paint.Cap.Round;
+                        borderPaint.SetStyle(Paint.Style.Stroke);
+                        borderPaint.StrokeWidth = TargetImage.BorderWidth;
+                        borderPaint.Color = ColorConvert(TargetImage.GetBorderColor(i));
+                        canvas.DrawPath(Borders[(int)i], borderPaint);
+                    }
+            }
+            catch { }
         }
 
         protected override void OnSizeChanged(int w, int h, int oldw, int oldh)
