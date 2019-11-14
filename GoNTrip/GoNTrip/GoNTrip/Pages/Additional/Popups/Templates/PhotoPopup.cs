@@ -24,8 +24,8 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
             Img image = new Img();
             image.HorizontalOptions = LayoutOptions.FillAndExpand;
             image.VerticalOptions = LayoutOptions.CenterAndExpand;
-            image.ClickedBorderWidth = 0;
-            image.BorderAlways = false;
+            image.BorderOnClick = false;
+            image.Border = false;
             image.Margin = 0;
             Image = image;
 

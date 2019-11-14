@@ -98,9 +98,9 @@
                                 </Grid.ColumnDefinitions>
 
                                 <AbsoluteLayout Style="{StaticResource AvatarWrapper}" Grid.Row="0" Grid.Column="0">
-                                    <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
-                                    <local:Img Style="{StaticResource SendMessageButton}" x:Name="SendMessage" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="SendMessage_OnClick" BorderRadius="0" 
-                                               BotRightBorderRadius="14" TopLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="sendMessage.png"/>
+                                    <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" BorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" BorderWidth="12" CornerRad="18" Source="DefaultAvatar.png"/>
+                                    <local:Img Style="{StaticResource SendMessageButton}" x:Name="SendMessage" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="SendMessage_OnClick" CornerRad="0" 
+                                               BotRightCornerRadius="14" TopLeftCornerRadius="14" Border="False" BorderOnClick="False" Source="sendMessage.png"/>
                                 </AbsoluteLayout>
 
                                 <Grid Style="{StaticResource InfoGrid}" Grid.Row="0" Grid.Column="1">
@@ -155,7 +155,7 @@
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
-            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultAvatar.png"/>
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="0" XTranslationBorder="0" ImageSource="DefaultAvatar.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

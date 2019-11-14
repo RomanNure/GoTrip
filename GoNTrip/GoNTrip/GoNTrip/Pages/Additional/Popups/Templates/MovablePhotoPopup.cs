@@ -7,12 +7,13 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 {
     public class MovablePhotoPopup : SignedPhotoPopup
     {
-        public delegate void OnBorderExceeded(MovablePhotoPopup popup);
+        public delegate void Moved(MotionEvent ME, MovablePhotoPopup popup);
+        public event Moved OnMove;
 
-        public event OnBorderExceeded OnTopBorderExceeded;
-        public event OnBorderExceeded OnBotBorderExceeded;
-        public event OnBorderExceeded OnLeftBorderExceeded;
-        public event OnBorderExceeded OnRightBorderExceeded;
+        public bool TopBorderExceeded { get; private set; }
+        public bool BotBorderExceeded { get; private set; }
+        public bool LeftBorderExceeded { get; private set; }
+        public bool RightBorderExceeded { get; private set; }
 
         public float? XTranslationBorder { get; set; }
         public float? YTranslationBorder { get; set; }
@@ -25,26 +26,31 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
             if (ME.Action == MotionEventActions.Down)
             {
                 startMovePoint = (ME.RawX, ME.RawY);
+
+                LeftBorderExceeded = false;
+                TopBorderExceeded = false;
+                RightBorderExceeded = false;
+                BotBorderExceeded = false;
+                
                 return false;
             }
 
             Img img = sender as Img;
 
             (float x, float y) translation = GetNewTranslation(ME, startMovePoint, (float)DeviceDisplay.MainDisplayInfo.Density);
+
+            OnMove?.Invoke(ME, this);
+
             img.TranslationX = translation.x;
             img.TranslationY = translation.y;
 
             double width = DeviceDisplay.MainDisplayInfo.Width / DeviceDisplay.MainDisplayInfo.Density;
             double height = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
 
-            if (XTranslationBorder != null && width - img.TranslationX < XTranslationBorder)
-                OnRightBorderExceeded?.Invoke(this);
-            else if (XTranslationBorder != null && width + img.TranslationX < XTranslationBorder)
-                OnLeftBorderExceeded?.Invoke(this);
-            else if (YTranslationBorder != null && height + img.TranslationY < YTranslationBorder)
-                OnTopBorderExceeded?.Invoke(this);
-            else if (YTranslationBorder != null && height - img.TranslationY < YTranslationBorder)
-                OnBotBorderExceeded?.Invoke(this);
+            RightBorderExceeded = XTranslationBorder != null && img.X + img.Width + img.TranslationX > width - XTranslationBorder;
+            LeftBorderExceeded = XTranslationBorder != null && img.X + img.TranslationX < XTranslationBorder;
+            TopBorderExceeded = YTranslationBorder != null && img.Y + img.TranslationY < YTranslationBorder;
+            BotBorderExceeded = YTranslationBorder != null && img.Y + img.Height + img.TranslationY > height - YTranslationBorder;
 
             return false;
         }

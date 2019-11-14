@@ -13,6 +13,7 @@ namespace GoNTrip.Pages.Additional.Popups
     public class Popup : ClickableContentView
     {
         public bool Closable { get; set; }
+        public bool Opened { get; private set; }
 
         public Clicked OnPopupWrapperClicked { get; set; }
         public Clicked OnPopupBodyClicked { get; set; }
@@ -62,12 +63,14 @@ namespace GoNTrip.Pages.Additional.Popups
 
         public void Show()
         {
+            Opened = true;
             OnShow?.Invoke();
             this.IsVisible = true;
         }
 
         public bool ForceHide()
         {
+            Opened = false;
             OnHide?.Invoke();
 
             foreach (InputView input in Inputs)

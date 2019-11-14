@@ -93,11 +93,9 @@ namespace GoNTrip.Pages
             Grid buttonsWrapper = new Grid();
             buttonsWrapper.Style = (Style)App.Current.Resources["TourListNavigationButtonsWrapper"];
 
-            Img prevPageButton = new Img() { Source = "prev.png", BorderRadius = 5, ClickedBorderWidth = 0, BorderAlways = false,
-                                             ScaleOnClicked = 0.9f, HorizontalOptions = LayoutOptions.End, IsVisible = false };
+            Img prevPageButton = new Img() { Source = "prev.png", CornerRad = 5, Border = false, BorderOnClick = false, ScaleOnClicked = 0.9f, HorizontalOptions = LayoutOptions.End, IsVisible = false };
 
-            Img nextPageButton = new Img() { Source = "next.png", BorderRadius = 5, ClickedBorderWidth = 0, BorderAlways = false,
-                                             ScaleOnClicked = 0.9f, HorizontalOptions = LayoutOptions.Start, IsVisible = false };
+            Img nextPageButton = new Img() { Source = "next.png", CornerRad = 5, Border = false, BorderOnClick = false, ScaleOnClicked = 0.9f, HorizontalOptions = LayoutOptions.Start, IsVisible = false };
 
             prevPageButton.Style = (Style)App.Current.Resources["TourListNavigationButton"];
             nextPageButton.Style = (Style)App.Current.Resources["TourListNavigationButton"];

@@ -21,7 +21,7 @@
 
                                 <Label Style="{StaticResource HeaderLabel}" x:Name="TourName" HeightRequest="-1" MinimumHeightRequest="40" Text="Some Tour"/>
 
-                                <customcontrols:Img BackgroundColor="Red" Margin="0,-7,0,0" x:Name="TourMainImagePreview" OnClick="TourMainImagePreview_OnClick" BorderAlways="False" ClickedBorderWidth="0" Source="DefaultTourIcon.png"/>
+                                <customcontrols:Img BackgroundColor="Red" Margin="0,-7,0,0" x:Name="TourMainImagePreview" OnClick="TourMainImagePreview_OnClick" Border="False" BorderOnClick="False" Source="DefaultTourIcon.png"/>
 
                                 <StackLayout x:Name="TourContentWrapper" Margin="5,0,5,5">
 
@@ -81,7 +81,7 @@
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="CompanyImage" Source="DefaultTourIcon.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="3" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="CompanyImage" Source="DefaultTourIcon.png" Border="False" BorderOnClick="False" CornerRad="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Organizator company" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="OrganisatorCompanyName" Text="Some company" Grid.Row="1" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="OrganisatorCompanyWebSite" Text="Company domain" Grid.Row="2" Grid.Column="1"/>
@@ -94,7 +94,7 @@
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="AdminProfilePreview" OnClick="AdminProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" OnClick="AdminProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="3" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="AdminAvatar" OnClick="AdminProfilePreview_OnClick" Source="DefaultAvatar.png" Border="False" BorderOnClick="False" CornerRad="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Tour administrator" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminName" Text="Tour admin" Grid.Row="1" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourAdminEmail" Text="Admin email" Grid.Row="2" Grid.Column="1"/>
@@ -107,7 +107,7 @@
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="GuideProfilePreview" OnClick="GuideProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 
-                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" OnClick="GuideProfilePreview_OnClick" Source="DefaultAvatar.png" BorderAlways="False" ClickedBorderWidth="0" BorderRadius="35" Grid.RowSpan="3" Grid.Column="0"/>
+                                                <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="GuideAvatar" OnClick="GuideProfilePreview_OnClick" Source="DefaultAvatar.png" Border="False" BorderOnClick="False" CornerRad="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Tour guide" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideName" Text="Tour guide" Grid.Row="1" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="TourGuideEmail" Text="Guide email" Grid.Row="2" Grid.Column="1"/>
@@ -136,7 +136,7 @@
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
-            <templates:SwipablePhotoPopup x:Name="TourMainImage" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultTourIcon.png"/>
+            <templates:SwipablePhotoPopup x:Name="TourMainImage" YTranslationBorder="0" XTranslationBorder="0" ImageSource="DefaultTourIcon.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

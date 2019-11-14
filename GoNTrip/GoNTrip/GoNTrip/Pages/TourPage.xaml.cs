@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Autofac;
 
@@ -12,10 +14,10 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 using GoNTrip.Model;
+using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.Pages.Additional.Popups.Templates;
-using GoNTrip.Controllers;
 using GoNTrip.ServerInteraction.ResponseParsers;
 
 namespace GoNTrip.Pages
@@ -26,7 +28,7 @@ namespace GoNTrip.Pages
         private const int TOUR_MEMBERS_AVATAR_COUNT_IN_ROW = 5;
         private const int SECONDARY_IMAGES_COUNT_IN_ROW = 3;
 
-        private const int SECONDARY_IMAGE_BORDER_RADIUS = 18;
+        private const int SECONDARY_IMAGE_CORNER_RADIUS = 18;
         private const float SECONDARY_IMAGE_BORDER_WIDTH = 0;
 
         private static readonly Color SECONDARY_IMAGE_BORDER_COLOR = (Color)App.Current.Resources["BarBackColor"];
@@ -54,7 +56,6 @@ namespace GoNTrip.Pages
             TourMainImagePreview.HeightRequest = Width;
 
             PhotoCollection = new SwipablePhotoCollection(PopupControl);
-            PhotoCollection.Add(TourMainImage);
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
         }
@@ -90,9 +91,20 @@ namespace GoNTrip.Pages
         {
             await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
 
-            string tourMainImageSource = CurrentTour.mainPictureUrl == null ? Constants.DEFAULT_TOUR_IMAGE_SOURCE : CurrentTour.mainPictureUrl;
-            TourMainImagePreview.Source = tourMainImageSource;
-            TourMainImage.ImageSource = tourMainImageSource;
+            bool mainPhotoShifted = CurrentTour.mainPictureUrl == null && CurrentTour.photos.Count > 0;
+
+            string mainPhotoSource = mainPhotoShifted ? CurrentTour.photos[0].url : (CurrentTour.mainPictureUrl != null ? CurrentTour.mainPictureUrl : Constants.DEFAULT_TOUR_IMAGE_SOURCE);
+            List<string> secondaryPhotos = CurrentTour.photos.Skip(mainPhotoShifted ? 1 : 0).Select(P => P.url).ToList();
+
+            if (!mainPhotoShifted && CurrentTour.mainPictureUrl == null)
+                TourMainImagePreview.IsVisible = false;
+            else
+            {
+                TourMainImagePreview.Source = mainPhotoSource;
+                TourMainImage.ImageSource = mainPhotoSource;
+
+                PhotoCollection.Add(TourMainImage);
+            }
 
             TourSecondaryImages.Children.Clear();
 
@@ -101,18 +113,18 @@ namespace GoNTrip.Pages
                                                 - TourSecondaryImages.ColumnSpacing * (SECONDARY_IMAGES_COUNT_IN_ROW - 1))
                                           / SECONDARY_IMAGES_COUNT_IN_ROW;
 
-            for (int i = 0; i < CurrentTour.photos.Count; i++)
+            for (int i = 0; i < secondaryPhotos.Count; i++)
             {
                 Img img = new Img();
 
                 img.WidthRequest = secondaryImageWidth;
                 img.HeightRequest = secondaryImageWidth;
 
-                img.ClickedBorderColor = SECONDARY_IMAGE_BORDER_COLOR;
-                img.ClickedBorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
-                img.BorderRadius = SECONDARY_IMAGE_BORDER_RADIUS;
+                img.BorderColor = SECONDARY_IMAGE_BORDER_COLOR;
+                img.BorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
+                img.CornerRad = SECONDARY_IMAGE_CORNER_RADIUS;
 
-                img.Source = CurrentTour.photos[i].url;
+                img.Source = secondaryPhotos[i];
 
                 int picNum = i + 1;
                 img.OnClick += (ME, ctx) =>
@@ -146,6 +158,7 @@ namespace GoNTrip.Pages
             TourDurationInfoLabel.Text = (duration.Days == 0 ? "" : duration.Days + " days ") +
                                          (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
                                          (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
+
             TourPlacesInfoLabel.Text = CurrentTour.participatingList.Count + "/" + CurrentTour.maxParticipants;
             TourLocationInfoLabel.Text = CurrentTour.location == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.location;
 

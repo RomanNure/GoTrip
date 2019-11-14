@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-using Xamarin.Forms;
+using Android.Views;
 
 namespace GoNTrip.Pages.Additional.Popups.Templates
 {
@@ -15,11 +15,21 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
         {
             popups.Add(popup);
 
-            popup.OnRightBorderExceeded += (sender) => { if (sender.Equals(current)) MovePrev(); };
-            popup.OnLeftBorderExceeded += (sender) => { if (sender.Equals(current)) MoveNext(); };
+            popup.OnMove += (ME, sender) =>
+            {
+                if (!sender.Equals(current))
+                    return;
 
-            popup.OnBotBorderExceeded += (sender) => Reset();
-            popup.OnTopBorderExceeded += (sender) => Reset();
+                SwipablePhotoPopup senderPopup = sender as SwipablePhotoPopup;
+                senderPopup.ProcessMoving(PopupControl, ME, sender);
+
+                if (ME.Action != MotionEventActions.Up)
+                    return;
+
+                if (senderPopup.RightBorderExceeded) MovePrev();
+                if (senderPopup.LeftBorderExceeded) MoveNext();
+                if (senderPopup.TopBorderExceeded || senderPopup.BotBorderExceeded) Reset();
+            };
         }
 
         private int currentIndex = -1;
@@ -55,11 +65,10 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
         public void Reset()
         {
-            if (hasCurrent)
+            if (hasCurrent && current.Opened)
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
             Opened = false;
-
             currentIndex = -1;
         }
     }

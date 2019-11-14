@@ -95,8 +95,8 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="One's Profile"/>
-                                <local:Img Style="{StaticResource HeaderButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                                <local:Img Style="{StaticResource HeaderButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                                <local:Img Style="{StaticResource HeaderButton}" x:Name="UpdateProfile" OnClick="UpdateProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" Border="False" BorderOnClick="False"/>
+                                <local:Img Style="{StaticResource HeaderButton}" x:Name="EditProfile" OnClick="EditProfile_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="settings.png" Border="False" BorderOnClick="False"/>
                             </Grid>
 
                             <BoxView BackgroundColor="{StaticResource ContentBackColor}" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Grid.Row="1" Grid.Column="0"/>
@@ -116,9 +116,9 @@
                                 </Grid.ColumnDefinitions>
 
                                 <AbsoluteLayout Style="{StaticResource AvatarWrapper}" Grid.Row="0" Grid.Column="0">
-                                    <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" ClickedBorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" ClickedBorderWidth="4" BorderRadius="18" Source="DefaultAvatar.png"/>
-                                    <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="UserAvatarChange_OnClick" BorderRadius="0" 
-                                               TopRightBorderRadius="14" BotLeftBorderRadius="14" ClickedBorderWidth="0" ClickedBorderColor="{StaticResource AdditionalColor}" Source="ChangeAvatarButton.png"/>
+                                    <local:Img Style="{StaticResource Avatar}" x:Name="UserAvatar" BorderColor="{StaticResource BarBackColor}" OnClick="UserAvatar_OnClick" BorderWidth="12" CornerRad="18" Source="DefaultAvatar.png"/>
+                                    <local:Img Style="{StaticResource AvatarChangeButton}" x:Name="UserAvatarChange" ScaleOnClicked="{StaticResource ButtonClickedScale}" OnClick="UserAvatarChange_OnClick" CornerRad="0" 
+                                               TopRightCornerRadius="14" BotLeftCornerRadius="14" Border="False" BorderOnClick="False" Source="ChangeAvatarButton.png"/>
                                 </AbsoluteLayout>
 
                                 <Grid Style="{StaticResource InfoGrid}" Grid.Row="0" Grid.Column="1">
@@ -166,8 +166,8 @@
                                             </Grid.ColumnDefinitions>
 
                                             <Editor Style="{StaticResource UserAbout}" x:Name="UserAbout" Placeholder="Write about yourself..." Grid.RowSpan="3" Grid.ColumnSpan="2"/>
-                                            <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutEdit" OnClick="UserAboutEdit_OnClick" Source="edit.png" BorderAlways="False" ClickedBorderWidth="0" Grid.Row="2" Grid.Column="2"/>
-                                            <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutSave" OnClick="UserAboutSave_OnClick" Source="save.png" IsVisible="False" BorderAlways="False" ClickedBorderWidth="0" Grid.Row="0" Grid.Column="2"/>
+                                            <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutEdit" OnClick="UserAboutEdit_OnClick" Source="edit.png" Border="False" BorderOnClick="False" Grid.Row="2" Grid.Column="2"/>
+                                            <local:Img Style="{StaticResource UserAboutButton}" x:Name="UserAboutSave" OnClick="UserAboutSave_OnClick" Source="save.png" IsVisible="False" Border="False" BorderOnClick="False" Grid.Row="0" Grid.Column="2"/>
 
                                         </Grid>
                                     </Frame>
@@ -210,7 +210,7 @@
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
             <templates:SimpleMessagePopup x:Name="SelectAvatarSourcePopup" PopupWidth="250" PopupHeight="100" MessageText="Select avatar source" FirstButtonText="Camera" SecondButtonText="Gallery"/>
             <templates:SimpleMessagePopup x:Name="ExitConfirmPopup" PopupWidth="250" PopupHeight="100" MessageText="Are you sure want to exit?" FirstButtonText="Yes" SecondButtonText="No"/>
-            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="300" XTranslationBorder="150" ImageSource="DefaultAvatar.png"/>
+            <templates:SwipablePhotoPopup x:Name="AvatarView" YTranslationBorder="-50" XTranslationBorder="0" ImageSource="DefaultAvatar.png"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

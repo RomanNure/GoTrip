@@ -43,9 +43,10 @@ namespace GoNTrip.Pages.Additional.Controls
         private const int TOUR_IMAGE_ROW_END = 4;
         private const int TOUR_IMAGE_COLUMN_START = 0;
         private const int TOUR_IMAGE_COLUMN_END = 1;
-        private const bool TOUR_IMAGE_BORDER_ALWAYS = false;
+        private const bool TOUR_IMAGE_BORDER = false;
+        private const bool TOUR_IMAGE_BORDER_ON_CLICK = false;
         private const float TOUR_IMAGE_BORDERS_WIDTH = 0;
-        private const int TOUR_IMAGE_BORDER_RADIUS = 0;//45
+        private const int TOUR_IMAGE_CORNER_RADIUS = 45;
         private const string TOUR_IMAGE_DEFAULT_SOURCE = Constants.DEFAULT_TOUR_IMAGE_SOURCE;
 
         private const string TOUR_NAME_CLASS_NAME = "TourPreviewNameLabel";
@@ -140,9 +141,10 @@ namespace GoNTrip.Pages.Additional.Controls
 
             image = new Img();
             image.Style = (Style)App.Current.Resources[TOUR_IMAGE_CLASS_NAME];
-            image.BorderAlways = TOUR_IMAGE_BORDER_ALWAYS;
-            image.ClickedBorderWidth = TOUR_IMAGE_BORDERS_WIDTH;
-            image.BorderRadius = TOUR_IMAGE_BORDER_RADIUS;
+            image.Border = TOUR_IMAGE_BORDER;
+            image.Border = TOUR_IMAGE_BORDER_ON_CLICK;
+            image.BorderWidth = TOUR_IMAGE_BORDERS_WIDTH;
+            image.CornerRad = TOUR_IMAGE_CORNER_RADIUS;
             image.Source = TOUR_IMAGE_DEFAULT_SOURCE;
             tourPreviewWrapper.Children.Add(image, TOUR_IMAGE_COLUMN_START, TOUR_IMAGE_COLUMN_END, TOUR_IMAGE_ROW_START, TOUR_IMAGE_ROW_END);
 

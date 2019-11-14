@@ -1,14 +1,35 @@
-﻿using Android.Views;
-using System;
+﻿using System;
+
+using Android.Views;
+
+using Xamarin.Essentials;
 
 namespace GoNTrip.Pages.Additional.Popups.Templates
 {
     public class SwipablePhotoPopup : MovablePhotoPopup
     {
-        public void LinkControlSystem(PopupControlSystem popupControl)
+        public void LinkControlSystem(PopupControlSystem popupControl) => base.OnMove += (ME, sender) => ProcessMoving(popupControl, ME, sender);
+
+        public void ProcessMoving(PopupControlSystem popupControl, MotionEvent ME, MovablePhotoPopup sender)
         {
-            base.OnTopBorderExceeded += (sender) => popupControl.CloseTopPopupAndHideKeyboardIfNeeded();
-            base.OnBotBorderExceeded += (sender) => popupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            if (TopBorderExceeded || BotBorderExceeded)
+            {
+                if (ME.Action == MotionEventActions.Up)
+                {
+                    Image.Scale = 1;
+
+                    if(sender.Opened)
+                        popupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+                }
+                else
+                {
+                    double height = DeviceDisplay.MainDisplayInfo.Height / DeviceDisplay.MainDisplayInfo.Density;
+                    double outerTail = Math.Abs(TopBorderExceeded ? YTranslationBorder.Value - Image.Y - Image.TranslationY : Image.Y + Image.Height + Image.TranslationY - height - YTranslationBorder.Value);
+                    Image.Scale = (1 - outerTail / Image.Height);
+                }
+            }
+            else
+                Image.Scale = 1;
         }
 
         private bool isDX = false;

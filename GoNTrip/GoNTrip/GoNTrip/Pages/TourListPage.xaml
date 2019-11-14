@@ -60,10 +60,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <Label Style="{StaticResource HeaderLabel}" Text="Available tours" Grid.Row="0" Grid.Column="0" />
-                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="UpdateButton" OnClick="UpdateButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SearchButton" OnClick="SearchButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="search.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="FilterButton" OnClick="FilterButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="3" Source="filter.png" BorderAlways="False" ClickedBorderWidth="0"/>
-                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SortButton" OnClick="SortButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="4" Source="sort.png" BorderAlways="False" ClickedBorderWidth="0"/>
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="UpdateButton" OnClick="UpdateButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" Border="False" BorderOnClick="False"/>
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SearchButton" OnClick="SearchButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="search.png" Border="False" BorderOnClick="False"/>
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="FilterButton" OnClick="FilterButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="3" Source="filter.png" Border="False" BorderOnClick="False"/>
+                                <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SortButton" OnClick="SortButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="4" Source="sort.png" Border="False" BorderOnClick="False"   />
 
                             </Grid>
 

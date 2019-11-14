@@ -92,7 +92,8 @@ namespace GoNTrip.Pages.Additional.Controls
 
             img.Source = source;
 
-            img.ClickedBorderWidth = 0;
+            img.Border = false;
+            img.BorderOnClick = false;
             img.HorizontalOptions = LayoutOptions.Center;
 
             img.WidthRequest = HEIGHT - 2 * PADDING;
