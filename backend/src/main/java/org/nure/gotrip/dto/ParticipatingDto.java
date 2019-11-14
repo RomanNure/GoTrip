@@ -10,8 +10,5 @@ import javax.validation.constraints.NotNull;
 public class ParticipatingDto {
 
     @NotNull
-    private long userId;
-
-    @NotNull
     private long tourId;
 }

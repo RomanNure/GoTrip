@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpSession;
+
 @RestController
 public class AuthorizationController {
 
@@ -26,9 +28,10 @@ public class AuthorizationController {
 	}
 
 	@PostMapping(value = "/authorize", produces = "application/json")
-	public RegisteredUser authorize(@RequestBody UserRegistrationFormDto userRegistrationFormDto) {
+	public RegisteredUser authorize(HttpSession session, @RequestBody UserRegistrationFormDto userRegistrationFormDto) {
 		RegisteredUser user = getRegisteredUser(userRegistrationFormDto);
 		checkUserPassword(user, userRegistrationFormDto);
+		session.setAttribute("user", user);
 		return user;
 	}
 
