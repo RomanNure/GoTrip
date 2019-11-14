@@ -18,4 +18,6 @@ public interface TourService {
     Tour findById(long id) throws NotFoundTourException;
 
     List<Tour> getByCriteria(FilterUnit filterUnit);
+
+    List<Tour> getByUser(long userId);
 }
