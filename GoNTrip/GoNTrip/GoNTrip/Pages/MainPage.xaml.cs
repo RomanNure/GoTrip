@@ -10,7 +10,6 @@ using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.ServerInteraction.ResponseParsers;
 using GoNTrip.Pages.Additional.Validators.Templates;
-using System.Collections.Generic;
 
 namespace GoNTrip.Pages
 {

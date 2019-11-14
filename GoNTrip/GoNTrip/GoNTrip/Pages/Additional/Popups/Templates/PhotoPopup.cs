@@ -1,4 +1,4 @@
-﻿using System;
+﻿using AG = Android.Graphics;
 
 using CustomControls;
 
@@ -16,6 +16,9 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
         private string imageSource = "";
         public string ImageSource { get { return imageSource; } set { imageSource = value; UpdatePhotoSource(); } }
+
+        private AG.Bitmap firstSource { get; set; }
+        public AG.Bitmap FirstSource { get => firstSource; set { firstSource = value; UpdatePhotoSource(); } }
 
         protected Img Image { get; set; }
 
@@ -72,7 +75,9 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
 
         public void UpdatePhotoSource()
         {
-            if (Image != null)
+            if (FirstSource != null)
+                Image.FirstSource = FirstSource;
+            else if (ImageSource != null)
                 Image.Source = ImageSource;
         }
     }

@@ -78,6 +78,9 @@ namespace GoNTrip.Pages
                 ErrorPopup.MessageText = ex.message;
                 PopupControl.OpenPopup(ErrorPopup);
             }
+
+            UserAvatar.FirstSource = await QRUtil.Encode("cesar");
+            AvatarView.FirstSource = await QRUtil.Encode("cesar");
         }
 
         private void LoadCurrentUserProfile()
