@@ -18,7 +18,7 @@ namespace CustomControls
         private uint clickAnimationDuration = 50;
         public uint ClickAnimationDuration { get { return clickAnimationDuration; } set { clickAnimationDuration = Math.Max(0, value); } }
 
-        public bool Click(MotionEvent ME)
+        public virtual bool Click(MotionEvent ME)
         {
             if (OnClick == null)
                 return false;

@@ -39,7 +39,7 @@ namespace CustomControls.Droid
 
         private void UpdatePaints(ClickableView sender = null)
         {
-            OuterP.StrokeWidth = TargetRadioButton.OuterWidth * Density;
+            OuterP.StrokeWidth = (TargetRadioButton.OuterWidth / 2.0f - TargetRadioButton.InnerRadius) * Density;
             OuterP.Color = ColorConvert(TargetRadioButton.OuterColor);
 
             InnerP.Color = ColorConvert(TargetRadioButton.InnerColor);
@@ -59,7 +59,7 @@ namespace CustomControls.Droid
                 float cx = canvas.Width / 2.0f;
                 float cy = canvas.Height / 2.0f;
 
-                canvas.DrawCircle(cx, cy, size / 2, OuterP);
+                canvas.DrawCircle(cx, cy, TargetRadioButton.OuterWidth * Density / 2.0f, OuterP);
 
                 if (TargetRadioButton.Checked)
                     canvas.DrawCircle(cx, cy, TargetRadioButton.InnerRadius * Density, InnerP);

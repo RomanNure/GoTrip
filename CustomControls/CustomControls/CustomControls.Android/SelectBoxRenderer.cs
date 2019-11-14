@@ -28,11 +28,6 @@ namespace CustomControls.Droid
             if (base.OnTouchEvent(e))
                 return true;
 
-            if (e.Action == MotionEventActions.Down)
-                TargetSelect.Checked = !TargetSelect.Checked;
-
-            //PostInvalidate();
-
             return false;
         }
     }

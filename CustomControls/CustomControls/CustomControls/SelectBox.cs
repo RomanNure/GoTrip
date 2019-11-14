@@ -1,4 +1,5 @@
 ﻿using System;
+using Android.Views;
 using Xamarin.Forms;
 
 namespace CustomControls
@@ -28,5 +29,16 @@ namespace CustomControls
         public int RadiusDiffer { get { return radiusDiffer; } set { radiusDiffer = Math.Max(0, value); } }
 
         public float InnerRadius { get { return OuterWidth / 2 - RadiusDiffer; } }
+
+        public override bool Click(MotionEvent ME)
+        {
+            if (base.Click(ME))
+                return true;
+
+            if (ME.Action == MotionEventActions.Down)
+                Checked = !Checked;
+
+            return false;
+        }
     }
 }
