@@ -101,7 +101,8 @@ create table participating
       references tours,
   tour_rate          integer            default -1,
   ticket_hash        varchar   not null default '-1',
-  guide_rate         integer            default -1
+  guide_rate         integer            default -1,
+  unique (registered_user_id, tour_id)
 );
 
 SELECT tours.*, administrators.*, tour_photos.*, participating.*

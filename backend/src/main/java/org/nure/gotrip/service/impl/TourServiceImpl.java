@@ -1,5 +1,6 @@
 package org.nure.gotrip.service.impl;
 
+import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.exception.NotUniqueTourException;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,5 +81,15 @@ public class TourServiceImpl implements TourService {
         List<Tour> tours = new ArrayList<>();
         ids.forEach(id -> tours.add(tourRepository.findById(id).get()));
         return tours;
+    }
+
+    @Override
+    public List<Tour> getByUser(long userId) {
+        Iterable<BigInteger> tourIds = tourRepository.findByUser(userId);
+        List<Tour> result = new ArrayList<>();
+        for(BigInteger id : tourIds){
+            result.add(tourRepository.findById(id.longValue()).orElseThrow(()->new NotFoundException("Can't find tour")));
+        }
+        return result;
     }
 }
