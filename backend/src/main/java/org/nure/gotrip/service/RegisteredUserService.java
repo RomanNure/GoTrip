@@ -25,4 +25,6 @@ public interface RegisteredUserService {
 	Iterable<BigInteger> findUserCompanies(Long userId);
 
 	RegisteredUser findByAdministrator(long administratorId);
+
+	Iterable<BigInteger> findAdministratorsByRegisteredUserId(long id);
 }

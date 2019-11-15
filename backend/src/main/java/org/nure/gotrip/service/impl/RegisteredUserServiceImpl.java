@@ -17,7 +17,6 @@ import java.util.Date;
 public class RegisteredUserServiceImpl implements RegisteredUserService {
 
 	private RegisteredUserRepository registeredUserRepository;
-
 	private Encoder encoder;
 
 	@Autowired
@@ -73,5 +72,10 @@ public class RegisteredUserServiceImpl implements RegisteredUserService {
 	public RegisteredUser findByAdministrator(long administratorId) {
 		Long userId = registeredUserRepository.findByAdministrator(administratorId).longValue();
 		return registeredUserRepository.findById(userId).orElse(null);
+	}
+
+	@Override
+	public Iterable<BigInteger> findAdministratorsByRegisteredUserId(long id) {
+		return registeredUserRepository.findAllAdministratorsById(id);
 	}
 }

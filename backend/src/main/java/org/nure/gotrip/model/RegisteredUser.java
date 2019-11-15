@@ -60,20 +60,20 @@ public class RegisteredUser {
 	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Company> company;
 
-    @OneToMany(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Administrator> administrator;
+	@OneToMany(mappedBy = "registeredUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Administrator> administrator;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Participating> participatingList;
+	@JsonIgnore
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Participating> participatingList;
 
-    @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
-    @JoinColumn(name = "registered_user_id")
-    private Guide guide;
+	@JsonIgnore
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "registered_user_id")
+	private Guide guide;
 
 	public RegisteredUser() {
-        //Constructor for JPA
+		//Constructor for JPA
 	}
 
 	public RegisteredUser(String login, String password, String email) {
@@ -162,23 +162,23 @@ public class RegisteredUser {
 		this.description = description;
 	}
 
-    public List<Administrator> getAdministrator() {
-        return administrator;
-    }
+	public List<Administrator> getAdministrator() {
+		return administrator;
+	}
 
-    public void setAdministrator(List<Administrator> administrator) {
-        this.administrator = administrator;
-    }
+	public void setAdministrator(List<Administrator> administrator) {
+		this.administrator = administrator;
+	}
 
-    public List<Company> getCompany() {
-        return company;
-    }
+	public List<Company> getCompany() {
+		return company;
+	}
 
-    public void setCompany(List<Company> company) {
-        this.company = company;
-    }
+	public void setCompany(List<Company> company) {
+		this.company = company;
+	}
 
-    public List<Participating> getParticipatingList() {
-        return participatingList;
-    }
+	public List<Participating> getParticipatingList() {
+		return participatingList;
+	}
 }

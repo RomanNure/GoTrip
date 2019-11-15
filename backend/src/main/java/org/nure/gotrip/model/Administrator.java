@@ -45,6 +45,10 @@ public class Administrator {
         //Constructor for JPA
     }
 
+    public Administrator(long id){
+        this.id = id;
+    }
+
     public Administrator(RegisteredUser user, Company company){
         this.registeredUser = user;
         this.company = company;

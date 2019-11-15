@@ -1,9 +1,11 @@
 package org.nure.gotrip.controller;
 
 import org.nure.gotrip.controller.response.BadRequestException;
+import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.AddGuideDto;
 import org.nure.gotrip.exception.NotFoundUserException;
+import org.nure.gotrip.exception.NotUniqueGuideException;
 import org.nure.gotrip.exception.ValidationException;
 import org.nure.gotrip.model.Guide;
 import org.nure.gotrip.model.RegisteredUser;
@@ -43,10 +45,12 @@ public class GuideController {
 			throw new NotFoundException(e.getMessage(), e);
 		} catch (ValidationException e) {
 			throw new BadRequestException(e.getMessage(), e);
+		} catch (NotUniqueGuideException e) {
+			throw new ConflictException("User with such id already exists");
 		}
 	}
 
-	private ResponseEntity addGuideHandler(AddGuideDto addGuideDto) throws NotFoundUserException {
+	private ResponseEntity addGuideHandler(AddGuideDto addGuideDto) throws NotFoundUserException, NotUniqueGuideException {
 		Guide guide = new Guide();
 		RegisteredUser registeredUser = registeredUserService.findById(addGuideDto.getIdRegisteredUser());
 		guide.setRegisteredUser(registeredUser);

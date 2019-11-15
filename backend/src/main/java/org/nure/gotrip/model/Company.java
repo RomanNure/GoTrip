@@ -58,5 +58,8 @@ public class Company {
 		//Constructor for JPA
 	}
 
+	public Company(long id) {
+		this.id = id;
+	}
 
 }

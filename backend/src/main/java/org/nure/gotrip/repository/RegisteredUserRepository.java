@@ -11,15 +11,21 @@ import java.util.Optional;
 @Repository
 public interface RegisteredUserRepository extends CrudRepository<RegisteredUser, Long> {
 
-    Optional<RegisteredUser> findByLogin(String login);
+	Optional<RegisteredUser> findByLogin(String login);
 
-    @Query(value = "SELECT DISTINCT company.company_id FROM company, administrators, registered_user WHERE company.company_id = administrators.company_id AND administrators.registered_user_id = ?1", nativeQuery = true)
-    Iterable<BigInteger> findByEmployee(Long userId);
+	@Query(value = "SELECT DISTINCT company.company_id FROM company, administrators, registered_user WHERE company.company_id = administrators.company_id AND administrators.registered_user_id = ?1", nativeQuery = true)
+	Iterable<BigInteger> findByEmployee(Long userId);
 
-    @Query(value="SELECT DISTINCT registered_user.registered_user_id FROM registered_user left join administrators on registered_user.registered_user_id = administrators.registered_user_id WHERE " +
-            "administrators.administrator_id = ?1", nativeQuery = true)
-    BigInteger findByAdministrator(long administratorId);
+	@Query(value = "SELECT DISTINCT registered_user.registered_user_id FROM registered_user left join administrators on registered_user.registered_user_id = administrators.registered_user_id WHERE " +
+			"administrators.administrator_id = ?1", nativeQuery = true)
+	BigInteger findByAdministrator(long administratorId);
 
-    Optional<RegisteredUser> findByEmail(String email);
+	Optional<RegisteredUser> findByEmail(String email);
+
+	@Query(value = "SELECT DISTINCT administrators.administrator_id " +
+			"FROM administrators " +
+			"INNER JOIN registered_user ON administrators.registered_user_id = registered_user.registered_user_id " +
+			"WHERE registered_user.registered_user_id = ?1", nativeQuery = true)
+	Iterable<BigInteger> findAllAdministratorsById(long id);
 
 }
