@@ -1,10 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 
 namespace GoNTrip.ServerAccess
 {
     public interface IServerCommunicator
     {
         string ServerURL { get; set; }
-        Task<IServerResponse> SendQuery(IQuery query);
+        Task<IServerResponse> SendQuery(IQuery query, CookieContainer cookieContainer = null);
     }
 }

@@ -1,4 +1,6 @@
-﻿using Autofac;
+﻿using System.Net;
+
+using Autofac;
 
 using Xamarin.Forms;
 
@@ -29,6 +31,7 @@ namespace GoNTrip.Pages
 
             builder.RegisterType<ServerCommunicator>().SingleInstance().As<IServerCommunicator>();
             builder.RegisterType<JsonResponseParser>().SingleInstance().As<IResponseParser>();
+            builder.RegisterType<CookieContainer>().SingleInstance().AsSelf();
 
             builder.RegisterType<SignUpController>().SingleInstance().AsSelf();
             builder.RegisterType<SignUpQueryFactory>().SingleInstance().AsSelf();
@@ -59,6 +62,9 @@ namespace GoNTrip.Pages
 
             builder.RegisterType<GetCompanyByAdminController>().SingleInstance().AsSelf();
             builder.RegisterType<GetCompanyByAdminQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<JoinTourController>().SingleInstance().AsSelf();
+            builder.RegisterType<JoinTourQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<TourListItemFactory>().SingleInstance().AsSelf();
             builder.RegisterType<Session>().SingleInstance().AsSelf();

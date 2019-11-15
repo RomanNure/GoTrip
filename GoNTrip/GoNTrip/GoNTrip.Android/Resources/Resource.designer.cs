@@ -2783,6 +2783,9 @@ namespace GoNTrip.Droid
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ViewStubCompat_android_id = global::GoNTrip.Droid.Resource.Styleable.ViewStubCompat_android_id;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ViewStubCompat_android_inflatedId = global::GoNTrip.Droid.Resource.Styleable.ViewStubCompat_android_inflatedId;
 			global::Xamarin.Forms.Platform.Android.Resource.Styleable.ViewStubCompat_android_layout = global::GoNTrip.Droid.Resource.Styleable.ViewStubCompat_android_layout;
+			global::ZXing.Mobile.Resource.Id.contentFrame = global::GoNTrip.Droid.Resource.Id.contentFrame;
+			global::ZXing.Mobile.Resource.Layout.zxingscanneractivitylayout = global::GoNTrip.Droid.Resource.Layout.zxingscanneractivitylayout;
+			global::ZXing.Mobile.Resource.Layout.zxingscannerfragmentlayout = global::GoNTrip.Droid.Resource.Layout.zxingscannerfragmentlayout;
 		}
 		
 		public partial class Animation
@@ -6656,6 +6659,9 @@ namespace GoNTrip.Droid
 			// aapt resource value: 0x7f0a0082
 			public const int content = 2131361922;
 			
+			// aapt resource value: 0x7f0a0102
+			public const int contentFrame = 2131362050;
+			
 			// aapt resource value: 0x7f0a0075
 			public const int contentPanel = 2131361909;
 			
@@ -6821,8 +6827,8 @@ namespace GoNTrip.Droid
 			// aapt resource value: 0x7f0a00fa
 			public const int main_toolbar = 2131362042;
 			
-			// aapt resource value: 0x7f0a0103
-			public const int masked = 2131362051;
+			// aapt resource value: 0x7f0a0104
+			public const int masked = 2131362052;
 			
 			// aapt resource value: 0x7f0a00ec
 			public const int media_actions = 2131362028;
@@ -7262,8 +7268,8 @@ namespace GoNTrip.Droid
 			// aapt resource value: 0x7f0a001b
 			public const int view_offset_helper = 2131361819;
 			
-			// aapt resource value: 0x7f0a0102
-			public const int visible = 2131362050;
+			// aapt resource value: 0x7f0a0103
+			public const int visible = 2131362051;
 			
 			// aapt resource value: 0x7f0a00d9
 			public const int volume_item_container = 2131362009;
@@ -7645,6 +7651,12 @@ namespace GoNTrip.Droid
 			
 			// aapt resource value: 0x7f040055
 			public const int Toolbar = 2130968661;
+			
+			// aapt resource value: 0x7f040056
+			public const int zxingscanneractivitylayout = 2130968662;
+			
+			// aapt resource value: 0x7f040057
+			public const int zxingscannerfragmentlayout = 2130968663;
 			
 			static Layout()
 			{

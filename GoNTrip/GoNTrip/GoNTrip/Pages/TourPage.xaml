@@ -118,10 +118,8 @@
 
                                     <Frame Style="{StaticResource OuterBorderFrame}" x:Name="TourMembersWrapper" IsVisible="False">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
-                                            <Grid x:Name="TourMembers" ColumnSpacing="5" RowSpacing="5" HorizontalOptions="CenterAndExpand" BackgroundColor="{StaticResource ContentBackColor}">
-                                                
-                                                
-                                                
+                                            <Grid x:Name="TourMembers" ColumnSpacing="5" RowSpacing="5" Margin="5" HorizontalOptions="CenterAndExpand" BackgroundColor="{StaticResource ContentBackColor}">
+
                                             </Grid>
                                         </Frame>
                                     </Frame>

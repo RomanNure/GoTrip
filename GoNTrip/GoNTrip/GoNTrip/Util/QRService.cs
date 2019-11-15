@@ -1,18 +1,19 @@
-﻿using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+
+using Android.Graphics;
 
 using Java.Nio;
 
+using Xamarin.Essentials;
+
 using QRCodeEncoderLibrary;
 
-//using QRCoder;
-
-using Android.Graphics;
-using System.Linq;
+using ZXing;
+using ZXing.Mobile;
 
 namespace GoNTrip.Util
 {
-    public class QRUtil
+    public class QrService
     {
         public static async Task<Bitmap> Encode(string data)
         {
@@ -44,9 +45,15 @@ namespace GoNTrip.Util
             return code;
         }
 
-        public static async Task<string> Decode(Bitmap codeBmp)
+        public async Task<string> ScanAsync()
         {
-            return "";
+            MobileBarcodeScanningOptions options = new MobileBarcodeScanningOptions();
+            MobileBarcodeScanner scanner = new MobileBarcodeScanner();
+
+            Result result = await scanner.Scan(options);
+            Vibration.Vibrate(100);
+
+            return result.Text;
         }
     }
 }

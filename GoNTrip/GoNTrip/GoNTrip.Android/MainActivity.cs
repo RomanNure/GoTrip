@@ -8,6 +8,8 @@ using Xamarin.Essentials;
 using Plugin.Fingerprint;
 using Plugin.CurrentActivity;
 
+using ZXing.Mobile;
+
 using GoNTrip.Pages;
 
 namespace GoNTrip.Droid
@@ -21,8 +23,10 @@ namespace GoNTrip.Droid
             ToolbarResource = Resource.Layout.Toolbar;
 
             base.OnCreate(savedInstanceState);
+
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             CrossFingerprint.SetCurrentActivityResolver(() => CrossCurrentActivity.Current.Activity);
+            MobileBarcodeScanner.Initialize(Application);
 
             Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

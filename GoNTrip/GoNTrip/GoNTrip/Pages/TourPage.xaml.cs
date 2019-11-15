@@ -170,42 +170,45 @@ namespace GoNTrip.Pages
             TourAdminName.Text = CurrentTourAdmin == null || CurrentTourAdmin.login == null ? String.Empty : CurrentTourAdmin.login;
             TourAdminEmail.Text = CurrentTourAdmin == null || CurrentTourAdmin.email == null ? String.Empty : CurrentTourAdmin.email;
 
-            //CurrentTour.participatingList.Add(CurrentTourAdmin);
-            //CurrentTour.participatingList.Add(App.DI.Resolve<Session>().CurrentUser);
+            double tourMemberAvatarWidth = (Width - TourContentWrapper.Margin.Left
+                                                  - TourContentWrapper.Margin.Right
+                                                  - TourMembers.ColumnSpacing * (TOUR_MEMBERS_AVATAR_COUNT_IN_ROW - 1))
+                                          / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
 
-            //TourMembersWrapper.IsVisible = CurrentTour.participatingList.Count != 0;
+            for (int j = 0; j < CurrentTour.participatingList.Count; j++)
+            {
+                Img img = new Img();
 
-            //double tourMemberAvatarWidth = (Width - TourContentWrapper.Margin.Left
-            //                                    - TourContentWrapper.Margin.Right
-            //                                    - TourMembers.ColumnSpacing * (TOUR_MEMBERS_AVATAR_COUNT_IN_ROW - 1))
-            //                              / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
+                img.WidthRequest = tourMemberAvatarWidth;
+                img.HeightRequest = tourMemberAvatarWidth;
 
-            //for (int i = 0; i < CurrentTour.participatingList.Count; i++)
-            //{
-            //    Img img = new Img();
+                img.BorderColor = SECONDARY_IMAGE_BORDER_COLOR;
+                img.BorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
+                img.CornerRad = SECONDARY_IMAGE_CORNER_RADIUS;
 
-            //    img.WidthRequest = tourMemberAvatarWidth;
-            //    img.HeightRequest = tourMemberAvatarWidth;
+                User member = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentTour.participatingList[j].id);
+                img.Source = member.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : member.avatarUrl;
 
-            //    img.ClickedBorderColor = SECONDARY_IMAGE_BORDER_COLOR;
-            //    img.ClickedBorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
-            //    img.BorderRadius = SECONDARY_IMAGE_BORDER_RADIUS;
+                img.OnClick += (ME, ctx) =>
+                {
+                    if (ME.Action == MotionEventActions.Up)
+                        OpenLinkedUser(member);
+                    return false;
+                };
 
-            //    img.Source = CurrentTour.participatingList[i].avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : CurrentTour.participatingList[i].avatarUrl;
+                Label login = new Label() { Style = (Style)App.Current.Resources["InfoCell"], Text = member.login };
 
-            //    User member = CurrentTour.participatingList[i];
-            //    img.OnClick += (ME, ctx) =>
-            //    {
-            //        if (ME.Action == MotionEventActions.Up)
-            //            OpenLinkedUser(member);
-            //        return false;
-            //    };
+                TourMembers.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                TourMembers.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-            //    Label login = new Label() { Style = (Style)App.Current.Resources["InfoCell"], Text = member.login };
+                int row = j / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
+                int col = j % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
 
-            //    TourMembers.Children.Add(img, (2 * i) % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW, (2 * i) / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW);
-            //    TourMembers.Children.Add(login, (2 * i + 1) % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW, (2 * i + 1) / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW);
-            //}
+                TourMembers.Children.Add(img, col, 2 * row);
+                TourMembers.Children.Add(login, col, 2 * row + 1);
+            }
+
+            TourMembersWrapper.IsVisible = CurrentTour.participatingList.Count != 0;
         }
 
         private bool TourMainImagePreview_OnClick(MotionEvent ME, IClickable sender)
@@ -242,10 +245,8 @@ namespace GoNTrip.Pages
                                                                                         new OtherUserProfilePage(user, tourPageBuilder);
         }
 
-        private void JoinTourButton_Clicked(object sender, EventArgs e)
-        {
-
-        }
+        private async void JoinTourButton_Clicked(object sender, EventArgs e) => 
+            await App.DI.Resolve<JoinTourController>().JoinTour(CurrentTour);
 
         protected override bool OnBackButtonPressed()
         {

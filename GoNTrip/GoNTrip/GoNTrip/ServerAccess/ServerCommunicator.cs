@@ -29,7 +29,7 @@ namespace GoNTrip.ServerAccess
 
         public ServerCommunicator(string serverUrl = SERVER_URL) => ServerURL = serverUrl;
 
-        public async Task<IServerResponse> SendQuery(IQuery query)
+        public async Task<IServerResponse> SendQuery(IQuery query, CookieContainer cookieContainer = null)
         {
             IDictionary<string, string> Headers = new Dictionary<string, string>();
 
@@ -41,11 +41,11 @@ namespace GoNTrip.ServerAccess
                 (string data, IDictionary<string, string> headers) response = (null, null);
 
                 if (query.Method == QueryMethod.GET)
-                    response = await QueryGET(queryUrl, query.ParametersString, query.NeededHeaders);
+                    response = await QueryGET(queryUrl, query.ParametersString, query.NeededHeaders, cookieContainer);
                 else if (query.Method == QueryMethod.POST)
-                    response = await QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders);
+                    response = await QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders, cookieContainer);
                 else if (query.Method == QueryMethod.POST_MULTIPART)
-                    response = await QueryPostMultipart(queryUrl, query.MultipartData.ToList(), query.NeededHeaders);
+                    response = await QueryPostMultipart(queryUrl, query.MultipartData.ToList(), query.NeededHeaders, cookieContainer);
 
                 return new ServerResponse(response.data, response.headers);
             }
@@ -69,16 +69,16 @@ namespace GoNTrip.ServerAccess
             }
         }
 
-        private async Task<(string data, Dictionary<string, string> headers)> QueryGET(string url, string parameterString, IList<string> neededHeadersNames)
+        private async Task<(string, Dictionary<string, string>)> QueryGET(string url, string parameterString, IList<string> neededHeadersNames, CookieContainer cookieContainer)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url + (parameterString == "" ? "" : "?" + parameterString));
             request.Method = WebRequestMethods.Http.Get;
             request.ContentType = APP_URLENCODED;
 
-            return await GetResponse(request, neededHeadersNames);
+            return await GetResponse(request, neededHeadersNames, cookieContainer);
         }
 
-        private async Task<(string data, Dictionary<string, string> headers)> QueryPOST(string url, string queryBody, IList<string> neededHeadersNames)
+        private async Task<(string, Dictionary<string, string>)> QueryPOST(string url, string queryBody, IList<string> neededHeadersNames, CookieContainer cookieContainer)
         {
             HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = WebRequestMethods.Http.Post;
@@ -90,10 +90,10 @@ namespace GoNTrip.ServerAccess
             using (Stream strw = await request.GetRequestStreamAsync())
                 strw.Write(queryBodyData, 0, queryBodyData.Length);
 
-            return await GetResponse(request, neededHeadersNames);
+            return await GetResponse(request, neededHeadersNames, cookieContainer);
         }
 
-        private async Task<(string, Dictionary<string, string>)> QueryPostMultipart(string url, List<MultipartDataItem> data, IList<string> neededHeadersNames)
+        private async Task<(string, Dictionary<string, string>)> QueryPostMultipart(string url, List<MultipartDataItem> data, IList<string> neededHeadersNames, CookieContainer cookieContainer)
         {
             MultipartFormDataContent form = new MultipartFormDataContent("-----");
 
@@ -113,11 +113,14 @@ namespace GoNTrip.ServerAccess
             using (Stream strw = await request.GetRequestStreamAsync())
                 strw.Write(bytes, 0, bytes.Length);
 
-            return await GetResponse(request, neededHeadersNames);
+            return await GetResponse(request, neededHeadersNames, cookieContainer);
         }
 
-        protected async Task<(string, Dictionary<string, string>)> GetResponse(HttpWebRequest request, IList<string> neededHeadersNames)
+        protected async Task<(string, Dictionary<string, string>)> GetResponse(HttpWebRequest request, IList<string> neededHeadersNames, CookieContainer cookieContainer)
         {
+            if (cookieContainer != null)
+                request.CookieContainer = cookieContainer;
+
             using (HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse)
             using (StreamReader str = new StreamReader(response.GetResponseStream()))
             {

@@ -151,23 +151,16 @@ namespace GoNTrip.Pages
         private async void GetAndLoadTours(TourFilterSorterSearcher filterSorterSearcher) => await GetAndLoadToursAsync(filterSorterSearcher);
         private async Task GetAndLoadToursAsync(TourFilterSorterSearcher filterSorterSearcher)
         {
-            DateTime startGet = DateTime.Now;
             if (Tours.Count == 0)
                 Tours = await GetTours(filterSorterSearcher);
-            TimeSpan durGet = DateTime.Now - startGet;
 
             PopupControl.OpenPopup(ActivityPopup);
 
             await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
 
-            DateTime startLoad = DateTime.Now;
             LoadTours(Tours.Skip(FirstTourNum).Take(PAGE_TOURS_COUNT).ToList());
-            TimeSpan durLoad = DateTime.Now - startLoad;
 
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-
-            ErrorPopup.MessageText = $"Get tours took {durGet.TotalMilliseconds} ms\nLoad tours took {durLoad.TotalMilliseconds} ms.";
-            PopupControl.OpenPopup(ErrorPopup);
         }
 
         private async Task<List<Tour>> GetTours(TourFilterSorterSearcher filterSorterSearcher = null)

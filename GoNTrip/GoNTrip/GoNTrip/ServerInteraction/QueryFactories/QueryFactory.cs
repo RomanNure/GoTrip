@@ -14,18 +14,22 @@ namespace GoNTrip.ServerInteraction.QueryFactories
     public abstract class QueryFactory
     {
         protected async Task<string> ExtractJsonQueryBody<T, R>(T item) where T : ModelElement
-                                                            where R : QueryField
+                                                                        where R : QueryField
         {
             string body = "{ ";
 
             await Task.Run(() =>
             {
                 foreach (PropertyInfo PI in item.GetType().GetProperties())
-                    if (PI.CustomAttributes.Select(A => A.AttributeType).Contains(typeof(R)))
+                {
+                    R attribute = PI.GetCustomAttribute<R>();
+                    if (attribute != null)
                     {
+                        string propertyName = attribute.Name == null || attribute.Name == "" ? PI.Name : attribute.Name;
                         string propertyValue = JsonConvert.SerializeObject(PI.GetValue(item));
-                        body += '"' + PI.Name + '"' + " : " + propertyValue + ", ";
+                        body += '"' + propertyName + '"' + " : " + propertyValue + ", ";
                     }
+                }
 
             });
 
@@ -40,11 +44,15 @@ namespace GoNTrip.ServerInteraction.QueryFactories
             await Task.Run(() =>
             {
                 foreach (PropertyInfo PI in item.GetType().GetProperties())
-                    if (PI.CustomAttributes.Select(A => A.AttributeType).Contains(typeof(R)))
+                {
+                    R attribute = PI.GetCustomAttribute<R>();
+                    if (attribute != null)
                     {
+                        string propertyName = attribute.Name == null || attribute.Name == "" ? PI.Name : attribute.Name;
                         string propertyValue = JsonConvert.SerializeObject(PI.GetValue(item)).Trim('\"');
-                        data.Add(PI.Name, propertyValue);
+                        data.Add(propertyName, propertyValue);
                     }
+                }
             });
 
             return data;

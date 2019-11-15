@@ -3,12 +3,16 @@ using System.Collections.Generic;
 
 using Newtonsoft.Json;
 
+using GoNTrip.ServerInteraction.ModelFieldAttributes;
+
 namespace GoNTrip.Model
 {
     [JsonObject]
     public class Tour : ModelElement
     {
+        [JoinTourField("tourId")]
         public long id { get; set; }
+
         public string name { get; set; }
         public string location { get; set; }
         public string description { get; set; }

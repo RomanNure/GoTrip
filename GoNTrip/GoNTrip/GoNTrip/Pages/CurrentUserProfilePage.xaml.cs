@@ -79,8 +79,19 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
 
-            UserAvatar.FirstSource = await QRUtil.Encode("cesar");
-            AvatarView.FirstSource = await QRUtil.Encode("cesar");
+            ///TESTS
+
+            //AvatarView.FirstSource = await QrService.Encode("cesar");
+
+            //try
+            //{
+            //    QrService scanner = new QrService();
+            //    ErrorPopup.MessageText = await scanner.ScanAsync();
+            //    PopupControl.OpenPopup(ErrorPopup);
+            //}
+            //catch { }
+
+            ///TESTS
         }
 
         private void LoadCurrentUserProfile()
