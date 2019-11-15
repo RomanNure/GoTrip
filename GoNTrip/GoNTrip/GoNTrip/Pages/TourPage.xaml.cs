@@ -25,7 +25,7 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TourPage : ContentPage
     {
-        private const int TOUR_MEMBERS_AVATAR_COUNT_IN_ROW = 5;
+        private const int TOUR_MEMBERS_AVATAR_COUNT_IN_ROW = 4;
         private const int SECONDARY_IMAGES_COUNT_IN_ROW = 3;
 
         private const int SECONDARY_IMAGE_CORNER_RADIUS = 18;
@@ -174,6 +174,10 @@ namespace GoNTrip.Pages
                                                   - TourContentWrapper.Margin.Right
                                                   - TourMembers.ColumnSpacing * (TOUR_MEMBERS_AVATAR_COUNT_IN_ROW - 1))
                                           / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
+
+            int columnCount = Math.Min(TOUR_MEMBERS_AVATAR_COUNT_IN_ROW, CurrentTour.participatingList.Count);
+            for (int i = 0; i < columnCount; i++)
+                TourMembers.ColumnDefinitions.Add(new ColumnDefinition() { Width = tourMemberAvatarWidth });
 
             for (int j = 0; j < CurrentTour.participatingList.Count; j++)
             {
