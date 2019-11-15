@@ -28,8 +28,9 @@ namespace GoNTrip
         public const string DEFAULT_COMPANY_AVATAR_IMAGE_SOURCE = "DefaultTourIcon.png";
 
         public const string FILE_SELECTION_ERROR = "File selection error";
+
         public const string UNKNOWN_FILED_VALUE = "unknown";
-        
+        public const string UNKNOWN_SYMBOL = "?";
         public const string CURRENCY_SYMBOL = "$";
 
         public const int ACTIVITY_INDICATOR_START_TIMEOUT = 100;

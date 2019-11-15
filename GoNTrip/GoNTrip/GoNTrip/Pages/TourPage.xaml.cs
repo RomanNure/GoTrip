@@ -79,9 +79,7 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
 
-            PopupControl.OpenPopup(ActivityPopup);
             await LoadCurrentTour();
-            PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
         }
 
         private async Task<User> GetCurrentTourAdminUserProfile(Admin admin) => await App.DI.Resolve<GetUserByAdminController>().GetUserByAdmin(admin);
@@ -89,6 +87,8 @@ namespace GoNTrip.Pages
 
         private async Task LoadCurrentTour()
         {
+            PopupControl.OpenPopup(ActivityPopup);
+
             await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
 
             bool mainPhotoShifted = CurrentTour.mainPictureUrl == null && CurrentTour.photos.Count > 0;
@@ -148,16 +148,16 @@ namespace GoNTrip.Pages
                 PhotoCollection.Add(photo);
             }
 
-            TourName.Text = CurrentTour.name;//add unknowns
-            TourAbout.Text = CurrentTour.description;
+            TourName.Text = CurrentTour.name == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.name;
+            TourAbout.Text = CurrentTour.description == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.description;
             TourPriceInfoLabel.Text = CurrentTour.pricePerPerson + Constants.CURRENCY_SYMBOL;
-            TourStartInfoLabel.Text = CurrentTour.startDateTime.ToString();
-            TourEndInfoLabel.Text = CurrentTour.finishDateTime.ToString();
+            TourStartInfoLabel.Text = CurrentTour.startDateTime == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.startDateTime.ToString();
+            TourEndInfoLabel.Text = CurrentTour.finishDateTime == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.finishDateTime.ToString();
 
-            TimeSpan duration = CurrentTour.finishDateTime - CurrentTour.startDateTime;
-            TourDurationInfoLabel.Text = (duration.Days == 0 ? "" : duration.Days + " days ") +
-                                         (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
-                                         (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
+            TimeSpan duration = CurrentTour.startDateTime == null || CurrentTour.finishDateTime == null ? new TimeSpan(0) : CurrentTour.finishDateTime - CurrentTour.startDateTime;
+            TourDurationInfoLabel.Text = duration.Ticks == 0 ? Constants.UNKNOWN_FILED_VALUE : (duration.Days == 0 ? "" : duration.Days + " days ") +
+                                                                                               (duration.Hours == 0 ? "" : duration.Hours + " hours ") +
+                                                                                               (duration.Minutes == 0 ? "" : duration.Minutes + " minutes");
 
             TourPlacesInfoLabel.Text = CurrentTour.participatingList.Count + "/" + CurrentTour.maxParticipants;
             TourLocationInfoLabel.Text = CurrentTour.location == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.location;
@@ -179,7 +179,7 @@ namespace GoNTrip.Pages
             for (int i = 0; i < columnCount; i++)
                 TourMembers.ColumnDefinitions.Add(new ColumnDefinition() { Width = tourMemberAvatarWidth });
 
-            for (int j = 0; j < CurrentTour.participatingList.Count; j++)
+            for (int i = 0; i < CurrentTour.participatingList.Count; i++)
             {
                 Img img = new Img();
 
@@ -190,7 +190,24 @@ namespace GoNTrip.Pages
                 img.BorderWidth = SECONDARY_IMAGE_BORDER_WIDTH;
                 img.CornerRad = SECONDARY_IMAGE_CORNER_RADIUS;
 
-                User member = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentTour.participatingList[j].id);
+                User member = null;
+
+                try
+                {
+                     member = await App.DI.Resolve<GetProfileController>().GetUserById(CurrentTour.participatingList[i].id);
+                }
+                catch(ResponseException ex)
+                {
+                    TourMembersWrapper.IsVisible = CurrentTour.participatingList.Count != 0;
+
+                    PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                    ErrorPopup.MessageText = ex.message;
+                    PopupControl.OpenPopup(ErrorPopup);
+
+                    return;
+                }
+
                 img.Source = member.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : member.avatarUrl;
 
                 img.OnClick += (ME, ctx) =>
@@ -205,14 +222,15 @@ namespace GoNTrip.Pages
                 TourMembers.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
                 TourMembers.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-                int row = j / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
-                int col = j % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
+                int row = i / TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
+                int col = i % TOUR_MEMBERS_AVATAR_COUNT_IN_ROW;
 
                 TourMembers.Children.Add(img, col, 2 * row);
                 TourMembers.Children.Add(login, col, 2 * row + 1);
             }
 
             TourMembersWrapper.IsVisible = CurrentTour.participatingList.Count != 0;
+            PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
         }
 
         private bool TourMainImagePreview_OnClick(MotionEvent ME, IClickable sender)

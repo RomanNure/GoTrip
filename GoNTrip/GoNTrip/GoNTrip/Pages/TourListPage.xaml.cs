@@ -122,7 +122,7 @@ namespace GoNTrip.Pages
 
             await GetAndLoadToursAsync(CurrentTourFilterSorterSearcher);
 
-            if (!CurrentTourFilterSorterSearcher.IsChanged)
+            if (!CurrentTourFilterSorterSearcher.filters.IsChanged)
                 ResetFilterView();
             else
                 LoadFilterSorterSearcher(CurrentTourFilterSorterSearcher);
@@ -302,15 +302,13 @@ namespace GoNTrip.Pages
             await UpdateToursAsync();
         }
 
-        private async void SearchPopupConfirm_Clicked(object sender, EventArgs e)
+        private void SearchPopupConfirm_Clicked(object sender, EventArgs e)
         {
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             CurrentTourFilterSorterSearcher.FillSearch(TourNameSearcher.Text, TourLocationSearcher.Text);
-            await UpdateToursAsync();
 
-            if (!CurrentTourFilterSorterSearcher.IsChanged)
-                ResetFilterView();
+            UpdateTours(!CurrentTourFilterSorterSearcher.filters.IsChanged);
         }
 
         private async void SortPopupConfirm_Clicked(object sender, EventArgs e)
@@ -327,25 +325,23 @@ namespace GoNTrip.Pages
             await UpdateToursAsync();
         }
 
-        private async void FilterPopupReset_Clicked(object sender, EventArgs e)
+        private void FilterPopupReset_Clicked(object sender, EventArgs e)
         {
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             CurrentTourFilterSorterSearcher.filters.Reset();
-            await UpdateToursAsync();
-            ResetFilterView();
+
+            UpdateTours(true);
         }
 
-        private async void SearchPopupReset_Clicked(object sender, EventArgs e)
+        private void SearchPopupReset_Clicked(object sender, EventArgs e)
         {
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             CurrentTourFilterSorterSearcher.search.Reset();
             ResetSearchView();
-            await UpdateToursAsync();
 
-            if (!CurrentTourFilterSorterSearcher.IsChanged)
-                ResetFilterView();
+            UpdateTours(!CurrentTourFilterSorterSearcher.filters.IsChanged);
         }
 
         private async void SortPopupReset_Clicked(object sender, EventArgs e)
@@ -373,13 +369,21 @@ namespace GoNTrip.Pages
 
         private bool UpdateButton_OnClick(MotionEvent ME, IClickable sender)
         {
-            if (ME.Action == MotionEventActions.Down)
-                UpdateTours();
+            if (ME.Action != MotionEventActions.Down)
+                return false;            
+
+            UpdateTours(!CurrentTourFilterSorterSearcher.filters.IsChanged);
 
             return false;
         }
 
-        private async void UpdateTours() => await UpdateToursAsync();
+        private async void UpdateTours(bool resetFiltersView = false)
+        {
+            await UpdateToursAsync();
+            if (resetFiltersView)
+                ResetFilterView();
+        }
+
         private async Task UpdateToursAsync()
         {
             Tours.Clear();
