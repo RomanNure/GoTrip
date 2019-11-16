@@ -10,7 +10,7 @@
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.CurrentUserProfilePage"
              Appearing="ProfilePage_Appearing">
-    
+
     <ContentPage.Resources>
         <ResourceDictionary>
 
@@ -68,7 +68,7 @@
 
         </ResourceDictionary>
     </ContentPage.Resources>
-    
+
     <ContentPage.Content>
         <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
 
@@ -214,5 +214,5 @@
 
         </AbsoluteLayout>
     </ContentPage.Content>
-    
+
 </ContentPage>

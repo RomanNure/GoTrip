@@ -1,13 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
-             mc:Ignorable="d"
+             xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
              x:Class="GoNTrip.Pages.AdvancedPage"
              Appearing="ContentPage_Appearing">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="AdvancedOptionPictureButton" TargetType="customcontrols:Img">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HeightRequest" Value="150"/>
+                <Setter Property="WidthRequest" Value="150"/>
+            </Style>
+            
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -19,10 +32,27 @@
                         <Grid Style="{StaticResource PageContent}">
 
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="50"/>
+                                <RowDefinition Height="40"/>
                                 <RowDefinition Height="*"/>
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
+
+                            <Label Style="{StaticResource HeaderLabel}" Text="Advanced Options" Grid.Row="0" Grid.Column="0"/>
+
+                            <ScrollView Grid.Row="1" Grid.Column="0">
+                                <Grid x:Name="AdvancedOptionsWraper" VerticalOptions="CenterAndExpand" Margin="5,5,5,5" ColumnSpacing="5" RowSpacing="5">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Button Style="{StaticResource CommonButton}" Text="Become a guide" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+                                    <customcontrols:Img Style="{StaticResource AdvancedOptionPictureButton}" x:Name="QrScannerOpenButton" OnClick="QrScannerOpenButton_OnClick" Source="qrScan.png" Border="False" BorderOnClick="False" CornerRad="10" Grid.Row="1" Grid.ColumnSpan="2" />
+
+                                </Grid>
+                            </ScrollView>
 
                             <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50" Grid.Row="2" Grid.Column="0"/>
                             
@@ -32,6 +62,8 @@
             </StackLayout>
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+            <templates:SimpleMessagePopup x:Name="ExitConfirmPopup" PopupWidth="250" PopupHeight="100" MessageText="Are you sure want to exit?" FirstButtonText="Yes" SecondButtonText="No"/>
             
         </AbsoluteLayout>
     </ContentPage.Content>

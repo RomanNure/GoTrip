@@ -15,6 +15,7 @@ namespace GoNTrip.Controllers
     {
         public async Task JoinTour(Tour tour)
         {
+            //string sessionId = App.DI.Resolve<CookieContainer>().GetCookies(Se)
             IQuery joinTourQuery = await App.DI.Resolve<JoinTourQueryFactory>().JoinTour(tour);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(joinTourQuery, App.DI.Resolve<CookieContainer>());
             //App.DI.Resolve<IResponseParser>().Parse<>

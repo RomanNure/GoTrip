@@ -119,7 +119,11 @@ namespace GoNTrip.ServerAccess
         protected async Task<(string, Dictionary<string, string>)> GetResponse(HttpWebRequest request, IList<string> neededHeadersNames, CookieContainer cookieContainer)
         {
             if (cookieContainer != null)
+            {
                 request.CookieContainer = cookieContainer;
+                //Cookie cook = cookieContainer.GetCookies(new Uri(SERVER_URL))["JSESSIONID"];
+                //string sessionid = cook == null ? "" : cook.Value;
+            }
 
             using (HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse)
             using (StreamReader str = new StreamReader(response.GetResponseStream()))

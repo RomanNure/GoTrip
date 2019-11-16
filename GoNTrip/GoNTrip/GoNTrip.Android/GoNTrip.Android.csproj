@@ -218,5 +218,8 @@
   <ItemGroup>
     <AndroidAsset Include="Assets\sendMessage.png" />
   </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\qrScan.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

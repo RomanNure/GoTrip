@@ -12,7 +12,6 @@ using Xamarin.Forms.Xaml;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
-using GoNTrip.Pages.Additional.Controls;
 using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.ServerInteraction.ResponseParsers;
 
@@ -25,14 +24,14 @@ namespace GoNTrip.Pages
         private const string NON_CONFIRMED_EMAIL_BACK_COLOR = "InvalidColor";
 
         private User CurrentUser { get; set; }
-        private ObjectBuilder SourcePageBuilder { get; set; }
+        private PageMemento PrevPageMemento { get; set; }
 
         private PopupControlSystem PopupControl { get; set; }
 
-        public OtherUserProfilePage(User user, ObjectBuilder sourcePageBuilder)
+        public OtherUserProfilePage(User user, PageMemento prevPageMemento)//when implementing messaging add CurrentPageMemento prop
         {
             CurrentUser = user;
-            SourcePageBuilder = sourcePageBuilder;
+            PrevPageMemento = prevPageMemento;
 
             InitializeComponent();
 
@@ -113,7 +112,7 @@ namespace GoNTrip.Pages
             if (PopupControl.OpenedPopupsCount == 0)
             {
                 PopupControl.OpenPopup(ActivityPopup);
-                App.Current.MainPage = SourcePageBuilder.Build() as Page;
+                App.Current.MainPage = PrevPageMemento.Restore();
             }
             else
                 PopupControl.CloseTopPopup();

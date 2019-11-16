@@ -15,7 +15,7 @@ namespace GoNTrip.Util
 {
     public class QrService
     {
-        public static async Task<Bitmap> Encode(string data)
+        public async Task<Bitmap> Encode(string data)
         {
             QRCodeEncoder encoder = new QRCodeEncoder();
             encoder.Encode(data);
@@ -53,7 +53,7 @@ namespace GoNTrip.Util
             Result result = await scanner.Scan(options);
             Vibration.Vibrate(100);
 
-            return result.Text;
+            return result == null ? "" : result.Text;
         }
     }
 }

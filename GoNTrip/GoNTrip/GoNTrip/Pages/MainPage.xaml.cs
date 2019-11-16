@@ -8,6 +8,7 @@ using Xamarin.Forms.Xaml;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.ServerInteraction.ResponseParsers;
 using GoNTrip.Pages.Additional.Validators.Templates;
 

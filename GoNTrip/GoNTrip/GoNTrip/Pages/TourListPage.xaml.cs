@@ -26,30 +26,28 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TourListPage : ContentPage
     {
+        private PageMemento CurrentPageMemento { get; set; }
         private PopupControlSystem PopupControl { get; set; }
         private List<RadioButton> SortedCheckers { get; set; }
 
-        private TourFilterSorterSearcher CurrentTourFilterSorterSearcher { get; set; }
-        private List<TourListItem> TourLayouts = new List<TourListItem>();
-        private List<Tour> Tours = new List<Tour>();
-        private int FirstTourNum { get; set; }
-
         private const int PAGE_TOURS_COUNT = 8;
 
-        public TourListPage() : this(null) { }
+        [Restorable]
+        public TourFilterSorterSearcher CurrentTourFilterSorterSearcher { get; set; }
 
-        public TourListPage(TourListPageMemento memento = null)
+        [Restorable]
+        private int FirstTourNum { get; set; }
+
+        private List<TourListItem> TourLayouts = new List<TourListItem>();
+        private List<Tour> Tours = new List<Tour>();
+
+        [RestorableConstructor]
+        public TourListPage()
         {
-            if (memento != null)
-            {
-                Tours = memento.TourListPage.Tours;
-                FirstTourNum = memento.TourListPage.FirstTourNum;
-                CurrentTourFilterSorterSearcher = memento.TourListPage.CurrentTourFilterSorterSearcher;
-            }
-            else
-                CurrentTourFilterSorterSearcher = new TourFilterSorterSearcher();
-
             InitializeComponent();
+
+            if (CurrentTourFilterSorterSearcher == null)
+                CurrentTourFilterSorterSearcher = new TourFilterSorterSearcher();
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
@@ -62,6 +60,9 @@ namespace GoNTrip.Pages
             SortedCheckers = new List<RadioButton>() { PriceSortedChecker, FreePlacesSortedChecker };
 
             LoadFilterNumericUpDowns();
+
+            CurrentPageMemento = new PageMemento();
+            CurrentPageMemento.Save(this);
         }
 
         private void LoadFilterNumericUpDowns()
@@ -196,7 +197,7 @@ namespace GoNTrip.Pages
                     if (ME.Action == MotionEventActions.Up)
                     {
                         PopupControl.OpenPopup(ActivityPopup);
-                        App.Current.MainPage = new TourPage(tour, new TourListPageMemento(this));
+                        App.Current.MainPage = new TourPage(tour, CurrentPageMemento);
                     }
                     return false;
                 };

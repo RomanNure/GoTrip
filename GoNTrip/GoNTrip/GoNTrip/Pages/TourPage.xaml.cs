@@ -36,16 +36,18 @@ namespace GoNTrip.Pages
         private PopupControlSystem PopupControl { get; set; }
         private SwipablePhotoCollection PhotoCollection { get; set; }
 
-        private TourListPageMemento TourListPageMemento { get; set; }
+        private PageMemento PrevPageMemento { get; set; }
+        private PageMemento CurrentPageMemento { get; set; }
 
         private Tour CurrentTour { get; set; }
         private Company CurrentTourCompany { get; set; }
         private User CurrentTourAdmin { get; set; }
         private User CurrentTourGuide { get; set; }
 
-        public TourPage(Tour tour, TourListPageMemento memento)
+        [RestorableConstructor]
+        public TourPage(Tour tour, PageMemento prevPageMemento)
         {
-            TourListPageMemento = memento;
+            PrevPageMemento = prevPageMemento;
             CurrentTour = tour;
 
             InitializeComponent();
@@ -58,6 +60,9 @@ namespace GoNTrip.Pages
             PhotoCollection = new SwipablePhotoCollection(PopupControl);
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+
+            CurrentPageMemento = new PageMemento();
+            CurrentPageMemento.Save(this, tour, prevPageMemento);
         }
 
         private async void ContentPage_Appearing(object sender, System.EventArgs e)
@@ -257,25 +262,34 @@ namespace GoNTrip.Pages
         private void OpenLinkedUser(User user)
         {
             PopupControl.OpenPopup(ActivityPopup);
-
-            ObjectBuilder tourPageBuilder = new ObjectBuilder(typeof(TourPage), 
-                new Type[] { typeof(Tour), typeof(TourListPageMemento) }, 
-                new object[] { CurrentTour, TourListPageMemento }
-            );
-
-            App.Current.MainPage = App.DI.Resolve<Session>().CurrentUser.Equals(user) ? new CurrentUserProfilePage() as Page : 
-                                                                                        new OtherUserProfilePage(user, tourPageBuilder);
+            App.Current.MainPage = App.DI.Resolve<Session>().CurrentUser.Equals(user) ? new CurrentUserProfilePage(CurrentPageMemento) as Page : 
+                                                                                        new OtherUserProfilePage(user, CurrentPageMemento);
         }
 
-        private async void JoinTourButton_Clicked(object sender, EventArgs e) => 
-            await App.DI.Resolve<JoinTourController>().JoinTour(CurrentTour);
+        private async void JoinTourButton_Clicked(object sender, EventArgs e) // should open payment page actually
+        {
+            PopupControl.OpenPopup(ActivityPopup);
+
+            try
+            {
+                await App.DI.Resolve<JoinTourController>().JoinTour(CurrentTour); 
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.Message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
 
         protected override bool OnBackButtonPressed()
         {
             if (PopupControl.OpenedPopupsCount == 0)
             {
                 PopupControl.OpenPopup(ActivityPopup);
-                App.Current.MainPage = new TourListPage(TourListPageMemento);
+                App.Current.MainPage = PrevPageMemento.Restore();
             }
             else if (PhotoCollection.Opened)
                 PhotoCollection.Reset();

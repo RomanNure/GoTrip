@@ -28,6 +28,7 @@ namespace GoNTrip.Pages
 
             builder.RegisterType<Camera>().SingleInstance().AsSelf();
             builder.RegisterType<Gallery>().SingleInstance().AsSelf();
+            builder.RegisterType<QrService>().SingleInstance().AsSelf();
 
             builder.RegisterType<ServerCommunicator>().SingleInstance().As<IServerCommunicator>();
             builder.RegisterType<JsonResponseParser>().SingleInstance().As<IResponseParser>();

@@ -15,6 +15,7 @@ using GoNTrip.Util;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.ServerInteraction.ResponseParsers;
 using GoNTrip.Pages.Additional.Validators.Templates;
 
@@ -30,13 +31,18 @@ namespace GoNTrip.Pages
 
         private delegate Task<Stream> Load();
 
+        private PageMemento PrevPageMemento { get; set; }
+
         private PopupControlSystem PopupControl { get; set; }
         private EditProfileValidator EditProfileValidator { get; set; }
 
-        public CurrentUserProfilePage()
+        public CurrentUserProfilePage() : this(null) { }
+
+        public CurrentUserProfilePage(PageMemento prevPageMemento)
         {
             InitializeComponent();
 
+            PrevPageMemento = prevPageMemento;
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
             AvatarView.LinkControlSystem(PopupControl);
 
@@ -302,7 +308,12 @@ namespace GoNTrip.Pages
         protected override bool OnBackButtonPressed()
         {
             if (PopupControl.OpenedPopupsCount == 0)
-                PopupControl.OpenPopup(ExitConfirmPopup);
+            {
+                if (PrevPageMemento == null)
+                    PopupControl.OpenPopup(ExitConfirmPopup);
+                else
+                    App.Current.MainPage = PrevPageMemento.Restore();
+            }
             else
                 PopupControl.CloseTopPopup();
 
