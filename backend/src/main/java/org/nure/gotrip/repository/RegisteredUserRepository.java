@@ -27,5 +27,4 @@ public interface RegisteredUserRepository extends CrudRepository<RegisteredUser,
 			"INNER JOIN registered_user ON administrators.registered_user_id = registered_user.registered_user_id " +
 			"WHERE registered_user.registered_user_id = ?1", nativeQuery = true)
 	Iterable<BigInteger> findAllAdministratorsById(long id);
-
 }

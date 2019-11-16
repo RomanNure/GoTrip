@@ -13,6 +13,7 @@ import org.nure.gotrip.util.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static java.lang.String.format;
@@ -38,12 +39,15 @@ public class ParticipatingServiceImpl implements ParticipatingService {
     @Override
     public boolean isAbleToParticipate(long userId, long tourId) {
         Tour tour = tourRepository.findById(tourId).orElseThrow(()->new NotFoundException("Tour Not found"));
+        if(tour.getMaxParticipants() == tour.getParticipatingList().size()){
+            return false;
+        }
         List<Tour> userTours = tourService.getByUser(userId);
         return userTours.stream().allMatch(userTour -> isCompatible(userTour, tour));
     }
 
     @Override
-    public void participate(long userId, long tourId) {
+    public Participating participate(long userId, long tourId) {
         if(!isAbleToParticipate(userId, tourId)){
             throw new ConflictException("Cannot participate at that time");
         }
@@ -54,6 +58,7 @@ public class ParticipatingServiceImpl implements ParticipatingService {
         String hash = encoder.encode(compilation);
         participating.setHash(hash);
         participatingRepository.save(participating);
+        return participating;
     }
 
     private boolean isCompatible(Tour tour1, Tour tour2){

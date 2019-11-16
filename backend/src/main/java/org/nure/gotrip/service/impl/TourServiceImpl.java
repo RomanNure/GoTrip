@@ -4,6 +4,8 @@ import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.exception.NotUniqueTourException;
+import org.nure.gotrip.model.Participating;
+import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.model.TourPhoto;
 import org.nure.gotrip.repository.TourJdbcRepository;
@@ -19,6 +21,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TourServiceImpl implements TourService {
@@ -91,5 +94,13 @@ public class TourServiceImpl implements TourService {
             result.add(tourRepository.findById(id.longValue()).orElseThrow(()->new NotFoundException("Can't find tour")));
         }
         return result;
+    }
+
+    @Override
+    public List<RegisteredUser> getByTour(long tourId) {
+	    Tour tour = tourRepository.findById(tourId).orElseThrow(()-> new NotFoundException("Can't find tour"));
+        return tour.getParticipatingList().stream()
+                .map(Participating::getUser)
+                .collect(Collectors.toList());
     }
 }

@@ -81,6 +81,11 @@ public class TourController {
         return new ResponseEntity<>(tourService.getByCriteria(filterUnit), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get/users")
+    public ResponseEntity getUsers(long id){
+        return new ResponseEntity<>(tourService.getByTour(id), HttpStatus.OK);
+    }
+
     private Tour getTour(TourDto tourDto) throws NotFoundAdministratorException {
         Administrator administrator = administratorService.getById(tourDto.getIdAdministrator());
         Tour tour = modelMapper.map(tourDto, Tour.class);

@@ -1,7 +1,9 @@
 package org.nure.gotrip.controller;
 
 import org.nure.gotrip.controller.response.ForbiddenException;
+import org.nure.gotrip.dto.AbilityParticipatingDto;
 import org.nure.gotrip.dto.ParticipatingDto;
+import org.nure.gotrip.model.Participating;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.service.ParticipatingService;
 import org.nure.gotrip.util.session.AppSession;
@@ -28,7 +30,9 @@ public class ParticipatingController {
 
     @GetMapping(value = "/able", produces = "application/json")
     public ResponseEntity isAbleToParticipate(long userId, long tourId){
-        return new ResponseEntity<>(participatingService.isAbleToParticipate(userId, tourId), HttpStatus.OK);
+        return new ResponseEntity<>(new AbilityParticipatingDto(
+                participatingService.isAbleToParticipate(userId, tourId)
+        ), HttpStatus.OK);
     }
 
     @PostMapping(value="/add")
@@ -41,7 +45,7 @@ public class ParticipatingController {
         if(user == null){
             throw new ForbiddenException("Not authorized user");
         }
-        participatingService.participate(user.getId(), dto.getTourId());
-        return new ResponseEntity(HttpStatus.OK);
+        Participating participating = participatingService.participate(user.getId(), dto.getTourId());
+        return new ResponseEntity<>(participating, HttpStatus.OK);
     }
 }

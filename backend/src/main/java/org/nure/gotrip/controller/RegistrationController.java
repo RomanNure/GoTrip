@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 @RestController
@@ -41,12 +40,13 @@ public class RegistrationController {
 
 	@Autowired
 	public RegistrationController(RegisteredUserService registeredUserService, MailService mailService,
-	                              ModelMapper modelMapper, RegistrationUserFormValidator registrationUserFormValidator) {
+                                  ModelMapper modelMapper, RegistrationUserFormValidator registrationUserFormValidator, SessionContainer sessionContainer) {
 		this.registeredUserService = registeredUserService;
 		this.mailService = mailService;
 		this.modelMapper = modelMapper;
 		this.registrationUserFormValidator = registrationUserFormValidator;
-	}
+        this.sessionContainer = sessionContainer;
+    }
 
 	@PostMapping(value = "/register", produces = "application/json")
 	public ResponseEntity signUp(HttpServletResponse response, @RequestBody UserRegistrationFormDto userRegistrationFormDto) {
