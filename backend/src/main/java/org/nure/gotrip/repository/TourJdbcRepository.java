@@ -47,16 +47,16 @@ public class TourJdbcRepository {
 
         //masks
         if(filterUnit.getSearch().get("tourNameSubstr") != null){
-            builder.append(" WHERE tours.name LIKE '%").append(filterUnit.getSearch().get("tourNameSubstr")).append("%'");
+            builder.append(" WHERE LOWER(tours.name) LIKE LOWER('%").append(filterUnit.getSearch().get("tourNameSubstr")).append("%')");
             whereSet = true;
         }
 
         if(filterUnit.getSearch().get("tourLocationSubstr") != null){
             if(!whereSet) {
-                builder.append(" WHERE tours.location LIKE '%").append(filterUnit.getSearch().get("tourLocationSubstr")).append("%'");
+                builder.append(" WHERE LOWER(tours.location) LIKE LOWER('%").append(filterUnit.getSearch().get("tourLocationSubstr")).append("%')");
                 whereSet = true;
             }else{
-                builder.append(" AND tours.location LIKE '%").append(filterUnit.getSearch().get("tourLocationSubstr")).append("%'");
+                builder.append(" AND LOWER(tours.location) LIKE LOWER('%").append(filterUnit.getSearch().get("tourLocationSubstr")).append("%')");
             }
         }
 

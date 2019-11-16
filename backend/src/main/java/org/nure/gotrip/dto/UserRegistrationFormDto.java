@@ -22,12 +22,4 @@ public class UserRegistrationFormDto {
 
 	@NotNull
 	private String description;
-
-	public String getLogin() {
-		return login;
-	}
-
-	public String getPassword() {
-		return password;
-	}
 }

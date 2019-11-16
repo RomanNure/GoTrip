@@ -6,6 +6,8 @@ import org.nure.gotrip.dto.UserRegistrationFormDto;
 import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.service.RegisteredUserService;
+import org.nure.gotrip.util.session.AppSession;
+import org.nure.gotrip.util.session.SessionContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class AuthorizationController {
@@ -22,16 +25,24 @@ public class AuthorizationController {
 
 	private RegisteredUserService registeredUserService;
 
+	private SessionContainer sessionContainer;
+
 	@Autowired
-	public AuthorizationController(RegisteredUserService registeredUserService) {
+	public AuthorizationController(RegisteredUserService registeredUserService, SessionContainer sessionContainer) {
 		this.registeredUserService = registeredUserService;
-	}
+        this.sessionContainer = sessionContainer;
+    }
 
 	@PostMapping(value = "/authorize", produces = "application/json")
-	public RegisteredUser authorize(HttpSession session, @RequestBody UserRegistrationFormDto userRegistrationFormDto) {
+	public RegisteredUser authorize(HttpServletResponse response, @RequestBody UserRegistrationFormDto userRegistrationFormDto) {
 		RegisteredUser user = getRegisteredUser(userRegistrationFormDto);
 		checkUserPassword(user, userRegistrationFormDto);
+		String sessionId = sessionContainer.createSession();
+		AppSession session = sessionContainer.getSession(sessionId);
 		session.setAttribute("user", user);
+		Cookie cookie = new Cookie("SESSIONID", sessionId);
+		cookie.setMaxAge(60*60*3);
+		response.addCookie(cookie);
 		return user;
 	}
 
