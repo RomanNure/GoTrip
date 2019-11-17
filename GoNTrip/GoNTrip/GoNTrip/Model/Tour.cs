@@ -10,7 +10,9 @@ namespace GoNTrip.Model
     [JsonObject]
     public class Tour : ModelElement
     {
+        [CheckTourJoinAbilityField("tourId")]
         [JoinTourField("tourId")]
+        [GetTourMembersField]
         public long id { get; set; }
 
         public string name { get; set; }

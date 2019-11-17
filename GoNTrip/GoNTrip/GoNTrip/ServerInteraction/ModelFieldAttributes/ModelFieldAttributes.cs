@@ -17,4 +17,6 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class GetCompanyByAdminField : QueryField { public GetCompanyByAdminField(string name = null) : base(name) { } }
     public class GetOwnedCompaniesField : QueryField { public GetOwnedCompaniesField(string name = null) : base(name) { } }
     public class JoinTourField : QueryField { public JoinTourField(string name = null) : base(name) { } }
+    public class CheckTourJoinAbilityField : QueryField { public CheckTourJoinAbilityField(string name = null) : base(name) { } }
+    public class GetTourMembersField : QueryField { public GetTourMembersField(string name = null) : base(name) { } }   
 }

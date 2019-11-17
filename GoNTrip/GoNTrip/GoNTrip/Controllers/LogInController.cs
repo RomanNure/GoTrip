@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 using Autofac;
@@ -13,11 +14,14 @@ namespace GoNTrip.Controllers
 {
     public class LogInController
     {
-        public async Task<User> LogIn(string login, string password)
+        public async Task<Session> LogIn(string login, string password)
         {
             IQuery logInQuery = await App.DI.Resolve<LogInQueryFactory>().LogIn(login, password);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(logInQuery, App.DI.Resolve<CookieContainer>());
-            return App.DI.Resolve<IResponseParser>().Parse<User>(response);
+
+            Session session = App.DI.Resolve<Session>();
+            session.CurrentUser = App.DI.Resolve<IResponseParser>().Parse<User>(response);
+            return session;
         }
     }
 }

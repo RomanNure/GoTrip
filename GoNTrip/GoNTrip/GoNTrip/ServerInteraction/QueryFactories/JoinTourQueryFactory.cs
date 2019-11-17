@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using GoNTrip.Model;
 using GoNTrip.ServerAccess;

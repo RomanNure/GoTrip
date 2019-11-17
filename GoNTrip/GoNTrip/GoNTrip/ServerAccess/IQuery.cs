@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Net;
+using System.Collections.Generic;
 
 namespace GoNTrip.ServerAccess
 {
@@ -6,10 +7,15 @@ namespace GoNTrip.ServerAccess
     {
         QueryMethod Method { get; }
         string ServerMethod { get; }
-        IDictionary<string, string> Parameters { get; }
-        string ParametersString { get; }
+
         string QueryBody { get; }
-        IList<string> NeededHeaders { get; }
+        string ParametersString { get; }
+        IDictionary<string, string> Parameters { get; }
         IList<MultipartDataItem> MultipartData { get; }
+
+        IList<string> NeededHeaders { get; }
+        IList<string> NeededCookies { get; }
+
+        IDictionary<string, string> Headers { get; }
     }
 }

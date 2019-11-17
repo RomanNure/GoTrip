@@ -10,6 +10,8 @@ using System.Text.RegularExpressions;
 
 using GoNTrip.ServerInteraction.ResponseParsers;
 
+using Autofac;
+
 namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
@@ -29,25 +31,25 @@ namespace GoNTrip.ServerAccess
 
         public ServerCommunicator(string serverUrl = SERVER_URL) => ServerURL = serverUrl;
 
-        public async Task<IServerResponse> SendQuery(IQuery query, CookieContainer cookieContainer = null)
+        public async Task<IServerResponse> SendQuery(IQuery query, CookieContainer container = null)
         {
-            IDictionary<string, string> Headers = new Dictionary<string, string>();
+            IDictionary<string, string> headers = new Dictionary<string, string>();
 
             try
             {
                 string queryUrl = (query.Method == QueryMethod.POST_MULTIPART ? MULTIPART_SERVER_URL : ServerURL) + "/" + 
                     LastSlash.Replace(FirstSlash.Replace(query.ServerMethod, ""), "");
 
-                (string data, IDictionary<string, string> headers) response = (null, null);
+                (string data, IDictionary<string, string> headers, CookieContainer container) response = (null, null, null);
 
                 if (query.Method == QueryMethod.GET)
-                    response = await QueryGET(queryUrl, query.ParametersString, query.NeededHeaders, cookieContainer);
+                    response = await QueryGET(queryUrl, query, container);
                 else if (query.Method == QueryMethod.POST)
-                    response = await QueryPOST(queryUrl, query.QueryBody, query.NeededHeaders, cookieContainer);
+                    response = await QueryPOST(queryUrl, query, container);
                 else if (query.Method == QueryMethod.POST_MULTIPART)
-                    response = await QueryPostMultipart(queryUrl, query.MultipartData.ToList(), query.NeededHeaders, cookieContainer);
+                    response = await QueryPostMultipart(queryUrl, query, container);
 
-                return new ServerResponse(response.data, response.headers);
+                return new ServerResponse(response.data, response.headers, response.container);
             }
             catch (WebException wex)
             {
@@ -56,48 +58,56 @@ namespace GoNTrip.ServerAccess
                     string error = "";
                     using (StreamReader str = new StreamReader(wex.Response.GetResponseStream()))
                         error = str.ReadToEnd();
-                    return new ServerResponse(error, Headers);
+                    return new ServerResponse(error, headers, container);
                 }
                 catch (Exception ex)
                 {
-                    return new ServerResponse(new ResponseException("No Internet connection").ToString(), Headers);
+                    return new ServerResponse(new ResponseException("No Internet connection").ToString(), headers, container);
                 }
             }
             catch (Exception ex)
             {
-                return new ServerResponse(ex.Message, Headers);
+                return new ServerResponse(ex.Message, headers, container);
             }
         }
 
-        private async Task<(string, Dictionary<string, string>)> QueryGET(string url, string parameterString, IList<string> neededHeadersNames, CookieContainer cookieContainer)
+        private async Task<(string, Dictionary<string, string>, CookieContainer)> QueryGET(string url, IQuery query, CookieContainer container)
         {
+            string parameterString = query.ParametersString;
+
             HttpWebRequest request = WebRequest.CreateHttp(url + (parameterString == "" ? "" : "?" + parameterString));
             request.Method = WebRequestMethods.Http.Get;
             request.ContentType = APP_URLENCODED;
 
-            return await GetResponse(request, neededHeadersNames, cookieContainer);
+            AddHeaders(request, query.Headers);
+            CookieContainer cont = AddCookies(query, request, container);
+
+            return await GetResponse(request, query.NeededHeaders, query.NeededCookies, cont);
         }
 
-        private async Task<(string, Dictionary<string, string>)> QueryPOST(string url, string queryBody, IList<string> neededHeadersNames, CookieContainer cookieContainer)
+        private async Task<(string, Dictionary<string, string>, CookieContainer)> QueryPOST(string url, IQuery query, CookieContainer container)
         {
-            HttpWebRequest request = WebRequest.CreateHttp(url);
+            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
             request.Method = WebRequestMethods.Http.Post;
             request.ContentType = APP_JSON;
 
-            byte[] queryBodyData = Encoding.UTF8.GetBytes(queryBody);
+            byte[] queryBodyData = Encoding.UTF8.GetBytes(query.QueryBody);
             request.ContentLength = queryBodyData.Length;
+
+            AddHeaders(request, query.Headers);
+            CookieContainer cont = AddCookies(query, request, container);
 
             using (Stream strw = await request.GetRequestStreamAsync())
                 strw.Write(queryBodyData, 0, queryBodyData.Length);
 
-            return await GetResponse(request, neededHeadersNames, cookieContainer);
+            return await GetResponse(request, query.NeededHeaders, query.NeededCookies, cont);
         }
 
-        private async Task<(string, Dictionary<string, string>)> QueryPostMultipart(string url, List<MultipartDataItem> data, IList<string> neededHeadersNames, CookieContainer cookieContainer)
+        private async Task<(string, Dictionary<string, string>, CookieContainer)> QueryPostMultipart(string url, IQuery query, CookieContainer container)
         {
             MultipartFormDataContent form = new MultipartFormDataContent("-----");
 
-            foreach (MultipartDataItem dataItem in data)
+            foreach (MultipartDataItem dataItem in query.MultipartData)
                 if (dataItem.File == "")
                     form.Add(dataItem.Data, dataItem.Name);
                 else
@@ -110,31 +120,46 @@ namespace GoNTrip.ServerAccess
             request.ContentType = MULTIPART_FORM + ";boundary=-----";
             request.ContentLength = bytes.Length;
 
+            AddHeaders(request, query.Headers);
+            CookieContainer cont = AddCookies(query, request, container);
+
             using (Stream strw = await request.GetRequestStreamAsync())
                 strw.Write(bytes, 0, bytes.Length);
 
-            return await GetResponse(request, neededHeadersNames, cookieContainer);
+            return await GetResponse(request, query.NeededHeaders, query.NeededCookies, cont);
         }
 
-        protected async Task<(string, Dictionary<string, string>)> GetResponse(HttpWebRequest request, IList<string> neededHeadersNames, CookieContainer cookieContainer)
+        protected async Task<(string, Dictionary<string, string>, CookieContainer)> GetResponse(HttpWebRequest request, IList<string> neededHeadersNames, 
+                                                                                                IList<string> neededCookies, CookieContainer container)
         {
-            if (cookieContainer != null)
-            {
-                request.CookieContainer = cookieContainer;
-                //Cookie cook = cookieContainer.GetCookies(new Uri(SERVER_URL))["JSESSIONID"];
-                //string sessionid = cook == null ? "" : cook.Value;
-            }
-
             using (HttpWebResponse response = await request.GetResponseAsync() as HttpWebResponse)
             using (StreamReader str = new StreamReader(response.GetResponseStream()))
             {
-                Dictionary<string, string> Headers = new Dictionary<string, string>();
+                Dictionary<string, string> headers = new Dictionary<string, string>();
                 foreach (string neededHeaderName in neededHeadersNames)
                     if (response.Headers.AllKeys.ToList().Contains(neededHeaderName))
-                        Headers.Add(neededHeaderName, response.Headers[neededHeaderName]);
+                        headers.Add(neededHeaderName, response.Headers[neededHeaderName]);
 
-                return (str.ReadToEnd(), Headers);
+                List<Cookie> cookies = new List<Cookie>();
+                foreach (string neededCookie in neededCookies)
+                    if (response.Cookies[neededCookie] != null)
+                        request.CookieContainer?.SetCookies(new Uri(ServerURL), $"{response.Cookies[neededCookie].Name}={response.Cookies[neededCookie].Value}");
+
+                return (str.ReadToEnd(), headers, container);
             }
+        }
+
+        protected void AddHeaders(HttpWebRequest request, IDictionary<string, string> headers)
+        {
+            foreach (KeyValuePair<string, string> header in headers)
+                request.Headers.Add(header.Key, header.Value);
+        }
+
+        protected CookieContainer AddCookies(IQuery query, HttpWebRequest request, CookieContainer container)
+        {
+            CookieContainer cont = container != null ? container : (query.NeededCookies.Count != 0 ? new CookieContainer() : null);
+            request.CookieContainer = cont;
+            return cont;
         }
     }
 }

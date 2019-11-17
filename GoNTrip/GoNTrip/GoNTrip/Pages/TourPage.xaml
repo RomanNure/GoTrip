@@ -35,7 +35,7 @@
 
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
-                                            <Label x:Name="TourAbout" BackgroundColor="{StaticResource ContentBackColor}" Margin="5"/>
+                                            <Label x:Name="TourAbout" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" Margin="5"/>
                                         </Frame>
                                     </Frame>
 
