@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
+             xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
+             x:Class="GoNTrip.Pages.GuideRegistrationPage">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="UserAboutButtonsGrid" TargetType="Grid">
+                <Setter Property="ColumnSpacing" Value="0"/>
+                <Setter Property="RowSpacing" Value="0"/>
+                <Setter Property="Padding" Value="5,5,5,5"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,1,1"/>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="XProportional,YProportional,WidthProportional,HeightProportional"/>
+            </Style>
+
+            <Style x:Key="GuideKeyWords" TargetType="Editor">
+                <Setter Property="IsReadOnly" Value="True"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,1,1"/>
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="XProportional,YProportional,WidthProportional,HeightProportional"/>
+            </Style>
+
+            <Style x:Key="ButtonFooter" TargetType="Grid">
+                <Setter Property="ColumnSpacing" Value="0"/>
+                <Setter Property="RowSpacing" Value="0"/>
+                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+            </Style>
+
+            <Style x:Key="KeyBlock" TargetType="Label">
+                <Setter Property="TextColor" Value="{StaticResource BarFontColor}"/>
+            </Style>
+
+            <Style x:Key="KeyBlockContentView" TargetType="customcontrols:ClickableFrame">
+                <Setter Property="BackgroundColor" Value="{StaticResource AdditionalColor}"/>
+                <Setter Property="Padding" Value="5,5,5,5"/>
+                <Setter Property="HorizontalOptions" Value="Start"/>
+            </Style>
+
+            <Style x:Key="KeyWordsGrid" TargetType="customcontrols:ClickableFrame">
+                <Setter Property="HorizontalOptions" Value="Start"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
+
+                        <Grid Style="{StaticResource HeaderBar}" Grid.Row="0" Grid.Column="0">
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Label Style="{StaticResource HeaderLabel}" x:Name="UserNameLabel" Grid.Row="0" Grid.Column="0" Text="Guide registration"/>
+                            
+                        </Grid>
+
+                        <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.ColumnSpan="2">
+                            <Frame Style="{StaticResource InnerBorderFrame}" >
+
+                                <Grid Style="{StaticResource UserAboutButtonsGrid}">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="20"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="20"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Entry Style="{StaticResource GuideKeyWords}" x:Name="GuidCard" Placeholder="Card`s credits" Grid.RowSpan="3" Grid.ColumnSpan="2" />
+
+                                </Grid>
+                            </Frame>
+                        </Frame>
+
+                        <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.ColumnSpan="2">
+                            <Frame Style="{StaticResource InnerBorderFrame}" >
+
+                                <Grid Style="{StaticResource UserAboutButtonsGrid}">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="45"/>
+                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="45"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Editor Style="{StaticResource GuideKeyWords}" x:Name="GuideKeyWords" Placeholder="Enter your key words" Grid.RowSpan="3" Grid.ColumnSpan="2"/>
+
+                                </Grid>
+                            </Frame>
+                        </Frame>
+
+                        <Grid Style="{StaticResource KeyWordsGrid}">
+                            
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <customcontrols:ClickableFrame Style="{StaticResource KeyBlockContentView}" Grid.Column="1">
+                                <Label Style="{StaticResource KeyBlock}" Text="KeyWord1" />
+                            </customcontrols:ClickableFrame>
+
+                            <customcontrols:ClickableFrame Style="{StaticResource KeyBlockContentView}" Grid.Column="2">
+                                <Label Style="{StaticResource KeyBlock}" Text="KeyWord2" />
+                            </customcontrols:ClickableFrame>
+
+                            <customcontrols:ClickableFrame Style="{StaticResource KeyBlockContentView}" Grid.Column="3">
+                                <Label Style="{StaticResource KeyBlock}" Text="KeyWord3" />
+                            </customcontrols:ClickableFrame>
+                            
+                        </Grid>
+
+                        <Grid Style="{StaticResource ButtonFooter} ">
+                            <ScrollView Grid.Row="1" Grid.Column="0">
+                                <Grid x:Name="AdvancedOptionsWraper" VerticalOptions="CenterAndExpand" Margin="5,5,5,5" ColumnSpacing="5" RowSpacing="5">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="20"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="0"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Button Style="{StaticResource CommonButton}" Text="Register a guide" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+                                </Grid>
+                            </ScrollView>
+                           
+                        </Grid>
+                        
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+
+</ContentPage>
