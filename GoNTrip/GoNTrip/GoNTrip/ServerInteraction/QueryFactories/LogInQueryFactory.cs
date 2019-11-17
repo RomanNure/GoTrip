@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using GoNTrip.Model;
 using GoNTrip.ServerAccess;
@@ -9,7 +10,9 @@ namespace GoNTrip.ServerInteraction.QueryFactories
     public class LogInQueryFactory : QueryFactory
     {
         private const string LOG_IN_SERVER_METHOD_NAME = "authorize";
-        public async Task<IQuery> LogIn(string login, string password) => 
-            new Query(QueryMethod.POST, LOG_IN_SERVER_METHOD_NAME, await ExtractJsonQueryBody<User, LogInField>(new User(login, password)));
+
+        public async Task<IQuery> LogIn(string login, string password) =>
+            new Query(QueryMethod.POST, LOG_IN_SERVER_METHOD_NAME, await ExtractJsonQueryBody<User, LogInField>(new User(login, password)),
+                      neededCookies: new List<string>() { Constants.SESSION_ID_HEADER_NAME });
     }
 }

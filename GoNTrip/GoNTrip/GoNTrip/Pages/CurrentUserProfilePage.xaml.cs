@@ -138,8 +138,9 @@ namespace GoNTrip.Pages
 
                 string owned = CurrentUser.OwnedCompanies.Count == 0 ? "" : $"Owner of {String.Join(", ", CurrentUser.OwnedCompanies)}";
                 string admined = CurrentUser.AdministratedCompanies.Count == 0 ? "" : $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}";
+                string guide = CurrentUser.guide == null ? "" : "Guide";
 
-                AdditionalUserInfo.Text = String.Join("\n", new string[] { owned, admined }).Trim();
+                AdditionalUserInfo.Text = String.Join("\n", new string[] { owned, admined, guide }).Trim();
 
                 AvatarView.Sign.Text = login + (AdditionalUserInfo.Text == "" ? "" : " - " + AdditionalUserInfo.Text);
                 AvatarView.Sign.HorizontalTextAlignment = Xamarin.Forms.TextAlignment.Center;

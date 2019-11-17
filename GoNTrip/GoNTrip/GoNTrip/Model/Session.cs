@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GoNTrip.Model
+﻿namespace GoNTrip.Model
 {
     public class Session
     {

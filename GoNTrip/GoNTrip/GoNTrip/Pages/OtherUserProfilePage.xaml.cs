@@ -20,6 +20,8 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class OtherUserProfilePage : ContentPage
     {
+        private const string DEFAULT_USER_DESCRIPTION = "Hi, I'm using Go&Trip";
+
         private const string CONFIRMED_EMAIL_BACK_COLOR = "ContentBackColor";
         private const string NON_CONFIRMED_EMAIL_BACK_COLOR = "InvalidColor";
 
@@ -77,22 +79,19 @@ namespace GoNTrip.Pages
                 UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile";
                 LoginInfoLabel.Text = login;
 
-                if (CurrentUser.fullName == null)
-                    NameInfoLabel.Text = Constants.UNKNOWN_FILED_VALUE;
-                else
-                    NameInfoLabel.Text = CurrentUser.fullName;
-
+                NameInfoLabel.Text = CurrentUser.fullName == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.fullName;
                 EmailInfoLabel.Text = CurrentUser.email == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.email;
                 EmailInfoLabel.BackgroundColor = (Color)App.Current.Resources[CurrentUser.email == null || !CurrentUser.emailConfirmed ? NON_CONFIRMED_EMAIL_BACK_COLOR : CONFIRMED_EMAIL_BACK_COLOR];
 
                 PhoneInfoLabel.Text = CurrentUser.phone == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.phone;
 
-                UserAbout.Text = CurrentUser.description == null ? String.Empty : CurrentUser.description;
+                UserAbout.Text = CurrentUser.description == null ? DEFAULT_USER_DESCRIPTION : CurrentUser.description;
 
                 string owned = CurrentUser.OwnedCompanies.Count == 0 ? "" : $"Owner of {String.Join(", ", CurrentUser.OwnedCompanies)}";
                 string admined = CurrentUser.AdministratedCompanies.Count == 0 ? "" : $"Admin of {String.Join(", ", CurrentUser.AdministratedCompanies)}";
+                string guide = CurrentUser.guide == null ? "" : "Guide";
 
-                AdditionalUserInfo.Text = String.Join("\n", new string[] { owned, admined }).Trim();
+                AdditionalUserInfo.Text = String.Join("\n", new string[] { owned, admined, guide }).Trim();
 
                 AvatarView.Sign.Text = login + (AdditionalUserInfo.Text == "" ? "" : " - " + AdditionalUserInfo.Text);
                 AvatarView.Sign.HorizontalTextAlignment = Xamarin.Forms.TextAlignment.Center;

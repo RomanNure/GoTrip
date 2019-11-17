@@ -13,6 +13,7 @@ namespace GoNTrip.Model
     [Preserve(AllMembers = true)]
     public class User : ModelElement
     {
+        [CheckTourJoinAbilityField("userId")]
         [GetAdministratedCompaniesField]
         [GetOwnedCompaniesField]
         [UpdateProfileField]
@@ -57,6 +58,8 @@ namespace GoNTrip.Model
 
         [UpdateProfileField]
         public List<Admin> administrator { get; set; }
+
+        public object guide { get; set; }//STRUCTURE??
 
         [JsonIgnore]
         public List<Company> OwnedCompanies { get; set; }

@@ -52,7 +52,7 @@ namespace GoNTrip.Pages
 
             try
             {
-                App.DI.Resolve<Session>().CurrentUser = await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
+                await App.DI.Resolve<SignUpController>().SignUp(login, password, email);
                 App.Current.MainPage = new CurrentUserProfilePage();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
@@ -82,7 +82,7 @@ namespace GoNTrip.Pages
 
             try
             {
-                App.DI.Resolve<Session>().CurrentUser = await App.DI.Resolve<LogInController>().LogIn(login, password);
+                await App.DI.Resolve<LogInController>().LogIn(login, password);
                 App.Current.MainPage = new CurrentUserProfilePage();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
