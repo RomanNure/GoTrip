@@ -17,7 +17,7 @@ namespace GoNTrip.Controllers
         {
             IQuery checkJoinAbilityQuery = await App.DI.Resolve<CheckTourJoinAbilityQueryFactory>().CheckTourJoinAbility(user, tour);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(checkJoinAbilityQuery);
-            return true;
+            return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility>(response).able;
         }
 
         public async Task<Participating> JoinTour(Tour tour)
