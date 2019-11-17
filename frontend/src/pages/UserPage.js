@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactModal from 'react-modal';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'react-cookies'
@@ -11,7 +12,8 @@ export default class UserPage extends Component {
         this.state = state
 
         if (!this.state) this.state = {
-            rule: false
+            rule: false,
+            modal: false
         }
         this.state.user = cookie.load("user")
         this.state.id = this.props.location.pathname.match(/\:\d+/)[0].substr(1)
@@ -224,6 +226,10 @@ export default class UserPage extends Component {
         this.props.history.push('/company:'+this.state.company.id)
     }
 
+    _onOpenModal = () => {
+        this.setState({ modal: true })
+    }
+
     render() {
 
         let { login, email, rule, phone, fullName, description, avatarUrl, company } = this.state
@@ -262,6 +268,41 @@ export default class UserPage extends Component {
                                         :
                                         <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenYourCompany}>Manage your company</a></div>
                                     }
+                                    <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenModal}>Become a guid</a></div>
+
+
+
+                                    <ReactModal
+                                        isOpen={this.state.modal}
+                                        style={{
+                                        overlay: {
+                                            backgroundColor: "inharit"
+                                        },
+                                        content: {
+                                            marginLeft: "35%",
+                                            marginTop: "10%",
+                                            marginBottom: "20%",
+                                            alignItems: "space-between",
+                                            width: "30%",
+                                            borderRadius: 30,
+                                            color: 'lightsteelblue'
+                                        }
+                                    }}
+                                >
+                                    <div style={{ marginLeft: "30%" }}>
+                                        <h2>
+                                            Become a guid
+                                        </h2>
+                                    </div>
+                                    <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="Set some key words" disabled={false/*!this.state.rule*/} />
+                                    <a  className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({modal:false})}>close</a>
+
+                                    <a style={{ marginLeft: "50%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
+                                        onClick={() => this._onSentRequest}>Become a guide</a>
+
+                                </ReactModal>
+
+
                                     {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
                                     }
 
@@ -297,9 +338,10 @@ export default class UserPage extends Component {
                                                     </div>
                                                 </div>
                                                 {rule && <div className="form-group">
-                                                    <div className="col-sm-offset-2 col-sm-10">
+                                                    {!this.state.modal && <div className="col-sm-offset-2 col-sm-10">
                                                         <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={() => this._onUpdate()}>Update</a>
                                                     </div>
+                                                    }
                                                 </div>
                                                 }
                                             </form>
