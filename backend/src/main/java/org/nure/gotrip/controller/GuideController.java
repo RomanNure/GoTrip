@@ -53,6 +53,7 @@ public class GuideController {
 	private ResponseEntity addGuideHandler(AddGuideDto addGuideDto) throws NotFoundUserException, NotUniqueGuideException {
 		Guide guide = new Guide();
 		RegisteredUser registeredUser = registeredUserService.findById(addGuideDto.getIdRegisteredUser());
+		guide.setCardNumber(addGuideDto.getCardNumber());
 		guide.setRegisteredUser(registeredUser);
 		guide.setWantedToursKeyWords(addGuideDto.getWantedToursKeyWords());
 		Guide newGuide = guideService.add(guide);

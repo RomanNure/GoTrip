@@ -35,6 +35,9 @@ public class Guide {
 	@Column(name = "wanted_tours_keywords")
 	private String wantedToursKeyWords;
 
+	@Column(name = "card_number")
+	private String cardNumber;
+
 	public Guide() {
 	}
 

@@ -11,4 +11,6 @@ public class AddGuideDto {
 
 	private String wantedToursKeyWords;
 
+	private String cardNumber;
+
 }
