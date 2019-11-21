@@ -15,6 +15,12 @@ export const updateUser = (data) => api.post('update/user', data)
 
 export const addUserPhoto = (data) => apiPhoto.post('/fileupload', data)
 
+export const addAdministrator = (data) => api.post('administrator/add', data)
+export const removeArdimistrator = id => api.post(`administrator/remove?id=${id}`)
+
+export const addGuide = data => api.post(`guide/add`, data)
+export const addNewTour = data => api.post('/tours/add', data)
+
 
 api.interceptors.request.use(
   config => {
