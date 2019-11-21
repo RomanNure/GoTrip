@@ -21,6 +21,7 @@ import Footer from './components/Footer.js';
 import ToursList from "./components/ToursList";
 import AddAdmin from "./components/AddAdmin";
 import TourPage from "./components/TourPage";
+import GuideList from './components/GuideList.js';
 
 export default class App extends PureComponent {
   constructor(props) {
@@ -59,7 +60,9 @@ export default class App extends PureComponent {
             <Route path="/tour-page" exact component={TourPage} />
             <Route path="/employee-list" exact component={EmployeeList} />
             <Route path="/tours-list" exact component={ToursList} />
+
             <Route path="/become-guide" exact component={BecomeGuide} />
+            <Route path="/guide-list" exact component={GuideList} />
 
             <Route path="/user:id" component={(data) => <UserPage {...data} />} />
             <Route path="/company:id" component={(data) => <CompanyPage {...data} />} />
