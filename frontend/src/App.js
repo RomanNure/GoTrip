@@ -13,6 +13,7 @@ import UserPage from './pages/UserPage.js';
 import CreateCompany from "./components/CreateCompany";
 import CompanyPage from "./pages/CompanyPage";
 import EmployeeList from "./components/EmployeeList";
+import BecomeGuide from "./components/BecomeGuide";
 
 import NotFound from './components/NotFound.js';
 import cookie from 'react-cookies'
@@ -58,6 +59,7 @@ export default class App extends PureComponent {
             <Route path="/tour-page" exact component={TourPage} />
             <Route path="/employee-list" exact component={EmployeeList} />
             <Route path="/tours-list" exact component={ToursList} />
+            <Route path="/become-guide" exact component={BecomeGuide} />
 
             <Route path="/user:id" component={(data) => <UserPage {...data} />} />
             <Route path="/company:id" component={(data) => <CompanyPage {...data} />} />
