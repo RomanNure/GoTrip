@@ -3,6 +3,7 @@ import ReactModal from 'react-modal';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'react-cookies'
+import { getUser, getCompanyOwner, updateUser, addUserPhoto } from '../api';
 //import formidable from 'formidable'
 
 export default class UserPage extends Component {
@@ -17,30 +18,18 @@ export default class UserPage extends Component {
         }
         this.state.user = cookie.load("user")
         this.state.id = this.props.location.pathname.match(/\:\d+/)[0].substr(1)
-        console.log('id', this.state.id)
-        //console.log(this.props.location)
-        //        console.log('state= >', state)
+        //console.log('id', this.state.id)
     }
 
     componentDidMount() {
         //console.log('this.tate=>', this.state)
         if (!this.state.login && this.state.id) {
-            axios({
-                url: 'https://go-trip.herokuapp.com/user/get' + "?id=" + this.state.id,
-                method: "get",
-                headers: {
-                    'Content-Type': 'application/x-www-from-urlencoded',//Content-Type': 'appication/json',
-                },
 
+            getUser(this.state.id).then(({ data }) => {
+                //console.log(' user data=>', data)
+                if (!data.email) return false
+                return data
             })
-                .then(({ data }) => {
-                    console.log('data=>', data)
-                    if (!data.email) return false
-                    return data
-                    //this.setState({ email, login, phone, fullName, rule, description, avatarUrl })
-                    // if (rule) window.location.reload();
-
-                })
                 .catch(error => {
                     toast.error('server not response', {
                         position: toast.POSITION.TOP_RIGHT
@@ -48,30 +37,21 @@ export default class UserPage extends Component {
                     console.log('Error', error);
                 })
                 .then(userData => {
-                    axios({
-                        method: "get",
-                        url: 'https://go-trip.herokuapp.com/company/get/owner' + "?id=" + this.state.id,
-                        headers: {
-                            'Content-Type': 'application/x-www-from-urlencoded',//Content-Type': 'appication/json',
-                        },
+                    getCompanyOwner(this.state.id).then(company => {
+                        if (!userData) throw "err"
+
+                        let { email, login, phone, fullName, description, avatarUrl } = userData
+                        let rule = (this.state.user && login == this.state.user.login) ? true : false
+                        let user = cookie.load('user')
+                        if (rule && avatarUrl) {
+                            user.avatarUrl = avatarUrl
+                            cookie.save('user', user, { path: '/' })
+                        }
+                        this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0] })
                     })
-                        .then(company => {
-                            console.log('company =>', company)
-                            if (!userData) throw "err"
-
-                            let { email, login, phone, fullName, description, avatarUrl } = userData
-                            let rule = (this.state.user && login == this.state.user.login) ? true : false
-                            let user = cookie.load('user')
-                            if (rule && avatarUrl) {
-                                user.avatarUrl = avatarUrl
-                                cookie.save('user', user, { path: '/' })
-                            }
-
-                            this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0] })
-                        })
                 })
                 .catch(err => {
-                    toast.error('server not response', {
+                    toast.error('error=>' + err.toString(), {
                         position: toast.POSITION.TOP_RIGHT
                     });
                 })
@@ -85,35 +65,27 @@ export default class UserPage extends Component {
         let NAME = /\w{1,20}\s{1}\w{1,20}/ig
         let PHONE = /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/im
         if (!fullName.value) {
-            toast.error('Please type your name !', {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error('Please type your name !', { position: toast.POSITION.TOP_RIGHT });
         }
         if (!phone.value) {
-            toast.error("Please type your phone !", {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error("Please type your phone !", { position: toast.POSITION.TOP_RIGHT });
             return
         }
 
         if (NAME.test(fullName.value)) {
             console.log('email, phone', fullName, phone);
         } else {
-            toast.error('Invalid name !', {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error('Invalid name !', { position: toast.POSITION.TOP_RIGHT });
             return
         }
 
         if (PHONE.test(phone.value)) {
             console.log('email, phone', fullName, phone);
         } else {
-            toast.error('Invalid phone !', {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error('Invalid phone !', { position: toast.POSITION.TOP_RIGHT });
             return
         }
-        console.log('this.state.avatar.url', this.state.avatarUrl.toString(), data)
+        //console.log('this.state.avatar.url', this.state.avatarUrl.toString(), data)
         let avatarUrl = data ? "http://185.255.96.249:5000/GoTrip/GoTripImgs/avatars/" + data : this.state.avatarUrl
         let user = {
             id: this.state.id,
@@ -127,103 +99,53 @@ export default class UserPage extends Component {
         }
         //user.avatarUrl = "http://185.255.96.249:5000/GoTrip/GoTripImgs/avatars/5.png"
         console.log('this.state.avatarUrl', user.avatarUrl)
-        axios({
-            method: "post",
-            url: 'https://go-trip.herokuapp.com/update/user',
-            //url: 'http://93.76.235.211:5000/update/user',
-            headers: {
-                //"Content-Type": "text/plain",
-                'Content-Type': 'application/json',//Content-Type': 'appication/json',
-            },
-            data: user,
+        updateUser(user).then(({ data }) => {
+            toast.success("Updated", { position: toast.POSITION.TOP_RIGHT });
+            this.props.history.push({ pathname: '/user:' + data.id, state: data })//, {props: data})
+            // append to DOM
         })
-            .then(({ data }) => {
-                toast.success("Updated", {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-                console.log(`POST: user is added`, data);
-                this.props.history.push({ pathname: '/user:' + data.id, state: data })//, {props: data})
-                // append to DOM
-            })
             .catch(error => {
-
                 if (error.response) {
-                    console.log('data=>', error.response.data);
-                    console.log("status=>", error.response.status);
-                    console.log('headers =>', error.response.headers);
-                    toast.error(error.response.data.message, {
-                        position: toast.POSITION.TOP_RIGHT
-                    });
-
+                    toast.error(error.response.data.message, { position: toast.POSITION.TOP_RIGHT });
                 } else if (error.request) {
                     console.log('request err', error.request);
                 } else {
                     console.log('Error', error.message);
                 }
-                console.log('config', error.config)
                 console.log('Error', error);
-
             });
 
     }
     _onUploadPhoto = () => (e) => {
         e.preventDefault()
-        console.log('- Upload photo', e);
         const file = e.target.files[0];
-        console.log('files', file)
         let type = file.type.split('/')[1];
-        console.log('type', type)
-        console.log('file =>', file)
         var formData = new FormData();
         formData.append('file', file, this.state.id + "." + type);
-        //formData.set('path', this.state.id+"."+type)
-        axios.post('http://185.255.96.249:5000/fileupload', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
+        addUserPhoto(formData).then(data => {
+            toast.success('Photo updated', { position: toast.POSITION.TOP_RIGHT });
         })
-            .then(data => {
-                toast.success('Photo updated', {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-                console.log('data=> ', data)
-            })
             .catch(error => {
                 if (error.response) {
-                    console.log('data=>', error.response.data);
-                    console.log("status=>", error.response.status);
-                    console.log('headers =>', error.response.headers);
-                    toast.error(error.response.data.message, {
-                        position: toast.POSITION.TOP_RIGHT
-                    });
-
-                } else if (error.request) {
-                    console.log('request err', error.request);
-                } else {
-                    console.log('Error', error.message);
+                    toast.error(error.response.data.message, { position: toast.POSITION.TOP_RIGHT });
                 }
-                console.log('config', error.config)
                 console.log('Error', error);
             })
         this._onUpdate(this.state.id + '.' + type)
     }
 
     _onLogOut = () => {
-        console.log('logout')
         cookie.remove('user', { path: '/' })
-        toast.error('Log outed', {
-            position: toast.POSITION.TOP_RIGHT
-        });
+        toast.error('Log outed', { position: toast.POSITION.TOP_RIGHT });
         window.location.reload();
         setTimeout(() => this.props.history.push('/login'), 2000)
     }
 
     _onCreateCompany = () => {
-        console.log('lets create a company')
         this.props.history.push({ pathname: '/create-company', state: { id: this.state.id, email: this.state.email, login: this.state.login, fullName: this.state.fullName, phone: this.state.phone } })
     }
     _onOpenYourCompany = () => {
-        this.props.history.push('/company:'+this.state.company.id)
+        this.props.history.push('/company:' + this.state.company.id)
     }
 
     _onOpenModal = () => {
@@ -232,8 +154,8 @@ export default class UserPage extends Component {
 
     render() {
 
-        let { login, email, rule, phone, fullName, description, avatarUrl, company } = this.state
-        console.log('userPage', this.state)
+        const { login, email, rule, phone, fullName, description, avatarUrl, company } = this.state
+        //console.log('userPage', this.state)
         return (
             <>
                 <ToastContainer />
@@ -275,32 +197,32 @@ export default class UserPage extends Component {
                                     <ReactModal
                                         isOpen={this.state.modal}
                                         style={{
-                                        overlay: {
-                                            backgroundColor: "inharit"
-                                        },
-                                        content: {
-                                            marginLeft: "35%",
-                                            marginTop: "10%",
-                                            marginBottom: "20%",
-                                            alignItems: "space-between",
-                                            width: "30%",
-                                            borderRadius: 30,
-                                            color: 'lightsteelblue'
-                                        }
-                                    }}
-                                >
-                                    <div style={{ marginLeft: "30%" }}>
-                                        <h2>
-                                            Become a guid
+                                            overlay: {
+                                                backgroundColor: "inharit"
+                                            },
+                                            content: {
+                                                marginLeft: "35%",
+                                                marginTop: "10%",
+                                                marginBottom: "20%",
+                                                alignItems: "space-between",
+                                                width: "30%",
+                                                borderRadius: 30,
+                                                color: 'lightsteelblue'
+                                            }
+                                        }}
+                                    >
+                                        <div style={{ marginLeft: "30%" }}>
+                                            <h2>
+                                                Become a guid
                                         </h2>
-                                    </div>
-                                    <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="Set some key words" disabled={false/*!this.state.rule*/} />
-                                    <a  className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({modal:false})}>close</a>
+                                        </div>
+                                        <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="Set some key words" disabled={false/*!this.state.rule*/} />
+                                        <a className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({ modal: false })}>close</a>
 
-                                    <a style={{ marginLeft: "50%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
-                                        onClick={() => this._onSentRequest}>Become a guide</a>
+                                        <a style={{ marginLeft: "50%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
+                                            onClick={() => this._onSentRequest}>Become a guide</a>
 
-                                </ReactModal>
+                                    </ReactModal>
 
 
                                     {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
