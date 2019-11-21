@@ -13,7 +13,6 @@ import org.nure.gotrip.util.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.math.BigInteger;
 import java.util.List;
 
 import static java.lang.String.format;

@@ -1,19 +1,14 @@
 package org.nure.gotrip.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,7 +23,7 @@ public class Guide {
 	@Column(name = "guide_id")
 	private long id;
 
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "registered_user_id")
 	private RegisteredUser registeredUser;
 
@@ -38,7 +33,11 @@ public class Guide {
 	@Column(name = "card_number")
 	private String cardNumber;
 
-	public Guide() {
-	}
+	@OneToMany(mappedBy = "guide", fetch = FetchType.LAZY)
+    @JsonManagedReference
+	private List<Tour> tours;
 
+	public Guide(){
+
+    }
 }

@@ -1,5 +1,6 @@
 package org.nure.gotrip.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -60,6 +61,11 @@ public class Tour {
 
 	@OneToMany(mappedBy = "tour", fetch = FetchType.LAZY)
 	private List<Participating> participatingList;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "guide_id")
+    @JsonBackReference
+	private Guide guide;
 
 	public Tour() {
 		//Constructor for JPA

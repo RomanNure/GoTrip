@@ -78,7 +78,10 @@ create table tours
   start_date_time  timestamp      not null,
   finish_date_time timestamp      not null,
   max_participants integer,
-  location         varchar        not null
+  location         varchar        not null,
+  guide_id bigserial
+    constraint tours_guides_id_fk
+    references guide
 );
 
 create table tour_photos

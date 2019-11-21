@@ -68,8 +68,7 @@ public class RegisteredUser {
 	private List<Participating> participatingList;
 
 	@JsonIgnore
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "registered_user_id")
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "registeredUser")
 	private Guide guide;
 
 	public RegisteredUser() {

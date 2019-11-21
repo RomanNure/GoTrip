@@ -39,4 +39,9 @@ public class GuideServiceImpl implements GuideService {
 		return guideRepository.findGuideByRegisteredUserId(id);
 	}
 
+    @Override
+    public Iterable<Guide> getAll() {
+        return guideRepository.findAll();
+    }
+
 }

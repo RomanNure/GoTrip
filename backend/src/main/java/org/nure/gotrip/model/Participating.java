@@ -39,6 +39,7 @@ public class Participating {
 	@Column(name = "tour_rate")
 	private int tourRate;
 
+	@JsonIgnore
 	@Column(name = "ticket_hash")
 	private String hash;
 

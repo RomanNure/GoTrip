@@ -13,4 +13,5 @@ public interface GuideService {
 
 	Optional<Guide> getByRegisteredUserId(long id);
 
+    Iterable<Guide> getAll();
 }

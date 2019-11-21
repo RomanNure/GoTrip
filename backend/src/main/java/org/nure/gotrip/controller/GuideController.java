@@ -15,10 +15,7 @@ import org.nure.gotrip.util.validation.GuideAddValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/guide")
@@ -49,6 +46,12 @@ public class GuideController {
 			throw new ConflictException("User with such id already exists");
 		}
 	}
+
+	@GetMapping(value="/get/all", produces = "application/json")
+    public ResponseEntity getGuides(){
+	    Iterable<Guide> result = guideService.getAll();
+	    return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
 	private ResponseEntity addGuideHandler(AddGuideDto addGuideDto) throws NotFoundUserException, NotUniqueGuideException {
 		Guide guide = new Guide();
