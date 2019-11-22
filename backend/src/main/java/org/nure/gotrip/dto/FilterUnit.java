@@ -11,12 +11,12 @@ public class FilterUnit {
 
 	private Map<String, Filter> filters;
 	private Map<String, String> search;
+    private Map<String, String> semiFilters;
 	private String sortingCriterion;
 
 	@Getter
 	@Setter
 	public static class Filter {
-
 		String from;
 		String to;
 	}

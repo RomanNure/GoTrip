@@ -1,7 +1,6 @@
 package org.nure.gotrip.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,7 +33,7 @@ public class Guide {
 	private String cardNumber;
 
 	@OneToMany(mappedBy = "guide", fetch = FetchType.LAZY)
-    @JsonManagedReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "guide"})
 	private List<Tour> tours;
 
 	public Guide(){

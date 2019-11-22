@@ -1,6 +1,6 @@
 package org.nure.gotrip.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -64,7 +64,7 @@ public class Tour {
 
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "guide_id")
-    @JsonBackReference
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "tours"})
 	private Guide guide;
 
 	public Tour() {

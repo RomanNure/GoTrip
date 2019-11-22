@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Component
 public class TourJdbcRepository {
@@ -19,7 +20,7 @@ public class TourJdbcRepository {
     private static final String USER = "xmmbzrrpzmqumh";
     private static final String PASSWORD = "2278805c1d508f2c8ad3ff2b191ee6eb7282d259866de7502dc0ed945c04bf08";
 
-    private static final String QUERY_START = "SELECT tours.tour_id " +
+    private static final String QUERY_START = "SELECT DISTINCT tours.tour_id " +
             "FROM (((tours left join administrators on tours.administrator_id = administrators.administrator_id)" +
             " left join tour_photos on tours.tour_id = tour_photos.tour_id)" +
             " left join participating on tours.tour_id = participating.tour_id)";
@@ -86,7 +87,49 @@ public class TourJdbcRepository {
             if(whereSet){
                 builder.append(" AND max_participants BETWEEN ").append(durationFilter.getFrom()).append(" AND ").append(durationFilter.getTo());
             }else{
+                whereSet = true;
                 builder.append(" WHERE max_participants BETWEEN ").append(durationFilter.getFrom()).append(" AND ").append(durationFilter.getTo());
+            }
+        }
+
+        Map<String, String> semiFilters = filterUnit.getSemiFilters();
+
+        if(!semiFilters.get("tourGuideId").equals("-1")){
+            if(whereSet){
+                builder.append(" AND guide_id = ").append(semiFilters.get("tourGuideId"));
+            }else{
+                whereSet = true;
+                builder.append(" WHERE guide_id = ").append(semiFilters.get("tourGuideId"));
+            }
+        }
+
+        if(semiFilters.get("withApprovedGuideOnly").equals("true")){
+            if(whereSet){
+                builder.append(" AND guide_id is not null");
+            }else{
+                whereSet = true;
+                builder.append(" WHERE guide_id is not null");
+            }
+        }else if(semiFilters.get("noApprovedGuideOnly").equals("true")){
+            if(whereSet){
+                builder.append(" AND guide_id is null");
+            }else{
+                whereSet = true;
+                builder.append(" WHERE guide_id is null");
+            }
+        }
+
+        if(!semiFilters.get("tourMemberId").equals("-1")){
+            if(whereSet){
+                builder
+                    .append(" AND tours.tour_id IN(SELECT tour_id FROM participating WHERE registered_user_id = ")
+                    .append(semiFilters.get("tourMemberId"))
+                    .append(")");
+            }else{
+                builder
+                    .append(" WHERE tours.tour_id IN(SELECT tour_id FROM participating WHERE registered_user_id = ")
+                    .append(semiFilters.get("tourMemberId"))
+                    .append(")");
             }
         }
 
