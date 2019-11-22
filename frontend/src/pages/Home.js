@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 //import SignIn from '../components/SignIn.js';
+import { getTours } from '../api.js';
 
 import ToursList from '../components/ToursList';
 export default class Home extends Component {
@@ -10,12 +11,16 @@ export default class Home extends Component {
 
     }
   }
+  componentDidMount() {
+    getTours().then(({data}) =>  this.setState({ tours:data }))
+  }
 
   render() {
+    console.log('this.state=>', this.state)
     return (
       //<SignIn/>
-      <div style={{ backgroundColor: "#eee", display:"flex"}}>
-        <ToursList tours={false}/>
+      <div style={{ backgroundColor: "#eee", display: "flex" }}>
+        <ToursList tours={this.state.tours} />
       </div>
     )
   }

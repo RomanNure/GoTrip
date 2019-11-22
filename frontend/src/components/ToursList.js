@@ -5,52 +5,54 @@ export default class ToresList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            tours: this.props.tours ? this.props.tours : [
-                {
-                    img: "./images/placeholder.jpg",
-                    title: "Adventure tour around Brazil",
-                    descr: "Best-selling Brazil tour! All the best things to do in the summer with our first-rate guide Ricardo!",
-                    time: "October 27, 2019"
-                },
-                {
-                    img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
-                    title: "Adventure tour to mars",
-                    descr: "Mask v woke",
-                    time: "October 29, 2019"
-                }, {
-                    img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
-                    title: "Adventure tour to mars",
-                    descr: "Mask v woke",
-                    time: "October 29, 2019"
-                }, {
-                    img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
-                    title: "Adventure tour to mars",
-                    descr: "Mask v woke",
-                    time: "October 29, 2019"
-                }, {
-                    img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
-                    title: "Adventure tour to mars",
-                    descr: "Mask v woke",
-                    time: "October 29, 2019"
-                },
-            ]
+
+            // tours: this.props.tours ? this.props.tours : [
+            //     {
+            //         img: "./images/placeholder.jpg",
+            //         title: "Adventure tour around Brazil",
+            //         descr: "Best-selling Brazil tour! All the best things to do in the summer with our first-rate guide Ricardo!",
+            //         time: "October 27, 2019"
+            //     },
+            //     {
+            //         img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
+            //         title: "Adventure tour to mars",
+            //         descr: "Mask v woke",
+            //         time: "October 29, 2019"
+            //     }, {
+            //         img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
+            //         title: "Adventure tour to mars",
+            //         descr: "Mask v woke",
+            //         time: "October 29, 2019"
+            //     }, {
+            //         img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
+            //         title: "Adventure tour to mars",
+            //         descr: "Mask v woke",
+            //         time: "October 29, 2019"
+            //     }, {
+            //         img: "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.telegraph.co.uk%2Fcontent%2Fdam%2Fnews%2F2018%2F04%2F18%2FTELEMMGLPICT000157926081-xlarge_trans_NvBQzQNjv4BqvxY1SBh3Zy94n8Z2-u3DXpo3vSb9RvelYMC6seL5330.jpeg&f=1&nofb=1",
+            //         title: "Adventure tour to mars",
+            //         descr: "Mask v woke",
+            //         time: "October 29, 2019"
+            //     },
+            // ]
         }
     }
 
 
     render() {
-        console.log('rendered toursList')
+        const { tours } = this.props
+        console.log('rendered toursList', this.props)
         return (
             <div style={{ display: "flex", flexDirection: "row", justifyContent: "flex-start", alignItems: "center", flexWrap: "wrap" }}>
-                {this.state.tours && this.state.tours.length > 0 ?
+                {tours && tours.length > 0 ?
                     (<>
-                        {this.state.tours.map(({ descr, title, img, time }) => {
-                            return <div style={{ width: "40%", margin:"50px", marginTop:"5px", marginLeft:"auto", marginRight:"auto" }}>
+                        {tours.map(({ description, name, mainPictureUrl, time }) => {
+                            return <div style={{ width: "40%", margin: "50px", marginTop: "5px", marginLeft: "auto", marginRight: "auto" }}>
                                 <div className="card rounded mb-4">
-                                    <img className="card-img-top" src={img} alt="Card image cap" style={{ height: 300 }} />
+                                    <img className="card-img-top" src={mainPictureUrl} alt="Card image cap" style={{ height: 300 }} />
                                     <div className="card-body">
-                                        <h2 className="card-title">{title}</h2>
-                                        <p className="card-text">{descr}</p>
+                                        <h2 className="card-title">{name}</h2>
+                                        <p className="card-text">{description}</p>
                                         <a href="#" className="btn waves-effect waves-light #81c784 green lighten-2">Read More &rarr;</a>
                                     </div>
                                     <div className="card-footer text-muted">
