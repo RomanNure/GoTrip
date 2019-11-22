@@ -17,7 +17,7 @@ export default class Header extends Component {
 
         console.log('header state=> ', this.state)
         return (
-            <nav>
+            <nav >
                 <div className="nav-wrapper #81c784 green lighten-2" >
                     <a href="/" className="brand-logo"><img src="./gotrip.svg" style={{ height: 125, width: 125, marginLeft:10 }} /></a>
                     <ul className="right hide-on-med-and-down">

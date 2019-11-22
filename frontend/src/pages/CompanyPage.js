@@ -190,14 +190,14 @@ export default class CompanyPage extends Component {
     render() {
         //    this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
         return (
-            <div>
+            <div style={{ display: "flex", width: "100%" }}>
                 <ToastContainer />
 
 
-                <div className="container bootstrap snippet" >
+                <div className="container bootstrap snippet" style={{justifyContent:"center", alignItems:"center", marginTop:"15px"}}>
                     <div className="row ng-scope">
                         <div className="col-md-4" >
-                            <div className="panel panel-default" style={{ height: 600, backgroundColor: "#fff", borderRadius: 20 }}>
+                            <div className="panel panel-default" style={{  backgroundColor: "#fff", borderRadius: 20 }}>
                                 <div className="panel-body text-center">
                                     <div className="pv-lg mr-3 ml-3">
                                         <>

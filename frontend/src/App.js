@@ -22,6 +22,7 @@ import ToursList from "./components/ToursList";
 import AddAdmin from "./components/AddAdmin";
 import TourPage from "./components/TourPage";
 
+const GlobalContext = React.createContext();
 export default class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -45,31 +46,37 @@ export default class App extends PureComponent {
 
     console.log('- router rendered', this.props)
     return (
-      <div style={{ backgroundColor: "#eee", position:"absolute", top:0, left:0, right:0, bottom:0}}>
-        <Header />
-        <div className="container-fluid" style={{ minHeight: 640 }}>
-          <Switch>
-            <Route path="/" exact component={Home} />
-            <Route path="/login" exact component={SignIn} />
+      <GlobalContext.Provider value={{
+        user: this.state.user
+      }}>
 
-            <Route path="/registration" exact component={SignUp} />
+        <div style={{ display: "flex",width:"100%", height:"100%", flexDirection: "column", justifyContent: "space-between", backgroundColor: "#eee" }}>
+          <Header />
+          <div className="container-fluid" style={{ display: "flex", minHeight: 750 }}>
+            <Switch>
+              <Route path="/" exact component={Home} />
+              <Route path="/login" exact component={SignIn} />
 
-            <Route path="/create-company" exact component={CreateCompany} />
-            <Route path="/add-admin" exact component={AddAdmin} />
-            <Route path="/tour-page" exact component={TourPage} />
-            <Route path="/employee-list" exact component={EmployeeList} />
-            <Route path="/tours-list" exact component={ToursList} />
-            <Route path="/become-guide" exact component={BecomeGuide} />
+              <Route path="/registration" exact component={SignUp} />
 
-            <Route path="/user:id" component={(data) => <UserPage {...data} />} />
-            <Route path="/company:id" component={(data) => <CompanyPage {...data} />} />
+              <Route path="/create-company" exact component={CreateCompany} />
+              <Route path="/add-admin" exact component={AddAdmin} />
+              <Route path="/tour-page" exact component={TourPage} />
+              <Route path="/create-tour" exact component={TourPage} />
 
-            <Route component={NotFound} />
-          </Switch>
+              <Route path="/employee-list" exact component={EmployeeList} />
+              <Route path="/tours-list" exact component={ToursList} />
+              <Route path="/become-guide" exact component={BecomeGuide} />
+
+              <Route path="/user:id" component={(data) => <UserPage {...data} />} />
+              <Route path="/company:id" component={(data) => <CompanyPage {...data} />} />
+
+              <Route component={NotFound} />
+            </Switch>
+          </div>
+            <Footer />
         </div>
-        <Footer />
-
-      </div>
+      </GlobalContext.Provider>
     )
   }
 }

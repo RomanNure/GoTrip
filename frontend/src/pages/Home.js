@@ -14,7 +14,7 @@ export default class Home extends Component {
   render() {
     return (
       //<SignIn/>
-      <div className="container-fluid" style={{ backgroundColor: "#eee" }}>
+      <div style={{ backgroundColor: "#eee", display:"flex"}}>
         <ToursList tours={false}/>
       </div>
     )

@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'cookie';
-import axios from 'axios';
+import { companyPhoto, companyRegistration } from '../api.js';
 
 export default class CompanyPage extends PureComponent {
     constructor(props) {
@@ -69,30 +69,18 @@ export default class CompanyPage extends PureComponent {
             description: description.value,
             imageLink: 'http://185.255.96.249:5000/GoTrip/GoTripImgs/company/' + this.props.history.location.state.id + '.' + type
         }
-        console.log('data=>', data)
-        axios.all([
-            axios({
-                method: "post",
-                url: 'https://go-trip.herokuapp.com/company/registration',
-                //url:'http://93.76.235.211:5000/authorize',    
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                data
-            }),
-            axios.post('http://185.255.96.249:5000/company', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            })
-
+        //console.log('data=>', data)
+        Promise.all([
+            companyRegistration(data),
+            companyPhoto(formData)
         ])
-            .then(axios.spread((acct, perms) => {
+            .then(data => console.log('data after registration=> ', data)
+                /*axios.spread((acct, perms) => {
                 toast.success("Company created !", {
                     position: toast.POSITION.TOP_RIGHT
-                })
-                setTimeout(() => this.props.history.push({ pathname: '/company:' + this.props.history.location.state.id }), 3000)
-            }));
+                })*/
+                //setTimeout(() => this.props.history.push({ pathname: '/company:' + this.props.history.location.state.id }), 3000)
+            );
         /* axios({
              method: "post",
              url: 'https://go-trip.herokuapp.com/company/registration',
@@ -112,7 +100,7 @@ export default class CompanyPage extends PureComponent {
                  setTimeout(() => this.props.history.push({ pathname: '/company:' + cookie.load('company').name }), 3000)
                  //setTimeout(() =>  window.location.update, 4000)//, {props: data})
                  //window.location.reload();
- 
+     
              })
              .catch(error => {
                  if (error.response) {
@@ -122,7 +110,7 @@ export default class CompanyPage extends PureComponent {
                      toast.error(error.response.data.message, {
                          position: toast.POSITION.TOP_RIGHT
                      });
- 
+     
                  } else if (error.request) {
                      console.log('request err', error.request);
                  } else {
@@ -130,9 +118,9 @@ export default class CompanyPage extends PureComponent {
                  }
                  console.log('config', error.config)
                  console.log('Error', error);
- 
+     
              })
- */
+    */
         //        console.log('data', data)
 
 
@@ -177,20 +165,20 @@ export default class CompanyPage extends PureComponent {
     render() {
         console.log('props', this.props.history.location.state)
         return (
-            <>
+            <div style={{ display: "flex", width: "100%" }}>
                 <ToastContainer />
 
-                <div className="container" style={{ height: 615 }}>
-                    <div className="panel panel-default col-md-7 ml-auto mr-auto pb-2 pt-2 pl-4 pr-4" style={{ backgroundColor: "#fff", borderRadius: 15, top: 25 }}>
+                <div className="container">
+                    <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", backgroundColor: "#fff", borderRadius: 15, top: 25 }}>
                         <div className="row text-center">
                             <div className="col-12 text-center">
                                 <div className="h3">Create your company</div>
                             </div>
                         </div>
                         <div className="row justify-content-center">
-                            <div className="col-12">
-                                <form action="">
-                                    <div className="form-group" style={{ marginLeft: "35%" }}>
+                            <div className="col-10">
+                                <form action="" style={{ paddingBottom: "10px" }}>
+                                    <div className="form-group" style={{ display: "flex", alignItems: "center", marginLeft: "35%" }}>
                                         <label htmlFor="Photo">
                                             <img
                                                 className="center-block img-responsive  thumb96"
@@ -233,7 +221,7 @@ export default class CompanyPage extends PureComponent {
                         </div>
                     </div>
                 </div>
-            </>
+            </div>
         )
     }
 }

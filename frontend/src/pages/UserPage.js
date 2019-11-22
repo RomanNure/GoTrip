@@ -40,14 +40,14 @@ export default class UserPage extends Component {
                     getCompanyOwner(this.state.id).then(company => {
                         if (!userData) throw "err"
 
-                        let { email, login, phone, fullName, description, avatarUrl } = userData
+                        let { email, login, phone, fullName, description, avatarUrl, guide, administrators } = userData
                         let rule = (this.state.user && login == this.state.user.login) ? true : false
                         let user = cookie.load('user')
                         if (rule && avatarUrl) {
                             user.avatarUrl = avatarUrl
                             cookie.save('user', user, { path: '/' })
                         }
-                        this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0] })
+                        this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0], guide, administrators })
                     })
                 })
                 .catch(err => {
@@ -152,129 +152,116 @@ export default class UserPage extends Component {
         this.setState({ modal: true })
     }
 
+    _onAddNewTour = () => {
+        console.log("add new tour")
+        //this.props.history.push('/create-tour:' + this.state.company.id)
+    }
+
     render() {
 
-        const { login, email, rule, phone, fullName, description, avatarUrl, company } = this.state
+        const { login, email, rule, phone, fullName, description, avatarUrl, company, guide } = this.state
         //console.log('userPage', this.state)
         return (
-            <>
+
+            <div style={{ display: "flex", width: "60%", justifyContent: "space-between", alignItems: "center", marginRight: "auto", marginLeft: "auto" }} >
                 <ToastContainer />
 
-                <div className="container bootstrap snippet" >
+                <div style={{ display: "flex", height: 600, width: "30%", backgroundColor: "#fff", borderRadius: 20, justifyContent: "center", flexDirection: "row", flexWrap: "wrap", }}>
+                    <div className="panel-body text-center">
+                        <div className="pv-lg mr-3 ml-3">
+                            <>
+                                <label htmlFor="Photo">
+                                    <img
+                                        className="center-block img-responsive  thumb96"
+                                        src={avatarUrl ? avatarUrl : "images/Avatar.png"}
+                                        alt="Contact"
+                                        style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100, margin: 5 }}
+                                    />
+                                </label>
+                                {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
 
-                    <div className="row ng-scope" >
-                        <div className="col-md-4" >
-                            <div className="panel panel-default" style={{ height: 600, backgroundColor: "#fff", borderRadius: 20 }}>
-                                <div className="panel-body text-center">
-                                    <div className="pv-lg mr-3 ml-3">
-                                        <>
-                                            <label htmlFor="Photo">
-                                                <img
-                                                    className="center-block img-responsive  thumb96"
-                                                    src={avatarUrl ? avatarUrl : "images/Avatar.png"}
-                                                    alt="Contact"
-                                                    style={{ cursor: "pointer", width: 200, height: 200, borderRadius: 100, margin: 5 }}
-                                                />
-                                            </label>
-                                            {rule && <input type="file" ref='photo' id='Photo' accept=".png,.jpg,.jpeg" style={{ display: "none" }} onChange={this._onUploadPhoto()} />}
-
-                                        </>
-                                    </div>
-                                    <h3 className="m0 text-bold">{login ? login : "empty user"}</h3>
-                                    <div className="row justify-content-center">
-                                        <div className="col-11">
-                                            <textarea className="form-control" id="exampleTextarea" disible={!rule} placeholder="User description" row="4" defaultValue={description}></textarea>
-                                        </div>
-                                    </div>
-                                    {rule && !company ? <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onCreateCompany}>Become a company</a></div>
-                                        :
-                                        <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenYourCompany}>Manage your company</a></div>
-                                    }
-                                    <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenModal}>Become a guid</a></div>
+                            </>
+                        </div>
+                        <h3 className="m0 text-bold">{login ? login : "empty user"}</h3>
+                        <div className="row justify-content-center">
+                            <div className="col-11">
+                                <textarea className="form-control" id="exampleTextarea" disible={!rule} placeholder="User description" row="4" defaultValue={description}></textarea>
+                            </div>
+                        </div>
+                        {rule && !company ? <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onCreateCompany}>Become a company</a></div>
+                            :
+                            rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenYourCompany}>Manage your company</a></div>
+                        }
+                        {rule && !guide && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenModal}>Become a guid</a></div>}
+                        <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onAddNewTour}>Add new tour</a></div>
 
 
 
-                                    <ReactModal
-                                        isOpen={this.state.modal}
-                                        style={{
-                                            overlay: {
-                                                backgroundColor: "inharit"
-                                            },
-                                            content: {
-                                                marginLeft: "35%",
-                                                marginTop: "10%",
-                                                marginBottom: "20%",
-                                                alignItems: "space-between",
-                                                width: "30%",
-                                                borderRadius: 30,
-                                                color: 'lightsteelblue'
-                                            }
-                                        }}
-                                    >
-                                        <div style={{ marginLeft: "30%" }}>
-                                            <h2>
-                                                Become a guid
+
+                        <ReactModal
+                            isOpen={this.state.modal}
+                            style={{
+                                overlay: {
+                                    backgroundColor: "inharit"
+                                },
+                                content: {
+                                    marginLeft: "35%",
+                                    marginTop: "10%",
+                                    marginBottom: "20%",
+                                    alignItems: "space-between",
+                                    width: "30%",
+                                    borderRadius: 30,
+                                    color: 'lightsteelblue'
+                                }
+                            }}
+                        >
+                            <div style={{ marginLeft: "30%" }}>
+                                <h2>
+                                    Become a guid
                                         </h2>
-                                        </div>
-                                        <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="Set some key words" disabled={false/*!this.state.rule*/} />
-                                        <a className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({ modal: false })}>close</a>
-
-                                        <a style={{ marginLeft: "50%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
-                                            onClick={() => this._onSentRequest}>Become a guide</a>
-
-                                    </ReactModal>
-
-
-                                    {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
-                                    }
-
-                                </div>
                             </div>
-                        </div>
-                        <div className="col-md-8 panel panel-default" style={{ height: 600, backgroundColor: "#fff", borderRadius: 20 }}>
-                            <div>
-                                <div className="panel-body">
-                                    <div className="pull-right">
-                                    </div>
-                                    <div className="h4 text-center mr-md-5 mt-5 mt-md-3">Account Information</div>
-                                    <div className="row pv-lg">
-                                        <div className="col-lg-2"></div>
-                                        <div className="col-lg-8">
-                                            <form className="form-horizontal ng-pristine ng-valid">
-                                                <div className="form-group">
-                                                    <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
-                                                    <div className="col-md-10">
-                                                        <input ref="fullName" id="inputContact1" type="text" placeholder="Name" disabled={!this.state.rule} defaultValue={fullName} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
-                                                    <div className="col-md-10">
-                                                        <input ref="email" id="inputContact2" type="email" disabled={true} placeholder="Email Address" defaultValue={email} />
-                                                    </div>
-                                                </div>
-                                                <div className="form-group">
-                                                    <label className="col-sm-2 control-label" htmlFor="inputContact3">Phone</label>
-                                                    <div className="col-md-10">
-                                                        <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" disabled={!this.state.rule} defaultValue={phone} />
-                                                    </div>
-                                                </div>
-                                                {rule && <div className="form-group">
-                                                    {!this.state.modal && <div className="col-sm-offset-2 col-sm-10">
-                                                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={() => this._onUpdate()}>Update</a>
-                                                    </div>
-                                                    }
-                                                </div>
-                                                }
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                            <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="Set some key words" disabled={false/*!this.state.rule*/} />
+                            <a className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({ modal: false })}>close</a>
+
+                            <a style={{ marginLeft: "50%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
+                                onClick={() => this._onSentRequest}>Become a guide</a>
+
+                        </ReactModal>
+
+
+                        {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
+                        }
+
                     </div>
                 </div>
-            </>
+                <div style={{ display: "flex", width: "60%", height: 400, backgroundColor: "#fff", borderRadius: 20, justifyContent: "center" }}>
+                    <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
+                        <div className="h4 text-center mr-md-5 mt-5 mt-md-3">Account Information</div>
+                        <form style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "100%", alignSelf: "center", marginRight: "auto", marginLeft: "auto" }}>
+                            <div className="form-group" style={{ alignSelf: "center", width: "80%" }}>
+                                <label className="col-sm-2 control-label" htmlFor="inputContact1">Name</label>
+                                <input ref="fullName" id="inputContact1" type="text" placeholder="Name" disabled={!this.state.rule} defaultValue={fullName} />
+                            </div>
+                            <div className="form-group" style={{ alignSelf: "center", width: "80%" }}>
+                                <label className="col-sm-2 control-label" htmlFor="inputContact2">Email</label>
+                                <input ref="email" id="inputContact2" type="email" disabled={true} placeholder="Email Address" defaultValue={email} />
+                            </div>
+                            <div className="form-group" style={{ alignSelf: "center", width: "80%" }}>
+                                <label className="col-sm-2 control-label" htmlFor="inputContact3">Phone</label>
+                                <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" disabled={!this.state.rule} defaultValue={phone} />
+                            </div>
+                            {rule && <div className="form-group" style={{ alignSelf: "center", width: "80%" }}>
+
+                                {!this.state.modal && <div className="col-sm-offset-2 col-sm-10">
+                                    <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={() => this._onUpdate()}>Update</a>
+                                </div>
+                                }
+                            </div>
+                            }
+                        </form>
+                    </div>
+                </div>
+            </div>
         )
     }
 }

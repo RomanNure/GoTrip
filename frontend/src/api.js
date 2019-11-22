@@ -7,19 +7,22 @@ const apiGet = axios.create({ baseURL: 'https://go-trip.herokuapp.com/', headers
 const apiPhoto = axios.create({ baseURL: 'http://185.255.96.249:5000/', headers: { 'Content-Type': 'multipart/form-data' } })
 
 
-export const register = data => api.post('register', data);
-export const login = data => api.post('authorize', data);
-export const getUser = id => apiGet.get(`user/get?id=${id}`);
-export const getCompanyOwner = id => apiGet.get(`company/get/owner?id=${id}`)
-export const updateUser = (data) => api.post('update/user', data)
+export const register = data => api.post('/register', data);
+export const login = data => api.post('/authorize', data);
+export const getUser = id => apiGet.get(`/user/get?id=${id}`);
+export const getCompanyOwner = id => apiGet.get(`/company/get/owner?id=${id}`)
+export const updateUser = (data) => api.post('/update/user', data)
 
 export const addUserPhoto = (data) => apiPhoto.post('/fileupload', data)
+export const companyPhoto = data => apiPhoto.post(`/company`, data)
 
-export const addAdministrator = (data) => api.post('administrator/add', data)
-export const removeArdimistrator = id => api.post(`administrator/remove?id=${id}`)
+export const addAdministrator = (data) => api.post('/administrator/add', data)
+export const removeArdimistrator = id => api.post(`/administrator/remove?id=${id}`)
 
-export const addGuide = data => api.post(`guide/add`, data)
+export const addGuide = data => api.post(`/guide/add`, data)
 export const addNewTour = data => api.post('/tours/add', data)
+
+export const companyRegistration = data => api.post('/company/registration', data)
 
 
 api.interceptors.request.use(
