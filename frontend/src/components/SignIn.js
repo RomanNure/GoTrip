@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'react-cookies'
+import GlobalContext from '../GlobalContext.js';
 
 const display = {
     display: 'block',
@@ -14,6 +15,7 @@ const hide = {
     display: 'none'
 };
 export default class SignIn extends Component {
+    static contextType = GlobalContext
     constructor(props) {
         super(props);
         this.state = {
@@ -54,8 +56,9 @@ export default class SignIn extends Component {
                     position: toast.POSITION.TOP_RIGHT
                 })
                 console.log('data', data)
-                cookie.save('user', { login: login.value, password: pass.value, id:data.id }, { path: '/' })
-                setTimeout(() => this.props.history.push({ pathname: '/user:' + cookie.load('user').id }), 4000 )
+                cookie.save('user', { ...data }, { path: '/' })
+                this.context.setUser(data)
+                setTimeout(() => this.props.history.push({ pathname: '/user:' + cookie.load('user').id }), 4000)
                 //setTimeout(() =>  window.location.update, 4000)//, {props: data})
                 //window.location.reload();
 

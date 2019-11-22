@@ -22,8 +22,8 @@ import ToursList from "./components/ToursList";
 import AddAdmin from "./components/AddAdmin";
 import TourPage from "./components/TourPage";
 import GuideList from './components/GuideList.js';
+import GlobalContext from './GlobalContext.js';
 
-const GlobalContext = React.createContext();
 export default class App extends PureComponent {
   constructor(props) {
     super(props);
@@ -35,28 +35,43 @@ export default class App extends PureComponent {
 
   shouldComponentUpdate(p, s) {
     let cookieUser = cookie.load('user')
-    console.log('cooki user', cookieUser, s)
-    if (cookieUser && cookieUser.login != s.user.login) {
+    //console.log('cooki user', cookieUser, s)
+    if (cookieUser && cookieUser.login != s.user.login || s.user.id != this.state.user.id) {
+      this.setState({ user: cookieUser })
       console.log('marched rerender')
       return true
     }
     return false
   }
+  componentDidMount() {
+    let cookieUser = cookie.load('user')
+    if (cookieUser) {
+      this.setState({ user: cookieUser })
+    }
+  }
+  setUser = (user) => {
+    console.log("setted user", user)
+    this.setState({ user })
+  }
+
   /* eslint-disable */
   render() {
 
-    console.log('- router rendered', this.props)
+    console.log('- router rendered', this.state)
     return (
       <GlobalContext.Provider value={{
-        user: this.state.user
+        user: this.state.user,
+        setUser: this.setUser
       }}>
 
         <div style={{ display: "flex", width: "100%", height: "100%", flexDirection: "column", justifyContent: "space-between", backgroundColor: "#eee" }}>
-          <Header />
+          <Header user={this.state.user} />
           <div className="container-fluid" style={{ display: "flex", minHeight: 750 }}>
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/login" exact component={SignIn} />
+              <Route path="/registration" exact component={SignUp} />
+
 
               <Route path="/create-company" exact component={CreateCompany} />
               <Route path="/add-admin" exact component={AddAdmin} />

@@ -4,9 +4,11 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import cookie from 'react-cookies'
 import { getUser, getCompanyOwner, updateUser, addUserPhoto } from '../api';
+import GlobalContext from '../GlobalContext.js';
 //import formidable from 'formidable'
 
 export default class UserPage extends Component {
+    static contextType = GlobalContext
     constructor(props) {
         super(props);
         let { state } = this.props.location
@@ -47,6 +49,7 @@ export default class UserPage extends Component {
                             user.avatarUrl = avatarUrl
                             cookie.save('user', user, { path: '/' })
                         }
+                        if(rule) this.context.setUser(userData)
                         this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0], guide, administrators })
                     })
                 })
@@ -151,6 +154,9 @@ export default class UserPage extends Component {
     _onOpenModal = () => {
         this.setState({ modal: true })
     }
+    _onBecomeGuilde = () =>{
+        this.props.history.push('/become-guide' )
+    }
 
     _onAddNewTour = () => {
         console.log("add new tour")
@@ -192,42 +198,8 @@ export default class UserPage extends Component {
                             :
                             rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenYourCompany}>Manage your company</a></div>
                         }
-                        {rule && !guide && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenModal}>Become a guid</a></div>}
+                        {rule && !guide && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onBecomeGuilde}>Become a guid</a></div>}
                         <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onAddNewTour}>Add new tour</a></div>
-
-
-
-
-                        <ReactModal
-                            isOpen={this.state.modal}
-                            style={{
-                                overlay: {
-                                    backgroundColor: "inharit"
-                                },
-                                content: {
-                                    marginLeft: "35%",
-                                    marginTop: "10%",
-                                    marginBottom: "20%",
-                                    alignItems: "space-between",
-                                    width: "30%",
-                                    borderRadius: 30,
-                                    color: 'lightsteelblue'
-                                }
-                            }}
-                        >
-                            <div style={{ marginLeft: "30%" }}>
-                                <h2>
-                                    Become a guid
-                                        </h2>
-                            </div>
-                            <input style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="Set some key words" disabled={false/*!this.state.rule*/} />
-                            <a className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({ modal: false })}>close</a>
-
-                            <a style={{ marginLeft: "50%", marginTop: "8%" }} className="btn waves-effect waves-light #81c784 green lighten-2"
-                                onClick={() => this._onSentRequest}>Become a guide</a>
-
-                        </ReactModal>
-
 
                         {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
                         }

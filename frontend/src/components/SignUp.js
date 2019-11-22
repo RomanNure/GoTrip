@@ -13,19 +13,7 @@ const hide = {
     display: 'none'
 };
 
-const api = axios.create({
-    baseURL: "https://go-trip.herokuapp.com/",
-    timeout: 10000,
-    headers: {
-        "Content-Type": "application/json",
-        'Accept-Encoding': 'gzip',
-        'Accept-Language': 'en-US',
-        'Allow': 'GET, POST, HEAD, PUT',
-        "Access-Control-Allow-Origin": "https://go-trip.herokuapp.com",
-        'X-Requested-With': 'XMLHttpRequest',
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:12.0) Gecko/20100101 Firefox/12.0'
-    }
-})
+
 export default class SignUp extends Component {
     constructor(props) {
         super(props);
@@ -42,41 +30,28 @@ export default class SignUp extends Component {
         const LOGIN = /(\w{8,20})/ig
         const PASSWORD = /\w{8,30}/ig
         if (!login.value) {
-            toast.error(" No Login !", {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error(" No Login !", { position: toast.POSITION.TOP_RIGHT });
             return
         }
         if (!email.value) {
-            toast.error(" No Email !", {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error(" No Email !", { position: toast.POSITION.TOP_RIGHT });
             return
         }
         if (!p1.value) {
-            toast.error(" No Password !", {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error(" No Password !", { position: toast.POSITION.TOP_RIGHT });
             return
         }
         if (!p2.value) {
-            toast.error("No confirmed password !", {
-                position: toast.POSITION.TOP_RIGHT
-            });
+            toast.error("No confirmed password !", { position: toast.POSITION.TOP_RIGHT });
             return
         }
-        if (LOGIN.test(login.value)) {
-            console.log('matched')
-        } else {
-            console.log('not matched')
+        if (!LOGIN.test(login.value)) {
             toast.error("Incorrect Login !", {
                 position: toast.POSITION.TOP_RIGHT
             });
             return
         }
-        if (EMAIL.test(email.value)) {
-            console.log(' email matched')
-        } else {
+        if (!EMAIL.test(email.value)) {
             toast.error("Incorrect email !", {
                 position: toast.POSITION.TOP_RIGHT
             });
@@ -89,8 +64,6 @@ export default class SignUp extends Component {
             return
         } else {
             if (PASSWORD.test(p1)) {
-                console.log('- password matched')
-            } else {
                 toast.error("Password must contain A-Z, a-z, 1-9 !", {
                     position: toast.POSITION.TOP_RIGHT
                 });
@@ -103,24 +76,14 @@ export default class SignUp extends Component {
             email: email.value,
             password: p1.value
         }
-        /*axios({
-    method: "post",
-    url: 'https://go-trip.herokuapp.com/register',
-    //url: 'http://93.76.235.211:5000/register',
-    headers: {
-        //"Content-Type": "text/plain",
-        'Content-Type': 'application/json',//Content-Type': 'appication/json',
-
-    },
-    data: user,
-})*/
         register(user)
             .then(({ data }) => {
                 toast.success("Registered", {
                     position: toast.POSITION.TOP_RIGHT
                 });
-                console.log(`POST: user is added`, data);
-                cookie.save('user', { login: login.value, password: p1.value, id: data.id }, { path: '/' })
+                //console.log(`POST: user is added`, data);
+                cookie.save('user', {...user }, { path: '/' })
+                this.context.setUser(user)
                 setTimeout(() => this.props.history.push({ pathname: '/user:' + data.id, state: data }), 2000)//, {props: data})
                 // append to DOM
             })
