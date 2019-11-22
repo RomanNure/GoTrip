@@ -7,18 +7,26 @@ using Android.Views;
 
 using CustomControls;
 
-using GoNTrip.Pages.Additional.Popups;
 using Autofac;
+
 using GoNTrip.Util;
+using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.PageMementos;
 
 namespace GoNTrip.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class AdvancedPage : ContentPage
     {
+        private PageMemento CurrentPageMemento { get; set; }
+
+        [RestorableConstructor]
         public AdvancedPage()
         {
             InitializeComponent();
+
+            CurrentPageMemento = new PageMemento();
+            CurrentPageMemento.Save(this);
         }
 
         private PopupControlSystem PopupControl { get; set; }
@@ -63,6 +71,11 @@ namespace GoNTrip.Pages
                 PopupControl.CloseTopPopup();
 
             return true;
+        }
+
+        private void BecomeGuideButton_Clicked(object sender, EventArgs e)
+        {
+            App.Current.MainPage = new GuideRegistrationPage(CurrentPageMemento);
         }
     }
 }

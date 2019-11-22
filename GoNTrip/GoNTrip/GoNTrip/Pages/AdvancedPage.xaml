@@ -48,7 +48,7 @@
                                         <RowDefinition Height="Auto"/>
                                     </Grid.RowDefinitions>
 
-                                    <Button Style="{StaticResource CommonButton}" Text="Become a guide" Grid.Row="0" Grid.ColumnSpan="2"/>
+                                    <Button Style="{StaticResource CommonButton}" x:Name="BecomeGuideButton" Text="Become a guide" Clicked="BecomeGuideButton_Clicked" Grid.Row="0" Grid.ColumnSpan="2"/>
 
                                     <customcontrols:Img Style="{StaticResource AdvancedOptionPictureButton}" x:Name="QrScannerOpenButton" OnClick="QrScannerOpenButton_OnClick" Source="qrScan.png" Border="False" BorderOnClick="False" CornerRad="10" Grid.Row="1" Grid.ColumnSpan="2" />
 

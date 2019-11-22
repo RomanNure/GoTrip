@@ -299,5 +299,18 @@
             <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
         </Style>
 
+        <Style x:Key="CommonInput" TargetType="View" ApplyToDerivedTypes="True">
+            <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+            <Setter Property="VerticalOptions" Value="FillAndExpand"/>
+        </Style>
+
+        <Style x:Key="CommonEditor" BasedOn="{StaticResource CommonInput}" TargetType="Editor">
+            <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+        </Style>
+
+        <Style x:Key="CommonEntry" BasedOn="{StaticResource CommonInput}" TargetType="Entry">
+            <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+        </Style>
+
     </Application.Resources>
 </Application>
