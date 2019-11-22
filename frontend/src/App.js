@@ -21,6 +21,7 @@ import Footer from './components/Footer.js';
 import ToursList from "./components/ToursList";
 import AddAdmin from "./components/AddAdmin";
 import TourPage from "./components/TourPage";
+import GuideList from './components/GuideList.js';
 
 const GlobalContext = React.createContext();
 export default class App extends PureComponent {
@@ -50,14 +51,21 @@ export default class App extends PureComponent {
         user: this.state.user
       }}>
 
-        <div style={{ display: "flex",width:"100%", height:"100%", flexDirection: "column", justifyContent: "space-between", backgroundColor: "#eee" }}>
+        <div style={{ display: "flex", width: "100%", height: "100%", flexDirection: "column", justifyContent: "space-between", backgroundColor: "#eee" }}>
           <Header />
           <div className="container-fluid" style={{ display: "flex", minHeight: 750 }}>
             <Switch>
               <Route path="/" exact component={Home} />
               <Route path="/login" exact component={SignIn} />
 
-              <Route path="/registration" exact component={SignUp} />
+              <Route path="/create-company" exact component={CreateCompany} />
+              <Route path="/add-admin" exact component={AddAdmin} />
+              <Route path="/tour-page" exact component={TourPage} />
+              <Route path="/employee-list" exact component={EmployeeList} />
+              <Route path="/tours-list" exact component={ToursList} />
+
+              <Route path="/become-guide" exact component={BecomeGuide} />
+              <Route path="/guide-list" exact component={GuideList} />
 
               <Route path="/create-company" exact component={CreateCompany} />
               <Route path="/add-admin" exact component={AddAdmin} />
@@ -74,7 +82,7 @@ export default class App extends PureComponent {
               <Route component={NotFound} />
             </Switch>
           </div>
-            <Footer />
+          <Footer />
         </div>
       </GlobalContext.Provider>
     )
