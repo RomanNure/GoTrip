@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 public interface NotificationData {
 
-    String getData() throws JsonProcessingException;
+    String data() throws JsonProcessingException;
 
     String getType();
 }

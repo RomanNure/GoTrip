@@ -2,8 +2,10 @@ package org.nure.gotrip.service.impl;
 
 import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
+import org.nure.gotrip.dto.PreparingDto;
 import org.nure.gotrip.model.Participating;
 import org.nure.gotrip.model.Tour;
+import org.nure.gotrip.repository.ParticipatingPreparationRepository;
 import org.nure.gotrip.repository.ParticipatingRepository;
 import org.nure.gotrip.repository.RegisteredUserRepository;
 import org.nure.gotrip.repository.TourRepository;
@@ -20,6 +22,7 @@ import static java.lang.String.format;
 @Service
 public class ParticipatingServiceImpl implements ParticipatingService {
 
+    private ParticipatingPreparationRepository preparationRepository;
     private ParticipatingRepository participatingRepository;
     private TourService tourService;
     private TourRepository tourRepository;
@@ -27,7 +30,8 @@ public class ParticipatingServiceImpl implements ParticipatingService {
     private Encoder encoder;
 
     @Autowired
-    public ParticipatingServiceImpl(ParticipatingRepository participatingRepository, TourService tourService, TourRepository tourRepository, RegisteredUserRepository registeredUserRepository, Encoder encoder) {
+    public ParticipatingServiceImpl(ParticipatingPreparationRepository preparationRepository, ParticipatingRepository participatingRepository, TourService tourService, TourRepository tourRepository, RegisteredUserRepository registeredUserRepository, Encoder encoder) {
+        this.preparationRepository = preparationRepository;
         this.participatingRepository = participatingRepository;
         this.tourService = tourService;
         this.tourRepository = tourRepository;
@@ -58,6 +62,21 @@ public class ParticipatingServiceImpl implements ParticipatingService {
         participating.setHash(hash);
         participatingRepository.save(participating);
         return participating;
+    }
+
+    @Override
+    public boolean prepare(PreparingDto dto) {
+        preparationRepository.add(dto);
+        return true;
+    }
+
+    @Override
+    public PreparingDto confirm(String orderId) {
+        PreparingDto removed = preparationRepository.remove(orderId);
+        if(removed != null){
+            return removed;
+        }
+        return null;
     }
 
     private boolean isCompatible(Tour tour1, Tour tour2){

@@ -13,12 +13,11 @@ public class OfferGuidingNotificationData implements NotificationData{
 
     static final String TYPE = "OfferGuiding";
 
-    long companyId;
-    long administratorId;
     long tourId;
+    long guideId;
 
     @Override
-    public String getData() throws JsonProcessingException {
+    public String data() throws JsonProcessingException {
         return new ObjectMapper().writeValueAsString(this);
     }
 

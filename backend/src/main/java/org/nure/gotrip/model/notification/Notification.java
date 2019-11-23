@@ -1,6 +1,5 @@
 package org.nure.gotrip.model.notification;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -28,16 +27,16 @@ public class Notification {
     @Column(name="checked")
     private boolean checked;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "registered_user_id")
     private RegisteredUser user;
 
     @Column(name="data")
     private String data;
 
-    private Notification(NotificationData notificationData){
+    public Notification(NotificationData notificationData){
         try {
-            data = notificationData.getData();
+            data = notificationData.data();
         } catch (JsonProcessingException e) {
             throw new SerializationException(e.getMessage());
         }
