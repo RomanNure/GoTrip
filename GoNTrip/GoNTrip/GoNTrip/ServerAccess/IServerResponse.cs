@@ -7,5 +7,6 @@ namespace GoNTrip.ServerAccess
     {
         string Data { get; }
         IDictionary<string, string> Headers { get; }
+        CookieContainer CookieContainer { get; }
     }
 }

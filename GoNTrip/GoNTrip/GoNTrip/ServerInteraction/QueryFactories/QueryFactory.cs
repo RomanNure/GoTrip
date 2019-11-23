@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -6,7 +7,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 
 using GoNTrip.Model;
-using GoNTrip.ServerAccess;
 using GoNTrip.ServerInteraction.ModelFieldAttributes;
 
 namespace GoNTrip.ServerInteraction.QueryFactories
@@ -22,13 +22,20 @@ namespace GoNTrip.ServerInteraction.QueryFactories
                                                                                      where R : QueryField =>
             WrapBody(await ExtractBody<T, R>(item1) + await ExtractBody<Q, R>(item2));
 
+        protected async Task<string> ExtractJsonQueryBody<T, Q, P, R>(T item1, Q item2, P item3) where T : ModelElement
+                                                                                                 where Q : ModelElement
+                                                                                                 where P : ModelElement
+                                                                                                 where R : QueryField =>
+            WrapBody(await ExtractBody<T, R>(item1) + await ExtractBody<Q, R>(item2) + await ExtractBody<P, R>(item3));
+
         private async Task<string> ExtractBody<T, R>(T item) where T : ModelElement
                                                              where R : QueryField
         {
             return await Task.Run(() =>
             {
                 string body = "";
-                foreach (PropertyInfo PI in item.GetType().GetProperties())
+                Type type = item.GetType();
+                foreach (PropertyInfo PI in type.GetProperties().Union(type.GetRuntimeProperties()))
                 {
                     R attribute = PI.GetCustomAttribute<R>();
                     if (attribute != null)
@@ -68,7 +75,8 @@ namespace GoNTrip.ServerInteraction.QueryFactories
 
             await Task.Run(() =>
             {
-                foreach (PropertyInfo PI in item.GetType().GetProperties())
+                Type type = item.GetType();
+                foreach (PropertyInfo PI in type.GetProperties().Union(type.GetRuntimeProperties()))
                 {
                     R attribute = PI.GetCustomAttribute<R>();
                     if (attribute != null)

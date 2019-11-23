@@ -66,6 +66,7 @@ namespace GoNTrip.Pages
 
             builder.RegisterType<JoinTourController>().SingleInstance().AsSelf();
             builder.RegisterType<JoinTourQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<JoinPrepareQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<CheckTourJoinAbilityQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<GetTourMembersController>().SingleInstance().AsSelf();

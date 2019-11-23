@@ -42,7 +42,6 @@ namespace GoNTrip.Pages
         private Tour CurrentTour { get; set; }
         private Company CurrentTourCompany { get; set; }
         private User CurrentTourAdmin { get; set; }
-        private User CurrentTourGuide { get; set; }
         private List<User> Members { get; set; }
 
         [RestorableConstructor]
@@ -181,6 +180,30 @@ namespace GoNTrip.Pages
             TourAdminName.Text = CurrentTourAdmin == null || CurrentTourAdmin.login == null ? String.Empty : CurrentTourAdmin.login;
             TourAdminEmail.Text = CurrentTourAdmin == null || CurrentTourAdmin.email == null ? String.Empty : CurrentTourAdmin.email;
 
+            double size = Width / 2.0;
+            User currentUser = App.DI.Resolve<Session>().CurrentUser;
+            OpenTicketButton.IsVisible = Members.Contains(currentUser);
+            OpenTicketButton.WidthRequest = size;
+            OpenTicketButton.HeightRequest = size;
+
+            if (CurrentTour.guide == null)
+                GuideProfile.IsVisible = false;
+            else
+            {
+                GuideProfile.IsVisible = true;
+                User guide = CurrentTour.guide.UserProfile;
+
+                TourGuideName.Text = guide.login;
+                TourGuideEmail.Text = guide.email;
+                GuideAvatar.Source = guide.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : guide.avatarUrl;
+
+                ScanTicketButton.IsVisible = guide.Equals(currentUser) && DateTime.Now >= CurrentTour.startDateTime;
+                ScanTicketButton.WidthRequest = size;
+                ScanTicketButton.HeightRequest = size;
+
+                //TourFinishedButton.IsVisible = CurrentTour.participatingList.Where(P => true).SingleOrDefault(P => P.)
+            }
+
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
             await LoadCurrentTourMembers();
@@ -263,8 +286,8 @@ namespace GoNTrip.Pages
 
         private bool GuideProfilePreview_OnClick(MotionEvent ME, IClickable sender)
         {
-            //if (ME.Action == MotionEventActions.Up)
-            //    OpenLinkedUser(CurrentTourGuide);
+            if (ME.Action == MotionEventActions.Up && CurrentTour.guide != null)
+                OpenLinkedUser(CurrentTour.guide.UserProfile);
             return false;
         }
 
@@ -275,7 +298,7 @@ namespace GoNTrip.Pages
                                                                                         new OtherUserProfilePage(user, CurrentPageMemento);
         }
 
-        private async void JoinTourButton_Clicked(object sender, EventArgs e) // should open payment page actually
+        private async void JoinTourButton_Clicked(object sender, EventArgs e)
         {
             PopupControl.OpenPopup(ActivityPopup);
             await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
@@ -296,6 +319,36 @@ namespace GoNTrip.Pages
                 PopupControl.CloseTopPopup();
 
             return true;
+        }
+
+        private bool OpenTicketButton_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if (ME.Action == MotionEventActions.Up)
+            {
+                //todo
+            }
+
+            return false;
+        }
+
+        private bool ScanTicketButton_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if (ME.Action == MotionEventActions.Up)
+            {
+                //todo
+            }
+
+            return false;
+        }
+
+        private bool TourFinishedButton_OnClick(MotionEvent ME, IClickable sender)
+        {
+            if (ME.Action == MotionEventActions.Up)
+            {
+                //todo
+            }
+
+            return false;
         }
     }
 }

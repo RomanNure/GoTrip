@@ -5,5 +5,6 @@
         public Session() { }
 
         public User CurrentUser { get; set; }
+        public string SessionId { get; set; }
     }
 }

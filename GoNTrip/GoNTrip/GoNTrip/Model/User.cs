@@ -13,6 +13,7 @@ namespace GoNTrip.Model
     [Preserve(AllMembers = true)]
     public class User : ModelElement
     {
+        [JoinPrepareField("user_id")]
         [AddGuideField("idRegisteredUser")]
         [CheckTourJoinAbilityField("userId")]
         [GetAdministratedCompaniesField]

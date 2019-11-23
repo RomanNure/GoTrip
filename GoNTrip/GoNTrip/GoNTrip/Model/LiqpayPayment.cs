@@ -9,7 +9,7 @@ using GoNTrip.ServerInteraction.ModelFieldAttributes;
 namespace GoNTrip.Model
 {
     [JsonObject(MemberSerialization = MemberSerialization.OptIn)]
-    public class LiqpayPayment : IPayment, ModelElement
+    public class LiqpayPayment : ModelElement
     {
         private const string PUBLIC_KEY = "sandbox_i74310151520";
         private const string PRIVATE_KEY = "sandbox_kgwzzF9TsmUOIJmQQeQyM4G4yrxfGJxVq64k8hLn";
@@ -17,9 +17,9 @@ namespace GoNTrip.Model
         private const string ACTION = "paylc";
         private const int VERSION = 3;
         private const string CURRENCY = "USD";
-        private const string SERVER_URL = "http://37.229.135.155:5000/api/server/test";
 
         private static readonly SHA1 Sha1 = SHA1.Create();
+        private static readonly MD5 mD5 = MD5.Create();
 
         [JsonProperty("action")]
         private string Action { get; set; }
@@ -42,6 +42,7 @@ namespace GoNTrip.Model
         [JsonProperty("description")]
         private string Description { get; set; }
 
+        [JoinPrepareField("order_id")]
         [JsonProperty("order_id")]
         private string OrderId { get; set; }
 
@@ -68,21 +69,21 @@ namespace GoNTrip.Model
         [JsonIgnore]
         public string Signature { get; private set; }
 
-        public LiqpayPayment(User user, Tour tour, Card card)
+        public LiqpayPayment(Session session, Tour tour, Card card, string serverCallback)
         {
             Action = ACTION;
             Version = VERSION;
             PublicKey = PUBLIC_KEY;
-            Phone = user.phone;
+            Phone = session.CurrentUser.phone;
             Amount = tour.pricePerPerson;
             Currency = CURRENCY;
             Description = "Participating in " + tour.name;
-            OrderId = tour.id + "_" + user.id;
+            OrderId = BitConverter.ToString(mD5.ComputeHash(Encoding.UTF8.GetBytes($"{session.CurrentUser.id}_{session.SessionId}_{tour.id}"))).Replace("-", "").ToUpper();
             Card = card.CardNum;
             CardExpMonth = card.MonthExp;
             CardExpYear = card.YearExp;
             CardCvv = card.Cvv;
-            ServerUrl = SERVER_URL;
+            ServerUrl = serverCallback;
 
             string data = JsonConvert.SerializeObject(this);
             Base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(data));

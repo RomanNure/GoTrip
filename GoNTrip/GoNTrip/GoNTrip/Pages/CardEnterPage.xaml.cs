@@ -34,7 +34,7 @@ namespace GoNTrip.Pages
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
             Validator = new CardValidator(UserCard, MonthExp, YearExp, Cvv, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
 
-            HeaderLabel.Text = $"Pay {tour.pricePerPerson} for participating";
+            HeaderLabel.Text = $"Pay {tour.pricePerPerson}{Constants.CURRENCY_SYMBOL} for participating";
         }
 
         private async void PayButton_Clicked(object sender, EventArgs e)
@@ -47,8 +47,17 @@ namespace GoNTrip.Pages
             try
             {
                 Card card = new Card(UserCard.Text, MonthExp.Text, YearExp.Text, Cvv.Text);
-                await App.DI.Resolve<PayController>().PayForTour(CurrentTour, card);
+                PayController payController = App.DI.Resolve<PayController>();
+                LiqpayPayment payment = payController.CreatePayment(CurrentTour, card);
 
+                if (!(await App.DI.Resolve<JoinTourController>().JoinPrepare(CurrentTour, payment)))
+                    throw new ResponseException("Payment prepearing failed");
+
+                LiqpayResponse response = await App.DI.Resolve<PayController>().PayForTour(payment);
+
+                //check status?
+
+                App.Current.MainPage = PrevPageMemento.Restore();
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch (ResponseException ex)

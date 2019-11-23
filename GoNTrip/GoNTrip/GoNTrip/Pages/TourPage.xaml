@@ -9,6 +9,13 @@
              x:Class="GoNTrip.Pages.TourPage"
              Appearing="ContentPage_Appearing">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
     <ContentPage.Content>
         <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}" x:Name="Layout">
 
@@ -76,11 +83,14 @@
                                     </Grid>
 
                                     <Button Style="{StaticResource CommonButton}" x:Name="JoinTourButton" Text="Join tour" Clicked="JoinTourButton_Clicked"/>
+                                    <customcontrols:Img x:Name="OpenTicketButton" Border="False" BorderOnClick="False" HorizontalOptions="CenterAndExpand" Source="qrScan.png" CornerRad="30" IsVisible="False" OnClick="OpenTicketButton_OnClick"/>
+                                    <customcontrols:Img x:Name="ScanTicketButton" Border="False" BorderOnClick="False" HorizontalOptions="CenterAndExpand" Source="edit.png" CornerRad="30" IsVisible="False" OnClick="ScanTicketButton_OnClick"/>
+                                    <customcontrols:Img x:Name="TourFinishedButton" Border="False" BorderOnClick="False" HorizontalOptions="CenterAndExpand" Source="filter.png" CornerRad="30" IsVisible="False" OnClick="TourFinishedButton_OnClick"/>
 
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
-
+ 
                                                 <customcontrols:Img Style="{StaticResource ProfilePreviewImage}" x:Name="CompanyImage" Source="DefaultTourIcon.png" Border="False" BorderOnClick="False" CornerRad="35" Grid.RowSpan="3" Grid.Column="0"/>
                                                 <Label Style="{StaticResource PlaceholderLabel}" Text="Organizator company" Grid.Row="0" Grid.Column="1"/>
                                                 <Label Style="{StaticResource InfoLabel}" x:Name="OrganisatorCompanyName" Text="Some company" Grid.Row="1" Grid.Column="1"/>
@@ -103,7 +113,7 @@
                                         </customcontrols:ClickableFrame>
                                     </Frame>
 
-                                    <Frame Style="{StaticResource OuterBorderFrame}">
+                                    <Frame Style="{StaticResource OuterBorderFrame}" x:Name="GuideProfile">
                                         <customcontrols:ClickableFrame Style="{StaticResource InnerBorderFrame}" x:Name="GuideProfilePreview" OnClick="GuideProfilePreview_OnClick">
                                             <Grid Style="{StaticResource ProfilePreviewWrapper}">
 

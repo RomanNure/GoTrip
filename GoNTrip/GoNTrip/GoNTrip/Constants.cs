@@ -33,9 +33,6 @@ namespace GoNTrip
         public const string UNKNOWN_SYMBOL = "?";
         public const string CURRENCY_SYMBOL = "$";
 
-        public const string SET_COOKIE_HEADER = "Set-Cookie";
-        public const string COOKIE_HEADER = "Cookie";
-
         public const string SESSION_ID_HEADER_NAME = "SESSIONID";
 
         public const int ACTIVITY_INDICATOR_START_TIMEOUT = 100;
