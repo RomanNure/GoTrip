@@ -4,10 +4,7 @@ import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.exception.NotUniqueTourException;
-import org.nure.gotrip.model.Participating;
-import org.nure.gotrip.model.RegisteredUser;
-import org.nure.gotrip.model.Tour;
-import org.nure.gotrip.model.TourPhoto;
+import org.nure.gotrip.model.*;
 import org.nure.gotrip.repository.TourJdbcRepository;
 import org.nure.gotrip.repository.TourPhotoRepository;
 import org.nure.gotrip.repository.TourRepository;
@@ -102,5 +99,11 @@ public class TourServiceImpl implements TourService {
         return tour.getParticipatingList().stream()
                 .map(Participating::getUser)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Tour setGuide(Tour tour, Guide guide) {
+        tour.setGuide(guide);
+        return tourRepository.save(tour);
     }
 }

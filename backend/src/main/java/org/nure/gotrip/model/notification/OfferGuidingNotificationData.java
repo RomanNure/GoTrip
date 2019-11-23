@@ -15,6 +15,7 @@ public class OfferGuidingNotificationData implements NotificationData{
 
     long tourId;
     long guideId;
+    double price;
 
     @Override
     public String data() throws JsonProcessingException {

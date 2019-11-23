@@ -66,7 +66,7 @@ public class ParticipatingController {
         RegisteredUser user = checkUser(session);
         dto.setUserId(user.getId());
         boolean result = participatingService.prepare(dto);
-        return new ResponseEntity<>("{" + result + "}", HttpStatus.OK);
+        return new ResponseEntity<>("{\"added\":\"" + result + "\"}", HttpStatus.OK);
     }
 
     @PostMapping(value="/add/liqpay")
