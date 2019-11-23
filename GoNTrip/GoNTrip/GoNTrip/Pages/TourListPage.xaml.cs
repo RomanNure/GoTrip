@@ -26,9 +26,13 @@ namespace GoNTrip.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class TourListPage : ContentPage
     {
+        private PageMemento PrevPageMemento { get; set; }
         private PageMemento CurrentPageMemento { get; set; }
+
         private PopupControlSystem PopupControl { get; set; }
+
         private List<RadioButton> SortedCheckers { get; set; }
+        private List<RadioButton> GuideStateCheckers { get; set; }
 
         private const int PAGE_TOURS_COUNT = 8;
 
@@ -41,28 +45,38 @@ namespace GoNTrip.Pages
         private List<TourListItem> TourLayouts = new List<TourListItem>();
         private List<Tour> Tours = new List<Tour>();
 
+        public TourListPage() : this(Constants.TOUR_LIST_PAGE_CAPTION, DefaultNavigationPanel.PageEnum.TOUR_LIST, null, null) { }
+
         [RestorableConstructor]
-        public TourListPage()
+        public TourListPage(string caption, DefaultNavigationPanel.PageEnum pageType, 
+                            PageMemento prevPageMemento = null, TourFilterSorterSearcher filterSorterSearcher = null)
         {
             InitializeComponent();
 
-            if (CurrentTourFilterSorterSearcher == null)
+            PrevPageMemento = prevPageMemento;
+
+            if (filterSorterSearcher != null)
+                CurrentTourFilterSorterSearcher = filterSorterSearcher;
+            else if (CurrentTourFilterSorterSearcher == null)
                 CurrentTourFilterSorterSearcher = new TourFilterSorterSearcher();
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
 
-            Navigator.Current = DefaultNavigationPanel.PageEnum.TOUR_LIST;
+            Navigator.Current = pageType;
             Navigator.LinkClicks(PopupControl, ActivityPopup);
 
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             SortedCheckers = new List<RadioButton>() { PriceSortedChecker, FreePlacesSortedChecker };
+            GuideStateCheckers = new List<RadioButton>() { GuideApprovedChecker, GuideNotApprovedChecker };
 
             LoadFilterNumericUpDowns();
 
             CurrentPageMemento = new PageMemento();
-            CurrentPageMemento.Save(this);
+            CurrentPageMemento.Save(this, caption, pageType, PrevPageMemento, CurrentTourFilterSorterSearcher);
+
+            TourListCaption.Text = caption;
         }
 
         private void LoadFilterNumericUpDowns()
@@ -80,6 +94,11 @@ namespace GoNTrip.Pages
         private async void ContentPage_Appearing(object sender, EventArgs e)
         {
             PopupControl.OpenPopup(ActivityPopup);
+
+            bool isGuide = App.DI.Resolve<Session>().CurrentUser.guide != null;
+
+            GuideNotApprovedLabel.IsVisible = isGuide;
+            GuideNotApprovedChecker.IsVisible = isGuide;
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
@@ -226,6 +245,9 @@ namespace GoNTrip.Pages
 
             MaxPlacesPicker.Val = Tours.Count == 0 ? 0 : Tours.Max(T => T.maxParticipants);
             MinPlacesPicker.Val = Tours.Count == 0 ? 0 : Tours.Min(T => T.maxParticipants);
+
+            GuideApprovedChecker.Checked = false;
+            GuideNotApprovedChecker.Checked = false;
         }
 
         private void ResetSortView()
@@ -257,6 +279,9 @@ namespace GoNTrip.Pages
 
             MinPlacesPicker.Val = filterSorterSearcher.filters.participantsFilter.from;
             MaxPlacesPicker.Val = filterSorterSearcher.filters.participantsFilter.to;
+
+            GuideApprovedChecker.Checked = filterSorterSearcher.semiFilters.withApprovedGuideOnly;
+            GuideNotApprovedChecker.Checked = filterSorterSearcher.semiFilters.noApprovedGuideOnly;
         }
 
         private void LoadSorter(TourFilterSorterSearcher filterSorterSearcher)
@@ -300,6 +325,9 @@ namespace GoNTrip.Pages
             CurrentTourFilterSorterSearcher.FillFilters(MinPricePicker.Val, MaxPricePicker.Val, 
                                                         MinStartDate.Date, MaxStartDate.Date, 
                                                         (int)MinPlacesPicker.Val, (int)MaxPlacesPicker.Val);
+
+            CurrentTourFilterSorterSearcher.FillSemiFilters(GuideApprovedChecker.Checked, GuideNotApprovedChecker.Checked);
+
             await UpdateToursAsync();
         }
 
@@ -331,6 +359,7 @@ namespace GoNTrip.Pages
             PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             CurrentTourFilterSorterSearcher.filters.Reset();
+            CurrentTourFilterSorterSearcher.semiFilters.Reset();
 
             UpdateTours(true);
         }
@@ -342,7 +371,7 @@ namespace GoNTrip.Pages
             CurrentTourFilterSorterSearcher.search.Reset();
             ResetSearchView();
 
-            UpdateTours(!CurrentTourFilterSorterSearcher.filters.IsChanged);
+            UpdateTours(!CurrentTourFilterSorterSearcher.filters.IsChanged && !CurrentTourFilterSorterSearcher.semiFilters.IsChanged);
         }
 
         private async void SortPopupReset_Clicked(object sender, EventArgs e)
@@ -354,16 +383,26 @@ namespace GoNTrip.Pages
             await UpdateToursAsync();
         }
 
-        private bool SortedCheckerLabel_OnClick(MotionEvent ME, IClickable sender) => ((sender as Element).BindingContext as IClickable).Click(ME);
+        private bool SortedCheckerLabel_OnClick(MotionEvent ME, IClickable sender) => 
+            ((sender as Element).BindingContext as IClickable).Click(ME);
 
-        private bool SortedChecker_OnClick(MotionEvent ME, IClickable sender)
+        private bool SortedChecker_OnClick(MotionEvent ME, IClickable sender) =>
+            ManageRadioButtonGroupEvent(ME, sender, SortedCheckers);
+
+        private bool GuideStateLabel_OnClick(MotionEvent ME, IClickable sender) =>
+            ((sender as Element).BindingContext as IClickable).Click(ME);
+
+        private bool GuideStateChecker_OnClick(MotionEvent ME, IClickable sender) =>
+            ManageRadioButtonGroupEvent(ME, sender, GuideStateCheckers);
+
+        private bool ManageRadioButtonGroupEvent(MotionEvent ME, IClickable sender, List<RadioButton> context)
         {
             if (ME.Action != MotionEventActions.Down)
                 return false;
 
-            foreach (RadioButton sortedChecker in SortedCheckers)
-                if (!sortedChecker.Equals(sender))
-                    sortedChecker.Checked = false;
+            foreach (RadioButton ctx in context)
+                if (!ctx.Equals(sender))
+                    ctx.Checked = false;
 
             return false;
         }
@@ -394,10 +433,15 @@ namespace GoNTrip.Pages
 
         protected override bool OnBackButtonPressed()
         {
-            if (PopupControl.OpenedPopupsCount == 0)
-                PopupControl.OpenPopup(ExitConfirmPopup);
-            else
+            if (PopupControl.OpenedPopupsCount != 0)
                 PopupControl.CloseTopPopup();
+            else if (PrevPageMemento != null)
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+                App.Current.MainPage = PrevPageMemento.Restore();
+            }
+            else
+                PopupControl.OpenPopup(ExitConfirmPopup);
 
             return true;
         }

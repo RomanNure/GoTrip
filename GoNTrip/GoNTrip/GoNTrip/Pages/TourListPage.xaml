@@ -59,7 +59,7 @@
                                     <ColumnDefinition Width="40"/>
                                 </Grid.ColumnDefinitions>
 
-                                <Label Style="{StaticResource HeaderLabel}" Text="Available tours" Grid.Row="0" Grid.Column="0" />
+                                <Label Style="{StaticResource HeaderLabel}" x:Name="TourListCaption" Text="Available tours" Grid.Row="0" Grid.Column="0" />
                                 <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="UpdateButton" OnClick="UpdateButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="1" Source="update.png" Border="False" BorderOnClick="False"/>
                                 <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="SearchButton" OnClick="SearchButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="2" Source="search.png" Border="False" BorderOnClick="False"/>
                                 <customcontrols:Img Style="{StaticResource HeaderButton}" x:Name="FilterButton" OnClick="FilterButton_OnClick" ScaleOnClicked="{StaticResource ButtonClickedScale}" Grid.Row="0" Grid.Column="3" Source="filter.png" Border="False" BorderOnClick="False"/>
@@ -90,33 +90,41 @@
 
                             <Label Style="{StaticResource PopupLabel}" Text="Filtering" HorizontalTextAlignment="Center" FontSize="20"/>
 
-                            <Grid x:Name="FilterWrapper" BackgroundColor="{StaticResource BarBackColor}">
+                            <ScrollView>
+                                <Grid x:Name="FilterWrapper" BackgroundColor="{StaticResource BarBackColor}">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.4*"/>
-                                    <ColumnDefinition Width="0.6*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.4*"/>
+                                        <ColumnDefinition Width="0.6*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Label Style="{StaticResource FieldNameLabel}" Text="Min $:" Grid.Row="0" Grid.Column="0"/>
-                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MinPricePicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" DecimalPlaces="2" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="0" Grid.Column="1"/>
+                                    <Label Style="{StaticResource FieldNameLabel}" Text="Min $:" Grid.Row="0" Grid.Column="0"/>
+                                    <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MinPricePicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" DecimalPlaces="2" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="0" Grid.Column="1"/>
                                 
-                                <Label Style="{StaticResource FieldNameLabel}" Text="Max $:" Grid.Row="1" Grid.Column="0"/>
-                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPricePicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" DecimalPlaces="2" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="1" Grid.Column="1"/>
+                                    <Label Style="{StaticResource FieldNameLabel}" Text="Max $:" Grid.Row="1" Grid.Column="0"/>
+                                    <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPricePicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" DecimalPlaces="2" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="1" Grid.Column="1"/>
 
-                                <Label Style="{StaticResource FieldNameLabel}" Text="From date:" Grid.Row="2" Grid.Column="0"/>
-                                <DatePicker Style="{StaticResource NotOnlyInRowPopupDatePicker}" x:Name="MinStartDate" Grid.Row="2" Grid.Column="1"/>
+                                    <Label Style="{StaticResource FieldNameLabel}" Text="From date:" Grid.Row="2" Grid.Column="0"/>
+                                    <DatePicker Style="{StaticResource NotOnlyInRowPopupDatePicker}" x:Name="MinStartDate" Grid.Row="2" Grid.Column="1"/>
 
-                                <Label Style="{StaticResource FieldNameLabel}" Text="To date:" Grid.Row="3" Grid.Column="0"/>
-                                <DatePicker Style="{StaticResource NotOnlyInRowPopupDatePicker}" x:Name="MaxStartDate" Grid.Row="3" Grid.Column="1"/>
+                                    <Label Style="{StaticResource FieldNameLabel}" Text="To date:" Grid.Row="3" Grid.Column="0"/>
+                                    <DatePicker Style="{StaticResource NotOnlyInRowPopupDatePicker}" x:Name="MaxStartDate" Grid.Row="3" Grid.Column="1"/>
 
-                                <Label Style="{StaticResource FieldNameLabel}" Text="Min places:" Grid.Row="4" Grid.Column="0"/>
-                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MinPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="4" Grid.Column="1"/>
+                                    <Label Style="{StaticResource FieldNameLabel}" Text="Min places:" Grid.Row="4" Grid.Column="0"/>
+                                    <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MinPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="4" Grid.Column="1"/>
                                 
-                                <Label Style="{StaticResource FieldNameLabel}" Text="Max places:" Grid.Row="5" Grid.Column="0"/>
-                                <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="5" Grid.Column="1"/>
+                                    <Label Style="{StaticResource FieldNameLabel}" Text="Max places:" Grid.Row="5" Grid.Column="0"/>
+                                    <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="5" Grid.Column="1"/>
 
-                            </Grid>
-                            
+                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="GuideApprovedLabel" OnClick="GuideStateLabel_OnClick" BindingContext="{Reference GuideApprovedChecker}" Text="With guide" Grid.Row="6" Grid.Column="0"/>
+                                    <customcontrols:RadioButton x:Name="GuideApprovedChecker" OnClick="GuideStateChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="6" Grid.Column="1"/>
+
+                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="GuideNotApprovedLabel" OnClick="GuideStateLabel_OnClick" BindingContext="{Reference GuideNotApprovedChecker}" Text="Guide lack" Grid.Row="7" Grid.Column="0"/>
+                                    <customcontrols:RadioButton x:Name="GuideNotApprovedChecker" OnClick="GuideStateChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="7" Grid.Column="1"/>
+
+                                </Grid>
+                            </ScrollView>
+
                             <Button Style="{StaticResource PopupButton}" x:Name="FilterPopupConfirm" Clicked="FilterPopupConfirm_Clicked" VerticalOptions="End" Text="Apply"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="FilterPopupReset" Clicked="FilterPopupReset_Clicked" VerticalOptions="End" Text="Reset"/>
 

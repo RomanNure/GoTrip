@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 
 using GoNTrip.Model;
@@ -10,21 +11,23 @@ namespace GoNTrip.ServerInteraction.ResponseParsers
 {
     public class JsonResponseParser : IResponseParser
     {
-        public T Parse<T>(IServerResponse modelElementJSON) where T : ModelElement
+        public T Parse<T, E>(IServerResponse modelElementJSON) where T : ModelElement
+                                                               where E : Exception
         {
-            ResponseException ex = null;
+            E ex = null;
 
-            try { ex = JsonConvert.DeserializeObject<ResponseException>(modelElementJSON.Data); }
+            try { ex = JsonConvert.DeserializeObject<E>(modelElementJSON.Data); }
             catch { return JsonConvert.DeserializeObject<T>(modelElementJSON.Data); }
 
             throw ex;
         }
 
-        public IEnumerable<T> ParseCollection<T>(IServerResponse modelElementJSON) where T : ModelElement
+        public IEnumerable<T> ParseCollection<T, E>(IServerResponse modelElementJSON) where T : ModelElement
+                                                                                   where E : Exception
         {
-            ResponseException ex = null;
+            E ex = null;
 
-            try { ex = JsonConvert.DeserializeObject<ResponseException>(modelElementJSON.Data); }
+            try { ex = JsonConvert.DeserializeObject<E>(modelElementJSON.Data); }
             catch { return JsonConvert.DeserializeObject<IEnumerable<T>>(modelElementJSON.Data); }
 
             throw ex;

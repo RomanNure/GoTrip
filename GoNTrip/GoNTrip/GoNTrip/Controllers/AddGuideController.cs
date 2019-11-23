@@ -22,7 +22,7 @@ namespace GoNTrip.Controllers
 
             IQuery addGuideQuery = await App.DI.Resolve<AddGuideQueryFactory>().AddGuide(currentUser, newGuide);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(addGuideQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<Guide>(response);
+            return App.DI.Resolve<IResponseParser>().Parse<Guide, ResponseException>(response);
         }
     }
 }

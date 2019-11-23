@@ -5,7 +5,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
              xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
-             x:Class="GoNTrip.Pages.GuideRegistrationPage">
+             xmlns:popups="clr-namespace:GoNTrip.Pages.Additional.Popups"
+             x:Class="GoNTrip.Pages.GuideRegistrationPage"
+             Appearing="ContentPage_Appearing">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -91,6 +93,34 @@
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="GuideHowToPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="GuideHowToOuterFrame" HeightRequest="360" WidthRequest="300" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="360" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Guiding how-to" HorizontalTextAlignment="Center" FontSize="20"/>
+
+                            <ScrollView Style="{StaticResource PopupInnerView}" BackgroundColor="{StaticResource ContentBackColor}" VerticalOptions="StartAndExpand">
+                                <StackLayout Padding="20,0,20,0" BackgroundColor="{StaticResource ContentBackColor}">
+
+                                    <Label  TextColor="{StaticResource ContentFontColor}" 
+                                            Text="Lorem ispum dolor sit amet Lorem ispum dolor sit amet 
+                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet 
+                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet
+                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet
+                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet
+                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet"/>
+
+                                </StackLayout>
+                            </ScrollView>
+                            
+                            <Button Style="{StaticResource PopupButton}" x:Name="GuideHowToOK" VerticalOptions="End" Text="Got it"/>
+
+                        </StackLayout>
+                    </customcontrols:ClickableFrame>
+                </customcontrols:ClickableFrame>
+            </popups:Popup>
 
         </AbsoluteLayout>
     </ContentPage.Content>

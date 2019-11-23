@@ -17,14 +17,14 @@ namespace GoNTrip.Controllers
         {
             IQuery checkJoinAbilityQuery = await App.DI.Resolve<CheckTourJoinAbilityQueryFactory>().CheckTourJoinAbility(user, tour);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(checkJoinAbilityQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility>(response).able;
+            return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility, ResponseException>(response).able;
         }
 
         public async Task<Participating> JoinTour(Tour tour)
         {
             IQuery joinTourQuery = await App.DI.Resolve<JoinTourQueryFactory>().JoinTour(tour);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(joinTourQuery, App.DI.Resolve<CookieContainer>());
-            return App.DI.Resolve<IResponseParser>().Parse<Participating>(response);
+            return App.DI.Resolve<IResponseParser>().Parse<Participating, ResponseException>(response);
         }
     }
 }

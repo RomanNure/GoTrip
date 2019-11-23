@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Threading;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 using Android.Views;
 
@@ -6,10 +8,12 @@ using CustomControls;
 
 using Xamarin.Forms;
 
+using Autofac;
+
+using GoNTrip.Model;
 using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Model.FilterSortSearch.Tour;
 using GoNTrip.Pages.Additional.Popups.Templates;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace GoNTrip.Pages.Additional.Controls
 {
@@ -69,10 +73,21 @@ namespace GoNTrip.Pages.Additional.Controls
             OnProfileButtonClicked += (ME, sender) => { OpenPage<CurrentUserProfilePage>(popupControl, loadingPopup); return false; };
             OnMessagesButtonClicked += (ME, sender) => { OpenPage<MessagesPage>(popupControl, loadingPopup); return false; };
             OnTourListButtonClicked += (ME, sender) => { OpenPage<TourListPage>(popupControl, loadingPopup); return false; };
-            OnMyTourListButtonClicked += (ME, sender) => { OpenPage<MyTourListPage>(popupControl, loadingPopup); return false; };
+            OnMyTourListButtonClicked += (ME, sender) => { OpenMyToursPage(popupControl, loadingPopup); return false; };
             OnAdvancedButtonClicked += (ME, sender) => { OpenPage<AdvancedPage>(popupControl, loadingPopup); return false; };
 
             OnCurrentPageNavigationButtonClicked += (ME, sender) => false;
+        }
+
+        private async void OpenMyToursPage(PopupControlSystem popupControl, LoadingPopup loadingPopup)
+        {
+            popupControl.OpenPopup(loadingPopup);
+            await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
+
+            TourFilterSorterSearcher tourFilterSorterSearcher = new TourFilterSorterSearcher();
+            tourFilterSorterSearcher.semiFilters.tourMemberId = App.DI.Resolve<Session>().CurrentUser.id;
+
+            App.Current.MainPage = new TourListPage(Constants.MY_TOUR_LIST_PAGE_CAPTION, PageEnum.MY_TOUR_LIST, null, tourFilterSorterSearcher);
         }
 
         private async void OpenPage<T>(PopupControlSystem popupControl, LoadingPopup loadingPopup) where T : ContentPage, new() =>

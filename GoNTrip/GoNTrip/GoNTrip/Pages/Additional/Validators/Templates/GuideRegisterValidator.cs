@@ -8,7 +8,7 @@ namespace GoNTrip.Pages.Additional.Validators.Templates
         public GuideRegisterValidator(Entry cardNumberInput, Editor keywordsInput, ValidationHandler<InputView> validHandler, ValidationHandler<InputView> invalidHandler)
         {
             FieldValidationHandler<Entry> cardNumberValidation = new FieldValidationHandler<Entry>(
-                CN => CN.Text != null && GuideFieldsPatterns.CARD_NUMBER_PATTERN.IsMatch(CN.Text),
+                CN => CN.Text != null && CardFieldsPatterns.CARD_NUMBER_PATTERN.IsMatch(CN.Text),
                 invalidHandler, validHandler
             );
 

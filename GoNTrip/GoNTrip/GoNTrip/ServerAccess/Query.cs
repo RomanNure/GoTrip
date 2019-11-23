@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 
 namespace GoNTrip.ServerAccess
@@ -8,6 +7,7 @@ namespace GoNTrip.ServerAccess
     {
         GET,
         POST,
+        POST_URLENCODED,
         POST_MULTIPART
     };
 
@@ -24,7 +24,7 @@ namespace GoNTrip.ServerAccess
         public IList<string> NeededCookies { get; private set; }
 
         public IDictionary<string, string> Headers { get; private set; }
-
+        
         public string ParametersString { get { return string.Join("&", Parameters.Select(KVP => KVP.Key + "=" + KVP.Value)); } }
 
         public Query(QueryMethod method, string serverMethod, string queryBody = "", IDictionary<string, string> parameters = null, IList<MultipartDataItem> multipartData = null, 

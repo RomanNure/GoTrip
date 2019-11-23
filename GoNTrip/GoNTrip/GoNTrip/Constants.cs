@@ -42,5 +42,9 @@ namespace GoNTrip
 
         public const int PHOTO_POPUP_X_TRANSLATION_BORDER = -100;
         public const int PHOTO_POPUP_Y_TRANSLATION_BORDER = -100;
+
+        public const string TOUR_LIST_PAGE_CAPTION = "Available tours";
+        public const string MY_TOUR_LIST_PAGE_CAPTION = "My tours";
+        public const string CHECK_TICKETS_TOUR_LIST_PAGE_CAPTION = "Tours I guide";
     }
 }

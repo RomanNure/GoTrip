@@ -20,7 +20,7 @@ namespace GoNTrip.Controllers
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(logInQuery, App.DI.Resolve<CookieContainer>());
 
             Session session = App.DI.Resolve<Session>();
-            session.CurrentUser = App.DI.Resolve<IResponseParser>().Parse<User>(response);
+            session.CurrentUser = App.DI.Resolve<IResponseParser>().Parse<User, ResponseException>(response);
             return session;
         }
     }

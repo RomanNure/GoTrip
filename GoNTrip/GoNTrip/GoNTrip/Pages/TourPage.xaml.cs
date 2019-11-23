@@ -278,24 +278,9 @@ namespace GoNTrip.Pages
         private async void JoinTourButton_Clicked(object sender, EventArgs e) // should open payment page actually
         {
             PopupControl.OpenPopup(ActivityPopup);
+            await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
 
-            try
-            {
-                Participating participating = await App.DI.Resolve<JoinTourController>().JoinTour(CurrentTour);
-                CurrentTour.participatingList.Add(participating);
-                Members = (await GetCurrentTourMembers()).ToList();
-
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-
-                await LoadCurrentTourMembers();
-            }
-            catch(ResponseException ex)
-            {
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-
-                ErrorPopup.MessageText = ex.message;
-                PopupControl.OpenPopup(ErrorPopup);
-            }
+            App.Current.MainPage = new CardEnterPage(CurrentPageMemento, CurrentTour);
         }
 
         protected override bool OnBackButtonPressed()

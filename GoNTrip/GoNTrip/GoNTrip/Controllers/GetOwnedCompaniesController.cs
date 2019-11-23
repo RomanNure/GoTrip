@@ -18,7 +18,7 @@ namespace GoNTrip.Controllers
         {
             IQuery getOwnedCompaniesQuery = await App.DI.Resolve<GetOwnedCompaniesQueryFactory>().GetOwnedCompanies(user);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getOwnedCompaniesQuery);
-            return App.DI.Resolve<IResponseParser>().ParseCollection<Company>(response).ToList();
+            return App.DI.Resolve<IResponseParser>().ParseCollection<Company, ResponseException>(response).ToList();
         }
     }
 }

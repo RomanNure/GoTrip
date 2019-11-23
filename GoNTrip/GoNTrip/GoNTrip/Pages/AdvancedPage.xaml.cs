@@ -10,7 +10,10 @@ using CustomControls;
 using Autofac;
 
 using GoNTrip.Util;
+using GoNTrip.Model;
 using GoNTrip.Pages.Additional.Popups;
+using GoNTrip.Pages.Additional.Controls;
+using GoNTrip.Model.FilterSortSearch.Tour;
 using GoNTrip.Pages.Additional.PageMementos;
 
 namespace GoNTrip.Pages
@@ -42,6 +45,9 @@ namespace GoNTrip.Pages
 
             Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.ADVANCED;
             Navigator.LinkClicks(PopupControl, ActivityPopup);
+
+            CheckTicketsButton.IsEnabled = App.DI.Resolve<Session>().CurrentUser.guide != null;
+            BecomeGuideButton.IsEnabled = App.DI.Resolve<Session>().CurrentUser.guide == null;
         }
 
         private bool QrScannerOpenButton_OnClick(MotionEvent ME, IClickable sender)
@@ -73,9 +79,16 @@ namespace GoNTrip.Pages
             return true;
         }
 
-        private void BecomeGuideButton_Clicked(object sender, EventArgs e)
-        {
+        private void BecomeGuideButton_Clicked(object sender, EventArgs e) =>
             App.Current.MainPage = new GuideRegistrationPage(CurrentPageMemento);
+
+        private void CheckTicketsButton_Clicked(object sender, EventArgs e)
+        {
+            TourFilterSorterSearcher tourFilterSorterSearcher = new TourFilterSorterSearcher();
+            tourFilterSorterSearcher.semiFilters.tourGuideId = App.DI.Resolve<Session>().CurrentUser.guide.id;
+
+            App.Current.MainPage = new TourListPage(Constants.CHECK_TICKETS_TOUR_LIST_PAGE_CAPTION, DefaultNavigationPanel.PageEnum.OTHER, 
+                                                    CurrentPageMemento, tourFilterSorterSearcher);
         }
     }
 }

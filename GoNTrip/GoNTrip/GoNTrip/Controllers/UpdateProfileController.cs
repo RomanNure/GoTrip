@@ -16,7 +16,7 @@ namespace GoNTrip.Controllers
         {
             IQuery updateProfileQuery = await App.DI.Resolve<UpdateProfileQueryFactory>().UpdateProfile(user);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(updateProfileQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<User>(response);
+            return App.DI.Resolve<IResponseParser>().Parse<User, ResponseException>(response);
         }
     }
 }

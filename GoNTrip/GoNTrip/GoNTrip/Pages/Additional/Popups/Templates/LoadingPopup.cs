@@ -48,6 +48,7 @@ namespace GoNTrip.Pages.Additional.Popups.Templates
             Closable = false;
             Content = outerFrame;
             OnPopupBodyClicked = (e, sender) => true;
+            OnPopupWrapperClicked = (e, sender) => true;
         }
 
         public void UpdateSize()

@@ -20,4 +20,5 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class CheckTourJoinAbilityField : QueryField { public CheckTourJoinAbilityField(string name = null) : base(name) { } }
     public class GetTourMembersField : QueryField { public GetTourMembersField(string name = null) : base(name) { } }
     public class AddGuideField : QueryField { public AddGuideField(string name = null) : base(name) { } }
+    public class PayField : QueryField { public PayField(string name = null) : base(name) { } }
 }

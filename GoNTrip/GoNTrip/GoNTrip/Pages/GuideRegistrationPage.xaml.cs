@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -36,11 +37,15 @@ namespace GoNTrip.Pages
             InitializeComponent();
 
             ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            GuideHowToOK.Clicked += (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
             PrevPageMemento = prevPageMemento;
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
             Validator = new GuideRegisterValidator(GuidCard, GuideKeyWords, Constants.VALID_HANDLER, Constants.INVALID_HANDLER);
         }
+
+        private void ContentPage_Appearing(object sender, EventArgs e) =>
+            PopupControl.OpenPopup(GuideHowToPopup);
 
         private void GuideKeyWords_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -63,7 +68,7 @@ namespace GoNTrip.Pages
             }
         }
 
-        private async void RegisterButton_Clicked(object sender, System.EventArgs e)
+        private async void RegisterButton_Clicked(object sender, EventArgs e)
         {
             if (!Validator.ValidateAll())
                 return;
@@ -72,8 +77,9 @@ namespace GoNTrip.Pages
 
             try
             {
-                Guide g = await App.DI.Resolve<AddGuideController>().AddGuide(Keywords, GuidCard.Text);
+                await App.DI.Resolve<AddGuideController>().AddGuide(Keywords, GuidCard.Text);
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                App.Current.MainPage = new CurrentUserProfilePage();
             }
             catch(ResponseException ex)
             {
@@ -83,7 +89,7 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
         }
-
+            
         protected override bool OnBackButtonPressed()
         {
             if (PopupControl.OpenedPopupsCount != 0)
@@ -94,7 +100,6 @@ namespace GoNTrip.Pages
             else if (PrevPageMemento != null)
             {
                 App.Current.MainPage = PrevPageMemento.Restore();
-                PopupControl.CloseTopPopup();
                 return true;
             }
 

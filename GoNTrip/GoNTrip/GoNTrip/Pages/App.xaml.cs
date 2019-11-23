@@ -74,6 +74,9 @@ namespace GoNTrip.Pages
             builder.RegisterType<AddGuideController>().SingleInstance().AsSelf();
             builder.RegisterType<AddGuideQueryFactory>().SingleInstance().AsSelf();
 
+            builder.RegisterType<PayController>().SingleInstance().AsSelf();
+            builder.RegisterType<PayQueryFactory>().SingleInstance().AsSelf();
+
             builder.RegisterType<TourListItemFactory>().SingleInstance().AsSelf();
             builder.RegisterType<Session>().SingleInstance().AsSelf();
 

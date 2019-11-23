@@ -10,8 +10,6 @@ using System.Text.RegularExpressions;
 
 using GoNTrip.ServerInteraction.ResponseParsers;
 
-using Autofac;
-
 namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
@@ -45,7 +43,9 @@ namespace GoNTrip.ServerAccess
                 if (query.Method == QueryMethod.GET)
                     response = await QueryGET(queryUrl, query, container);
                 else if (query.Method == QueryMethod.POST)
-                    response = await QueryPOST(queryUrl, query, container);
+                    response = await QueryPOST(queryUrl, query, container, false);
+                else if(query.Method == QueryMethod.POST_URLENCODED)
+                    response = await QueryPOST(queryUrl, query, container, true);
                 else if (query.Method == QueryMethod.POST_MULTIPART)
                     response = await QueryPostMultipart(queryUrl, query, container);
 
@@ -85,13 +85,13 @@ namespace GoNTrip.ServerAccess
             return await GetResponse(request, query.NeededHeaders, query.NeededCookies, cont);
         }
 
-        private async Task<(string, Dictionary<string, string>, CookieContainer)> QueryPOST(string url, IQuery query, CookieContainer container)
+        private async Task<(string, Dictionary<string, string>, CookieContainer)> QueryPOST(string url, IQuery query, CookieContainer container, bool urlEncoded)
         {
-            HttpWebRequest request = WebRequest.Create(url) as HttpWebRequest;
+            HttpWebRequest request = WebRequest.CreateHttp(url);
             request.Method = WebRequestMethods.Http.Post;
-            request.ContentType = APP_JSON;
+            request.ContentType = urlEncoded ? APP_URLENCODED : APP_JSON;
 
-            byte[] queryBodyData = Encoding.UTF8.GetBytes(query.QueryBody);
+            byte[] queryBodyData = Encoding.UTF8.GetBytes(urlEncoded ? query.ParametersString : query.QueryBody);
             request.ContentLength = queryBodyData.Length;
 
             AddHeaders(request, query.Headers);

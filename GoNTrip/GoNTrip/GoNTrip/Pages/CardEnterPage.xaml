@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             mc:Ignorable="d"
+             x:Class="GoNTrip.Pages.CardEnterPage">
+    <ContentPage.Content>
+        <AbsoluteLayout>
+
+            <StackLayout Style="{StaticResource PopupPageContentOuterStackLayout}">
+                <StackLayout Style="{StaticResource PopupPageContentInnerStackLayout}" BackgroundColor="Transparent">
+                    <StackLayout VerticalOptions="FillAndExpand" Margin="0,0,0,0">
+
+                        <Grid Style="{StaticResource PageContent}" Grid.Row="0" Grid.Column="0">
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="40"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+
+                            <Label Style="{StaticResource HeaderLabel}" x:Name="HeaderLabel" Grid.Row="0" Grid.Column="0" Text="Pay for participating"/>
+
+                            <Grid Margin="10,10,10,10" VerticalOptions="CenterAndExpand" ColumnSpacing="10" RowSpacing="10" Grid.Row="1" Grid.Column="0">
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                    <ColumnDefinition Width="0.125*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="0" Grid.ColumnSpan="8">
+                                    <Frame Style="{StaticResource InnerBorderFrame}">
+                                        <Entry Style="{StaticResource CommonEntry}" x:Name="UserCard" Placeholder="5500 0000 0000 0004"/>
+                                    </Frame>
+                                </Frame>
+
+                                <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3">
+                                    <Frame Style="{StaticResource InnerBorderFrame}" >
+                                        <Grid>
+
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="0.4*"/>
+                                                <ColumnDefinition Width="0.2*"/>
+                                                <ColumnDefinition Width="0.4*"/>
+                                            </Grid.ColumnDefinitions>
+                                            
+                                            <Entry Style="{StaticResource CommonEntry}" x:Name="MonthExp" Placeholder="06" Grid.Row="0" Grid.Column="0"/>
+                                            <Label BackgroundColor="{StaticResource ContentBackColor}" Margin="0,0,0,0" TextColor="{StaticResource ContentFontColor}" Text="/" FontSize="20" Grid.Row="0" Grid.Column="1"/>
+                                            <Entry Style="{StaticResource CommonEntry}" x:Name="YearExp" Placeholder="21" Grid.Row="0" Grid.Column="2"/>
+                                            
+                                        </Grid>
+                                    </Frame>
+                                </Frame>
+
+                                <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3">
+                                    <Frame Style="{StaticResource InnerBorderFrame}" >
+                                        <Entry Style="{StaticResource CommonEntry}" x:Name="Cvv" Placeholder="123" IsPassword="True"/>
+                                    </Frame>
+                                </Frame>
+
+
+                                <Button Style="{StaticResource CommonButton}" x:Name="PayButton" Clicked="PayButton_Clicked" Text="Pay" Grid.Row="2" Grid.ColumnSpan="8"/>
+                            </Grid>
+                        </Grid>
+
+                    </StackLayout>
+                </StackLayout>
+            </StackLayout>
+
+            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

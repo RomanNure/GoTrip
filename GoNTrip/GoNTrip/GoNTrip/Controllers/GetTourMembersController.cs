@@ -17,7 +17,7 @@ namespace GoNTrip.Controllers
         {
             IQuery getTourMembersQuery = await App.DI.Resolve<GetTourMembersQueryFactory>().GetTourMembers(tour);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getTourMembersQuery);
-            return App.DI.Resolve<IResponseParser>().ParseCollection<User>(response);
+            return App.DI.Resolve<IResponseParser>().ParseCollection<User, ResponseException>(response);
         }
     }
 }

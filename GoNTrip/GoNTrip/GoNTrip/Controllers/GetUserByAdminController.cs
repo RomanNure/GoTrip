@@ -16,7 +16,7 @@ namespace GoNTrip.Controllers
         {
             IQuery getUserByAdminQuery = await App.DI.Resolve<GetUserByAdminQueryFactory>().GetUserByAdmin(admin);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getUserByAdminQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<User>(response);
+            return App.DI.Resolve<IResponseParser>().Parse<User, ResponseException>(response);
         }
     }
 }

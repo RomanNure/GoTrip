@@ -7,15 +7,15 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
     [JsonObject]
     public class TourFilters
     {
-        public Filter<Double> priceFilter { get; private set; }
-        public Filter<DateTime> startDateFilter { get; private set; }
-        public Filter<Int32> participantsFilter { get; private set; }
+        public DualFilter<Double> priceFilter { get; private set; }
+        public DualFilter<DateTime> startDateFilter { get; private set; }
+        public DualFilter<Int32> participantsFilter { get; private set; }
 
         public TourFilters()
         {
-            priceFilter = new Filter<double>(double.MinValue, double.MaxValue);
-            startDateFilter = new Filter<DateTime>(DateTime.MinValue, DateTime.MaxValue);
-            participantsFilter = new Filter<int>(int.MinValue, int.MaxValue);
+            priceFilter = new DualFilter<double>(double.MinValue, double.MaxValue);
+            startDateFilter = new DualFilter<DateTime>(DateTime.MinValue, DateTime.MaxValue);
+            participantsFilter = new DualFilter<int>(int.MinValue, int.MaxValue);
         }
 
         public void Reset()
