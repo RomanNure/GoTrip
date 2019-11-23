@@ -4,6 +4,7 @@ import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.PreparingDto;
 import org.nure.gotrip.model.Participating;
+import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.repository.ParticipatingPreparationRepository;
 import org.nure.gotrip.repository.ParticipatingRepository;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 import static java.lang.String.format;
 
@@ -55,8 +57,13 @@ public class ParticipatingServiceImpl implements ParticipatingService {
             throw new ConflictException("Cannot participate at that time");
         }
         Participating participating = new Participating();
-        participating.setUser(registeredUserRepository.findById(userId).orElseThrow(()->new NotFoundException("User not found")));
-        participating.setTour(tourRepository.findById(tourId).orElseThrow(()->new NotFoundException("Tour not found")));
+        RegisteredUser user = registeredUserRepository.findById(userId).orElseThrow(()->new NotFoundException("User not found"));
+        Tour tour = tourRepository.findById(tourId).orElseThrow(()->new NotFoundException("Tour not found"));
+        if(Objects.equals(user.getId(),tour.getGuide().getRegisteredUser().getId())){
+            throw new ConflictException("You cannot registered on the tour because you're the guide");
+        }
+        participating.setUser(user);
+        participating.setTour(tour);
         String compilation = format("%d %d", userId, tourId);
         String hash = encoder.encode(compilation);
         participating.setHash(hash);
