@@ -1,5 +1,6 @@
 package org.nure.gotrip.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
@@ -75,19 +76,21 @@ public class ParticipatingController {
         RegisteredUser user = checkUser(session);
         dto.setUserId(user.getId());
         boolean result = participatingService.prepare(dto);
-        return new ResponseEntity<>("{\"added\":\"" + result + "\"}", HttpStatus.OK);
+        return new ResponseEntity<>("{\"able\":\"" + result + "\"}", HttpStatus.OK);
     }
 
     @PostMapping(value="/add/liqpay")
     public void confirm(@RequestParam String data, @RequestParam String signature) throws IOException {
-        String received = encoder.decodeBase64(signature);
+        String received = encoder.decodeBase64Hex(signature);
         String serverSignature = encoder.encodeSHA1(keys[1] + data + keys[1]);
         if(received.equals(serverSignature)){
             String jsonData = encoder.decodeBase64(data);
             LiqPayRequest request = new ObjectMapper().readValue(jsonData, LiqPayRequest.class);
             if(request.isSuccess()) {
                 PreparingDto dto = participatingService.confirm(request.getOrder_id());
-                participatingService.participate(dto);
+                if(dto != null) {
+                    participatingService.participate(dto);
+                }
             }else{
                 LOGGER.info(format("Order with id %s was not successful", request.getOrder_id()));
             }
@@ -118,6 +121,7 @@ public class ParticipatingController {
 
     @Getter
     @Setter
+    @JsonIgnoreProperties(ignoreUnknown = true)
     private static class LiqPayRequest {
 
         private String status;

@@ -63,6 +63,8 @@ public class Encoder {
 	    return new String(java.util.Base64.getDecoder().decode(line));
     }
 
+    public String decodeBase64Hex(String line){ return byteToHex(java.util.Base64.getDecoder().decode(line));}
+
     private String byteToHex(final byte[] hash)
     {
         Formatter formatter = new Formatter();

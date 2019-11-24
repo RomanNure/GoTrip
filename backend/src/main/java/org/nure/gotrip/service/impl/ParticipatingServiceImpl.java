@@ -46,7 +46,7 @@ public class ParticipatingServiceImpl implements ParticipatingService {
 	@Override
 	public boolean isAbleToParticipate(long userId, long tourId) {
 		Tour tour = tourRepository.findById(tourId).orElseThrow(() -> new NotFoundException("Tour Not found"));
-		if (tour.getMaxParticipants() == tour.getParticipatingList().size()) {
+		if (tour.getGuide() == null || tour.getMaxParticipants() == tour.getParticipatingList().size()) {
 			return false;
 		}
 		List<Tour> userTours = tourService.getByUser(userId);
