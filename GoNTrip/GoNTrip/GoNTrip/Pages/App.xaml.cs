@@ -67,6 +67,7 @@ namespace GoNTrip.Pages
             builder.RegisterType<JoinTourController>().SingleInstance().AsSelf();
             builder.RegisterType<JoinTourQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<JoinPrepareQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<CheckJoinStatusQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<CheckTourJoinAbilityQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<GetTourMembersController>().SingleInstance().AsSelf();
@@ -79,8 +80,10 @@ namespace GoNTrip.Pages
             builder.RegisterType<PayController>().SingleInstance().AsSelf();
             builder.RegisterType<PayQueryFactory>().SingleInstance().AsSelf();
 
-            builder.RegisterType<NotificationsController>().SingleInstance().AsSelf();
+            builder.RegisterType<NotificationController>().SingleInstance().AsSelf();
             builder.RegisterType<GetUserNotificationsQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<SeeNotificationQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<AcceptNotificationQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<TourListItemFactory>().SingleInstance().AsSelf();
             builder.RegisterType<Session>().SingleInstance().AsSelf();

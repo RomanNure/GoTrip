@@ -2,7 +2,7 @@
 
 using Xamarin.Forms;
 
-using GoNTrip.Model;
+using GoNTrip.Model.Notifications;
 
 namespace GoNTrip.Pages.Additional.Controls
 {
@@ -27,10 +27,12 @@ namespace GoNTrip.Pages.Additional.Controls
             this.Content = layout;
         }
 
-        public void FillWith(Notification notification)
+        public void FillWith(INotification notification)
         {
-            InnerContent.Text = $"{notification.type}: {notification.topic}";
-            Unread.IsVisible = !notification.isChecked;
+            InnerContent.Text = notification.GetPreviewMessage();
+            Unread.IsVisible = !notification.IsChecked;
         }
+
+        public void Read() => Unread.IsVisible = false;
     }
 }

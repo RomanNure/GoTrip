@@ -1,16 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Threading;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using Autofac;
+
 using GoNTrip.Model;
+using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.PageMementos;
 using GoNTrip.ServerInteraction.ResponseParsers;
 using GoNTrip.Pages.Additional.Validators.Templates;
-using Autofac;
-using GoNTrip.Controllers;
 
 namespace GoNTrip.Pages
 {
@@ -46,16 +47,31 @@ namespace GoNTrip.Pages
 
             try
             {
-                Card card = new Card(UserCard.Text, MonthExp.Text, YearExp.Text, Cvv.Text);
+                JoinTourController joinTourController = App.DI.Resolve<JoinTourController>();
                 PayController payController = App.DI.Resolve<PayController>();
+
+                Card card = new Card(UserCard.Text.Replace(" ", ""), MonthExp.Text, YearExp.Text, Cvv.Text);
                 LiqpayPayment payment = payController.CreatePayment(CurrentTour, card);
 
-                if (!(await App.DI.Resolve<JoinTourController>().JoinPrepare(CurrentTour, payment)))
+                if (!(await joinTourController.JoinPrepare(CurrentTour, payment)))
                     throw new ResponseException("Payment prepearing failed");
 
                 LiqpayResponse response = await App.DI.Resolve<PayController>().PayForTour(payment);
 
-                //check status?
+                while(true)
+                {
+                    Thread.Sleep(1000);
+                    JoinTourStatus join = await joinTourController.JoinCheckStatus(payment);
+
+                    switch(join.status)
+                    {
+                        case JoinStatus.PENDING: continue;
+                        case JoinStatus.FAILED: throw new ResponseException("Failed to join tour");
+                        case JoinStatus.SUCCESS: break;
+                    }
+
+                    break;
+                }
 
                 App.Current.MainPage = PrevPageMemento.Restore();
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);

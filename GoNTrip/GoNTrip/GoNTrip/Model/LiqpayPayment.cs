@@ -42,6 +42,7 @@ namespace GoNTrip.Model
         [JsonProperty("description")]
         private string Description { get; set; }
 
+        [CheckJoinStatusField("orderId")]
         [JoinPrepareField("orderId")]
         [JsonProperty("order_id")]
         private string OrderId { get; set; }

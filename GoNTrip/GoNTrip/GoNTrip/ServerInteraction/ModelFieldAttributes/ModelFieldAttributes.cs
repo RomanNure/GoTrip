@@ -24,4 +24,7 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class AddGuideField : QueryField { public AddGuideField(string name = null) : base(name) { } }
     public class PayField : QueryField { public PayField(string name = null) : base(name) { } }
     public class GetNotificationsField : QueryField { public GetNotificationsField(string name = null) : base(name) { } }
+    public class CheckJoinStatusField : QueryField { public CheckJoinStatusField(string name = null) : base(name) { } }
+    public class SeeNotificationField : QueryField { public SeeNotificationField(string name = null) : base(name) { } }
+    public class AcceptNotificationField : QueryField { public AcceptNotificationField(string name = null) : base(name) { } }
 }

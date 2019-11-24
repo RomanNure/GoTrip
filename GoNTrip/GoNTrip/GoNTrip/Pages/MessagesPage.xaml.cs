@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -6,8 +7,11 @@ using Xamarin.Forms.Xaml;
 
 using Autofac;
 
+using Android.Views;
+
 using GoNTrip.Model;
 using GoNTrip.Controllers;
+using GoNTrip.Model.Notifications;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.Controls;
 using GoNTrip.ServerInteraction.ResponseParsers;
@@ -34,7 +38,10 @@ namespace GoNTrip.Pages
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
-            Navigator.Current = Additional.Controls.DefaultNavigationPanel.PageEnum.MESSAGES;
+            ConfirmableNotificationClose.Clicked += (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            NotConfirmableNotificationClose.Clicked += (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+
+            Navigator.Current = DefaultNavigationPanel.PageEnum.MESSAGES;
             Navigator.LinkClicks(PopupControl, ActivityPopup);
         }
 
@@ -42,11 +49,16 @@ namespace GoNTrip.Pages
         {
             PopupControl.OpenPopup(ActivityPopup);
 
-            List<Notification> notifications = new List<Notification>();
+            NotificationController notificationController = App.DI.Resolve<NotificationController>();
+            List<INotification> notifications = new List<INotification>();
 
             try
-            {
-                notifications = await App.DI.Resolve<NotificationsController>().GetNotifications();
+            { 
+                List<RawNotification> rawNotifications = await notificationController.GetNotifications();
+
+                foreach (RawNotification rawNotification in rawNotifications)
+                    notifications.Add(await notificationController.ParseRawNotification(rawNotification));
+
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch(ResponseException ex)
@@ -57,7 +69,7 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
 
-            foreach(Notification notification in notifications)
+            foreach(INotification notification in notifications)
             {
                 NotificationPreview preview = new NotificationPreview();
 
@@ -67,7 +79,96 @@ namespace GoNTrip.Pages
 
                 preview.FillWith(notification);
 
+                INotification ntf = notification;
+                preview.OnClick += (ME, arg) =>
+                {
+                    if (ME.Action != MotionEventActions.Down)
+                        return false;
+
+                    if (!ntf.IsChecked)
+                        SeeNotification(ntf, preview);
+
+                    if (ntf.IsConfirmable)
+                    {
+                        ConfirmableNotificationTopic.Text = ntf.Topic;
+                        ConfirmableNotificationText.Text = ntf.GetDetailMessage();
+                        ConfirmableNotificationConfirm.Clicked += (s, a) =>
+                        {
+                            ConfirmNotification(ntf);
+                            DisplayAlert("t", "confirmed " + ntf.Topic, "OK");
+                        };
+                        ConfirmableNotificationRefuse.Clicked += (s, a) =>
+                        {
+                            RefuseNotification(ntf);
+                            DisplayAlert("t", "refused " + ntf.Topic, "OK");
+                        };
+                        PopupControl.OpenPopup(ConfirmableNotificationPopup);
+                    }
+                    else
+                    {
+                        NotConfirmableNotificationTopic.Text = ntf.Topic;
+                        NotConfirmableNotificationText.Text = ntf.GetDetailMessage();
+                        PopupControl.OpenPopup(NotConfirmableNotificationPopup);
+                    }
+
+                    return false;
+                };
+
                 NotificationsWrapper.Children.Add(preview);
+            }
+        }
+
+        private async void SeeNotification(INotification ntf, NotificationPreview preview)
+        {
+            try
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+
+                await App.DI.Resolve<NotificationController>().SeeNotification(ntf);
+                preview.Read();
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
+
+        private async void ConfirmNotification(INotification ntf)
+        {
+            try
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+                await App.DI.Resolve<NotificationController>().AcceptOffer(ntf);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
+
+        private async void RefuseNotification(INotification ntf)
+        {
+            try
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+                await App.DI.Resolve<NotificationController>().RefuseOffer(ntf);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
             }
         }
 

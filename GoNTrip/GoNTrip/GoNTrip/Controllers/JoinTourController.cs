@@ -27,6 +27,13 @@ namespace GoNTrip.Controllers
             return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility, ResponseException>(response).able;
         }
 
+        public async Task<JoinTourStatus> JoinCheckStatus(LiqpayPayment payment)
+        {
+            IQuery joinCheckStatusQuery = await App.DI.Resolve<CheckJoinStatusQueryFactory>().CheckJoinStatus(payment);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(joinCheckStatusQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<JoinTourStatus, ResponseException>(response);
+        }
+
         public async Task<Participating> JoinTour(Tour tour)
         {
             IQuery joinTourQuery = await App.DI.Resolve<JoinTourQueryFactory>().JoinTour(tour);

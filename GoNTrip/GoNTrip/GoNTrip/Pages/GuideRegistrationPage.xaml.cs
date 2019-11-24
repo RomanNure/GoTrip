@@ -77,7 +77,7 @@ namespace GoNTrip.Pages
 
             try
             {
-                await App.DI.Resolve<GuideController>().Add(Keywords, GuidCard.Text);
+                await App.DI.Resolve<GuideController>().Add(Keywords, GuidCard.Text.Replace(" ", ""));
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
                 App.Current.MainPage = new CurrentUserProfilePage();
             }

@@ -23,5 +23,12 @@ namespace GoNTrip.Controllers
             IServerResponse tours = await App.DI.Resolve<IServerCommunicator>().SendQuery(getToursQuery);
             return App.DI.Resolve<IResponseParser>().ParseCollection<Tour, ResponseException>(tours).ToList();
         }
+
+        public async Task<Tour> GetTourById(long id)
+        {
+            IQuery getTourQuery = App.DI.Resolve<GetToursQueryFactory>().GetTourById(id);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getTourQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<Tour, ResponseException>(response);
+        }
     }
 }
