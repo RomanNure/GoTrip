@@ -79,17 +79,12 @@ public class ParticipatingServiceImpl implements ParticipatingService {
 
     @Override
     public PreparingDto confirm(String orderId) {
-        PreparingDto removed = preparationRepository.remove(orderId);
-        if(removed != null){
-            return removed;
-        }
-        return null;
+        return preparationRepository.remove(orderId);
     }
 
     private boolean isCompatible(Tour tour1, Tour tour2){
         return tour1.getFinishDateTime().compareTo(tour2.getStartDateTime()) < 0 ||
                 tour1.getStartDateTime().compareTo(tour2.getFinishDateTime()) > 0;
     }
+
 }
-
-

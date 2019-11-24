@@ -34,15 +34,15 @@ public class RegistrationCompanyController {
 	private CompanyService companyService;
 	private CompanyRegistrationValidator companyRegistrationValidator;
 	private ModelMapper modelMapper;
-    private MailService mailService;
+	private MailService mailService;
 
 	@Autowired
 	public RegistrationCompanyController(CompanyService companyService, CompanyRegistrationValidator companyRegistrationValidator, ModelMapper modelMapper, MailService mailService) {
 		this.companyService = companyService;
 		this.companyRegistrationValidator = companyRegistrationValidator;
 		this.modelMapper = modelMapper;
-        this.mailService = mailService;
-    }
+		this.mailService = mailService;
+	}
 
 	@PostMapping(value = "/registration", produces = "application/json")
 	public ResponseEntity registrationCompany(@RequestBody CompanyDto companyDto) {
@@ -61,18 +61,21 @@ public class RegistrationCompanyController {
 		}
 	}
 
-	private void sendEmail(Company company){
-        new Thread(() -> {
-            try {
-                mailService.sendThroughRemote(company.getEmail(),
-                        mailService.getMailTemplate("target/classes/company.html"),
-                        "A new company",
-                        mailService.getEmailProperty("companyAddress"),
-                        company.getName()
-                );
-            } catch (MessagingException | IOException e) {
-                logger.error("Exception while sending email", e);
-            }
-        }).start();
-    }
+	private void sendEmail(Company company) {
+		new Thread(() -> sendEmailHandler(company)).start();
+	}
+
+	private void sendEmailHandler(Company company) {
+		try {
+			mailService.sendThroughRemote(company.getEmail(),
+					mailService.getMailTemplate("target/classes/company.html"),
+					"A new company",
+					mailService.getEmailProperty("companyAddress"),
+					company.getName()
+			);
+		} catch (MessagingException | IOException e) {
+			logger.error("Exception while sending email", e);
+		}
+	}
+
 }
