@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static java.lang.String.format;
 
@@ -52,22 +53,24 @@ public class ParticipatingServiceImpl implements ParticipatingService {
     }
 
     @Override
-    public Participating participate(long userId, long tourId) {
-        if(!isAbleToParticipate(userId, tourId)){
+    public Participating participate(PreparingDto dto) {
+        if(!isAbleToParticipate(dto.getUserId(), dto.getTourId())){
             throw new ConflictException("Cannot participate at that time");
         }
         Participating participating = new Participating();
-        RegisteredUser user = registeredUserRepository.findById(userId).orElseThrow(()->new NotFoundException("User not found"));
-        Tour tour = tourRepository.findById(tourId).orElseThrow(()->new NotFoundException("Tour not found"));
+        RegisteredUser user = registeredUserRepository.findById(dto.getUserId()).orElseThrow(()->new NotFoundException("User not found"));
+        Tour tour = tourRepository.findById(dto.getTourId()).orElseThrow(()->new NotFoundException("Tour not found"));
         if(Objects.equals(user.getId(),tour.getGuide().getRegisteredUser().getId())){
             throw new ConflictException("You cannot registered on the tour because you're the guide");
         }
         participating.setUser(user);
         participating.setTour(tour);
-        String compilation = format("%d %d", userId, tourId);
+
+        String compilation = format("%d %d", dto.getUserId(), dto.getTourId());
         String hash = encoder.encode(compilation);
         participating.setHash(hash);
-        participatingRepository.save(participating);
+        participating.setOrderId(dto.getOrderId());
+        participating = participatingRepository.save(participating);
         return participating;
     }
 
@@ -80,6 +83,15 @@ public class ParticipatingServiceImpl implements ParticipatingService {
     @Override
     public PreparingDto confirm(String orderId) {
         return preparationRepository.remove(orderId);
+    }
+
+    @Override
+    public String getStatus(String orderId) {
+        if(preparationRepository.get(orderId) != null){
+            return "pending";
+        }
+        Optional<Participating> optional = participatingRepository.findByOrderId(orderId);
+        return optional.isPresent() ? "success" : "failed";
     }
 
     private boolean isCompatible(Tour tour1, Tour tour2){

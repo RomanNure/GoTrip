@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigInteger;
+import java.util.Optional;
 
 @Repository
 public interface ParticipatingRepository extends CrudRepository<Participating, Long> {
@@ -14,4 +15,5 @@ public interface ParticipatingRepository extends CrudRepository<Participating, L
             "participating.participating_id = ?1", nativeQuery = true)
     BigInteger findUser(long participatingId);
 
+    Optional<Participating> findByOrderId(String orderId);
 }

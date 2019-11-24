@@ -25,4 +25,7 @@ public class ParticipatingPreparationRepository {
         return map.remove(orderId);
     }
 
+    public PreparingDto get(String orderId){
+        return map.get(orderId);
+    }
 }

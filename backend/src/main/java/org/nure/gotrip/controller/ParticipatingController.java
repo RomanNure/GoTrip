@@ -7,6 +7,7 @@ import org.nure.gotrip.controller.response.ForbiddenException;
 import org.nure.gotrip.dto.AbilityParticipatingDto;
 import org.nure.gotrip.dto.ParticipatingDto;
 import org.nure.gotrip.dto.PreparingDto;
+import org.nure.gotrip.dto.StatusResponseDto;
 import org.nure.gotrip.model.Participating;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.service.ParticipatingService;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
+import java.util.UUID;
 
 import static java.lang.String.format;
 
@@ -61,7 +63,9 @@ public class ParticipatingController {
     public ResponseEntity participate(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody ParticipatingDto dto){
         AppSession session = checkSession(sessionId);
         RegisteredUser user = checkUser(session);
-        Participating participating = participatingService.participate(user.getId(), dto.getTourId());
+        String id = UUID.randomUUID().toString();
+        PreparingDto preparingDto = new PreparingDto(id, dto.getTourId(), user.getId());
+        Participating participating = participatingService.participate(preparingDto);
         return new ResponseEntity<>(participating, HttpStatus.OK);
     }
 
@@ -83,11 +87,17 @@ public class ParticipatingController {
             LiqPayRequest request = new ObjectMapper().readValue(jsonData, LiqPayRequest.class);
             if(request.isSuccess()) {
                 PreparingDto dto = participatingService.confirm(request.getOrder_id());
-                participatingService.participate(dto.getUserId(), dto.getTourId());
+                participatingService.participate(dto);
             }else{
                 LOGGER.info(format("Order with id %s was not successful", request.getOrder_id()));
             }
         }
+    }
+
+    @GetMapping(value = "/check")
+    public ResponseEntity checkStatus(@RequestParam String orderId){
+        String status = participatingService.getStatus(orderId);
+        return new ResponseEntity<>(new StatusResponseDto(status), HttpStatus.OK);
     }
 
     private AppSession checkSession(String sessionId){

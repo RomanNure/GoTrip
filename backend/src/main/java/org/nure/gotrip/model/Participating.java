@@ -46,6 +46,9 @@ public class Participating {
 	@Column(name = "guide_rate")
 	private int guideRate;
 
+	@Column(name="order_id")
+	private String orderId;
+
 	public Participating() {
 		//Constructor for JPA
 	}

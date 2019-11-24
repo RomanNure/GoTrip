@@ -7,9 +7,11 @@ public interface ParticipatingService {
 
     boolean isAbleToParticipate(long userId, long tourId);
 
-    Participating participate(long userId, long tourId);
+    Participating participate(PreparingDto dto);
 
     boolean prepare(PreparingDto dto);
 
     PreparingDto confirm(String orderId);
+
+    String getStatus(String orderId);
 }
