@@ -1,4 +1,6 @@
-﻿namespace GoNTrip.Model
+﻿using System.Collections.Generic;
+
+namespace GoNTrip.Model
 {
     public class Session
     {

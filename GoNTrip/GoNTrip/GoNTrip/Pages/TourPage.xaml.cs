@@ -180,17 +180,40 @@ namespace GoNTrip.Pages
             TourAdminName.Text = CurrentTourAdmin == null || CurrentTourAdmin.login == null ? String.Empty : CurrentTourAdmin.login;
             TourAdminEmail.Text = CurrentTourAdmin == null || CurrentTourAdmin.email == null ? String.Empty : CurrentTourAdmin.email;
 
-            double size = Width / 2.0;
             User currentUser = App.DI.Resolve<Session>().CurrentUser;
-            OpenTicketButton.IsVisible = Members.Contains(currentUser);
-            OpenTicketButton.WidthRequest = size;
-            OpenTicketButton.HeightRequest = size;
+
+            if (Members.Contains(currentUser))
+            {
+                OpenTicketButton.IsVisible = true;
+                //Retrieve ticket QR
+            }
+            else
+                OpenTicketButton.IsVisible = false;
 
             if (CurrentTour.guide == null)
+            {
                 GuideProfile.IsVisible = false;
+                ScanTicketButton.IsVisible = false;
+                OfferGuidingButton.IsVisible = true;
+
+                try
+                {
+                    OfferGuidingButton.IsEnabled = await App.DI.Resolve<GuideController>().CheckGuidingAbility(CurrentTour);
+                    PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                }
+                catch(ResponseException ex)
+                {
+                    PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                    ErrorPopup.MessageText = ex.message;
+                    PopupControl.OpenPopup(ErrorPopup);
+                }
+            }
             else
             {
                 GuideProfile.IsVisible = true;
+                OfferGuidingButton.IsVisible = false;
+
                 User guide = CurrentTour.guide.UserProfile;
 
                 TourGuideName.Text = guide.login;
@@ -198,13 +221,12 @@ namespace GoNTrip.Pages
                 GuideAvatar.Source = guide.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : guide.avatarUrl;
 
                 ScanTicketButton.IsVisible = guide.Equals(currentUser) && DateTime.Now >= CurrentTour.startDateTime;
-                ScanTicketButton.WidthRequest = size;
-                ScanTicketButton.HeightRequest = size;
-
                 //TourFinishedButton.IsVisible = CurrentTour.participatingList.Where(P => true).SingleOrDefault(P => P.)
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
 
-            PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
 
             await LoadCurrentTourMembers();
         }
@@ -306,19 +328,9 @@ namespace GoNTrip.Pages
             App.Current.MainPage = new CardEnterPage(CurrentPageMemento, CurrentTour);
         }
 
-        protected override bool OnBackButtonPressed()
+        private void OfferGuidingButton_Clicked(object sender, EventArgs e)
         {
-            if (PopupControl.OpenedPopupsCount == 0)
-            {
-                PopupControl.OpenPopup(ActivityPopup);
-                App.Current.MainPage = PrevPageMemento.Restore();
-            }
-            else if (PhotoCollection.Opened)
-                PhotoCollection.Reset();
-            else
-                PopupControl.CloseTopPopup();
-
-            return true;
+            //TODO
         }
 
         private bool OpenTicketButton_OnClick(MotionEvent ME, IClickable sender)
@@ -349,6 +361,21 @@ namespace GoNTrip.Pages
             }
 
             return false;
+        }
+
+        protected override bool OnBackButtonPressed()
+        {
+            if (PopupControl.OpenedPopupsCount == 0)
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+                App.Current.MainPage = PrevPageMemento.Restore();
+            }
+            else if (PhotoCollection.Opened)
+                PhotoCollection.Reset();
+            else
+                PopupControl.CloseTopPopup();
+
+            return true;
         }
     }
 }

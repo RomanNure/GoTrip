@@ -5,9 +5,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
+             xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.MessagesPage"
              Appearing="ContentPage_Appearing">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+
+            <Style x:Key="UnreadFlag" TargetType="BoxView">
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="XProportional"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="1,0"/>
+                <Setter Property="HeightRequest" Value="10"/>
+                <Setter Property="WidthRequest" Value="10"/>
+                <Setter Property="CornerRadius" Value="5"/>
+                <Setter Property="Margin" Value="2"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource AdditionalColor}"/>
+            </Style>
+            
+            <Style x:Key="NotificationContent" TargetType="Label">
+                <Setter Property="AbsoluteLayout.LayoutFlags" Value="XProportional,YProportional,WidthProportional,HeightProportional"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,1,1"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+                <Setter Property="FontSize" Value="18"/>
+            </Style>
+
+            <Style x:Key="NotificationWrapper" TargetType="customcontrols:ClickableFrame">
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
+                <Setter Property="Margin" Value="5"/>
+            </Style>
+            
+        </ResourceDictionary>
+    </ContentPage.Resources>
     
     <ContentPage.Content>
         <AbsoluteLayout>
@@ -24,6 +55,35 @@
                                 <RowDefinition Height="50"/>
                             </Grid.RowDefinitions>
 
+                            <Label Style="{StaticResource HeaderLabel}" Text="Dialogs and Notifications" Grid.Row="0" Grid.Column="0"/>
+
+                            <ScrollView Grid.Row="1" Grid.Column="0">
+                                <StackLayout>
+
+                                    <Frame Padding="2" BackgroundColor="{StaticResource BarBackColor}">
+                                        <Label Text="Notifications" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" HorizontalTextAlignment="Center" FontSize="20"/>
+                                    </Frame>
+                                    
+                                    <StackLayout x:Name="NotificationsWrapper">
+
+                                        <!--Offers-->
+
+                                    </StackLayout>
+
+                                    
+                                    <Frame Padding="2" BackgroundColor="{StaticResource BarBackColor}">
+                                        <Label Text="Dialogs" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" HorizontalTextAlignment="Center" FontSize="20"/>
+                                    </Frame>
+
+                                    <StackLayout x:Name="DialogsWrapper">
+
+                                        <!--Dialogs-->
+
+                                    </StackLayout>
+                                    
+                                </StackLayout>
+                            </ScrollView>
+
                             <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50" Grid.Row="2" Grid.Column="0"/>
                             
                         </Grid>
@@ -32,6 +92,8 @@
             </StackLayout>
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+            <templates:SimpleMessagePopup x:Name="ExitConfirmPopup" PopupWidth="250" PopupHeight="100" MessageText="Are you sure want to exit?" FirstButtonText="Yes" SecondButtonText="No"/>
             
         </AbsoluteLayout>
     </ContentPage.Content>

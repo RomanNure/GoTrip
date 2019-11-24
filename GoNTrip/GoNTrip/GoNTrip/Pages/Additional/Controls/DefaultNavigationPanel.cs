@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 
@@ -37,6 +38,7 @@ namespace GoNTrip.Pages.Additional.Controls
 
         private const string PROFILE_NAVIGATION_BUTTON_SOURCE = "profile.png";
         private const string MESSAGES_NAVIGATION_BUTTON_SOURCE = "messages.png";
+        private const string MESSAGES_NOT_READ_NAVIGATION_BUTTON_SOURCE = "messagesNotRead.png";
         private const string TOUR_LIST_NAVIGATION_BUTTON_SOURCE = "tourList.jpg";
         private const string MY_TOUR_LIST_NAVIGATION_BUTTON_SOURCE = "myTourList.png";
         private const string ADVANCED_NAVIGATION_BUTTON_SOURCE = "advanced.png";
@@ -101,7 +103,7 @@ namespace GoNTrip.Pages.Additional.Controls
             App.Current.MainPage = new T();
         }
 
-        private Img Add(string source, Clicked clicked, PageEnum pageType)
+        private Img Add(string source, Clicked clicked, PageEnum pageType, bool flag = false)
         {
             Img img = new Img();
 

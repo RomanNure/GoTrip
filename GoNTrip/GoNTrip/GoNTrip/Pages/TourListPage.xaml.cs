@@ -65,6 +65,8 @@ namespace GoNTrip.Pages
             Navigator.Current = pageType;
             Navigator.LinkClicks(PopupControl, ActivityPopup);
 
+            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+
             ExitConfirmPopup.OnFirstButtonClicked = (ctx, arg) => App.Current.MainPage = new MainPage();
             ExitConfirmPopup.OnSecondButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
@@ -99,8 +101,6 @@ namespace GoNTrip.Pages
 
             GuideNotApprovedLabel.IsVisible = isGuide;
             GuideNotApprovedChecker.IsVisible = isGuide;
-
-            ErrorPopup.OnFirstButtonClicked = (ctx, arg) => PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
 
             for (int i = 0; i < PAGE_TOURS_COUNT; i++)
             {

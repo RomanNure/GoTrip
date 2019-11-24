@@ -12,6 +12,11 @@
     <ContentPage.Resources>
         <ResourceDictionary>
 
+            <Style x:Key="TourActionButton" TargetType="customcontrols:Img">
+                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+                <Setter Property="WidthRequest" Value="100"/>
+                <Setter Property="HeightRequest" Value="100"/>
+            </Style>
             
         </ResourceDictionary>
     </ContentPage.Resources>
@@ -83,9 +88,10 @@
                                     </Grid>
 
                                     <Button Style="{StaticResource CommonButton}" x:Name="JoinTourButton" Text="Join tour" Clicked="JoinTourButton_Clicked"/>
-                                    <customcontrols:Img x:Name="OpenTicketButton" Border="False" BorderOnClick="False" HorizontalOptions="CenterAndExpand" Source="qrScan.png" CornerRad="30" IsVisible="False" OnClick="OpenTicketButton_OnClick"/>
-                                    <customcontrols:Img x:Name="ScanTicketButton" Border="False" BorderOnClick="False" HorizontalOptions="CenterAndExpand" Source="edit.png" CornerRad="30" IsVisible="False" OnClick="ScanTicketButton_OnClick"/>
-                                    <customcontrols:Img x:Name="TourFinishedButton" Border="False" BorderOnClick="False" HorizontalOptions="CenterAndExpand" Source="filter.png" CornerRad="30" IsVisible="False" OnClick="TourFinishedButton_OnClick"/>
+                                    <Button Style="{StaticResource CommonButton}" x:Name="OfferGuidingButton" Text="Offer guiding" IsVisible="False" Clicked="OfferGuidingButton_Clicked"/>
+                                    <customcontrols:Img Style="{StaticResource TourActionButton}" x:Name="OpenTicketButton" Border="False" BorderOnClick="False" Source="ticket.png" CornerRad="18" IsVisible="False" OnClick="OpenTicketButton_OnClick"/>
+                                    <customcontrols:Img Style="{StaticResource TourActionButton}" x:Name="ScanTicketButton" Border="False" BorderOnClick="False" Source="qrScan.png" CornerRad="18" IsVisible="False" OnClick="ScanTicketButton_OnClick"/>
+                                    <customcontrols:Img Style="{StaticResource TourActionButton}" x:Name="TourFinishedButton" Border="False" BorderOnClick="False" Source="finish.png" CornerRad="18" IsVisible="False" OnClick="TourFinishedButton_OnClick"/>
 
                                     <Frame Style="{StaticResource OuterBorderFrame}">
                                         <Frame Style="{StaticResource InnerBorderFrame}">

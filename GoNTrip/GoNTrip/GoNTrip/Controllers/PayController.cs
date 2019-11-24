@@ -29,7 +29,7 @@ namespace GoNTrip.Controllers
         private const string WAIT_SECIRE_STATUS = "wait_secure";
 
         private const string LIQPAY_SERVER = "https://www.liqpay.ua/";
-        private static readonly string SERVER_CALLBACK = "http://93.76.235.211:5000" + "/participating/add/liqpay";//App.DI.Resolve<IServerCommunicator>().ServerURL
+        private static readonly string SERVER_CALLBACK = App.DI.Resolve<IServerCommunicator>().ServerURL + "/participating/add/liqpay";
 
         public LiqpayPayment CreatePayment(Tour tour, Card card) =>
             new LiqpayPayment(App.DI.Resolve<Session>(), tour, card, SERVER_CALLBACK);
@@ -50,6 +50,7 @@ namespace GoNTrip.Controllers
 
             switch(paymentResponse.Status)
             {
+                //case ERROR_STATUS 
                 //throw ResponseExceptions 
             }
 

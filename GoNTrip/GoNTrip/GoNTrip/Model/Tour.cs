@@ -10,7 +10,8 @@ namespace GoNTrip.Model
     [JsonObject]
     public class Tour : ModelElement
     {
-        [JoinPrepareField("tour_id")]
+        [CheckTourGuidingAbilityField("tourId")]
+        [JoinPrepareField("tourId")]
         [CheckTourJoinAbilityField("tourId")]
         [JoinTourField("tourId")]
         [GetTourMembersField]

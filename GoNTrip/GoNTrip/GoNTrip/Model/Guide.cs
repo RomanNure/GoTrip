@@ -7,6 +7,7 @@ namespace GoNTrip.Model
     [JsonObject]
     public class Guide : ModelElement
     {
+        [CheckTourGuidingAbilityField("guideId")]
         public long id { get; private set; }
 
         [JsonProperty("registeredUser")]
