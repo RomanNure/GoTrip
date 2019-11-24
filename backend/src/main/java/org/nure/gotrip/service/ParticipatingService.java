@@ -12,4 +12,5 @@ public interface ParticipatingService {
     boolean prepare(PreparingDto dto);
 
     PreparingDto confirm(String orderId);
+
 }
