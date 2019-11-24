@@ -29,4 +29,5 @@ public interface TourService {
 	Tour setGuide(Tour tour, Guide guide);
 
 	boolean checkGuideOnToursBetweenDates(long guideId, Date date, Date startDate, Date finishDate);
+
 }
