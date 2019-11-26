@@ -64,14 +64,14 @@
                                     <Frame Padding="2" BackgroundColor="{StaticResource BarBackColor}">
                                         <Label Text="Notifications" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" HorizontalTextAlignment="Center" FontSize="20"/>
                                     </Frame>
-                                    
+
                                     <StackLayout x:Name="NotificationsWrapper">
 
                                         <!--Offers-->
 
                                     </StackLayout>
 
-                                    
+
                                     <Frame Padding="2" BackgroundColor="{StaticResource BarBackColor}">
                                         <Label Text="Dialogs" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" HorizontalTextAlignment="Center" FontSize="20"/>
                                     </Frame>
@@ -81,24 +81,20 @@
                                         <!--Dialogs-->
 
                                     </StackLayout>
-                                    
+
                                 </StackLayout>
                             </ScrollView>
 
                             <controls:DefaultNavigationPanel x:Name="Navigator" HeightRequest="50" Grid.Row="2" Grid.Column="0"/>
-                            
+
                         </Grid>
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
 
-            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
-            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
-            <templates:SimpleMessagePopup x:Name="ExitConfirmPopup" PopupWidth="250" PopupHeight="100" MessageText="Are you sure want to exit?" FirstButtonText="Yes" SecondButtonText="No"/>
-
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="NotConfirmableNotificationPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="NotConfirmableNotificationPopupOuterFrame" HeightRequest="360" WidthRequest="300" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="360" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="NotConfirmableNotificationPopupOuterFrame" HeightRequest="250" WidthRequest="300" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="250" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" x:Name="NotConfirmableNotificationTopic" Text="Topic" HorizontalTextAlignment="Center" FontSize="20"/>
@@ -120,8 +116,8 @@
             </popups:Popup>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="ConfirmableNotificationPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="ConfirmableNotificationPopupOuterFrame" HeightRequest="360" WidthRequest="300" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="360" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="ConfirmableNotificationPopupOuterFrame" HeightRequest="250" WidthRequest="300" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="250" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" x:Name="ConfirmableNotificationTopic" Text="Topic" HorizontalTextAlignment="Center" FontSize="20"/>
@@ -133,16 +129,22 @@
                             </ScrollView>
 
                             <Grid ColumnSpacing="0" RowSpacing="0">
-                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationConfirm" VerticalOptions="End" Text="Confirm" Grid.Column="0" Grid.Row="0"/>
-                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationRefuse" VerticalOptions="End" Text="Refuse" Grid.Column="1" Grid.Row="0"/>
+                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationViewTour" VerticalOptions="End" Text="View tour" Grid.ColumnSpan="2" Grid.Row="0"/>
+                                
+                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationConfirm" VerticalOptions="End" Text="Confirm" Grid.Column="0" Grid.Row="1"/>
+                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationRefuse" VerticalOptions="End" Text="Refuse" Grid.Column="1" Grid.Row="1"/>
 
-                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationClose" VerticalOptions="End" Text="Close" Grid.ColumnSpan="2" Grid.Row="1"/>
+                                <Button Style="{StaticResource PopupButton}" x:Name="ConfirmableNotificationClose" VerticalOptions="End" Text="Close" Grid.ColumnSpan="2" Grid.Row="2"/>
                             </Grid>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>
                 </customcontrols:ClickableFrame>
             </popups:Popup>
+
+            <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
+            <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
+            <templates:SimpleMessagePopup x:Name="ExitConfirmPopup" PopupWidth="250" PopupHeight="100" MessageText="Are you sure want to exit?" FirstButtonText="Yes" SecondButtonText="No"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

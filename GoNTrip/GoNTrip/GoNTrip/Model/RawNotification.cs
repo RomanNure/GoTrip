@@ -5,7 +5,7 @@ namespace GoNTrip.Model
     [JsonObject]
     public class RawNotification : ModelElement
     {
-        public long id { get; set; }
+        public string id { get; set; }
         public string type { get; set; }
         public string topic { get; set; }
 

@@ -27,4 +27,6 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class CheckJoinStatusField : QueryField { public CheckJoinStatusField(string name = null) : base(name) { } }
     public class SeeNotificationField : QueryField { public SeeNotificationField(string name = null) : base(name) { } }
     public class AcceptNotificationField : QueryField { public AcceptNotificationField(string name = null) : base(name) { } }
+    public class DeleteNotificationField : QueryField { public DeleteNotificationField(string name = null) : base(name) { } }
+    public class RefuseNotificationField : QueryField { public RefuseNotificationField(string name = null) : base(name) { } }
 }

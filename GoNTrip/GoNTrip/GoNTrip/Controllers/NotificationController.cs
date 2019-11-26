@@ -17,6 +17,7 @@ namespace GoNTrip.Controllers
     public class NotificationController
     {
         private const string GUIDING_OFFER_NOTIFICATION_TYPE = "OfferGuiding";
+        private const string PLAIN_NOTIFICATION_TYPE = "Plain";
 
         public async Task<List<RawNotification>> GetNotifications()
         {
@@ -32,16 +33,25 @@ namespace GoNTrip.Controllers
             return App.DI.Resolve<IResponseParser>().Parse<RawNotification, ResponseException>(response);
         }
 
-        public async Task AcceptOffer(INotification notification)
+        public async Task<Tour> AcceptOffer(INotification notification)
         {
             IQuery acceptOfferQuery = await App.DI.Resolve<AcceptNotificationQueryFactory>().AcceptNotification(notification);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(acceptOfferQuery);
-            //someth to parse
+            return App.DI.Resolve<IResponseParser>().Parse<Tour, ResponseException>(response);
         }
 
-        public async Task RefuseOffer(INotification notification)
+        public async Task<RawNotification> RefuseOffer(INotification notification)
         {
+            IQuery refuseOfferQuery = await App.DI.Resolve<RefuseNotificationQueryFactory>().RefuseNotification(notification);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(refuseOfferQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<RawNotification, ResponseException>(response);
+        }
 
+        public async Task<RawNotification> DeleteNotification(INotification notification)
+        {
+            IQuery deleteNotificationQuery = await App.DI.Resolve<DeleteNotificationQuryFactory>().DeleteNotification(notification);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(deleteNotificationQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<RawNotification, ResponseException>(response);
         }
 
         public async Task<INotification> ParseRawNotification(RawNotification rawNotification)
@@ -50,6 +60,7 @@ namespace GoNTrip.Controllers
             {
                 case GUIDING_OFFER_NOTIFICATION_TYPE:
                     return await ParseGuidingOfferNotification(rawNotification);
+                case PLAIN_NOTIFICATION_TYPE:
                 default:
                     return new NewsNotification(rawNotification.id, rawNotification.isChecked, rawNotification.topic);
             }
@@ -58,12 +69,12 @@ namespace GoNTrip.Controllers
         private async Task<GuidingOfferNotification> ParseGuidingOfferNotification(RawNotification rawNotification)
         {
             Tour tour = await App.DI.Resolve<GetToursController>().GetTourById(Convert.ToInt32(rawNotification.data.tourId));
-            long guideId = rawNotification.data.guideId;
-            //consider company and sum
+            Company company = await App.DI.Resolve<CompanyController>().GetCompanyById(Convert.ToInt32(rawNotification.data.companyId));
 
             return new GuidingOfferNotification(rawNotification.id, rawNotification.isChecked, 
-                                                rawNotification.topic, new Company(), tour, 
-                                                guideId, 0);
+                                                rawNotification.topic, company, tour,
+                                                Convert.ToInt32(rawNotification.data.guideId), 
+                                                Convert.ToDouble(rawNotification.data.sum));
         }
     }
 }

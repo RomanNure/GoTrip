@@ -72,7 +72,7 @@ namespace GoNTrip.Pages
         }
 
         private async Task<User> GetCurrentTourAdminUserProfile(Admin admin) => await App.DI.Resolve<GetUserByAdminController>().GetUserByAdmin(admin);
-        private async Task<Company> GetCurrentTourCompany(Admin admin) => await App.DI.Resolve<GetCompanyByAdminController>().GetCompanyByAdmin(admin);
+        private async Task<Company> GetCurrentTourCompany(Admin admin) => await App.DI.Resolve<CompanyController>().GetCompanyByAdmin(admin);
         private async Task<IEnumerable<User>> GetCurrentTourMembers() => await App.DI.Resolve<GetTourMembersController>().GetTourMembers(CurrentTour);
 
         private async Task GetCurrentTour()

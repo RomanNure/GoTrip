@@ -2,7 +2,7 @@
 {
     public interface INotification : ModelElement
     {
-        long Id { get; }
+        string Id { get; }
         bool IsChecked { get; }
         bool IsConfirmable { get; }
         string Topic { get; }

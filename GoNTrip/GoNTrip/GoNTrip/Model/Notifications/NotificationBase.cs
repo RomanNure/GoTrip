@@ -4,7 +4,7 @@ namespace GoNTrip.Model.Notifications
 {
     public abstract class NotificationBase : INotification
     {
-        public NotificationBase(long id, bool isChecked, bool confirmable, string topic, string serverMethodConfirm, string serverMethodRefuse)
+        public NotificationBase(string id, bool isChecked, bool confirmable, string topic, string serverMethodConfirm, string serverMethodRefuse)
         {
             Id = id;
             IsChecked = isChecked;
@@ -15,8 +15,10 @@ namespace GoNTrip.Model.Notifications
             ServerMethodRefuse = serverMethodRefuse;
         }
 
+        [RefuseNotificationField("notificationId")]
+        [DeleteNotificationField("notificationId")]
         [SeeNotificationField("notificationId")]
-        public long Id { get; protected set; }
+        public string Id { get; protected set; }
 
         public bool IsChecked { get; protected set; }
         public bool IsConfirmable { get; protected set; }

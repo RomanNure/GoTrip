@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 
 using Xamarin.Forms;
@@ -15,6 +14,7 @@ using GoNTrip.Model.Notifications;
 using GoNTrip.Pages.Additional.Popups;
 using GoNTrip.Pages.Additional.Controls;
 using GoNTrip.ServerInteraction.ResponseParsers;
+using GoNTrip.Pages.Additional.PageMementos;
 
 namespace GoNTrip.Pages
 {
@@ -26,7 +26,9 @@ namespace GoNTrip.Pages
         private const string NOTIFICATION_UNREAD_FLAG_CLASS_NAME = "UnreadFlag";
 
         private PopupControlSystem PopupControl { get; set; }
+        private PageMemento CurrentPageMemento { get; set; }
 
+        [RestorableConstructor]
         public MessagesPage()
         {
             InitializeComponent();
@@ -43,6 +45,9 @@ namespace GoNTrip.Pages
 
             Navigator.Current = DefaultNavigationPanel.PageEnum.MESSAGES;
             Navigator.LinkClicks(PopupControl, ActivityPopup);
+
+            CurrentPageMemento = new PageMemento();
+            CurrentPageMemento.Save(this);
         }
 
         private async void ContentPage_Appearing(object sender, EventArgs e)
@@ -92,22 +97,28 @@ namespace GoNTrip.Pages
                     {
                         ConfirmableNotificationTopic.Text = ntf.Topic;
                         ConfirmableNotificationText.Text = ntf.GetDetailMessage();
-                        ConfirmableNotificationConfirm.Clicked += (s, a) =>
+
+                        ConfirmableNotificationConfirm.Clicked += (s, a) => ConfirmNotification(ntf, preview);
+                        ConfirmableNotificationRefuse.Clicked += (s, a) => RefuseNotification(ntf, preview);
+
+                        if (ntf is GuidingOfferNotification)
                         {
-                            ConfirmNotification(ntf);
-                            DisplayAlert("t", "confirmed " + ntf.Topic, "OK");
-                        };
-                        ConfirmableNotificationRefuse.Clicked += (s, a) =>
-                        {
-                            RefuseNotification(ntf);
-                            DisplayAlert("t", "refused " + ntf.Topic, "OK");
-                        };
+                            GuidingOfferNotification gontf = ntf as GuidingOfferNotification;
+                            ConfirmableNotificationViewTour.Clicked += (s, a) =>
+                                App.Current.MainPage = new TourPage(gontf.tour, CurrentPageMemento);
+                        }
+                        else
+                            ConfirmableNotificationViewTour.IsVisible = false;
+
                         PopupControl.OpenPopup(ConfirmableNotificationPopup);
                     }
                     else
                     {
                         NotConfirmableNotificationTopic.Text = ntf.Topic;
                         NotConfirmableNotificationText.Text = ntf.GetDetailMessage();
+
+                        NotConfirmableNotificationDelete.Clicked += (s, a) => DeleteNotification(ntf, preview);
+                        
                         PopupControl.OpenPopup(NotConfirmableNotificationPopup);
                     }
 
@@ -122,12 +133,51 @@ namespace GoNTrip.Pages
         {
             try
             {
-                PopupControl.OpenPopup(ActivityPopup);
-
                 await App.DI.Resolve<NotificationController>().SeeNotification(ntf);
                 preview.Read();
+            }
+            catch(ResponseException ex)
+            {
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
+
+        private async void DeleteNotification(INotification ntf, NotificationPreview preview)
+        {
+            try
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+
+                NotificationController notificationController = App.DI.Resolve<NotificationController>();
+                await notificationController.DeleteNotification(ntf);
+                NotificationsWrapper.Children.Remove(preview);
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            }
+            catch (ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+        }
+
+        private async void ConfirmNotification(INotification ntf, NotificationPreview preview)
+        {
+            try
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+
+                NotificationController notificationController = App.DI.Resolve<NotificationController>();
+                await notificationController.AcceptOffer(ntf);
+                await notificationController.DeleteNotification(ntf);
+                NotificationsWrapper.Children.Remove(preview);
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
             }
             catch(ResponseException ex)
             {
@@ -138,30 +188,19 @@ namespace GoNTrip.Pages
             }
         }
 
-        private async void ConfirmNotification(INotification ntf)
+        private async void RefuseNotification(INotification ntf, NotificationPreview preview)
         {
             try
             {
                 PopupControl.OpenPopup(ActivityPopup);
-                await App.DI.Resolve<NotificationController>().AcceptOffer(ntf);
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
-            }
-            catch(ResponseException ex)
-            {
-                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-                ErrorPopup.MessageText = ex.message;
-                PopupControl.OpenPopup(ErrorPopup);
-            }
-        }
+                NotificationController notificationController = App.DI.Resolve<NotificationController>();
+                await notificationController.RefuseOffer(ntf);
+                await notificationController.DeleteNotification(ntf);
+                NotificationsWrapper.Children.Remove(preview);
 
-        private async void RefuseNotification(INotification ntf)
-        {
-            try
-            {
-                PopupControl.OpenPopup(ActivityPopup);
-                await App.DI.Resolve<NotificationController>().RefuseOffer(ntf);
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
             }
             catch(ResponseException ex)
             {
