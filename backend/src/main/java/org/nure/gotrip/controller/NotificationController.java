@@ -1,6 +1,7 @@
 package org.nure.gotrip.controller;
 
 import org.nure.gotrip.controller.response.NotFoundException;
+import org.nure.gotrip.dto.BooleanDto;
 import org.nure.gotrip.dto.NotificationDto;
 import org.nure.gotrip.exception.NotFoundNotificationException;
 import org.nure.gotrip.exception.NotFoundUserException;
@@ -14,6 +15,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Iterator;
+import java.util.concurrent.atomic.AtomicBoolean;
+
 @Controller
 @RequestMapping("/notification")
 public class NotificationController {
@@ -25,6 +29,22 @@ public class NotificationController {
     public NotificationController(RegisteredUserService userService, NotificationService notificationService) {
         this.userService = userService;
         this.notificationService = notificationService;
+    }
+
+    @GetMapping("/new")
+    public ResponseEntity getNewNotificationsExists(@RequestParam long id){
+        try {
+            RegisteredUser user = userService.findById(id);
+            AtomicBoolean atomicBoolean = new AtomicBoolean(false);
+            notificationService.getByUser(user).forEach(notification -> {
+                if(!notification.isChecked()){
+                    atomicBoolean.set(true);
+                }
+            });
+            return new ResponseEntity<>(new BooleanDto(atomicBoolean.get()), HttpStatus.OK);
+        } catch (NotFoundUserException e) {
+            throw new NotFoundException("User not found");
+        }
     }
 
     @GetMapping("/get/user")
@@ -43,6 +63,17 @@ public class NotificationController {
             Notification notification = notificationService.getById(dto.getNotificationId());
             notification.setChecked(true);
             notification = notificationService.update(notification);
+            return new ResponseEntity<>(notification, HttpStatus.OK);
+        } catch (NotFoundNotificationException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity deleteNotification(@RequestBody NotificationDto dto){
+        try {
+            Notification notification = notificationService.getById(dto.getNotificationId());
+            notificationService.delete(notification);
             return new ResponseEntity<>(notification, HttpStatus.OK);
         } catch (NotFoundNotificationException e) {
             throw new NotFoundException(e.getMessage());

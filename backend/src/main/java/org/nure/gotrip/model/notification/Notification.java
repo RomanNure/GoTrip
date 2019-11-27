@@ -16,7 +16,7 @@ public class Notification {
 
     @Id
     @Column(name = "notification_id")
-    private long id;
+    private String id;
 
     @Column(name = "type")
     private String type;
@@ -43,7 +43,7 @@ public class Notification {
         type = notificationData.getType();
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 

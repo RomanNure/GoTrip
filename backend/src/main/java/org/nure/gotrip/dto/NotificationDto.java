@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class NotificationDto {
 
-    private long notificationId;
+    private String notificationId;
 }

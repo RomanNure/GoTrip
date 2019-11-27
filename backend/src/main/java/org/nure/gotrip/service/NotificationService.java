@@ -10,7 +10,9 @@ public interface NotificationService {
 
     Iterable<Notification> getByUser(RegisteredUser user);
 
-    Notification getById(long id) throws NotFoundNotificationException;
+    Notification getById(String id) throws NotFoundNotificationException;
 
     Notification update(Notification notification);
+
+    void delete(Notification notification);
 }

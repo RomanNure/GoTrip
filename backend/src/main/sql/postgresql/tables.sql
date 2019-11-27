@@ -45,7 +45,7 @@ create table notification_types
 
 create table notifications
 (
-  notification_id      bigserial   NOT NULL UNIQUE PRIMARY KEY,
+  notification_id      varchar   NOT NULL UNIQUE PRIMARY KEY,
   notification_type_id bigserial   not null
     constraint notification_type_id_fk
       references notification_types,
@@ -106,6 +106,18 @@ create table participating
   ticket_hash        varchar   not null default '-1',
   guide_rate         integer            default -1,
   unique (registered_user_id, tour_id)
+);
+
+create table notifications
+(
+  notification_id   bigserial not null unique primary key,
+  registered_user_id bigserial not null
+    constraint participating_user_notification_id_fk
+      references registered_user,
+  data varchar not null,
+  type varchar(70),
+  topic varchar,
+  checked boolean default false
 );
 
 SELECT tours.*, administrators.*, tour_photos.*, participating.*

@@ -3,6 +3,7 @@ package org.nure.gotrip.service.impl;
 import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.PreparingDto;
+import org.nure.gotrip.exception.NotFoundParticipatingException;
 import org.nure.gotrip.model.Participating;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.model.Tour;
@@ -69,10 +70,6 @@ public class ParticipatingServiceImpl implements ParticipatingService {
         }
         participating.setUser(user);
         participating.setTour(tour);
-
-        String compilation = format("%d %d", dto.getUserId(), dto.getTourId());
-        String hash = encoder.encode(compilation);
-        participating.setHash(hash);
         participating.setOrderId(dto.getOrderId());
         participating = participatingRepository.save(participating);
         return participating;
@@ -98,7 +95,13 @@ public class ParticipatingServiceImpl implements ParticipatingService {
         return optional.isPresent() ? "success" : "failed";
     }
 
-	private boolean isCompatible(Tour tour1, Tour tour2) {
+    @Override
+    public Participating getByTourAndUser(Tour tour, RegisteredUser user) throws NotFoundParticipatingException {
+        return participatingRepository.findByTourAndUser(tour, user)
+                .orElseThrow(()->new NotFoundParticipatingException("Current user is not a tour member"));
+    }
+
+    private boolean isCompatible(Tour tour1, Tour tour2) {
 		return tour1.getFinishDateTime().compareTo(tour2.getStartDateTime()) < 0 ||
 				tour1.getStartDateTime().compareTo(tour2.getFinishDateTime()) > 0;
 	}

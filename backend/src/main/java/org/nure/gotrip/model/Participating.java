@@ -1,6 +1,5 @@
 package org.nure.gotrip.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -38,10 +37,6 @@ public class Participating {
 
 	@Column(name = "tour_rate")
 	private int tourRate;
-
-	@JsonIgnore
-	@Column(name = "ticket_hash")
-	private String hash;
 
 	@Column(name = "guide_rate")
 	private int guideRate;

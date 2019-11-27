@@ -9,13 +9,12 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OfferGuidingNotificationData implements NotificationData{
+public class GuidePropositionNotificationData implements NotificationData{
 
-    static final String TYPE = "OfferGuiding";
+    private static final String TYPE = "GuideProposition";
 
     long tourId;
     long guideId;
-    long companyId;
     double sum;
 
     @Override

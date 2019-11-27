@@ -5,13 +5,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
 import org.nure.gotrip.controller.response.ForbiddenException;
+import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.AbilityParticipatingDto;
 import org.nure.gotrip.dto.ParticipatingDto;
 import org.nure.gotrip.dto.PreparingDto;
 import org.nure.gotrip.dto.StatusResponseDto;
+import org.nure.gotrip.exception.NotFoundParticipatingException;
+import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.model.Participating;
 import org.nure.gotrip.model.RegisteredUser;
+import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.service.ParticipatingService;
+import org.nure.gotrip.service.TourService;
 import org.nure.gotrip.util.Encoder;
 import org.nure.gotrip.util.session.AppSession;
 import org.nure.gotrip.util.session.SessionContainer;
@@ -43,12 +48,14 @@ public class ParticipatingController {
     };
 
     private ParticipatingService participatingService;
+    private TourService tourService;
     private SessionContainer sessionContainer;
     private Encoder encoder;
 
     @Autowired
-    private ParticipatingController(ParticipatingService participatingService, SessionContainer sessionContainer, Encoder encoder){
+    private ParticipatingController(ParticipatingService participatingService, TourService tourService, SessionContainer sessionContainer, Encoder encoder){
         this.participatingService = participatingService;
+        this.tourService = tourService;
         this.sessionContainer = sessionContainer;
         this.encoder = encoder;
     }
@@ -94,6 +101,24 @@ public class ParticipatingController {
             }else{
                 LOGGER.info(format("Order with id %s was not successful", request.getOrder_id()));
             }
+        }
+    }
+
+    @GetMapping(value = "/get")
+    public ResponseEntity getParticipating(@CookieValue(name = "SESSIONID") String sessionId, @RequestParam long tourId){
+        AppSession session = checkSession(sessionId);
+        Tour tour;
+        try {
+            tour = tourService.findById(tourId);
+        }catch (NotFoundTourException e){
+            throw new NotFoundException(e.getMessage());
+        }
+        RegisteredUser user = checkUser(session);
+        try {
+            Participating participating = participatingService.getByTourAndUser(tour, user);
+            return new ResponseEntity<>(participating, HttpStatus.OK);
+        } catch (NotFoundParticipatingException e) {
+            throw new NotFoundException(e.getMessage());
         }
     }
 

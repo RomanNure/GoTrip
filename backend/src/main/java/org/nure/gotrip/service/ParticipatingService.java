@@ -1,7 +1,10 @@
 package org.nure.gotrip.service;
 
 import org.nure.gotrip.dto.PreparingDto;
+import org.nure.gotrip.exception.NotFoundParticipatingException;
 import org.nure.gotrip.model.Participating;
+import org.nure.gotrip.model.RegisteredUser;
+import org.nure.gotrip.model.Tour;
 
 public interface ParticipatingService {
 
@@ -14,4 +17,6 @@ public interface ParticipatingService {
     PreparingDto confirm(String orderId);
 
     String getStatus(String orderId);
+
+    Participating getByTourAndUser(Tour tour, RegisteredUser user) throws NotFoundParticipatingException;
 }

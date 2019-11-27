@@ -9,14 +9,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class OfferGuidingNotificationData implements NotificationData{
+public class PlainTextNotificationData implements NotificationData {
 
-    static final String TYPE = "OfferGuiding";
+    private static final String TYPE = "Plain";
 
-    long tourId;
-    long guideId;
-    long companyId;
-    double sum;
+    private String text;
 
     @Override
     public String data() throws JsonProcessingException {

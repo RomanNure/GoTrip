@@ -1,6 +1,7 @@
 package org.nure.gotrip.repository;
 
 import org.nure.gotrip.model.Participating;
+import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.model.Tour;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -30,4 +31,5 @@ public interface ParticipatingRepository extends CrudRepository<Participating, L
 			"(?4 >= t.start_date_time AND ?4 <= t.finish_date_time))", nativeQuery = true)
 	List<Tour> findTours(long userId, Date nowDate, Date startDate, Date finishDate);
 
+	Optional<Participating> findByTourAndUser(Tour tour, RegisteredUser user);
 }

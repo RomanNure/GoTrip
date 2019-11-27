@@ -28,7 +28,7 @@ public class Administrator {
     private long id;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "registered_user_id")
     private RegisteredUser registeredUser;
 
