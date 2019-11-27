@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import EmployeeList from '../components/EmployeeList.js';
+import ReactModal from 'react-modal';
 import ToursList from '../components/ToursList.js';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
-
+import { getCompany, addAdministrator } from '../api.js';
 
 export default class CompanyPage extends Component {
     constructor(props) {
@@ -25,23 +26,16 @@ export default class CompanyPage extends Component {
         this.setState({ tab })
     }
 
+
     _getCompany = () => {
-        console.log('getting Company')
-        axios({
-            method: "get",
-            url: 'https://go-trip.herokuapp.com/company/get' + "?id=" + this.state.id,
-            headers: {
-                'Content-Type': 'application/x-www-from-urlencoded',//Content-Type': 'appication/json',
-            },
+        console.log('getting Company', this.state.id)
+        getCompany(this.state.id).then(({ data }) => {
+            let { description, email, name, id, imageLink, domain, administrators } = data
+            console.log('data=>', data)
+            // if (rule) window.location.reload();
+            this.setState({ description, email, name, id, imageLink, domain, administrators })
 
         })
-            .then(({ data }) => {
-                let { description, email, name, id, imageLink, domain, administrators } = data
-                console.log('data=>', data)
-                // if (rule) window.location.reload();
-                this.setState({ description, email, name, id, imageLink, domain, administrators })
-
-            })
             .catch(error => {
                 toast.error('server not response', {
                     position: toast.POSITION.TOP_RIGHT
@@ -49,7 +43,10 @@ export default class CompanyPage extends Component {
                 console.log('Error', error);
             })
     }
-    _onAddAdmin = (text) => {
+    _onAddAdmin = () => {
+        const { admin: { value: text } } = this.refs
+        console.log("refs=>",this.refs)
+        return
         let data = {
             companyId: this.state.id,
             email: "",
@@ -64,20 +61,12 @@ export default class CompanyPage extends Component {
             data.login = text
         }
         console.log('data=>', data)
-        axios({
-            method: "post",
-            url: 'https://go-trip.herokuapp.com/administrator/add',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data
+        addAdministrator(data).then((res) => {
+            console.log('res=> ', res)
+            toast.success('added new administrator', {
+                position: toast.POSITION.TOP_RIGHT
+            });
         })
-            .then((res) => {
-                console.log('res=> ', res)
-                toast.success('added new administrator', {
-                    position: toast.POSITION.TOP_RIGHT
-                });
-            })
             .catch((err) => {
                 toast.error('server error', {
                     position: toast.POSITION.TOP_RIGHT
@@ -186,18 +175,51 @@ export default class CompanyPage extends Component {
                 console.log('Error', error);
             })
     }
+    _onOpenModal = () => {
+        this.setState({ modal: true })
+    }
 
     render() {
         //    this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
         return (
             <div style={{ display: "flex", width: "100%" }}>
                 <ToastContainer />
+                <ReactModal
+                    isOpen={this.state.modal}
+                    style={{
+                        overlay: {
+                            backgroundColor: "inharit"
+                        },
+                        content: {
+                            marginLeft: "35%",
+                            marginTop: "10%",
+                            marginBottom: "20%",
+                            alignItems: "space-between",
+                            width: "30%",
+                            height: "35%",
+                            borderRadius: 30,
+                            color: 'lightsteelblue'
+                        }
+                    }}
+                >
+                    <div style={{ marginLeft: "30%" }}>
+                        <h2>
+                            Add Admin
+                        </h2>
+                    </div>
+                    <input ref="admin" style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="login/email of admin" disabled={false/*!this.state.rule*/} />
+                    <div style={{ display: "flex", marginLeft: "60%", marginTop: "8%", flexDirection: "row", alignItems: "space-between" }} >
+                        <a style={{ marginRight: "30px" }} className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({ modal: false })}>close</a>
+                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={() => this._onAddAdmin}>Add admin</a>
+                    </div>
+
+                </ReactModal>
 
 
-                <div className="container bootstrap snippet" style={{justifyContent:"center", alignItems:"center", marginTop:"15px"}}>
+                <div className="container bootstrap snippet" style={{ justifyContent: "center", alignItems: "center", marginTop: "15px" }}>
                     <div className="row ng-scope">
                         <div className="col-md-4" >
-                            <div className="panel panel-default" style={{  backgroundColor: "#fff", borderRadius: 20 }}>
+                            <div className="panel panel-default" style={{ backgroundColor: "#fff", borderRadius: 20 }}>
                                 <div className="panel-body text-center">
                                     <div className="pv-lg mr-3 ml-3">
                                         <>
@@ -218,6 +240,8 @@ export default class CompanyPage extends Component {
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
+                                    <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onOpenModal}>Add Admin</a>
+
                                 </div>
                             </div>
                         </div>
@@ -265,17 +289,18 @@ export default class CompanyPage extends Component {
                                                         <textarea ref="domain" className="materialize-textarea" id="inputContact7" placeholder="domain" defaultValue={this.state.domain} row="4" />
                                                     </div>
                                                 </div>
-                                                <div className="form-group">
+                                                {!this.state.modal && <div className="form-group">
                                                     <div className="col-sm-offset-2 col-sm-10">
                                                         <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onUpdateCompany}>Update</a>
                                                     </div>
                                                 </div>
+                                                }
                                             </form>
                                         </div>
                                     </div>
                                     }
                                     {this.state.tab == "Employees" &&
-                                        <EmployeeList {...this.props} _onAddAdmin={this._onAddAdmin} administrators={this.state.administrators} />
+                                        <EmployeeList {...this.props}  administrators={this.state.administrators} />
                                     }
                                     {this.state.tab == "Tours" &&
                                         <ToursList {...this.props} />

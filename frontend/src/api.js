@@ -26,6 +26,9 @@ export const getTours = () => apiGet.get('tours/get')
 
 export const companyRegistration = data => api.post('/company/registration', data)
 
+export const getCompany = id => apiGet.get(`/company/get?id=${id}`)
+
+
 
 
 api.interceptors.request.use(
