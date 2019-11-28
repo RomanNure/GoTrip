@@ -37,7 +37,7 @@ export default class BecomeGuidePage extends PureComponent {
         }
 
         let wantedToursKeyWords = wValue.split(/[\s\,\.\/\\]+/img).join(',')
-        becomeGuide({ idRegisteredUser: this.context.id, cardNumber: cValue, wantedToursKeyWords })
+        becomeGuide({ idRegisteredUser: this.context.user.id, cardNumber: cValue, wantedToursKeyWords }).then(data => console.log("data=>", data))
 
         //console.log("w tour key=>", wantedToursKeyWords)
 

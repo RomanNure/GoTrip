@@ -45,12 +45,14 @@ export default class UserPage extends Component {
                         let { email, login, phone, fullName, description, avatarUrl, guide, administrators } = userData
                         let rule = (this.state.user && login == this.state.user.login) ? true : false
                         let user = cookie.load('user')
+                        let guideRule = false
                         if (rule && avatarUrl) {
                             user.avatarUrl = avatarUrl
                             cookie.save('user', user, { path: '/' })
                         }
-                        if(rule) this.context.setUser(userData)
-                        this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0], guide, administrators })
+                        if (rule) this.context.setUser(userData)
+                        if (guide && rule) guideRule = true
+                        this.setState({ email, login, phone, fullName, rule, description, avatarUrl, company: company.data[0], guide, guideRule, administrators })
                     })
                 })
                 .catch(err => {
@@ -154,8 +156,8 @@ export default class UserPage extends Component {
     _onOpenModal = () => {
         this.setState({ modal: true })
     }
-    _onBecomeGuilde = () =>{
-        this.props.history.push('/become-guide' )
+    _onBecomeGuilde = () => {
+        this.props.history.push('/become-guide')
     }
 
     _onAddNewTour = () => {
@@ -199,14 +201,14 @@ export default class UserPage extends Component {
                             rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onOpenYourCompany}>Manage your company</a></div>
                         }
                         {rule && !guide && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onBecomeGuilde}>Become a guid</a></div>}
-                        <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onAddNewTour}>Add new tour</a></div>
+                        {false && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onAddNewTour}>Add new tour</a></div>}
 
                         {rule && <div className="text-center" ><a className="btn waves-effect waves-light #81c784 green lighten-2 m-2" onClick={this._onLogOut}>Log Out</a></div>
                         }
 
                     </div>
                 </div>
-                <div style={{ display: "flex", width: "60%", height: 400, backgroundColor: "#fff", borderRadius: 20, justifyContent: "center" }}>
+                <div style={{ display: "flex", width: "60%", height: 450, backgroundColor: "#fff", borderRadius: 20, justifyContent: "center" }}>
                     <div style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                         <div className="h4 text-center mr-md-5 mt-5 mt-md-3">Account Information</div>
                         <form style={{ display: "flex", flexDirection: "column", justifyContent: "space-between", width: "100%", alignSelf: "center", marginRight: "auto", marginLeft: "auto" }}>
@@ -222,6 +224,10 @@ export default class UserPage extends Component {
                                 <label className="col-sm-2 control-label" htmlFor="inputContact3">Phone</label>
                                 <input ref='phone' id="inputContact3" type="text" placeholder="Phone number" disabled={!this.state.rule} defaultValue={phone} />
                             </div>
+                            {this.state.guideRule && <div className="form-group" style={{ alignSelf: "center", width: "80%" }}>
+                                Your are a guide now
+                            </div>
+                            }
                             {rule && <div className="form-group" style={{ alignSelf: "center", width: "80%" }}>
 
                                 {!this.state.modal && <div className="col-sm-offset-2 col-sm-10">
@@ -230,6 +236,7 @@ export default class UserPage extends Component {
                                 }
                             </div>
                             }
+
                         </form>
                     </div>
                 </div>

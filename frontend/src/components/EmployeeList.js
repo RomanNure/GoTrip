@@ -58,7 +58,7 @@ export default class EmployeeList extends Component {
                                                     <div className="text-sm text-muted">{email}</div>
                                                 </div>
                                             </div>
-                                            <i className="material-icons mt-2 mr-3 icon-red" style={{ cursor: "pointer" }} onClick={() => this._onRemoveAdmin(administratorId)}>highlight_off</i>
+                                            {this.props.rule && <i className="material-icons mt-2 mr-3 icon-red" style={{ cursor: "pointer" }} onClick={() => this._onRemoveAdmin(administratorId)}>highlight_off</i>}
                                         </div>
                                     })
                                     :

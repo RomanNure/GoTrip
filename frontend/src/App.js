@@ -29,7 +29,8 @@ export default class App extends PureComponent {
     super(props);
 
     this.state = {
-      user: false
+      user: false,
+      company: false
     }
   }
 
@@ -53,6 +54,10 @@ export default class App extends PureComponent {
     console.log("setted user", user)
     this.setState({ user })
   }
+  setCompany = (company) => {
+    console.log("setted company", company)
+    this.setState({ company })
+  }
 
   /* eslint-disable */
   render() {
@@ -61,7 +66,9 @@ export default class App extends PureComponent {
     return (
       <GlobalContext.Provider value={{
         user: this.state.user,
-        setUser: this.setUser
+        setUser: this.setUser,
+        company: this.state.company,
+        setCompany: this.setCompany
       }}>
 
         <div style={{ display: "flex", width: "100%", height: "100%", flexDirection: "column", justifyContent: "space-between", backgroundColor: "#eee" }}>

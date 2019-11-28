@@ -5,8 +5,10 @@ import ToursList from '../components/ToursList.js';
 import axios from 'axios'
 import { ToastContainer, toast } from 'react-toastify';
 import { getCompany, addAdministrator } from '../api.js';
+import GlobalContext from '../GlobalContext'
 
 export default class CompanyPage extends Component {
+    static contextType = GlobalContext
     constructor(props) {
         super(props);
 
@@ -30,10 +32,15 @@ export default class CompanyPage extends Component {
     _getCompany = () => {
         console.log('getting Company', this.state.id)
         getCompany(this.state.id).then(({ data }) => {
-            let { description, email, name, id, imageLink, domain, administrators } = data
+            let { description, email, name, id, imageLink, domain, administrators, owner } = data
             console.log('data=>', data)
+            let rule = false
             // if (rule) window.location.reload();
-            this.setState({ description, email, name, id, imageLink, domain, administrators })
+            if (owner.id == this.context.user.id) {
+                rule = true
+                this.context.setCompany(data)
+            }
+            this.setState({ description, email, name, id, imageLink, domain, rule, administrators })
 
         })
             .catch(error => {
@@ -179,7 +186,9 @@ export default class CompanyPage extends Component {
     _onOpenModal = () => {
         this.setState({ modal: true })
     }
-
+    _onAddTour = () => {
+        this.props.history.push('/create-tour')
+    }
     render() {
         console.log("compsny=>", this.state)
         //    this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
@@ -242,7 +251,8 @@ export default class CompanyPage extends Component {
                                         </div>
                                     </div>
                                     <div className="text-center" style={{ visibility: "hidden" }}><a className="btn btn-primary custom-btn mb-4 waves-effect #3abd94" href="">Send message</a></div>
-                                    <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onOpenModal}>Add Admin</a>
+                                    {this.state.rule && <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onOpenModal}>Add Admin</a>}
+                                    {this.state.rule && <a type="button" className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onAddTour}>Add new Tour</a>}
 
                                 </div>
                             </div>
@@ -302,7 +312,7 @@ export default class CompanyPage extends Component {
                                     </div>
                                     }
                                     {this.state.tab == "Employees" &&
-                                        <EmployeeList {...this.props} administrators={this.state.administrators} id={this.state.id} />
+                                        <EmployeeList {...this.props} administrators={this.state.administrators} id={this.state.id} rule={this.state.rule} />
                                     }
                                     {this.state.tab == "Tours" &&
                                         <ToursList {...this.props} />
