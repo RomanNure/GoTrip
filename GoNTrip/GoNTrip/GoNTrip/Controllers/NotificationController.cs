@@ -19,6 +19,13 @@ namespace GoNTrip.Controllers
         private const string GUIDING_OFFER_NOTIFICATION_TYPE = "OfferGuiding";
         private const string PLAIN_NOTIFICATION_TYPE = "Plain";
 
+        public async Task<bool> HasNewNotifications()
+        {
+            IQuery notificationsPulseQuery = await App.DI.Resolve<NotificationPulseQueryFactory>().HasNewNotifications(App.DI.Resolve<Session>().CurrentUser);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(notificationsPulseQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<BoolResult, ResponseException>(response).result;
+        }
+
         public async Task<List<RawNotification>> GetNotifications()
         {
             IQuery getNotificationsQuery = await App.DI.Resolve<GetUserNotificationsQueryFactory>().GetUserNotifications(App.DI.Resolve<Session>().CurrentUser);

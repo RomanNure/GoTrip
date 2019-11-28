@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
              xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
+             xmlns:popups="clr-namespace:GoNTrip.Pages.Additional.Popups"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.TourPage"
              Appearing="ContentPage_Appearing">
@@ -148,9 +149,24 @@
                 </StackLayout>
             </StackLayout>
 
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="GuidingOfferPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="GuidingOfferOuterLayout" HeightRequest="220" WidthRequest="200" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="220" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Offering guiding" HorizontalTextAlignment="Center" FontSize="20"/>
+                            <Entry Style="{StaticResource PopupEntry}" x:Name="Salary" Keyboard="Numeric" Placeholder="Input wanted salary $"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="GuidingOfferConfirm" VerticalOptions="End" Text="Confirm" Clicked="GuidingOfferConfirm_Clicked"/>
+
+                        </StackLayout>
+                    </customcontrols:ClickableFrame>
+                </customcontrols:ClickableFrame>
+            </popups:Popup>
+
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>
             <templates:SwipablePhotoPopup x:Name="TourMainImage" YTranslationBorder="-100" XTranslationBorder="-100" ImageSource="DefaultTourIcon.png"/>
+            <templates:SwipablePhotoPopup x:Name="TicketQR" YTranslationBorder="-100" XTranslationBorder="0"/>
 
         </AbsoluteLayout>
     </ContentPage.Content>

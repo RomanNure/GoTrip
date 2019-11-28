@@ -103,6 +103,18 @@ namespace GoNTrip.Pages.Additional.Controls
             App.Current.MainPage = new T();
         }
 
+        public void MarkRead()
+        {
+            navigationButtons.Single(NB => NB.Source == MESSAGES_NAVIGATION_BUTTON_SOURCE || 
+                                           NB.Source == MESSAGES_NOT_READ_NAVIGATION_BUTTON_SOURCE).Source = MESSAGES_NAVIGATION_BUTTON_SOURCE;
+        }
+
+        public void MarkUnread()
+        {
+            navigationButtons.Single(NB => NB.Source == MESSAGES_NAVIGATION_BUTTON_SOURCE ||
+                                           NB.Source == MESSAGES_NOT_READ_NAVIGATION_BUTTON_SOURCE).Source = MESSAGES_NOT_READ_NAVIGATION_BUTTON_SOURCE;
+        }
+
         private Img Add(string source, Clicked clicked, PageEnum pageType, bool flag = false)
         {
             Img img = new Img();

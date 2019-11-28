@@ -13,6 +13,7 @@ namespace GoNTrip.Model
     [Preserve(AllMembers = true)]
     public class User : ModelElement
     {
+        [NotificationPulseField]
         [GetNotificationsField]
         [JoinPrepareField("userId")]
         [AddGuideField("idRegisteredUser")]

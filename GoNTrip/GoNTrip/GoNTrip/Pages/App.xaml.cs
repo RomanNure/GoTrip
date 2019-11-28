@@ -1,8 +1,11 @@
 ﻿using System.Net;
+using System.Threading;
+using System.Threading.Tasks;
 
 using Autofac;
 
 using Xamarin.Forms;
+using Xamarin.Essentials;
 
 using GoNTrip.Util;
 using GoNTrip.Model;
@@ -77,6 +80,7 @@ namespace GoNTrip.Pages
             builder.RegisterType<GuideController>().SingleInstance().AsSelf();
             builder.RegisterType<AddGuideQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<CheckGuidingAbilityQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<OfferGuidingQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<PayController>().SingleInstance().AsSelf();
             builder.RegisterType<PayQueryFactory>().SingleInstance().AsSelf();
@@ -87,6 +91,11 @@ namespace GoNTrip.Pages
             builder.RegisterType<AcceptNotificationQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<DeleteNotificationQuryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<RefuseNotificationQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<NotificationPulseQueryFactory>().SingleInstance().AsSelf();
+
+            builder.RegisterType<TicketsController>().SingleInstance().AsSelf();
+            builder.RegisterType<GetTicketQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<CheckTicketQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<TourListItemFactory>().SingleInstance().AsSelf();
             builder.RegisterType<Session>().SingleInstance().AsSelf();
@@ -103,7 +112,32 @@ namespace GoNTrip.Pages
 
         protected override void OnStart()
         {
-            // Handle when your app starts
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    Thread.Sleep(Constants.NOTIFICATIONS_PULSE_TIMEOUT);
+                    User CurrentUser = App.DI.Resolve<Session>().CurrentUser;
+
+                    if (CurrentUser == null)
+                        continue;
+
+                    bool news = false;
+
+                    try { news = await DI.Resolve<NotificationController>().HasNewNotifications(); }
+                    catch { continue; }
+
+                    DefaultNavigationPanel navigator = App.Current.MainPage.FindByName<DefaultNavigationPanel>(Constants.NAVIGATION_PANEL_NAME);
+
+                    if (navigator == null)
+                        continue;
+
+                    if (news)
+                        navigator.MarkUnread();
+                    else
+                        navigator.MarkRead();
+                }
+            });
         }
 
         protected override void OnSleep()

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 
 using Autofac;
 
@@ -13,6 +14,7 @@ using CustomControls;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
+using GoNTrip.Util;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Pages.Additional.Popups;
@@ -53,6 +55,7 @@ namespace GoNTrip.Pages
             InitializeComponent();
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
+            TicketQR.LinkControlSystem(PopupControl);
 
             TourMainImagePreview.WidthRequest = Width;
             TourMainImagePreview.HeightRequest = Width;
@@ -185,7 +188,16 @@ namespace GoNTrip.Pages
             if (Members.Contains(currentUser))
             {
                 OpenTicketButton.IsVisible = true;
-                //Retrieve ticket QR
+
+                try
+                {
+                    Ticket ticket = await App.DI.Resolve<TicketsController>().GetTicket(CurrentTour);
+                    TicketQR.FirstSource = await App.DI.Resolve<QrService>().Encode(ticket.Data);
+                }
+                catch(ResponseException ex)
+                {
+                    OpenTicketButton.IsVisible = false;
+                }
             }
             else
                 OpenTicketButton.IsVisible = false;
@@ -214,13 +226,13 @@ namespace GoNTrip.Pages
                 GuideProfile.IsVisible = true;
                 OfferGuidingButton.IsVisible = false;
 
-                User guide = CurrentTour.guide.UserProfile;
+                User guideUser = CurrentTour.guide.UserProfile;
 
-                TourGuideName.Text = guide.login;
-                TourGuideEmail.Text = guide.email;
-                GuideAvatar.Source = guide.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : guide.avatarUrl;
+                TourGuideName.Text = guideUser.login;
+                TourGuideEmail.Text = guideUser.email;
+                GuideAvatar.Source = guideUser.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : guideUser.avatarUrl;
 
-                ScanTicketButton.IsVisible = guide.Equals(currentUser) && DateTime.Now >= CurrentTour.startDateTime;
+                ScanTicketButton.IsVisible = guideUser.Equals(currentUser);// && DateTime.Now >= CurrentTour.startDateTime;
                 //TourFinishedButton.IsVisible = CurrentTour.participatingList.Where(P => true).SingleOrDefault(P => P.)
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
@@ -328,17 +340,31 @@ namespace GoNTrip.Pages
             App.Current.MainPage = new CardEnterPage(CurrentPageMemento, CurrentTour);
         }
 
-        private void OfferGuidingButton_Clicked(object sender, EventArgs e)
+        private async void GuidingOfferConfirm_Clicked(object sender, EventArgs e)
         {
-            //TODO
+            PopupControl.OpenPopup(ActivityPopup);
+
+            try
+            {
+                await App.DI.Resolve<GuideController>().OfferGuiding(CurrentTour, Convert.ToDouble(Salary.Text));
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            }
+            catch (ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
         }
+
+        private void OfferGuidingButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(GuidingOfferPopup);
 
         private bool OpenTicketButton_OnClick(MotionEvent ME, IClickable sender)
         {
             if (ME.Action == MotionEventActions.Up)
-            {
-                //todo
-            }
+                PopupControl.OpenPopup(TicketQR);
 
             return false;
         }
@@ -346,11 +372,41 @@ namespace GoNTrip.Pages
         private bool ScanTicketButton_OnClick(MotionEvent ME, IClickable sender)
         {
             if (ME.Action == MotionEventActions.Up)
-            {
-                //todo
-            }
+                ScanTicket();
 
             return false;
+        }
+
+        private async void ScanTicket()
+        {
+            try
+            {
+                User user = App.DI.Resolve<Session>().CurrentUser;
+
+                if (user.guide == null)
+                    throw new ResponseException("You're not a guide");
+
+                string data = await App.DI.Resolve<QrService>().ScanAsync();
+
+                if (data == null || data == "")
+                    throw new ResponseException("Scanning failed");
+
+                TicketChecker ticketChecker = null;
+
+                try { ticketChecker = new TicketChecker(data, user.guide, CurrentTour, MD5.Create()); }
+                catch { throw new ResponseException("Scanning failed"); }
+
+                if(!(await App.DI.Resolve<TicketsController>().CheckTicket(ticketChecker)))
+                    throw new ResponseException("WARNING: Ticket is not authentic");
+
+                ErrorPopup.MessageText = "Ticket accepted!";
+                PopupControl.OpenPopup(ErrorPopup);
+            }
+            catch(ResponseException ex)
+            {
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
         }
 
         private bool TourFinishedButton_OnClick(MotionEvent ME, IClickable sender)

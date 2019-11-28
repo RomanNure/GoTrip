@@ -29,6 +29,7 @@
                 <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,1,1"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
                 <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
                 <Setter Property="FontSize" Value="18"/>
             </Style>
 

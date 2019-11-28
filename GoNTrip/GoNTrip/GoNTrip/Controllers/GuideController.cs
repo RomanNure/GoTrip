@@ -34,7 +34,19 @@ namespace GoNTrip.Controllers
 
             IQuery checkGuidingAbilityQuery = await App.DI.Resolve<CheckGuidingAbilityQueryFactory>().CheckGuidingAbility(tour, guide);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(checkGuidingAbilityQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility, ResponseException>(response).able;
+            return App.DI.Resolve<IResponseParser>().Parse<BoolResult, ResponseException>(response).result;
+        }
+
+        public async Task<RawNotification> OfferGuiding(Tour tour, double sum)
+        {
+            User user = App.DI.Resolve<Session>().CurrentUser;
+
+            if (user.guide == null)
+                throw new ResponseException("You're not a guide");
+
+            IQuery offerGuidingQuery = await App.DI.Resolve<OfferGuidingQueryFactory>().OfferGuiding(tour, user.guide, new Money(sum));
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(offerGuidingQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<RawNotification, ResponseException>(response);
         }
     }
 }

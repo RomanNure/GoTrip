@@ -17,14 +17,14 @@ namespace GoNTrip.Controllers
         {
             IQuery checkJoinAbilityQuery = await App.DI.Resolve<CheckTourJoinAbilityQueryFactory>().CheckTourJoinAbility(user, tour);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(checkJoinAbilityQuery);
-            return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility, ResponseException>(response).able;
+            return App.DI.Resolve<IResponseParser>().Parse<BoolResult, ResponseException>(response).result;
         }
 
         public async Task<bool> JoinPrepare(Tour tour, LiqpayPayment payment)
         {
             IQuery prepareJoinQuery = await App.DI.Resolve<JoinPrepareQueryFactory>().PrepareJoin(App.DI.Resolve<Session>().CurrentUser, tour, payment);
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(prepareJoinQuery, App.DI.Resolve<CookieContainer>());
-            return App.DI.Resolve<IResponseParser>().Parse<ParticipateAbility, ResponseException>(response).able;
+            return App.DI.Resolve<IResponseParser>().Parse<BoolResult, ResponseException>(response).result;
         }
 
         public async Task<JoinTourStatus> JoinCheckStatus(LiqpayPayment payment)

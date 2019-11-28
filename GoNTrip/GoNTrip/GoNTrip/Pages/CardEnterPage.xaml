@@ -43,7 +43,7 @@
 
                                 <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="0" Grid.ColumnSpan="8">
                                     <Frame Style="{StaticResource InnerBorderFrame}">
-                                        <Entry Style="{StaticResource CommonEntry}" x:Name="UserCard" Placeholder="5500 0000 0000 0004" Text="4242 4242 4242 4242"/>
+                                        <Entry Style="{StaticResource CommonEntry}" x:Name="UserCard" Keyboard="Numeric" Placeholder="5500 0000 0000 0004" Text="4242 4242 4242 4242"/>
                                     </Frame>
                                 </Frame>
 
@@ -56,10 +56,10 @@
                                                 <ColumnDefinition Width="0.2*"/>
                                                 <ColumnDefinition Width="0.4*"/>
                                             </Grid.ColumnDefinitions>
-                                            
-                                            <Entry Style="{StaticResource CommonEntry}" x:Name="MonthExp" Placeholder="06" Grid.Row="0" Grid.Column="0" Text="06"/>
-                                            <Label BackgroundColor="{StaticResource ContentBackColor}" Margin="0,0,0,0" TextColor="{StaticResource ContentFontColor}" Text="/" FontSize="20" Grid.Row="0" Grid.Column="1"/>
-                                            <Entry Style="{StaticResource CommonEntry}" x:Name="YearExp" Placeholder="21" Grid.Row="0" Grid.Column="2" Text="21"/>
+
+                                            <Entry Style="{StaticResource CommonEntry}" x:Name="MonthExp" Keyboard="Numeric" Placeholder="06" Grid.Row="0" Grid.Column="0" Text="06"/>
+                                            <Label BackgroundColor="{StaticResource ContentBackColor}" Margin="0,0,0,0" TextColor="{StaticResource ContentFontColor}" Text="/" FontSize="30" Grid.Row="0" Grid.Column="1"/>
+                                            <Entry Style="{StaticResource CommonEntry}" x:Name="YearExp" Keyboard="Numeric" Placeholder="21" Grid.Row="0" Grid.Column="2" Text="21"/>
                                             
                                         </Grid>
                                     </Frame>
@@ -67,7 +67,7 @@
 
                                 <Frame Style="{StaticResource OuterBorderFrame}" Grid.Row="1" Grid.Column="4" Grid.ColumnSpan="3">
                                     <Frame Style="{StaticResource InnerBorderFrame}" >
-                                        <Entry Style="{StaticResource CommonEntry}" x:Name="Cvv" Placeholder="123" IsPassword="True" Text="111"/>
+                                        <Entry Style="{StaticResource CommonEntry}" x:Name="Cvv" Keyboard="Numeric" Placeholder="123" IsPassword="True" Text="111"/>
                                     </Frame>
                                 </Frame>
 

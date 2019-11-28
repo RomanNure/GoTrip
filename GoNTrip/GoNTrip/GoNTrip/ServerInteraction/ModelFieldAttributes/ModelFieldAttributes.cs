@@ -29,4 +29,8 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class AcceptNotificationField : QueryField { public AcceptNotificationField(string name = null) : base(name) { } }
     public class DeleteNotificationField : QueryField { public DeleteNotificationField(string name = null) : base(name) { } }
     public class RefuseNotificationField : QueryField { public RefuseNotificationField(string name = null) : base(name) { } }
+    public class GetTicketField : QueryField { public GetTicketField(string name = null) : base(name) { } }
+    public class OfferGuidingField : QueryField { public OfferGuidingField(string name = null) : base(name) { } }
+    public class CheckTicketField : QueryField { public CheckTicketField(string name = null) : base(name) { } }
+    public class NotificationPulseField : QueryField { public NotificationPulseField(string name = null) : base(name) { } }
 }

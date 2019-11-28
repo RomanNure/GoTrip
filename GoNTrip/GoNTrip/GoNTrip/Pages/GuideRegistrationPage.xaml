@@ -105,12 +105,15 @@
                                 <StackLayout Padding="20,0,20,0" BackgroundColor="{StaticResource ContentBackColor}">
 
                                     <Label  TextColor="{StaticResource ContentFontColor}" 
-                                            Text="Lorem ispum dolor sit amet Lorem ispum dolor sit amet 
-                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet 
-                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet
-                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet
-                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet
-                                                  Lorem ispum dolor sit amet Lorem ispum dolor sit amet"/>
+                                            Text="1. you're offered/you offer yourself to be a guide for a tour;
+                                                  2. you get a notification in the messages menu for the role of guide in the tour;
+                                                  3. you accept the notification with the offer of guiding;
+                                                  4. you arrive at the meeting place;
+                                                  5. while the tour is going guide has to communicate with participants of the tour; 
+                                                  6. you check the user tour participation by scanning QR-code;
+                                                  7. after the end of the tour you confirm end of the tour by pressing of the button;
+                                                  8. after the end of the tour you notify the tour`s participants to confirm end of the tour by pressing of the button;
+                                                  9. get your guide earnings."/>
 
                                 </StackLayout>
                             </ScrollView>
