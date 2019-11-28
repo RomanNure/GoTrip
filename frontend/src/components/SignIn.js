@@ -58,7 +58,7 @@ export default class SignIn extends Component {
                 console.log('data', data)
                 cookie.save('user', { ...data }, { path: '/' })
                 this.context.setUser(data)
-                setTimeout(() => this.props.history.push({ pathname: '/user:' + cookie.load('user').id }), 4000)
+                setTimeout(() => this.props.history.push({ pathname: '/user:' + data.id, state: data }), 2000)//, {props: data})
                 //setTimeout(() =>  window.location.update, 4000)//, {props: data})
                 //window.location.reload();
 

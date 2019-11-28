@@ -63,13 +63,13 @@ export default class SignUp extends Component {
             });
             return
         } else {
-            if (PASSWORD.test(p1)) {
+            if (!PASSWORD.test(p1)) {
                 toast.error("Password must contain A-Z, a-z, 1-9 !", {
                     position: toast.POSITION.TOP_RIGHT
                 });
             }
         }
-        console.log('values =>', login.value, email.value, p1.value)
+        //console.log('values =>', login.value, email.value, p1.value)
 
         let user = {
             login: login.value,

@@ -45,12 +45,11 @@ export default class CompanyPage extends Component {
     }
     _onAddAdmin = () => {
         const { admin: { value: text } } = this.refs
-        console.log("refs=>",this.refs)
-        return
+        console.log("refs=>", text)
         let data = {
             companyId: this.state.id,
-            email: "",
-            login: ""
+            email: null,
+            login: null,
         }
         //  this.setState({ modal: true })
         if (!text) return
@@ -60,17 +59,19 @@ export default class CompanyPage extends Component {
         } else {
             data.login = text
         }
-        console.log('data=>', data)
+        console.log('data in admin =>', data)
         addAdministrator(data).then((res) => {
             console.log('res=> ', res)
             toast.success('added new administrator', {
                 position: toast.POSITION.TOP_RIGHT
             });
+            this.setState({ modal: false })
         })
             .catch((err) => {
                 toast.error('server error', {
                     position: toast.POSITION.TOP_RIGHT
                 });
+
             })
 
     }
@@ -180,6 +181,7 @@ export default class CompanyPage extends Component {
     }
 
     render() {
+        console.log("compsny=>", this.state)
         //    this.state.imageLink = "http://185.255.96.249:5000/GoTrip/GoTripImgs/company/1.jpeg"
         return (
             <div style={{ display: "flex", width: "100%" }}>
@@ -210,7 +212,7 @@ export default class CompanyPage extends Component {
                     <input ref="admin" style={{ marginTop: "10%" }} ref="admin" type="text" placeholder="login/email of admin" disabled={false/*!this.state.rule*/} />
                     <div style={{ display: "flex", marginLeft: "60%", marginTop: "8%", flexDirection: "row", alignItems: "space-between" }} >
                         <a style={{ marginRight: "30px" }} className="btn waves-effect waves-light #81c784 black lighten-2" onClick={() => this.setState({ modal: false })}>close</a>
-                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={() => this._onAddAdmin}>Add admin</a>
+                        <a className="btn waves-effect waves-light #81c784 green lighten-2" onClick={this._onAddAdmin}>Add admin</a>
                     </div>
 
                 </ReactModal>
@@ -300,7 +302,7 @@ export default class CompanyPage extends Component {
                                     </div>
                                     }
                                     {this.state.tab == "Employees" &&
-                                        <EmployeeList {...this.props}  administrators={this.state.administrators} />
+                                        <EmployeeList {...this.props} administrators={this.state.administrators} id={this.state.id} />
                                     }
                                     {this.state.tab == "Tours" &&
                                         <ToursList {...this.props} />

@@ -16,6 +16,7 @@ export const updateUser = (data) => api.post('/update/user', data)
 export const addUserPhoto = (data) => apiPhoto.post('/fileupload', data)
 export const companyPhoto = data => apiPhoto.post(`/company`, data)
 
+export const getCompanyAdmins = id => apiGet.get(`/administrator/get?companyId=${id}`);
 export const addAdministrator = (data) => api.post('/administrator/add', data)
 export const removeArdimistrator = id => api.post(`/administrator/remove?id=${id}`)
 
