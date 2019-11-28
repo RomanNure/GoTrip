@@ -19,4 +19,6 @@ public interface ParticipatingService {
     String getStatus(String orderId);
 
     Participating getByTourAndUser(Tour tour, RegisteredUser user) throws NotFoundParticipatingException;
+
+    Participating markParticipated(Participating participating);
 }

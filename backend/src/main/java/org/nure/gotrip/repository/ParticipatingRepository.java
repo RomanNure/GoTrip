@@ -21,7 +21,7 @@ public interface ParticipatingRepository extends CrudRepository<Participating, L
 
     Optional<Participating> findByOrderId(String orderId);
 
-	@Query(value = "SELECT t.* from participating " +
+	@Query(value = "SELECT t.tour_id from participating " +
 			"INNER JOIN tours t ON participating.tour_id = t.tour_id " +
 			"INNER JOIN guide g ON t.guide_id = g.guide_id " +
 			"WHERE participating.registered_user_id = ?1 AND " +
@@ -29,7 +29,7 @@ public interface ParticipatingRepository extends CrudRepository<Participating, L
 			"(?3 >= t.start_date_time AND ?4 <= t.finish_date_time) OR " +
 			"(?3 >= t.start_date_time AND ?3 <= t.finish_date_time) OR " +
 			"(?4 >= t.start_date_time AND ?4 <= t.finish_date_time))", nativeQuery = true)
-	List<Tour> findTours(long userId, Date nowDate, Date startDate, Date finishDate);
+	Iterable<BigInteger> findTours(long userId, Date nowDate, Date startDate, Date finishDate);
 
 	Optional<Participating> findByTourAndUser(Tour tour, RegisteredUser user);
 }

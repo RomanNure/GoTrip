@@ -38,6 +38,21 @@ public class Encoder {
 		return new String(encodedBytes);
 	}
 
+    public String encodeMd5(String line) {
+        byte[] bytesOfMessage = line.getBytes(StandardCharsets.UTF_8);
+
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance(ENCODING);
+        } catch (NoSuchAlgorithmException e) {
+            logger.error("Algorithm MD5 was not found");
+            throw new UnsupportedOperationException(e);
+        }
+
+        byte[] encodedBytes = md.digest(bytesOfMessage);
+        return byteToHex(encodedBytes);
+    }
+
     public String encodeSHA1(String line){
         String sha1;
         try

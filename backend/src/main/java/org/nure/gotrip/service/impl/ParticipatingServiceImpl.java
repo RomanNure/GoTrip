@@ -17,6 +17,7 @@ import org.nure.gotrip.util.Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -47,7 +48,10 @@ public class ParticipatingServiceImpl implements ParticipatingService {
 	@Override
 	public boolean isAbleToParticipate(long userId, long tourId) {
 		Tour tour = tourRepository.findById(tourId).orElseThrow(() -> new NotFoundException("Tour Not found"));
-		if (tour.getGuide() == null || tour.getMaxParticipants() == tour.getParticipatingList().size()) {
+        Date nowDate = new Date();
+		if (tour.getGuide() == null || tour.getMaxParticipants() == tour.getParticipatingList().size()
+                || Objects.equals(userId,tour.getGuide().getRegisteredUser().getId())||
+                !checkUserOnGuidBetweenDates(userId, nowDate, tour.getStartDateTime(), tour.getFinishDateTime())) {
 			return false;
 		}
 		List<Tour> userTours = tourService.getByUser(userId);
@@ -57,17 +61,12 @@ public class ParticipatingServiceImpl implements ParticipatingService {
     @Override
     public Participating participate(PreparingDto dto) {
         if(!isAbleToParticipate(dto.getUserId(), dto.getTourId())){
-            throw new ConflictException("Cannot participate at that time");
+            throw new ConflictException("Cannot participate");
         }
-        Date nowDate = new Date();
         Participating participating = new Participating();
         RegisteredUser user = registeredUserRepository.findById(dto.getUserId()).orElseThrow(()->new NotFoundException("User not found"));
         Tour tour = tourRepository.findById(dto.getTourId()).orElseThrow(()->new NotFoundException("Tour not found"));
-        if(Objects.equals(user.getId(),tour.getGuide().getRegisteredUser().getId())&&
-                !checkUserOnGuidBetweenDates(dto.getUserId(), nowDate, tour.getStartDateTime(), tour.getFinishDateTime()) &&
-                Objects.equals(tour.getAdministrator().getRegisteredUser().getId(), user.getId())) {
-            throw new ConflictException("You cannot registered on the tour because you're the guide");
-        }
+
         participating.setUser(user);
         participating.setTour(tour);
         participating.setOrderId(dto.getOrderId());
@@ -101,13 +100,20 @@ public class ParticipatingServiceImpl implements ParticipatingService {
                 .orElseThrow(()->new NotFoundParticipatingException("Current user is not a tour member"));
     }
 
+    @Override
+    public Participating markParticipated(Participating participating) {
+	    participating.setParticipated(true);
+        participatingRepository.save(participating);
+        return participating;
+    }
+
     private boolean isCompatible(Tour tour1, Tour tour2) {
 		return tour1.getFinishDateTime().compareTo(tour2.getStartDateTime()) < 0 ||
 				tour1.getStartDateTime().compareTo(tour2.getFinishDateTime()) > 0;
 	}
 
 	private boolean checkUserOnGuidBetweenDates(long userId, Date date, Date startDate, Date finishDate) {
-		List<Tour> tours = participatingRepository.findTours(userId, date, startDate, finishDate);
-		return tours.isEmpty();
+		Iterable<BigInteger> tours = participatingRepository.findTours(userId, date, startDate, finishDate);
+		return !tours.iterator().hasNext();
 	}
 }

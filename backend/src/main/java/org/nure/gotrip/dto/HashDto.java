@@ -2,12 +2,14 @@ package org.nure.gotrip.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
 @Getter
 @Setter
-public class AbilityParticipatingDto {
+@NoArgsConstructor
+@AllArgsConstructor
+public class HashDto {
 
-    private boolean isAble;
+    private String hash;
 }

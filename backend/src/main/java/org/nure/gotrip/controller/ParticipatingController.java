@@ -4,18 +4,19 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.Setter;
+import org.nure.gotrip.controller.response.BadRequestException;
+import org.nure.gotrip.controller.response.ConflictException;
 import org.nure.gotrip.controller.response.ForbiddenException;
 import org.nure.gotrip.controller.response.NotFoundException;
-import org.nure.gotrip.dto.AbilityParticipatingDto;
-import org.nure.gotrip.dto.ParticipatingDto;
-import org.nure.gotrip.dto.PreparingDto;
-import org.nure.gotrip.dto.StatusResponseDto;
+import org.nure.gotrip.dto.*;
 import org.nure.gotrip.exception.NotFoundParticipatingException;
 import org.nure.gotrip.exception.NotFoundTourException;
+import org.nure.gotrip.exception.NotFoundUserException;
 import org.nure.gotrip.model.Participating;
 import org.nure.gotrip.model.RegisteredUser;
 import org.nure.gotrip.model.Tour;
 import org.nure.gotrip.service.ParticipatingService;
+import org.nure.gotrip.service.RegisteredUserService;
 import org.nure.gotrip.service.TourService;
 import org.nure.gotrip.util.Encoder;
 import org.nure.gotrip.util.session.AppSession;
@@ -26,12 +27,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -46,23 +42,26 @@ public class ParticipatingController {
     private static final String[] keys = {
         "sandbox_i74310151520", "sandbox_kgwzzF9TsmUOIJmQQeQyM4G4yrxfGJxVq64k8hLn"
     };
+    private static final String HASH_KEY = "2019GoNTrip2019";
 
     private ParticipatingService participatingService;
     private TourService tourService;
+    private RegisteredUserService registeredUserService;
     private SessionContainer sessionContainer;
     private Encoder encoder;
 
     @Autowired
-    private ParticipatingController(ParticipatingService participatingService, TourService tourService, SessionContainer sessionContainer, Encoder encoder){
+    private ParticipatingController(ParticipatingService participatingService, TourService tourService, RegisteredUserService registeredUserService, SessionContainer sessionContainer, Encoder encoder){
         this.participatingService = participatingService;
         this.tourService = tourService;
+        this.registeredUserService = registeredUserService;
         this.sessionContainer = sessionContainer;
         this.encoder = encoder;
     }
 
     @GetMapping(value = "/able", produces = "application/json")
     public ResponseEntity isAbleToParticipate(long userId, long tourId){
-        return new ResponseEntity<>(new AbilityParticipatingDto(
+        return new ResponseEntity<>(new BooleanDto(
                 participatingService.isAbleToParticipate(userId, tourId)
         ), HttpStatus.OK);
     }
@@ -81,9 +80,12 @@ public class ParticipatingController {
     public ResponseEntity prepare(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody PreparingDto dto){
         AppSession session = checkSession(sessionId);
         RegisteredUser user = checkUser(session);
-        dto.setUserId(user.getId());
-        boolean result = participatingService.prepare(dto);
-        return new ResponseEntity<>("{\"able\":\"" + result + "\"}", HttpStatus.OK);
+        if(participatingService.isAbleToParticipate(user.getId(), dto.getTourId())) {
+            dto.setUserId(user.getId());
+            boolean result = participatingService.prepare(dto);
+            return new ResponseEntity<>(new BooleanDto(result), HttpStatus.OK);
+        }
+        throw new ConflictException("You cannot participate at that time");
     }
 
     @PostMapping(value="/add/liqpay")
@@ -122,6 +124,36 @@ public class ParticipatingController {
         }
     }
 
+    @PostMapping(value = "/hash")
+    public ResponseEntity checkHash(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody MemberCheckingDto dto){
+        AppSession session = checkSession(sessionId);
+        Tour tour;
+        try {
+            tour = tourService.findById(dto.getTourId());
+        }catch (NotFoundTourException e){
+            throw new NotFoundException(e.getMessage());
+        }
+        checkUser(session);
+        RegisteredUser user;
+        try {
+            user = registeredUserService.findById(dto.getUserId());
+        } catch (NotFoundUserException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+        try {
+            Participating participating = participatingService.getByTourAndUser(tour, user);
+            String hash = getHashCode(participating, dto.getGuideId());
+            if(hash.equals(dto.getHash())){
+                participatingService.markParticipated(participating);
+                return new ResponseEntity<>(new BooleanDto(true), HttpStatus.OK);
+            }else{
+                throw new BadRequestException("Not valid hash provided");
+            }
+        } catch (NotFoundParticipatingException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
+
     @GetMapping(value = "/check")
     public ResponseEntity checkStatus(@RequestParam String orderId){
         String status = participatingService.getStatus(orderId);
@@ -142,6 +174,20 @@ public class ParticipatingController {
             throw new ForbiddenException("Not authorized user");
         }
         return user;
+    }
+
+    private String getHashCode(Participating participating, long guideId){
+        String template = "%s_%s_%s_%s_%s";
+        String compilation = String.format(template,
+                HASH_KEY,
+                participating.getUser().getId(),
+                participating.getTour().getId(),
+                participating.getOrderId(),
+                HASH_KEY);
+        String temp = encoder.encodeMd5(compilation);
+        temp = temp.replace("-", "").toUpperCase();
+        temp = encoder.encodeMd5(String.format("%d_%s", guideId, temp));
+        return temp.replace("-", "").toUpperCase();
     }
 
     @Getter

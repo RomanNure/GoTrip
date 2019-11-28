@@ -44,6 +44,9 @@ public class Participating {
 	@Column(name="order_id")
 	private String orderId;
 
+	@Column(name="participated")
+	private boolean participated;
+
 	public Participating() {
 		//Constructor for JPA
 	}
