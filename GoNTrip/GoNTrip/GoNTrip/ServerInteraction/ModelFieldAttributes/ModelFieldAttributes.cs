@@ -33,4 +33,10 @@ namespace GoNTrip.ServerInteraction.ModelFieldAttributes
     public class OfferGuidingField : QueryField { public OfferGuidingField(string name = null) : base(name) { } }
     public class CheckTicketField : QueryField { public CheckTicketField(string name = null) : base(name) { } }
     public class NotificationPulseField : QueryField { public NotificationPulseField(string name = null) : base(name) { } }
+    public class GetGuideById : QueryField { public GetGuideById(string name = null) : base(name) { } }
+    public class FinishTour : QueryField { public FinishTour(string name = null) : base(name) { } }
+    public class GetParticipatingStatus : QueryField { public GetParticipatingStatus(string name = null) : base(name) { } }
+    public class GetTourAvgRating : QueryField { public GetTourAvgRating(string name = null) : base(name) { } }
+    public class GetGuideAvgRating : QueryField { public GetGuideAvgRating(string name = null) : base(name) { } }
+    public class CustomTourCreate : QueryField { public CustomTourCreate(string name = null) : base(name) { } }
 }

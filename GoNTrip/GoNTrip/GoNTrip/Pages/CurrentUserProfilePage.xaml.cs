@@ -73,7 +73,7 @@ namespace GoNTrip.Pages
                 session.CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(session.CurrentUser);
                 session.CurrentUser.OwnedCompanies = await App.DI.Resolve<GetOwnedCompaniesController>().GetOwnedCompanies(session.CurrentUser);
 
-                LoadCurrentUserProfile();
+                await LoadCurrentUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
@@ -100,7 +100,7 @@ namespace GoNTrip.Pages
             ///TESTS
         }
 
-        private void LoadCurrentUserProfile()
+        private async Task LoadCurrentUserProfile()
         {
             User CurrentUser = App.DI.Resolve<Session>().CurrentUser;
             if (CurrentUser != null)
@@ -110,7 +110,15 @@ namespace GoNTrip.Pages
                 AvatarView.ImageSource = avatarSource;
 
                 string login = CurrentUser.login == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.login;
-                UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile";
+
+                string rate = "";
+                if (CurrentUser.guide != null)
+                {
+                    try { rate = new string('★', (int)(await App.DI.Resolve<GuideController>().GetAvgGuideRate(CurrentUser.guide)).value); }
+                    catch (ResponseException ex) { }
+                }
+
+                UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile " + rate;
                 LoginInfoLabel.Text = login;
 
                 if(CurrentUser.fullName == null)

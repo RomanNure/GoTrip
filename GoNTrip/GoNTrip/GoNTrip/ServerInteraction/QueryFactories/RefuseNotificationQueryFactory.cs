@@ -8,10 +8,8 @@ namespace GoNTrip.ServerInteraction.QueryFactories
 {
     public class RefuseNotificationQueryFactory : QueryFactory
     {
-        private const string REFUSE_NOTIFICATION_SERVER_METHOD_NAME = "guide/invitation/refuse";
-
         public async Task<IQuery> RefuseNotification(INotification notification) =>
-            new Query(QueryMethod.POST, REFUSE_NOTIFICATION_SERVER_METHOD_NAME,
-                      await ExtractJsonQueryBody<INotification, RefuseNotificationField>(notification));
+            new Query(QueryMethod.POST, notification.ServerMethodRefuse, 
+                await ExtractJsonQueryBody<INotification, RefuseNotificationField>(notification));
     }
 }

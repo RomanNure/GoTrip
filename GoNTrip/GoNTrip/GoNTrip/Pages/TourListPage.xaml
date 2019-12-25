@@ -11,29 +11,6 @@
              x:Class="GoNTrip.Pages.TourListPage"
              Appearing="ContentPage_Appearing">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-
-            <Style x:Key="FieldNameLabel" BasedOn="{StaticResource HeaderLabel}" TargetType="Label">
-                <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
-            </Style>
-
-            <Style x:Key="NumericUpDownEntry" BasedOn="{StaticResource PopupEntry}" TargetType="Entry">
-                <Setter Property="Margin" Value="0"/>
-            </Style>
-
-            <Style x:Key="NumericUpDownButton" TargetType="Button">
-                <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
-                <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
-            </Style>
-
-            <Style x:Key="NotOnlyInRowPopupDatePicker" BasedOn="{StaticResource PopupDatePicker}" TargetType="DatePicker">
-                <Setter Property="Margin" Value="0,0,-10,0"/>
-            </Style>
-
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    
     <ContentPage.Content>
         <AbsoluteLayout Style="{StaticResource PopupPageAbsoluteLayout}">
 
@@ -116,11 +93,17 @@
                                     <Label Style="{StaticResource FieldNameLabel}" Text="Max places:" Grid.Row="5" Grid.Column="0"/>
                                     <customcontrols:NumericUpDown Style="{StaticResource NotOnlyInRowPopupView}" x:Name="MaxPlacesPicker" ButtonsStyle="{StaticResource NumericUpDownButton}" ValueWrapperStyle="{StaticResource NumericUpDownEntry}" Min="0" BackgroundColor="{StaticResource ContentBackColor}" Grid.Row="5" Grid.Column="1"/>
 
-                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="GuideApprovedLabel" OnClick="GuideStateLabel_OnClick" BindingContext="{Reference GuideApprovedChecker}" Text="With guide" Grid.Row="6" Grid.Column="0"/>
+                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="GuideApprovedLabel" OnClick="CheckerLabel_OnClick" BindingContext="{Reference GuideApprovedChecker}" Text="With guide" Grid.Row="6" Grid.Column="0"/>
                                     <customcontrols:RadioButton x:Name="GuideApprovedChecker" OnClick="GuideStateChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="6" Grid.Column="1"/>
 
-                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="GuideNotApprovedLabel" OnClick="GuideStateLabel_OnClick" BindingContext="{Reference GuideNotApprovedChecker}" Text="Guide lack" Grid.Row="7" Grid.Column="0"/>
+                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="GuideNotApprovedLabel" OnClick="CheckerLabel_OnClick" BindingContext="{Reference GuideNotApprovedChecker}" Text="Guide lack" Grid.Row="7" Grid.Column="0"/>
                                     <customcontrols:RadioButton x:Name="GuideNotApprovedChecker" OnClick="GuideStateChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="7" Grid.Column="1"/>
+
+                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="NoCustomLabel" OnClick="CheckerLabel_OnClick" BindingContext="{Reference NoCustomChecker}" Text="No custom" Grid.Row="8" Grid.Column="0"/>
+                                    <customcontrols:RadioButton x:Name="NoCustomChecker" OnClick="CustomStateChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="True" Grid.Row="8" Grid.Column="1"/>
+
+                                    <customcontrols:ClickableLabel Style="{StaticResource FieldNameLabel}" x:Name="CustomOnlyLabel" OnClick="CheckerLabel_OnClick" BindingContext="{Reference CustomOnlyChecker}" Text="Custom only" Grid.Row="9" Grid.Column="0"/>
+                                    <customcontrols:RadioButton x:Name="CustomOnlyChecker" OnClick="CustomStateChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="9" Grid.Column="1"/>
 
                                 </Grid>
                             </ScrollView>
@@ -148,10 +131,10 @@
                                 </Grid.ColumnDefinitions>
 
                                 <customcontrols:RadioButton x:Name="PriceSortedChecker" OnClick="SortedChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="0" Grid.Column="0"/>
-                                <customcontrols:ClickableLabel Style="{StaticResource HeaderLabel}" x:Name="PriceSortLabel" OnClick="SortedCheckerLabel_OnClick" BindingContext="{Reference PriceSortedChecker}" Text="Price" Grid.Row="0" Grid.Column="1"/>
+                                <customcontrols:ClickableLabel Style="{StaticResource HeaderLabel}" x:Name="PriceSortLabel" OnClick="CheckerLabel_OnClick" BindingContext="{Reference PriceSortedChecker}" Text="Price" Grid.Row="0" Grid.Column="1"/>
 
                                 <customcontrols:RadioButton x:Name="FreePlacesSortedChecker" OnClick="SortedChecker_OnClick" OuterColor="{StaticResource AdditionalColor}" InnerColor="{StaticResource AdditionalColor}" HorizontalOptions="Center" VerticalOptions="Center" OuterWidth="30" RadiusDiffer="3" Checked="False" Grid.Row="1" Grid.Column="0"/>
-                                <customcontrols:ClickableLabel Style="{StaticResource HeaderLabel}" x:Name="FreePlacesSortLabel" OnClick="SortedCheckerLabel_OnClick" BindingContext="{Reference FreePlacesSortedChecker}" Text="Free places" Grid.Row="1" Grid.Column="1"/>
+                                <customcontrols:ClickableLabel Style="{StaticResource HeaderLabel}" x:Name="FreePlacesSortLabel" OnClick="CheckerLabel_OnClick" BindingContext="{Reference FreePlacesSortedChecker}" Text="Free places" Grid.Row="1" Grid.Column="1"/>
 
                             </Grid>
 

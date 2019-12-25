@@ -35,12 +35,16 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
             this.filters.participantsFilter.to = maxPlaces;
         }
 
-        public void FillSemiFilters(bool withGuideOnly, bool withoutGuideOnly, int guideId = -1, int memberId = -1)
+        public void FillSemiFilters(bool withGuideOnly, bool withoutGuideOnly, 
+                                    bool noCustomTours, bool customToursOnly,
+                                    int guideId = -1, int memberId = -1)
         {
             this.semiFilters.tourGuideId = guideId;
             this.semiFilters.tourMemberId = memberId;
             this.semiFilters.withApprovedGuideOnly = withGuideOnly;
             this.semiFilters.noApprovedGuideOnly = withoutGuideOnly;
+            this.semiFilters.noCustomTours = noCustomTours;
+            this.semiFilters.customToursOnly = customToursOnly;
         }
 
         public void FillSearch(string tourNameSubstr, string tourLocationSubstr)

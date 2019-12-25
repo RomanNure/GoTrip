@@ -16,6 +16,7 @@ namespace GoNTrip.Controllers
 {
     public class NotificationController
     {
+        private const string GUIDE_PROPOSITION_NOTICATION_TYPE = "GuideProposition";
         private const string GUIDING_OFFER_NOTIFICATION_TYPE = "OfferGuiding";
         private const string PLAIN_NOTIFICATION_TYPE = "Plain";
 
@@ -67,6 +68,8 @@ namespace GoNTrip.Controllers
             {
                 case GUIDING_OFFER_NOTIFICATION_TYPE:
                     return await ParseGuidingOfferNotification(rawNotification);
+                case GUIDE_PROPOSITION_NOTICATION_TYPE:
+                    return await ParseGuideToAdminPropositionNotification(rawNotification);
                 case PLAIN_NOTIFICATION_TYPE:
                 default:
                     return new NewsNotification(rawNotification.id, rawNotification.isChecked, rawNotification.topic);
@@ -75,13 +78,23 @@ namespace GoNTrip.Controllers
 
         private async Task<GuidingOfferNotification> ParseGuidingOfferNotification(RawNotification rawNotification)
         {
-            Tour tour = await App.DI.Resolve<GetToursController>().GetTourById(Convert.ToInt32(rawNotification.data.tourId));
+            Tour tour = await App.DI.Resolve<TourController>().GetTourById(Convert.ToInt32(rawNotification.data.tourId));
             Company company = await App.DI.Resolve<CompanyController>().GetCompanyById(Convert.ToInt32(rawNotification.data.companyId));
 
             return new GuidingOfferNotification(rawNotification.id, rawNotification.isChecked, 
                                                 rawNotification.topic, company, tour,
                                                 Convert.ToInt32(rawNotification.data.guideId), 
                                                 Convert.ToDouble(rawNotification.data.sum));
+        }
+
+        private async Task<GuideToAdminPropositionNotification> ParseGuideToAdminPropositionNotification(RawNotification rawNotification)
+        {
+            Tour tour = await App.DI.Resolve<TourController>().GetTourById(Convert.ToInt32(rawNotification.data.tourId));
+            Guide guide = await App.DI.Resolve<GuideController>().GetById(Convert.ToInt32(rawNotification.data.guideId));
+
+            return new GuideToAdminPropositionNotification(rawNotification.id, rawNotification.isChecked,
+                                                           rawNotification.topic, tour, guide,
+                                                           Convert.ToInt32(rawNotification.data.sum));
         }
     }
 }

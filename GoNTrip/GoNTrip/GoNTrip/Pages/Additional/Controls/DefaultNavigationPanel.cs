@@ -88,6 +88,7 @@ namespace GoNTrip.Pages.Additional.Controls
 
             TourFilterSorterSearcher tourFilterSorterSearcher = new TourFilterSorterSearcher();
             tourFilterSorterSearcher.semiFilters.tourMemberId = App.DI.Resolve<Session>().CurrentUser.id;
+            tourFilterSorterSearcher.semiFilters.noCustomTours = false;
 
             App.Current.MainPage = new TourListPage(Constants.MY_TOUR_LIST_PAGE_CAPTION, PageEnum.MY_TOUR_LIST, null, tourFilterSorterSearcher);
         }

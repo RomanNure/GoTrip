@@ -33,6 +33,7 @@ namespace GoNTrip.Pages
 
         private List<RadioButton> SortedCheckers { get; set; }
         private List<RadioButton> GuideStateCheckers { get; set; }
+        private List<RadioButton> CustomStateCheckers { get; set; }
 
         private const int PAGE_TOURS_COUNT = 8;
 
@@ -72,6 +73,7 @@ namespace GoNTrip.Pages
 
             SortedCheckers = new List<RadioButton>() { PriceSortedChecker, FreePlacesSortedChecker };
             GuideStateCheckers = new List<RadioButton>() { GuideApprovedChecker, GuideNotApprovedChecker };
+            CustomStateCheckers = new List<RadioButton>() { NoCustomChecker, CustomOnlyChecker };
 
             LoadFilterNumericUpDowns();
 
@@ -97,10 +99,17 @@ namespace GoNTrip.Pages
         {
             PopupControl.OpenPopup(ActivityPopup);
 
-            bool isGuide = App.DI.Resolve<Session>().CurrentUser.guide != null;
+            User user = App.DI.Resolve<Session>().CurrentUser;
+            bool isGuideOrCurrentUserBascket = user.guide != null || CurrentTourFilterSorterSearcher.semiFilters.tourMemberId == user.id;
 
-            GuideNotApprovedLabel.IsVisible = isGuide;
-            GuideNotApprovedChecker.IsVisible = isGuide;
+            CustomOnlyLabel.IsVisible = isGuideOrCurrentUserBascket;
+            CustomOnlyChecker.IsVisible = isGuideOrCurrentUserBascket;
+
+            NoCustomLabel.IsVisible = isGuideOrCurrentUserBascket;
+            NoCustomChecker.IsVisible = isGuideOrCurrentUserBascket;
+
+            GuideNotApprovedLabel.IsVisible = isGuideOrCurrentUserBascket;
+            GuideNotApprovedChecker.IsVisible = isGuideOrCurrentUserBascket;
 
             for (int i = 0; i < PAGE_TOURS_COUNT; i++)
             {
@@ -142,7 +151,7 @@ namespace GoNTrip.Pages
 
             await GetAndLoadToursAsync(CurrentTourFilterSorterSearcher);
 
-            if (!CurrentTourFilterSorterSearcher.filters.IsChanged)
+            if (!CurrentTourFilterSorterSearcher.filters.IsChanged && !CurrentTourFilterSorterSearcher.semiFilters.IsChanged)
                 ResetFilterView();
             else
                 LoadFilterSorterSearcher(CurrentTourFilterSorterSearcher);
@@ -190,7 +199,7 @@ namespace GoNTrip.Pages
 
             try
             {
-                tours = await App.DI.Resolve<GetToursController>().GetTours(filterSorterSearcher);
+                tours = await App.DI.Resolve<TourController>().GetTours(filterSorterSearcher);
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
             catch(ResponseException ex)
@@ -282,6 +291,9 @@ namespace GoNTrip.Pages
 
             GuideApprovedChecker.Checked = filterSorterSearcher.semiFilters.withApprovedGuideOnly;
             GuideNotApprovedChecker.Checked = filterSorterSearcher.semiFilters.noApprovedGuideOnly;
+
+            CustomOnlyChecker.Checked = filterSorterSearcher.semiFilters.customToursOnly;
+            NoCustomChecker.Checked = filterSorterSearcher.semiFilters.noCustomTours;
         }
 
         private void LoadSorter(TourFilterSorterSearcher filterSorterSearcher)
@@ -326,7 +338,8 @@ namespace GoNTrip.Pages
                                                         MinStartDate.Date, MaxStartDate.Date, 
                                                         (int)MinPlacesPicker.Val, (int)MaxPlacesPicker.Val);
 
-            CurrentTourFilterSorterSearcher.FillSemiFilters(GuideApprovedChecker.Checked, GuideNotApprovedChecker.Checked);
+            CurrentTourFilterSorterSearcher.FillSemiFilters(GuideApprovedChecker.Checked, GuideNotApprovedChecker.Checked,
+                                                            NoCustomChecker.Checked, CustomOnlyChecker.Checked);
 
             await UpdateToursAsync();
         }
@@ -383,7 +396,7 @@ namespace GoNTrip.Pages
             await UpdateToursAsync();
         }
 
-        private bool SortedCheckerLabel_OnClick(MotionEvent ME, IClickable sender) => 
+        private bool CheckerLabel_OnClick(MotionEvent ME, IClickable sender) => 
             ((sender as Element).BindingContext as IClickable).Click(ME);
 
         private bool SortedChecker_OnClick(MotionEvent ME, IClickable sender) =>
@@ -394,6 +407,9 @@ namespace GoNTrip.Pages
 
         private bool GuideStateChecker_OnClick(MotionEvent ME, IClickable sender) =>
             ManageRadioButtonGroupEvent(ME, sender, GuideStateCheckers);
+
+        private bool CustomStateChecker_OnClick(MotionEvent ME, IClickable sender) =>
+            ManageRadioButtonGroupEvent(ME, sender, CustomStateCheckers);
 
         private bool ManageRadioButtonGroupEvent(MotionEvent ME, IClickable sender, List<RadioButton> context)
         {

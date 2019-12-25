@@ -74,6 +74,7 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
 
+            int row = -1;
             foreach(INotification notification in notifications)
             {
                 NotificationPreview preview = new NotificationPreview();
@@ -125,7 +126,8 @@ namespace GoNTrip.Pages
                     return false;
                 };
 
-                NotificationsWrapper.Children.Add(preview);
+                NotificationsWrapper.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
+                NotificationsWrapper.Children.Add(preview, 0, ++row);
             }
         }
 

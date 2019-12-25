@@ -150,13 +150,30 @@
             </StackLayout>
 
             <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="GuidingOfferPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
-                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="GuidingOfferOuterLayout" HeightRequest="220" WidthRequest="200" CornerRadius="10" >
-                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="220" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" x:Name="GuidingOfferOuterLayout" HeightRequest="170" WidthRequest="200" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="170" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
                         <StackLayout>
 
                             <Label Style="{StaticResource PopupLabel}" Text="Offering guiding" HorizontalTextAlignment="Center" FontSize="20"/>
                             <Entry Style="{StaticResource PopupEntry}" x:Name="Salary" Keyboard="Numeric" Placeholder="Input wanted salary $"/>
                             <Button Style="{StaticResource PopupButton}" x:Name="GuidingOfferConfirm" VerticalOptions="End" Text="Confirm" Clicked="GuidingOfferConfirm_Clicked"/>
+
+                        </StackLayout>
+                    </customcontrols:ClickableFrame>
+                </customcontrols:ClickableFrame>
+            </popups:Popup>
+
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="TourFinishPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" HeightRequest="250" WidthRequest="200" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="250" WidthRequest="200" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Tour finishing" HorizontalTextAlignment="Center" FontSize="20"/>
+                            <Label Style="{StaticResource PopupLabel}" HorizontalTextAlignment="Center" Text="Tour rating"/>
+                            <customcontrols:NumericUpDown Style="{StaticResource PopupInnerView}" BackgroundColor="{StaticResource ContentBackColor}" x:Name="TourRating" Min="0" Max="5"/>
+                            <Label Style="{StaticResource PopupLabel}" HorizontalTextAlignment="Center" Text="Guide rating"/>
+                            <customcontrols:NumericUpDown Style="{StaticResource PopupInnerView}" BackgroundColor="{StaticResource ContentBackColor}" x:Name="GuideRating" Min="0" Max="5"/>
+                            <Button Style="{StaticResource PopupButton}" x:Name="FinishConfirmButton" Text="Finish" Clicked="FinishConfirmButton_Clicked"/>
 
                         </StackLayout>
                     </customcontrols:ClickableFrame>

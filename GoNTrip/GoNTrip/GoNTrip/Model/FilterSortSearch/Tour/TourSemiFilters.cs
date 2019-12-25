@@ -18,6 +18,8 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
         public long tourMemberId { get; set; }
         public bool withApprovedGuideOnly { get; set; }
         public bool noApprovedGuideOnly { get; set; }
+        public bool noCustomTours { get; set; }
+        public bool customToursOnly { get; set; }
 
         public TourSemiFilters() => ResetAll();
 
@@ -32,10 +34,12 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
         {
             withApprovedGuideOnly = DEFAULT_BOOL;
             noApprovedGuideOnly = DEFAULT_BOOL;
+            noCustomTours = DEFAULT_BOOL;
+            customToursOnly = DEFAULT_BOOL;
         }
 
         [JsonIgnore]
-        public bool IsChanged => tourGuideId != DEFAULT_ID || tourMemberId != DEFAULT_ID ||
-                                 withApprovedGuideOnly != DEFAULT_BOOL || noApprovedGuideOnly != DEFAULT_BOOL;
+        public bool IsChanged => withApprovedGuideOnly != DEFAULT_BOOL || noApprovedGuideOnly != DEFAULT_BOOL ||
+                                 noCustomTours != true || customToursOnly != DEFAULT_BOOL;//tourGuideId != DEFAULT_ID || tourMemberId != DEFAULT_ID ||
     }
 }

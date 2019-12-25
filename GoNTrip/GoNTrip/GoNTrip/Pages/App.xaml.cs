@@ -58,8 +58,18 @@ namespace GoNTrip.Pages
             builder.RegisterType<GetAdministratedCompaniesController>().SingleInstance().AsSelf();
             builder.RegisterType<GetAdministratedCompaniesQueryFactory>().SingleInstance().AsSelf();
 
-            builder.RegisterType<GetToursController>().SingleInstance().AsSelf();
+            builder.RegisterType<TourController>().SingleInstance().AsSelf();
             builder.RegisterType<GetToursQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<JoinTourQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<FinishTourQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<JoinPrepareQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<CheckJoinStatusQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<GetTourMembersQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<CheckTourJoinAbilityQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<GetParticipatingStatusQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<GetAvgTourRatingQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<GetAvgGuideRatingQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<CreateCustomTourQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<GetUserByAdminController>().SingleInstance().AsSelf();
             builder.RegisterType<GetUserByAdminQueryFactory>().SingleInstance().AsSelf();
@@ -68,19 +78,11 @@ namespace GoNTrip.Pages
             builder.RegisterType<GetCompanyByAdminQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<GetCompanyByIdQueryFactory>().SingleInstance().AsSelf();
 
-            builder.RegisterType<JoinTourController>().SingleInstance().AsSelf();
-            builder.RegisterType<JoinTourQueryFactory>().SingleInstance().AsSelf();
-            builder.RegisterType<JoinPrepareQueryFactory>().SingleInstance().AsSelf();
-            builder.RegisterType<CheckJoinStatusQueryFactory>().SingleInstance().AsSelf();
-            builder.RegisterType<CheckTourJoinAbilityQueryFactory>().SingleInstance().AsSelf();
-
-            builder.RegisterType<GetTourMembersController>().SingleInstance().AsSelf();
-            builder.RegisterType<GetTourMembersQueryFactory>().SingleInstance().AsSelf();
-
             builder.RegisterType<GuideController>().SingleInstance().AsSelf();
             builder.RegisterType<AddGuideQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<CheckGuidingAbilityQueryFactory>().SingleInstance().AsSelf();
             builder.RegisterType<OfferGuidingQueryFactory>().SingleInstance().AsSelf();
+            builder.RegisterType<GetGuideByIdQueryFactory>().SingleInstance().AsSelf();
 
             builder.RegisterType<PayController>().SingleInstance().AsSelf();
             builder.RegisterType<PayQueryFactory>().SingleInstance().AsSelf();

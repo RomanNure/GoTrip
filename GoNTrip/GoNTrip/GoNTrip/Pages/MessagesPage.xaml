@@ -26,7 +26,7 @@
             
             <Style x:Key="NotificationContent" TargetType="Label">
                 <Setter Property="AbsoluteLayout.LayoutFlags" Value="XProportional,YProportional,WidthProportional,HeightProportional"/>
-                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,1,1"/>
+                <Setter Property="AbsoluteLayout.LayoutBounds" Value="0,0,0.95,1"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
                 <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
                 <Setter Property="HorizontalTextAlignment" Value="Center"/>
@@ -37,6 +37,7 @@
                 <Setter Property="Padding" Value="5"/>
                 <Setter Property="BackgroundColor" Value="{StaticResource BarBackColor}"/>
                 <Setter Property="Margin" Value="5"/>
+                <Setter Property="VerticalOptions" Value="FillAndExpand"/>
             </Style>
             
         </ResourceDictionary>
@@ -66,22 +67,22 @@
                                         <Label Text="Notifications" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" HorizontalTextAlignment="Center" FontSize="20"/>
                                     </Frame>
 
-                                    <StackLayout x:Name="NotificationsWrapper">
+                                    <Grid x:Name="NotificationsWrapper">
 
                                         <!--Offers-->
 
-                                    </StackLayout>
+                                    </Grid>
 
 
                                     <Frame Padding="2" BackgroundColor="{StaticResource BarBackColor}">
                                         <Label Text="Dialogs" BackgroundColor="{StaticResource ContentBackColor}" TextColor="{StaticResource ContentFontColor}" HorizontalTextAlignment="Center" FontSize="20"/>
                                     </Frame>
 
-                                    <StackLayout x:Name="DialogsWrapper">
+                                    <Grid x:Name="DialogsWrapper">
 
                                         <!--Dialogs-->
 
-                                    </StackLayout>
+                                    </Grid>
 
                                 </StackLayout>
                             </ScrollView>

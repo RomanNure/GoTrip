@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Android.Views;
 
@@ -54,7 +55,7 @@ namespace GoNTrip.Pages
                 CurrentUser.AdministratedCompanies = await App.DI.Resolve<GetAdministratedCompaniesController>().GetAdministratedCompanies(CurrentUser);
                 CurrentUser.OwnedCompanies = await App.DI.Resolve<GetOwnedCompaniesController>().GetOwnedCompanies(CurrentUser);
 
-                LoadCurrentUserProfile();
+                await LoadCurrentUserProfile();
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
@@ -67,7 +68,7 @@ namespace GoNTrip.Pages
             }
         }
 
-        private void LoadCurrentUserProfile()
+        private async Task LoadCurrentUserProfile()
         {
             if (CurrentUser != null)
             {
@@ -76,7 +77,15 @@ namespace GoNTrip.Pages
                 AvatarView.ImageSource = avatarSource;
 
                 string login = CurrentUser.login == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.login;
-                UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile";
+
+                string rate = "";
+                if (CurrentUser.guide != null)
+                {
+                    try { rate = new string('★', (int)(await App.DI.Resolve<GuideController>().GetAvgGuideRate(CurrentUser.guide)).value); }
+                    catch (ResponseException ex) { }
+                }
+
+                UserNameLabel.Text = login[0].ToString().ToUpper() + login.Substring(1) + "'s Profile " + rate;
                 LoginInfoLabel.Text = login;
 
                 NameInfoLabel.Text = CurrentUser.fullName == null ? Constants.UNKNOWN_FILED_VALUE : CurrentUser.fullName;

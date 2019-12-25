@@ -48,5 +48,19 @@ namespace GoNTrip.Controllers
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(offerGuidingQuery);
             return App.DI.Resolve<IResponseParser>().Parse<RawNotification, ResponseException>(response);
         }
+
+        public async Task<Guide> GetById(long id)
+        {
+            IQuery getGuideByIdQuery = await App.DI.Resolve<GetGuideByIdQueryFactory>().GetById(new Guide(id));
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getGuideByIdQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<Guide, ResponseException>(response);
+        }
+
+        public async Task<DoubleResult> GetAvgGuideRate(Guide guide)
+        {
+            IQuery getGuideAvgRatingQuery = await App.DI.Resolve<GetAvgGuideRatingQueryFactory>().GetAvgGuideRating(guide);
+            IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(getGuideAvgRatingQuery);
+            return App.DI.Resolve<IResponseParser>().Parse<DoubleResult, ResponseException>(response);
+        }
     }
 }

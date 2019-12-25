@@ -76,7 +76,7 @@ namespace GoNTrip.Pages
 
         private async Task<User> GetCurrentTourAdminUserProfile(Admin admin) => await App.DI.Resolve<GetUserByAdminController>().GetUserByAdmin(admin);
         private async Task<Company> GetCurrentTourCompany(Admin admin) => await App.DI.Resolve<CompanyController>().GetCompanyByAdmin(admin);
-        private async Task<IEnumerable<User>> GetCurrentTourMembers() => await App.DI.Resolve<GetTourMembersController>().GetTourMembers(CurrentTour);
+        private async Task<IEnumerable<User>> GetCurrentTourMembers() => await App.DI.Resolve<TourController>().GetTourMembers(CurrentTour);
 
         private async Task GetCurrentTour()
         {
@@ -103,8 +103,6 @@ namespace GoNTrip.Pages
         {
             PopupControl.OpenPopup(ActivityPopup);
             await Task.Run(() => Thread.Sleep(Constants.ACTIVITY_INDICATOR_START_TIMEOUT));
-
-            JoinTourButton.IsEnabled = await App.DI.Resolve<JoinTourController>().CheckJoinAbility(App.DI.Resolve<Session>().CurrentUser, CurrentTour);
 
             bool mainPhotoShifted = CurrentTour.mainPictureUrl == null && CurrentTour.photos.Count > 0;
             string mainPhotoSource = mainPhotoShifted ? CurrentTour.photos[0].url : (CurrentTour.mainPictureUrl != null ? CurrentTour.mainPictureUrl : Constants.DEFAULT_TOUR_IMAGE_SOURCE);
@@ -162,7 +160,11 @@ namespace GoNTrip.Pages
                 PhotoCollection.Add(photo);
             }
 
-            TourName.Text = CurrentTour.name == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.name;
+            string rate = "";
+            try { rate = new string('★', (int)(await App.DI.Resolve<TourController>().GetAvgTourRate(CurrentTour)).value); }
+            catch (ResponseException ex) { }
+
+            TourName.Text = $"{(CurrentTour.name == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.name)} {rate}";
             TourAbout.Text = CurrentTour.description == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.description;
             TourPriceInfoLabel.Text = CurrentTour.pricePerPerson + Constants.CURRENCY_SYMBOL;
             TourStartInfoLabel.Text = CurrentTour.startDateTime == null ? Constants.UNKNOWN_FILED_VALUE : CurrentTour.startDateTime.ToString();
@@ -185,60 +187,52 @@ namespace GoNTrip.Pages
 
             User currentUser = App.DI.Resolve<Session>().CurrentUser;
 
-            if (Members.Contains(currentUser))
+            try
             {
-                OpenTicketButton.IsVisible = true;
+                JoinTourButton.IsEnabled = await App.DI.Resolve<TourController>().CheckJoinAbility(currentUser, CurrentTour);
 
-                try
+                if (Members.Contains(currentUser))
                 {
+                    ParticipatingStatus status = await App.DI.Resolve<TourController>().GetParticipatingStatus(currentUser, CurrentTour);
+                    TourFinishedButton.IsVisible = !status.finished && DateTime.Now >= CurrentTour.finishDateTime;
+                    OpenTicketButton.IsVisible = true; //!status.participated;
+
                     Ticket ticket = await App.DI.Resolve<TicketsController>().GetTicket(CurrentTour);
                     TicketQR.FirstSource = await App.DI.Resolve<QrService>().Encode(ticket.Data);
                 }
-                catch(ResponseException ex)
-                {
+                else
                     OpenTicketButton.IsVisible = false;
-                }
-            }
-            else
-                OpenTicketButton.IsVisible = false;
 
-            if (CurrentTour.guide == null)
-            {
-                GuideProfile.IsVisible = false;
-                ScanTicketButton.IsVisible = false;
-                OfferGuidingButton.IsVisible = true;
-
-                try
+                if (CurrentTour.guide == null)
                 {
+                    GuideProfile.IsVisible = false;
+                    ScanTicketButton.IsVisible = false;
+                    OfferGuidingButton.IsVisible = true;
                     OfferGuidingButton.IsEnabled = await App.DI.Resolve<GuideController>().CheckGuidingAbility(CurrentTour);
-                    PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
                 }
-                catch(ResponseException ex)
+                else
                 {
-                    PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                    GuideProfile.IsVisible = true;
+                    OfferGuidingButton.IsVisible = false;
 
-                    ErrorPopup.MessageText = ex.message;
-                    PopupControl.OpenPopup(ErrorPopup);
+                    User guideUser = CurrentTour.guide.UserProfile;
+
+                    TourGuideName.Text = guideUser.login;
+                    TourGuideEmail.Text = guideUser.email;
+                    GuideAvatar.Source = guideUser.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : guideUser.avatarUrl;
+
+                    ScanTicketButton.IsVisible = guideUser.Equals(currentUser) && DateTime.Now >= CurrentTour.startDateTime;
                 }
-            }
-            else
-            {
-                GuideProfile.IsVisible = true;
-                OfferGuidingButton.IsVisible = false;
-
-                User guideUser = CurrentTour.guide.UserProfile;
-
-                TourGuideName.Text = guideUser.login;
-                TourGuideEmail.Text = guideUser.email;
-                GuideAvatar.Source = guideUser.avatarUrl == null ? Constants.DEFAULT_AVATAR_SOURCE : guideUser.avatarUrl;
-
-                ScanTicketButton.IsVisible = guideUser.Equals(currentUser);// && DateTime.Now >= CurrentTour.startDateTime;
-                //TourFinishedButton.IsVisible = CurrentTour.participatingList.Where(P => true).SingleOrDefault(P => P.)
 
                 PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
             }
+            catch (ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
 
-
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
 
             await LoadCurrentTourMembers();
         }
@@ -340,6 +334,8 @@ namespace GoNTrip.Pages
             App.Current.MainPage = new CardEnterPage(CurrentPageMemento, CurrentTour);
         }
 
+        private void OfferGuidingButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(GuidingOfferPopup);
+
         private async void GuidingOfferConfirm_Clicked(object sender, EventArgs e)
         {
             PopupControl.OpenPopup(ActivityPopup);
@@ -358,8 +354,6 @@ namespace GoNTrip.Pages
                 PopupControl.OpenPopup(ErrorPopup);
             }
         }
-
-        private void OfferGuidingButton_Clicked(object sender, EventArgs e) => PopupControl.OpenPopup(GuidingOfferPopup);
 
         private bool OpenTicketButton_OnClick(MotionEvent ME, IClickable sender)
         {
@@ -413,10 +407,31 @@ namespace GoNTrip.Pages
         {
             if (ME.Action == MotionEventActions.Up)
             {
-                //todo
+                PopupControl.OpenPopup(TourFinishPopup);
+                return true;
             }
 
             return false;
+        }
+
+        private async void FinishConfirmButton_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                PopupControl.OpenPopup(ActivityPopup);
+
+                await App.DI.Resolve<TourController>().FinishTour(CurrentTour, (int)TourRating.Val, (int)GuideRating.Val);
+
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded();
+            }
+            catch(ResponseException ex)
+            {
+                PopupControl.CloseTopPopupAndHideKeyboardIfNeeded(true);
+
+                ErrorPopup.MessageText = ex.message;
+                PopupControl.OpenPopup(ErrorPopup);
+            }
         }
 
         protected override bool OnBackButtonPressed()

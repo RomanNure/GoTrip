@@ -9,7 +9,7 @@ namespace GoNTrip.ServerInteraction.QueryFactories
 {
     public class ChangeAvatarQueryFactory : QueryFactory
     {
-        private const string UPLOAD_AVATAR_SERVER_METHOD_NAME = "fileupload";
+        private const string UPLOAD_AVATAR_SERVER_METHOD_NAME = "upload/fileupload";
 
         private const string USER_ID_FIELD_NAME = "userId";
         private const string AVATAR_FIELD_NAME = "newAvatar";

@@ -6,6 +6,7 @@
              xmlns:controls="clr-namespace:GoNTrip.Pages.Additional.Controls"
              xmlns:templates="clr-namespace:GoNTrip.Pages.Additional.Popups.Templates"
              xmlns:customcontrols="clr-namespace:CustomControls;assembly=CustomControls"
+             xmlns:popups="clr-namespace:GoNTrip.Pages.Additional.Popups"
              mc:Ignorable="d"
              x:Class="GoNTrip.Pages.AdvancedPage"
              Appearing="ContentPage_Appearing">
@@ -43,13 +44,9 @@
                             <ScrollView Grid.Row="1" Grid.Column="0">
                                 <Grid x:Name="AdvancedOptionsWraper" VerticalOptions="CenterAndExpand" Margin="5,5,5,5" ColumnSpacing="5" RowSpacing="5">
 
-                                    <!--<Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto"/>
-                                        <RowDefinition Height="Auto"/>
-                                    </Grid.RowDefinitions>-->
-
                                     <Button Style="{StaticResource CommonButton}" x:Name="BecomeGuideButton" Text="Become a guide" Clicked="BecomeGuideButton_Clicked" Grid.Row="0" Grid.Column="0"/>
                                     <Button Style="{StaticResource CommonButton}" x:Name="CheckTicketsButton" Text="Check tickets" Clicked="CheckTicketsButton_Clicked" Grid.Row="1" Grid.Column="0"/>
+                                    <Button Style="{StaticResource CommonButton}" x:Name="AddCustomTourButton" Text="Create my tour" Clicked="AddCustomTourButton_Clicked" Grid.Row="2" Grid.Column="0"/>
 
                                 </Grid>
                             </ScrollView>
@@ -60,6 +57,49 @@
                     </StackLayout>
                 </StackLayout>
             </StackLayout>
+
+            <popups:Popup Style="{StaticResource PopupBackgroud}" x:Name="CreateCustomTourPopup" Closable="True" BackgroundColor="{StaticResource InactiveTransperentColor}" IsVisible="False">
+                <customcontrols:ClickableFrame Style="{StaticResource PopupOuterFrame}" HeightRequest="450" WidthRequest="300" CornerRadius="10" >
+                    <customcontrols:ClickableFrame Style="{StaticResource PopupInnerFrame}" HeightRequest="450" WidthRequest="300" BackgroundColor="{StaticResource BarBackColor}">
+                        <StackLayout>
+
+                            <Label Style="{StaticResource PopupLabel}" Text="Custom tour creating" HorizontalTextAlignment="Center" FontSize="20"/>
+
+                            <ScrollView Style="{StaticResource PopupInnerView}">
+                                <Grid BackgroundColor="{StaticResource BarBackColor}">
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+                                    
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.4*"/>
+                                        <ColumnDefinition Width="0.6*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <Entry Style="{StaticResource CommonEntry}" x:Name="CustomTourName" Placeholder="Tour name" Grid.Row="0" Grid.ColumnSpan="2"/>
+                                    <Editor Style="{StaticResource CommonEditor}" x:Name="CustomTourDescription" Placeholder="Tour description" HeightRequest="100" Grid.Row="1" Grid.ColumnSpan="2"/>
+                                    <Entry Style="{StaticResource CommonEntry}" x:Name="CustomTourLocation" Placeholder="Location" Grid.Row="2" Grid.ColumnSpan="2"/>
+
+                                    <Label Style="{StaticResource LabelBar}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Start date:" Grid.Row="3" Grid.Column="0"/>
+                                    <DatePicker Style="{StaticResource CommonDatePicker}" x:Name="CustomStartDate" Grid.Row="3" Grid.Column="1"/>
+
+                                    <Label Style="{StaticResource LabelBar}" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" Text="Finish date:" Grid.Row="4" Grid.Column="0"/>
+                                    <DatePicker Style="{StaticResource CommonDatePicker}" x:Name="CustomFinishDate" Grid.Row="4" Grid.Column="1"/>
+
+                                </Grid>
+                            </ScrollView>
+
+                            <Button Style="{StaticResource PopupButton}" x:Name="CreateCustomTourConfirmButton" Text="Create" Clicked="CreateCustomTourConfirmButton_Clicked"/>
+
+                        </StackLayout>
+                    </customcontrols:ClickableFrame>
+                </customcontrols:ClickableFrame>
+            </popups:Popup>
 
             <templates:LoadingPopup x:Name="ActivityPopup" CircleRadius="50"/>
             <templates:SimpleMessagePopup x:Name="ErrorPopup" PopupWidth="250" PopupHeight="100" FirstButtonText="OK"/>

@@ -312,5 +312,27 @@
             <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
         </Style>
 
+        <Style x:Key="FieldNameLabel" BasedOn="{StaticResource HeaderLabel}" TargetType="Label">
+            <Setter Property="HorizontalOptions" Value="CenterAndExpand"/>
+        </Style>
+
+        <Style x:Key="NumericUpDownEntry" BasedOn="{StaticResource PopupEntry}" TargetType="Entry">
+            <Setter Property="Margin" Value="0"/>
+        </Style>
+
+        <Style x:Key="NumericUpDownButton" TargetType="Button">
+            <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+            <Setter Property="HorizontalOptions" Value="FillAndExpand"/>
+        </Style>
+
+        <Style x:Key="NotOnlyInRowPopupDatePicker" BasedOn="{StaticResource PopupDatePicker}" TargetType="DatePicker">
+            <Setter Property="Margin" Value="0,0,-10,0"/>
+        </Style>
+
+        <Style x:Key="CommonDatePicker" TargetType="DatePicker">
+            <Setter Property="BackgroundColor" Value="{StaticResource ContentBackColor}"/>
+            <Setter Property="TextColor" Value="{StaticResource ContentFontColor}"/>
+        </Style>
+
     </Application.Resources>
 </Application>

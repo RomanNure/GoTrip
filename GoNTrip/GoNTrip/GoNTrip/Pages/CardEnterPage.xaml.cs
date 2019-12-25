@@ -47,7 +47,7 @@ namespace GoNTrip.Pages
 
             try
             {
-                JoinTourController joinTourController = App.DI.Resolve<JoinTourController>();
+                TourController joinTourController = App.DI.Resolve<TourController>();
                 PayController payController = App.DI.Resolve<PayController>();
 
                 Card card = new Card(UserCard.Text.Replace(" ", ""), MonthExp.Text, YearExp.Text, Cvv.Text);

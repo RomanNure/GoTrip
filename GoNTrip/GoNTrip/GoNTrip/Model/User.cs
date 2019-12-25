@@ -13,6 +13,9 @@ namespace GoNTrip.Model
     [Preserve(AllMembers = true)]
     public class User : ModelElement
     {
+        [CustomTourCreate("idAdministrator")]
+        [GetParticipatingStatus("userId")]
+        [FinishTour("userId")]
         [NotificationPulseField]
         [GetNotificationsField]
         [JoinPrepareField("userId")]

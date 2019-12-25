@@ -7,9 +7,12 @@ namespace GoNTrip.Model
     [JsonObject]
     public class Guide : ModelElement
     {
+        [GetGuideAvgRating("id")]
+        [GetGuideById("id")]
         [OfferGuidingField("guideId")]
         [CheckTourGuidingAbilityField("guideId")]
-        public long id { get; private set; }
+        [JsonProperty("id")]
+        public long Id { get; private set; }
 
         [JsonProperty("registeredUser")]
         public User UserProfile { get; private set; }
@@ -22,10 +25,11 @@ namespace GoNTrip.Model
         [JsonProperty("cardNumber")]
         public string Card { get; private set; }
 
+        public Guide(long id) => this.Id = id;
+
         [JsonConstructor]
-        public Guide(long id, User registeredUser, string wantedToursKeyWords, string cardNumber)
+        public Guide(long id, User registeredUser, string wantedToursKeyWords, string cardNumber) : this(id)
         {
-            this.id = id;
             UserProfile = registeredUser;
             Keywords = wantedToursKeyWords;
             Card = cardNumber;

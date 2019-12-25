@@ -10,6 +10,9 @@ namespace GoNTrip.Model
     [JsonObject]
     public class Tour : ModelElement
     {
+        [GetTourAvgRating("id")]
+        [GetParticipatingStatus("tourId")]
+        [FinishTour("tourId")]
         [OfferGuidingField("tourId")]
         [GetTicketField("tourId")]
         [CheckTourGuidingAbilityField("tourId")]
@@ -27,6 +30,8 @@ namespace GoNTrip.Model
         public DateTime startDateTime { get; set; }
         public DateTime finishDateTime { get; set; }
         public int maxParticipants { get; set; }
+        public bool custom { get; set; }
+        public bool ended { get; set; }
         public Admin administrator { get; set; }
         public List<Photo> photos { get; set; }
         public List<Participating> participatingList { get; set; }

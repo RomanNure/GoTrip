@@ -31,9 +31,9 @@ namespace GoNTrip.Model
 
             UserId = Convert.ToInt64(datas[0]);
             TourId = Convert.ToInt64(datas[1]);
-            GuideId = guide.id;
+            GuideId = guide.Id;
 
-            Hash = BitConverter.ToString(hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes($"{guide.id}_{datas[2]}"))).Replace("-", "").ToUpper();
+            Hash = BitConverter.ToString(hashAlgorithm.ComputeHash(Encoding.UTF8.GetBytes($"{guide.Id}_{datas[2]}"))).Replace("-", "").ToUpper();
         }
     }
 }
