@@ -1,33 +1,19 @@
 <?php
 	header("Access-Control-Allow-Origin: *");
+
+	$file = $_FILES['company_avatar'];	
+	file_put_contents("company_log.txt", "error: ".$file['error']."\n", FILE_APPEND);
+
+	$company_dir = 'imgs/companies/';	
+	$company_avatar_file_path = $company_dir.uniqid().".png";
 	
-	foreach($_POST as $k => $v) {
-		file_put_contents("company_log.txt", $k." => ".$v."\n", FILE_APPEND);
-	}
-	foreach($_FILES as $k => $v) {
-		foreach($v as $f => $i) {
-			file_put_contents("company_log.txt", $k." => ".$f." => ".$i."\n", FILE_APPEND);
-		}
-	}
+	if(move_uploaded_file($file['tmp_name'], $company_avatar_file_path))
+		file_put_contents("company_log.txt", "company avatar file is in ".$company_avatar_file_path."\n", FILE_APPEND);
+	else
+		file_put_contents("company_log.txt", "company avatar uploading failed\n", FILE_APPEND);
 	
-	/*$file = $_FILES['avatar'];
-	file_put_contents("company_log.txt", $file["name"], $file['tmp_name']);*/
+	$response = '{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/'.$company_avatar_file_path.'"}';
+	file_put_contents("company_log.txt", $response." was responsed\n", FILE_APPEND);
 	
-	/*$company_dir = 'imgs/companies/'.$_POST['companyId'];
-	file_put_contents("log.txt", 'user '.$_POST['userId'].' wants to update his avatar', "w");
-	
-	if(!file_exists($user_dir)) {
-		mkdir($user_dir);
-		file_put_contents("log.txt", $user_dir." created", "w");
-	}
-	
-	$ufn = $user_dir."/".basename($file["name"]);
-	move_uploaded_file($file['tmp_name'], $ufn);
-	
-	file_put_contents("log.txt", "avatar is in ".$ufn, "w");
-	
-	$response = '{ "path" : "'.$ufn.'"}';
-	file_put_contents("log.txt", $response." was responsed", "w");
-	
-	echo $response;*/
+	echo $response;
 ?>
