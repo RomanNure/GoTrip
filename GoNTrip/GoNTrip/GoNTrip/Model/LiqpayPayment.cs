@@ -70,13 +70,13 @@ namespace GoNTrip.Model
         [JsonIgnore]
         public string Signature { get; private set; }
 
-        public LiqpayPayment(Session session, Tour tour, Card card, string serverCallback)
+        public LiqpayPayment(Session session, Tour tour, Card card, double? altAmount, string serverCallback)
         {
             Action = ACTION;
             Version = VERSION;
             PublicKey = PUBLIC_KEY;
             Phone = session.CurrentUser.phone;
-            Amount = tour.pricePerPerson;
+            Amount = altAmount ?? tour.pricePerPerson;
             Currency = CURRENCY;
             Description = "Participating in " + tour.name;
             OrderId = BitConverter.ToString(mD5.ComputeHash(Encoding.UTF8.GetBytes($"{session.CurrentUser.id}_{session.SessionId}_{tour.id}"))).Replace("-", "").ToUpper();

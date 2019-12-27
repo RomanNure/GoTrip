@@ -151,7 +151,7 @@ namespace GoNTrip.Pages
 
             await GetAndLoadToursAsync(CurrentTourFilterSorterSearcher);
 
-            if (!CurrentTourFilterSorterSearcher.filters.IsChanged && !CurrentTourFilterSorterSearcher.semiFilters.IsChanged)
+            if (!CurrentTourFilterSorterSearcher.filters.IsChanged && !CurrentTourFilterSorterSearcher.semiFilters.IsInterfaceChanged)
                 ResetFilterView();
             else
                 LoadFilterSorterSearcher(CurrentTourFilterSorterSearcher);
@@ -257,6 +257,8 @@ namespace GoNTrip.Pages
 
             GuideApprovedChecker.Checked = false;
             GuideNotApprovedChecker.Checked = false;
+            NoCustomChecker.Checked = false;
+            CustomOnlyChecker.Checked = false;
         }
 
         private void ResetSortView()
@@ -339,7 +341,9 @@ namespace GoNTrip.Pages
                                                         (int)MinPlacesPicker.Val, (int)MaxPlacesPicker.Val);
 
             CurrentTourFilterSorterSearcher.FillSemiFilters(GuideApprovedChecker.Checked, GuideNotApprovedChecker.Checked,
-                                                            NoCustomChecker.Checked, CustomOnlyChecker.Checked);
+                                                            NoCustomChecker.Checked, CustomOnlyChecker.Checked,
+                                                            (int)(CurrentTourFilterSorterSearcher?.semiFilters.tourGuideId ?? -1),
+                                                            (int)(CurrentTourFilterSorterSearcher?.semiFilters.tourMemberId ?? -1));
 
             await UpdateToursAsync();
         }

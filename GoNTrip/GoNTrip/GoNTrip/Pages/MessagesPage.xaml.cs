@@ -8,6 +8,7 @@ using Autofac;
 
 using Android.Views;
 
+using GoNTrip.Util;
 using GoNTrip.Model;
 using GoNTrip.Controllers;
 using GoNTrip.Model.Notifications;
@@ -99,14 +100,34 @@ namespace GoNTrip.Pages
                         ConfirmableNotificationTopic.Text = ntf.Topic;
                         ConfirmableNotificationText.Text = ntf.GetDetailMessage();
 
-                        ConfirmableNotificationConfirm.Clicked += (s, a) => ConfirmNotification(ntf, preview);
+                        cEventHelper.RemoveEventHandler(ConfirmableNotificationConfirm, "Clicked");
+                        cEventHelper.RemoveEventHandler(ConfirmableNotificationRefuse, "Clicked");
+                        cEventHelper.RemoveEventHandler(ConfirmableNotificationViewTour, "Clicked");
+
+                        if(!(ntf is CustomGuidePropositionNotification))
+                            ConfirmableNotificationConfirm.Clicked += (s, a) => ConfirmNotification(ntf, preview);
+                        else
+                        {
+                            CustomGuidePropositionNotification cgontf = ntf as CustomGuidePropositionNotification;
+                            ConfirmableNotificationConfirm.Clicked += (s, a) =>
+                            {
+                                ConfirmNotification(ntf, preview);
+                                App.Current.MainPage = new CardEnterPage(CurrentPageMemento, cgontf.tour, cgontf.sum);
+                            };
+                        }
+
                         ConfirmableNotificationRefuse.Clicked += (s, a) => RefuseNotification(ntf, preview);
 
-                        if (ntf is GuidingOfferNotification)
+                        if (ntf is GuidingOfferNotification || ntf is GuideToAdminPropositionNotification || ntf is CustomGuidePropositionNotification)
                         {
                             GuidingOfferNotification gontf = ntf as GuidingOfferNotification;
+                            GuideToAdminPropositionNotification gtapn = ntf as GuideToAdminPropositionNotification;
+                            CustomGuidePropositionNotification cgpn = ntf as CustomGuidePropositionNotification;
+
+                            Tour selectedTour = gontf?.tour ?? gtapn?.tour ?? cgpn?.tour;
+
                             ConfirmableNotificationViewTour.Clicked += (s, a) =>
-                                App.Current.MainPage = new TourPage(gontf.tour, CurrentPageMemento);
+                                App.Current.MainPage = new TourPage(selectedTour, CurrentPageMemento);
                         }
                         else
                             ConfirmableNotificationViewTour.IsVisible = false;
@@ -118,6 +139,7 @@ namespace GoNTrip.Pages
                         NotConfirmableNotificationTopic.Text = ntf.Topic;
                         NotConfirmableNotificationText.Text = ntf.GetDetailMessage();
 
+                        cEventHelper.RemoveEventHandler(NotConfirmableNotificationDelete, "Clicked");
                         NotConfirmableNotificationDelete.Clicked += (s, a) => DeleteNotification(ntf, preview);
                         
                         PopupControl.OpenPopup(NotConfirmableNotificationPopup);

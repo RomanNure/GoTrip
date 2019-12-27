@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GoNTrip.Model.FilterSortSearch.Tour
 {
@@ -34,12 +31,16 @@ namespace GoNTrip.Model.FilterSortSearch.Tour
         {
             withApprovedGuideOnly = DEFAULT_BOOL;
             noApprovedGuideOnly = DEFAULT_BOOL;
-            noCustomTours = DEFAULT_BOOL;
             customToursOnly = DEFAULT_BOOL;
         }
 
         [JsonIgnore]
+        public bool IsInterfaceChanged => withApprovedGuideOnly != DEFAULT_BOOL || noApprovedGuideOnly != DEFAULT_BOOL ||
+                                          noCustomTours != DEFAULT_BOOL || customToursOnly != DEFAULT_BOOL;
+
+        [JsonIgnore]
         public bool IsChanged => withApprovedGuideOnly != DEFAULT_BOOL || noApprovedGuideOnly != DEFAULT_BOOL ||
-                                 noCustomTours != true || customToursOnly != DEFAULT_BOOL;//tourGuideId != DEFAULT_ID || tourMemberId != DEFAULT_ID ||
+                                 noCustomTours != DEFAULT_BOOL || customToursOnly != DEFAULT_BOOL ||
+                                 tourGuideId != DEFAULT_ID || tourMemberId != DEFAULT_ID;
     }
 }

@@ -19,16 +19,18 @@ namespace GoNTrip.Pages
     public partial class CardEnterPage : ContentPage
     {
         private Tour CurrentTour { get; set; }
+        private double? CustomTourGuideSalary { get; set; }
 
         private PageMemento PrevPageMemento { get; set; }
         private PopupControlSystem PopupControl { get; set; }
         private CardValidator Validator { get; set; }
 
-        public CardEnterPage(PageMemento prevPageMemento, Tour tour)
+        public CardEnterPage(PageMemento prevPageMemento, Tour tour, double? customTourGuideSalary = null)
         {
             InitializeComponent();
 
             CurrentTour = tour;
+            CustomTourGuideSalary = customTourGuideSalary;
             PrevPageMemento = prevPageMemento;
 
             PopupControl = new PopupControlSystem(OnBackButtonPressed);
@@ -51,7 +53,7 @@ namespace GoNTrip.Pages
                 PayController payController = App.DI.Resolve<PayController>();
 
                 Card card = new Card(UserCard.Text.Replace(" ", ""), MonthExp.Text, YearExp.Text, Cvv.Text);
-                LiqpayPayment payment = payController.CreatePayment(CurrentTour, card);
+                LiqpayPayment payment = payController.CreatePayment(CurrentTour, card, CustomTourGuideSalary);
 
                 if (!(await joinTourController.JoinPrepare(CurrentTour, payment)))
                     throw new ResponseException("Payment prepearing failed");

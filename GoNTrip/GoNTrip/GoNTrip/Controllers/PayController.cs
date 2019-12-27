@@ -31,8 +31,8 @@ namespace GoNTrip.Controllers
         private const string LIQPAY_SERVER = "https://www.liqpay.ua/";
         private static readonly string SERVER_CALLBACK = App.DI.Resolve<IServerCommunicator>().ServerURL + "/participating/add/liqpay";
 
-        public LiqpayPayment CreatePayment(Tour tour, Card card) =>
-            new LiqpayPayment(App.DI.Resolve<Session>(), tour, card, SERVER_CALLBACK);
+        public LiqpayPayment CreatePayment(Tour tour, Card card, double? altAmount) =>
+            new LiqpayPayment(App.DI.Resolve<Session>(), tour, card, altAmount, SERVER_CALLBACK);
 
         public async Task<LiqpayResponse> PayForTour(LiqpayPayment payment)
         {   

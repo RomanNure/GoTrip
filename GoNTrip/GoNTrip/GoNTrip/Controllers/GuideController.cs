@@ -44,7 +44,8 @@ namespace GoNTrip.Controllers
             if (user.guide == null)
                 throw new ResponseException("You're not a guide");
 
-            IQuery offerGuidingQuery = await App.DI.Resolve<OfferGuidingQueryFactory>().OfferGuiding(tour, user.guide, new Money(sum));
+            IQuery offerGuidingQuery = await (tour.custom ? App.DI.Resolve<OfferGuidingCustomTourQueryFactory>().OfferGuiding(tour, user.guide, new Money(sum)) :
+                                                            App.DI.Resolve<OfferGuidingQueryFactory>().OfferGuiding(tour, user.guide, new Money(sum)));
             IServerResponse response = await App.DI.Resolve<IServerCommunicator>().SendQuery(offerGuidingQuery);
             return App.DI.Resolve<IResponseParser>().Parse<RawNotification, ResponseException>(response);
         }

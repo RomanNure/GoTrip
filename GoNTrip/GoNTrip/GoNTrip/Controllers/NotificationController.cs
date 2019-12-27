@@ -16,6 +16,8 @@ namespace GoNTrip.Controllers
 {
     public class NotificationController
     {
+
+        private const string CUSTOM_GUIDE_PROPOSITION_NOTICATION_TYPE = "CustomGuideProposition";
         private const string GUIDE_PROPOSITION_NOTICATION_TYPE = "GuideProposition";
         private const string GUIDING_OFFER_NOTIFICATION_TYPE = "OfferGuiding";
         private const string PLAIN_NOTIFICATION_TYPE = "Plain";
@@ -70,6 +72,8 @@ namespace GoNTrip.Controllers
                     return await ParseGuidingOfferNotification(rawNotification);
                 case GUIDE_PROPOSITION_NOTICATION_TYPE:
                     return await ParseGuideToAdminPropositionNotification(rawNotification);
+                case CUSTOM_GUIDE_PROPOSITION_NOTICATION_TYPE:
+                    return await ParseCustomGuidePropositionNotification(rawNotification);
                 case PLAIN_NOTIFICATION_TYPE:
                 default:
                     return new NewsNotification(rawNotification.id, rawNotification.isChecked, rawNotification.topic);
@@ -95,6 +99,16 @@ namespace GoNTrip.Controllers
             return new GuideToAdminPropositionNotification(rawNotification.id, rawNotification.isChecked,
                                                            rawNotification.topic, tour, guide,
                                                            Convert.ToInt32(rawNotification.data.sum));
+        }
+
+        private async Task<CustomGuidePropositionNotification> ParseCustomGuidePropositionNotification(RawNotification rawNotification)
+        {
+            Tour tour = await App.DI.Resolve<TourController>().GetTourById(Convert.ToInt32(rawNotification.data.tourId));
+            Guide guide = await App.DI.Resolve<GuideController>().GetById(Convert.ToInt32(rawNotification.data.guideId));
+
+            return new CustomGuidePropositionNotification(rawNotification.id, rawNotification.isChecked,
+                                                          rawNotification.topic, tour, guide,
+                                                          Convert.ToInt32(rawNotification.data.sum));
         }
     }
 }
