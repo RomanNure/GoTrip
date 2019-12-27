@@ -74,7 +74,12 @@ public class ParticipatingServiceImpl implements ParticipatingService {
         return participating;
     }
 
-	@Override
+    @Override
+    public Participating update(Participating participating) {
+        return participatingRepository.save(participating);
+    }
+
+    @Override
 	public boolean prepare(PreparingDto dto) {
 		preparationRepository.add(dto);
 		return true;

@@ -30,7 +30,7 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 	@Override
 	public Administrator getById(long id) throws NotFoundAdministratorException {
-		return administratorRepository.findById(id).orElseThrow(() -> new NotFoundAdministratorException("Company with such name does not exist"));
+		return administratorRepository.findById(id).orElseThrow(() -> new NotFoundAdministratorException("Administrator with such name does not exist"));
 	}
 
 	@Override

@@ -122,14 +122,39 @@ public class TourJdbcRepository {
         if(!semiFilters.get("tourMemberId").equals("-1")){
             if(whereSet){
                 builder
-                    .append(" AND tours.tour_id IN(SELECT tour_id FROM participating WHERE registered_user_id = ")
+                    .append(" AND (tours.tour_id IN(SELECT tour_id FROM participating WHERE registered_user_id = ")
                     .append(semiFilters.get("tourMemberId"))
-                    .append(")");
+                    .append(") OR (tours.tour_id IN(SELECT tour_id FROM tours WHERE administrator_id IN (SELECT administrator_id FROM administrators WHERE registered_user_id = ")
+                        .append(semiFilters.get("tourMemberId"))
+                    .append("))))");
             }else{
                 builder
                     .append(" WHERE tours.tour_id IN(SELECT tour_id FROM participating WHERE registered_user_id = ")
                     .append(semiFilters.get("tourMemberId"))
-                    .append(")");
+                    .append(") OR (tours.tour_id IN(SELECT tour_id FROM tours WHERE administrator_id IN(SELECT administrator_id FROM administrators WHERE registered_user_id = ")
+                    .append(semiFilters.get("tourMemberId"))
+                    .append("))))");
+                whereSet = true;
+            }
+        }
+
+        if((semiFilters.get("noCustomTours").equals("true"))){
+            if(whereSet){
+                builder.append(" AND tours.custom = false");
+            }else{
+                builder
+                        .append(" WHERE tours.custom = false");
+                whereSet = true;
+            }
+        }
+
+        if((semiFilters.get("customToursOnly").equals("true"))){
+            if(whereSet){
+                builder
+                        .append(" AND tours.custom = true");
+            }else{
+                builder
+                        .append(" WHERE tours.custom = true");
             }
         }
 

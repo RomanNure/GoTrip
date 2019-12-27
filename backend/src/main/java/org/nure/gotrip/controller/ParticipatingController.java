@@ -40,7 +40,7 @@ public class ParticipatingController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ParticipatingController.class);
     private static final String[] keys = {
-        "sandbox_i74310151520", "sandbox_kgwzzF9TsmUOIJmQQeQyM4G4yrxfGJxVq64k8hLn"
+            "sandbox_i74310151520", "sandbox_kgwzzF9TsmUOIJmQQeQyM4G4yrxfGJxVq64k8hLn"
     };
     private static final String HASH_KEY = "2019GoNTrip2019";
 
@@ -51,7 +51,7 @@ public class ParticipatingController {
     private Encoder encoder;
 
     @Autowired
-    private ParticipatingController(ParticipatingService participatingService, TourService tourService, RegisteredUserService registeredUserService, SessionContainer sessionContainer, Encoder encoder){
+    private ParticipatingController(ParticipatingService participatingService, TourService tourService, RegisteredUserService registeredUserService, SessionContainer sessionContainer, Encoder encoder) {
         this.participatingService = participatingService;
         this.tourService = tourService;
         this.registeredUserService = registeredUserService;
@@ -60,14 +60,14 @@ public class ParticipatingController {
     }
 
     @GetMapping(value = "/able", produces = "application/json")
-    public ResponseEntity isAbleToParticipate(long userId, long tourId){
+    public ResponseEntity isAbleToParticipate(long userId, long tourId) {
         return new ResponseEntity<>(new BooleanDto(
                 participatingService.isAbleToParticipate(userId, tourId)
         ), HttpStatus.OK);
     }
 
-    @PostMapping(value="/add")
-    public ResponseEntity participate(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody ParticipatingDto dto){
+    @PostMapping(value = "/add")
+    public ResponseEntity participate(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody ParticipatingDto dto) {
         AppSession session = checkSession(sessionId);
         RegisteredUser user = checkUser(session);
         String id = UUID.randomUUID().toString();
@@ -76,11 +76,11 @@ public class ParticipatingController {
         return new ResponseEntity<>(participating, HttpStatus.OK);
     }
 
-    @PostMapping(value="/prepare")
-    public ResponseEntity prepare(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody PreparingDto dto){
+    @PostMapping(value = "/prepare")
+    public ResponseEntity prepare(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody PreparingDto dto) {
         AppSession session = checkSession(sessionId);
         RegisteredUser user = checkUser(session);
-        if(participatingService.isAbleToParticipate(user.getId(), dto.getTourId())) {
+        if (participatingService.isAbleToParticipate(user.getId(), dto.getTourId())) {
             dto.setUserId(user.getId());
             boolean result = participatingService.prepare(dto);
             return new ResponseEntity<>(new BooleanDto(result), HttpStatus.OK);
@@ -88,31 +88,32 @@ public class ParticipatingController {
         throw new ConflictException("You cannot participate at that time");
     }
 
-    @PostMapping(value="/add/liqpay")
-    public void confirm(@RequestParam String data, @RequestParam String signature) throws IOException {
+    @PostMapping(value = "/add/liqpay")
+    public ResponseEntity confirm(@RequestParam String data, @RequestParam String signature) throws IOException {
         String received = encoder.decodeBase64Hex(signature);
         String serverSignature = encoder.encodeSHA1(keys[1] + data + keys[1]);
-        if(received.equals(serverSignature)){
+        if (received.equals(serverSignature)) {
             String jsonData = encoder.decodeBase64(data);
             LiqPayRequest request = new ObjectMapper().readValue(jsonData, LiqPayRequest.class);
-            if(request.isSuccess()) {
+            if (request.isSuccess()) {
                 PreparingDto dto = participatingService.confirm(request.getOrder_id());
-                if(dto != null) {
+                if (dto != null) {
                     participatingService.participate(dto);
                 }
-            }else{
+            } else {
                 LOGGER.info(format("Order with id %s was not successful", request.getOrder_id()));
             }
         }
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @GetMapping(value = "/get")
-    public ResponseEntity getParticipating(@CookieValue(name = "SESSIONID") String sessionId, @RequestParam long tourId){
+    public ResponseEntity getParticipating(@CookieValue(name = "SESSIONID") String sessionId, @RequestParam long tourId) {
         AppSession session = checkSession(sessionId);
         Tour tour;
         try {
             tour = tourService.findById(tourId);
-        }catch (NotFoundTourException e){
+        } catch (NotFoundTourException e) {
             throw new NotFoundException(e.getMessage());
         }
         RegisteredUser user = checkUser(session);
@@ -125,12 +126,12 @@ public class ParticipatingController {
     }
 
     @PostMapping(value = "/hash")
-    public ResponseEntity checkHash(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody MemberCheckingDto dto){
+    public ResponseEntity checkHash(@CookieValue(name = "SESSIONID") String sessionId, @RequestBody MemberCheckingDto dto) {
         AppSession session = checkSession(sessionId);
         Tour tour;
         try {
             tour = tourService.findById(dto.getTourId());
-        }catch (NotFoundTourException e){
+        } catch (NotFoundTourException e) {
             throw new NotFoundException(e.getMessage());
         }
         checkUser(session);
@@ -143,10 +144,10 @@ public class ParticipatingController {
         try {
             Participating participating = participatingService.getByTourAndUser(tour, user);
             String hash = getHashCode(participating, dto.getGuideId());
-            if(hash.equals(dto.getHash())){
+            if (hash.equals(dto.getHash())) {
                 participatingService.markParticipated(participating);
                 return new ResponseEntity<>(new BooleanDto(true), HttpStatus.OK);
-            }else{
+            } else {
                 throw new BadRequestException("Not valid hash provided");
             }
         } catch (NotFoundParticipatingException e) {
@@ -155,28 +156,28 @@ public class ParticipatingController {
     }
 
     @GetMapping(value = "/check")
-    public ResponseEntity checkStatus(@RequestParam String orderId){
+    public ResponseEntity checkStatus(@RequestParam String orderId) {
         String status = participatingService.getStatus(orderId);
         return new ResponseEntity<>(new StatusResponseDto(status), HttpStatus.OK);
     }
 
-    private AppSession checkSession(String sessionId){
+    private AppSession checkSession(String sessionId) {
         AppSession session = sessionContainer.getSession(sessionId);
-        if(session == null){
+        if (session == null) {
             throw new ForbiddenException("Not authorized user");
         }
         return session;
     }
 
-    private RegisteredUser checkUser(AppSession session){
-        RegisteredUser user = (RegisteredUser)session.getAttribute("user");
-        if(user == null){
+    private RegisteredUser checkUser(AppSession session) {
+        RegisteredUser user = (RegisteredUser) session.getAttribute("user");
+        if (user == null) {
             throw new ForbiddenException("Not authorized user");
         }
         return user;
     }
 
-    private String getHashCode(Participating participating, long guideId){
+    private String getHashCode(Participating participating, long guideId) {
         String template = "%s_%s_%s_%s_%s";
         String compilation = String.format(template,
                 HASH_KEY,
@@ -188,6 +189,30 @@ public class ParticipatingController {
         temp = temp.replace("-", "").toUpperCase();
         temp = encoder.encodeMd5(String.format("%d_%s", guideId, temp));
         return temp.replace("-", "").toUpperCase();
+    }
+
+    /*participated field by user id, tour id
+finished field by user id, tour id*/
+
+    @GetMapping(value = "/status")
+    public ResponseEntity checkStatus(@RequestParam long userId, @RequestParam long tourId) {
+        try {
+            Tour tour = tourService.findById(tourId);
+            RegisteredUser user = registeredUserService.findById(userId);
+
+            Participating participating;
+            try {
+                participating = participatingService.getByTourAndUser(tour, user);
+            } catch (NotFoundParticipatingException e) {
+                throw new NotFoundException(e.getMessage());
+            }
+            ParticipatingStatusDto result = new ParticipatingStatusDto();
+            result.setFinished(participating.isFinished());
+            result.setParticipated(participating.isParticipated());
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }catch (NotFoundTourException | NotFoundUserException e) {
+            throw new NotFoundException(e.getMessage());
+        }
     }
 
     @Getter

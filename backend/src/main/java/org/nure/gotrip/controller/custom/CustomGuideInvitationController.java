@@ -1,6 +1,7 @@
-package org.nure.gotrip.controller;
+package org.nure.gotrip.controller.custom;
 
 import org.nure.gotrip.controller.response.ConflictException;
+import org.nure.gotrip.controller.response.ForbiddenException;
 import org.nure.gotrip.controller.response.NotFoundException;
 import org.nure.gotrip.dto.BooleanDto;
 import org.nure.gotrip.dto.GuideInvitationDto;
@@ -9,13 +10,9 @@ import org.nure.gotrip.exception.NotFoundTourException;
 import org.nure.gotrip.model.Administrator;
 import org.nure.gotrip.model.Guide;
 import org.nure.gotrip.model.Tour;
-import org.nure.gotrip.model.notification.GuidePropositionNotificationData;
-import org.nure.gotrip.model.notification.Notification;
-import org.nure.gotrip.model.notification.OfferGuidingNotificationData;
-import org.nure.gotrip.model.notification.PlainTextNotificationData;
+import org.nure.gotrip.model.notification.*;
 import org.nure.gotrip.service.GuideService;
 import org.nure.gotrip.service.NotificationService;
-import org.nure.gotrip.service.ParticipatingService;
 import org.nure.gotrip.service.TourService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,34 +26,18 @@ import java.util.Objects;
 import static java.lang.String.format;
 
 @Controller
-@RequestMapping("/guide/invitation")
-public class GuideInvitationController {
+@RequestMapping("/custom/guide/invitation")
+public class CustomGuideInvitationController {
 
     private NotificationService notificationService;
     private GuideService guideService;
     private TourService tourService;
 
     @Autowired
-    public GuideInvitationController(NotificationService notificationService, GuideService guideService, TourService tourService) {
+    public CustomGuideInvitationController(NotificationService notificationService, GuideService guideService, TourService tourService) {
         this.notificationService = notificationService;
         this.guideService = guideService;
         this.tourService = tourService;
-    }
-
-    @PostMapping("/fromadmin")
-    public ResponseEntity inviteGuide(@RequestBody GuideInvitationDto dto) {
-        Tour tour;
-        try {
-            tour = tourService.findById(dto.getTourId());
-        } catch (NotFoundTourException e) {
-            throw new NotFoundException(e.getMessage());
-        }
-        OfferGuidingNotificationData data = getOfferGuidingNotificationData(dto, tour);
-        Guide guide = getGuide(dto.getGuideId());
-        if (isAbleForGuiding(tour, guide)) {
-            return getNotificationResponseEntity(data, guide);
-        }
-        throw new ConflictException("guide cannot guiding that tour");
     }
 
     @PostMapping("/fromguide")
@@ -67,9 +48,12 @@ public class GuideInvitationController {
         } catch (NotFoundTourException e) {
             throw new NotFoundException(e.getMessage());
         }
+        if(!tour.isCustom()){
+            throw new ForbiddenException("Tour is not custom");
+        }
         Guide guide = getGuide(dto.getGuideId());
         if (isAbleForGuiding(tour, guide)) {
-            GuidePropositionNotificationData data = getGuidePropositionNotificationData(dto);
+            CustomGuidePropositionNotificationData data = getGuidePropositionNotificationData(dto);
             return getGuidePropositionNotificationResponseEntity(data, tour);
         }
         throw new ConflictException("guide cannot guiding that tour");
@@ -131,32 +115,15 @@ public class GuideInvitationController {
         return guideService.getById(id).orElseThrow(() -> new NotFoundException("Guide not found"));
     }
 
-    private OfferGuidingNotificationData getOfferGuidingNotificationData(GuideInvitationDto dto, Tour tour) {
-        OfferGuidingNotificationData data = new OfferGuidingNotificationData();
-        data.setTourId(dto.getTourId());
-        data.setGuideId(dto.getGuideId());
-        data.setCompanyId(tour.getAdministrator().getCompany().getId());
-        data.setSum(dto.getSum());
-        return data;
-    }
-
-    private GuidePropositionNotificationData getGuidePropositionNotificationData(GuideInvitationDto dto) {
-        GuidePropositionNotificationData data = new GuidePropositionNotificationData();
+    private CustomGuidePropositionNotificationData getGuidePropositionNotificationData(GuideInvitationDto dto) {
+        CustomGuidePropositionNotificationData data = new CustomGuidePropositionNotificationData();
         data.setTourId(dto.getTourId());
         data.setGuideId(dto.getGuideId());
         data.setSum(dto.getSum());
         return data;
     }
 
-    private ResponseEntity getNotificationResponseEntity(OfferGuidingNotificationData data, Guide guide) {
-        Notification notification = new Notification(data);
-        notification.setTopic("Offer received");
-        notification.setUser(guide.getRegisteredUser());
-        notification = notificationService.add(notification);
-        return new ResponseEntity<>(notification, HttpStatus.OK);
-    }
-
-    private ResponseEntity getGuidePropositionNotificationResponseEntity(GuidePropositionNotificationData data, Tour tour) {
+    private ResponseEntity getGuidePropositionNotificationResponseEntity(CustomGuidePropositionNotificationData data, Tour tour) {
         Notification notification = new Notification(data);
         notification.setTopic("Proposition received");
         notification.setUser(tour.getAdministrator().getRegisteredUser());

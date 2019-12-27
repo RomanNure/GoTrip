@@ -52,6 +52,15 @@ public class Tour {
 	@Column(name = "location")
 	private String location;
 
+	@Column(name="guide_salary")
+	private double guideSalary;
+
+	@Column(name="ended")
+	private boolean ended;
+
+    @Column(name="custom")
+    private boolean custom;
+
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "administrator_id")
 	private Administrator administrator;

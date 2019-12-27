@@ -2,7 +2,9 @@ package org.nure.gotrip.controller;
 
 import org.modelmapper.ModelMapper;
 import org.nure.gotrip.controller.response.ConflictException;
+import org.nure.gotrip.controller.response.ForbiddenException;
 import org.nure.gotrip.controller.response.NotFoundException;
+import org.nure.gotrip.dto.DoubleDto;
 import org.nure.gotrip.dto.FilterUnit;
 import org.nure.gotrip.dto.TourDto;
 import org.nure.gotrip.exception.NotFoundAdministratorException;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 @Controller
@@ -86,8 +89,37 @@ public class TourController {
         return new ResponseEntity<>(tourService.getByTour(id), HttpStatus.OK);
     }
 
+    @GetMapping(value = "/get/average")
+    public ResponseEntity getTourAverage(long id){
+        try {
+            Tour tour = tourService.findById(id);
+            AtomicInteger all = new AtomicInteger(0);
+            AtomicInteger sum = new AtomicInteger(0);
+            tour.getParticipatingList()
+                    .forEach(participating -> {
+                        if(participating.isFinished()){
+                            sum.addAndGet(participating.getTourRate());
+                            all.incrementAndGet();
+                        }
+                    });
+            if(all.intValue() == 0){
+                return new ResponseEntity<>(new DoubleDto(0.0), HttpStatus.OK);
+            }
+            return new ResponseEntity<>(new DoubleDto(sum.doubleValue()/all.doubleValue()), HttpStatus.OK);
+        } catch (NotFoundTourException e) {
+            throw new NotFoundException(e.getMessage());
+        }
+    }
+
     private Tour getTour(TourDto tourDto) throws NotFoundAdministratorException {
         Administrator administrator = administratorService.getById(tourDto.getIdAdministrator());
+
+        boolean isCustom = administrator.getTours().stream()
+                .anyMatch(Tour::isCustom);
+        if(isCustom){
+            throw new ForbiddenException("Can't create tour by this administrator");
+        }
+
         Tour tour = modelMapper.map(tourDto, Tour.class);
         tour.setPhotos(Arrays.stream(tourDto.getPhotosUrl())
                 .map(stringUrl -> new TourPhoto(stringUrl, tour))

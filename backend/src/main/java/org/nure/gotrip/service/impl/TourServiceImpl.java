@@ -59,8 +59,10 @@ public class TourServiceImpl implements TourService {
 			List<TourPhoto> photos = tour.getPhotos();
 			tour = tourRepository.save(tour);
 			long id = tour.getId();
-			photos.forEach(photo -> photo.getTour().setId(id));
-			tourPhotoRepository.saveAll(photos);
+			if(photos != null) {
+                photos.forEach(photo -> photo.getTour().setId(id));
+                tourPhotoRepository.saveAll(photos);
+            }
 			return tourRepository.findById(id).get();
 		} catch (DataIntegrityViolationException ex) {
 			throw new NotUniqueTourException("The database contains a tour with this name");

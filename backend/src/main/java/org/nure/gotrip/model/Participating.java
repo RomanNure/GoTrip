@@ -47,6 +47,9 @@ public class Participating {
 	@Column(name="participated")
 	private boolean participated;
 
+    @Column(name="finished")
+    private boolean finished;
+
 	public Participating() {
 		//Constructor for JPA
 	}

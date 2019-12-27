@@ -12,6 +12,8 @@ public interface ParticipatingService {
 
     Participating participate(PreparingDto dto);
 
+    Participating update(Participating participating);
+
     boolean prepare(PreparingDto dto);
 
     PreparingDto confirm(String orderId);
