@@ -1,0 +1,32 @@
+name => tour_img
+type => image/png
+tmp_name => /tmp/phpOmjFaI
+error => 0
+size => 419904
+error: 
+tour avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/tours/5e058bf16ccd2.png"} was responsed
+name => tour_img
+type => image/png
+tmp_name => /tmp/phpm5p1si
+error => 0
+size => 512
+error: 
+tour avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/tours/5e058d12b4262.png"} was responsed
+name => tour_img.png
+type => image/png
+tmp_name => /tmp/phpjH16Lr
+error => 0
+size => 512
+error: 
+tour avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/tours/5e058d6b95391.png"} was responsed
+name => tour_img.png
+type => image/png
+tmp_name => /tmp/phpt6UWNZ
+error => 0
+size => 512
+error: 
+tour avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/tours/5e058ea40b3f0.png"} was responsed

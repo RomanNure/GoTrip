@@ -14,7 +14,7 @@ namespace GoNTrip.ServerAccess
 {
     public class ServerCommunicator : IServerCommunicator
     {
-        public const string SERVER_URL = "http://93.76.235.211:5000";// "https://go-trip.herokuapp.com";
+        public const string SERVER_URL = "https://go-trip.herokuapp.com";//"http://93.76.235.211:5000";
         public const string MULTIPART_SERVER_URL = "http://vvkyrychenko.zzz.com.ua/gotrip";
 
         public const string APP_JSON = "application/json";

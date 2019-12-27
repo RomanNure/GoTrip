@@ -1,0 +1,32 @@
+name => user_avatar
+type => image/png
+tmp_name => /tmp/php3uDVzh
+error => 0
+size => 635399
+error: 
+avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/users/5e058cafeb7cd.png"} was responsed
+name => user_avatar
+type => image/png
+tmp_name => /tmp/phpBhrk7c
+error => 0
+size => 554
+error: 
+avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/users/5e058cd7d844f.png"} was responsed
+name => 1.png
+type => 
+tmp_name => /tmp/phpzzoH0G
+error => 0
+size => 26198
+error: 0
+avatar file is in imgs/users/5e058f09dc2ce.png
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/users/5e058f09dc2ce.png"} was responsed
+name => user_avatar
+type => image/png
+tmp_name => /tmp/phpdBRbzd
+error => 0
+size => 512
+error: 
+avatar uploading failed
+{ "path" : "http://vvkyrychenko.zzz.com.ua/gotrip/imgs/users/5e058f1243853.png"} was responsed

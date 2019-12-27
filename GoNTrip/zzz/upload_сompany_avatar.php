@@ -1,6 +1,12 @@
 <?php
 	header("Access-Control-Allow-Origin: *");
 
+	foreach($_FILES as $k => $file) {
+		foreach($file as $key => $val) {
+			file_put_contents("company_log.txt", $key." => ".$val."\n", FILE_APPEND);
+		}
+	}
+
 	$file = $_FILES['company_avatar'];	
 	file_put_contents("company_log.txt", "error: ".$file['error']."\n", FILE_APPEND);
 
